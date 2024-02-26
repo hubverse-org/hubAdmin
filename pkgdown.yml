@@ -1,0 +1,9 @@
+pandoc: 2.19.2
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles: {}
+last_built: 2024-02-26T11:10Z
+urls:
+  reference: https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference
+  article: https://infectious-disease-modeling-hubs.github.io/hubAdmin/articles
+
