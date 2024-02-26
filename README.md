@@ -12,7 +12,12 @@ status](https://www.r-pkg.org/badges/version/hubAdmin)](https://CRAN.R-project.o
 [![R-CMD-check](https://github.com/Infectious-Disease-Modeling-Hubs/hubAdmin/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Infectious-Disease-Modeling-Hubs/hubAdmin/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of hubAdmin is to …
+The goal of hubAdmin is to provide a set of utility functions for
+administering hubverse Infectious Disease Modeling Hubs.
+
+This package is part of the [hubverse](https://hubverse.org) ecosystem,
+which aims to provide a set of tools for infectious disease modeling
+hubs to share and collaborate on their work.
 
 ## Installation
 
