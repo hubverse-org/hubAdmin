@@ -215,4 +215,3 @@ val_round <- function(round, round_i, schema) {
   ) %>%
     purrr::list_rbind()
 }
-
