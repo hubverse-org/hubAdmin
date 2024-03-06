@@ -36,15 +36,6 @@ remotes::install_github("Infectious-Disease-Modeling-Hubs/hubAdmin")
 > likely on Linux), please consult the [following installation
 > instructions](https://github.com/jeroen/V8#installation).
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(hubAdmin)
-## basic example code
-```
-
 ------------------------------------------------------------------------
 
 ## Code of Conduct
