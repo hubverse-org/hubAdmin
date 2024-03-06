@@ -30,6 +30,12 @@ You can install the development version of hubAdmin from
 remotes::install_github("Infectious-Disease-Modeling-Hubs/hubAdmin")
 ```
 
+> ##### **Note:**
+>
+> If you have any problems with installation of package `V8` (more
+> likely on Linux), please consult the [following installation
+> instructions](https://github.com/jeroen/V8#installation).
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
