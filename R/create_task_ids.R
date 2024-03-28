@@ -7,7 +7,7 @@
 #' @seealso [create_task_id()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubdocs.readthedocs.io/en/latest/format/hub-metadata.html#hub-model-task-metadata-tasks-json-file).
+#' https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #'
 #' @examples
 #' create_task_ids(

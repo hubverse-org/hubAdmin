@@ -13,7 +13,7 @@
 #'
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubdocs.readthedocs.io/en/latest/format/hub-metadata.html#hub-model-task-metadata-tasks-json-file).
+#' https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #' @return a named list of class `output_type_item` representing a `mean` or
 #' `median` output type.
 #' @inheritParams create_task_id
@@ -156,7 +156,7 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 #' @inheritParams create_output_type_mean
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubdocs.readthedocs.io/en/latest/format/hub-metadata.html#hub-model-task-metadata-tasks-json-file).
+#' https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #'
 #' @return a named list of class `output_type_item` representing a `quantile`,
 #' `cdf`, `pmf` or `sample` output type.
