@@ -60,7 +60,7 @@ schema data types during config file validation.\tabular{ll}{
 
 
 Values across \code{required} and \code{optional} arguments must be unique. \code{required}
-and \code{optional} must be of the same type (unless \code{NULL}) and both cannot be \code{NULL}.
+and \code{optional} must be of the same type (unless \code{NULL}).
 Task_ids that represent dates must be supplied as character strings in ISO 8601
 date format (YYYY-MM-DD). If working with date objects, please convert to character
 (e.g. using \code{as.character()}) before supplying as arguments.

@@ -72,15 +72,25 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.1/tasks-schema.json"
 
-# create_task_id errors correctly
+---
 
     Code
       create_task_id("horizon", required = NULL, optional = NULL)
-    Condition
-      Error in `check_prop_not_all_null()`:
-      x Both arguments `required` and `optional` cannot be NULL.
+    Output
+      $horizon
+      $horizon$required
+      NULL
+      
+      $horizon$optional
+      NULL
+      
+      
+      attr(,"class")
+      [1] "task_id" "list"   
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.1/tasks-schema.json"
 
----
+# create_task_id errors correctly
 
     Code
       create_task_id("origin_date", required = NULL, optional = c("01/20/2023"))

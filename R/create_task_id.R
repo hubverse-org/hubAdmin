@@ -32,7 +32,7 @@
 #'            row.names = NULL))
 #' ```
 #' Values across `required` and `optional` arguments must be unique. `required`
-#' and `optional` must be of the same type (unless `NULL`) and both cannot be `NULL`.
+#' and `optional` must be of the same type (unless `NULL`).
 #' Task_ids that represent dates must be supplied as character strings in ISO 8601
 #' date format (YYYY-MM-DD). If working with date objects, please convert to character
 #' (e.g. using `as.character()`) before supplying as arguments.
@@ -87,7 +87,6 @@ create_task_id <- function(name, required, optional,
     )
   }
 
-  check_prop_not_all_null(required, optional)
   check_prop_type_const(required, optional)
   check_prop_dups(required, optional)
 
@@ -187,7 +186,7 @@ check_prop_type_const <- function(required, optional) {
   ) %>%
     unique()
 
-  if (length(prop_types) != 1L && !"NULL" %in% prop_types) {
+  if (length(prop_types) > 1L && !"NULL" %in% prop_types) {
     cli::cli_abort(c(
       "x" = "Arguments {.arg required} and {.arg optional}
               must be of same type.",
