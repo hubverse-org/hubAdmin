@@ -20,7 +20,7 @@
 #' @details `required` and `optional` vectors for standard task_ids defined in a Hub schema
 #' must match data types and formats specified in the schema. For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubdocs.readthedocs.io/en/latest/format/hub-metadata.html#hub-model-task-metadata-tasks-json-file)
+#' https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html)
 #'
 #' JSON schema data type names differ to those in R. Use the following mappings to
 #' create vectors of appropriate data types which will correspond to correct JSON
@@ -32,7 +32,7 @@
 #'            row.names = NULL))
 #' ```
 #' Values across `required` and `optional` arguments must be unique. `required`
-#' and `optional` must be of the same type (unless `NULL`) and both cannot be `NULL`.
+#' and `optional` must be of the same type (unless `NULL`).
 #' Task_ids that represent dates must be supplied as character strings in ISO 8601
 #' date format (YYYY-MM-DD). If working with date objects, please convert to character
 #' (e.g. using `as.character()`) before supplying as arguments.
@@ -87,7 +87,6 @@ create_task_id <- function(name, required, optional,
     )
   }
 
-  check_prop_not_all_null(required, optional)
   check_prop_type_const(required, optional)
   check_prop_dups(required, optional)
 
@@ -187,7 +186,7 @@ check_prop_type_const <- function(required, optional) {
   ) %>%
     unique()
 
-  if (length(prop_types) != 1L && !"NULL" %in% prop_types) {
+  if (length(prop_types) > 1L && !"NULL" %in% prop_types) {
     cli::cli_abort(c(
       "x" = "Arguments {.arg required} and {.arg optional}
               must be of same type.",

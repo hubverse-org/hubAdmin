@@ -18,7 +18,7 @@ Create a \code{rounds} class object.
 }
 \details{
 For more details consult
-the \href{https://hubdocs.readthedocs.io/en/latest/format/hub-metadata.html#hub-model-task-metadata-tasks-json-file}{documentation on \code{tasks.json} Hub config files}.
+the \href{https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
 }
 \examples{
 model_tasks <- create_model_tasks(

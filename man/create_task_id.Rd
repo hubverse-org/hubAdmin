@@ -46,7 +46,7 @@ appended to \code{tasks.json} Hub config files.
 \details{
 \code{required} and \code{optional} vectors for standard task_ids defined in a Hub schema
 must match data types and formats specified in the schema. For more details consult
-the \href{https://hubdocs.readthedocs.io/en/latest/format/hub-metadata.html#hub-model-task-metadata-tasks-json-file}{documentation on \code{tasks.json} Hub config files}
+the \href{https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}
 
 JSON schema data type names differ to those in R. Use the following mappings to
 create vectors of appropriate data types which will correspond to correct JSON
@@ -60,7 +60,7 @@ schema data types during config file validation.\tabular{ll}{
 
 
 Values across \code{required} and \code{optional} arguments must be unique. \code{required}
-and \code{optional} must be of the same type (unless \code{NULL}) and both cannot be \code{NULL}.
+and \code{optional} must be of the same type (unless \code{NULL}).
 Task_ids that represent dates must be supplied as character strings in ISO 8601
 date format (YYYY-MM-DD). If working with date objects, please convert to character
 (e.g. using \code{as.character()}) before supplying as arguments.

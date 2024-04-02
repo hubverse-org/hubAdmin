@@ -26,18 +26,16 @@ test_that("create_task_id works correctly", {
       2L
     )
   ))
-})
-
-
-test_that("create_task_id errors correctly", {
   expect_snapshot(
     create_task_id("horizon",
       required = NULL,
       optional = NULL
-    ),
-    error = TRUE
+    )
   )
+})
 
+
+test_that("create_task_id errors correctly", {
   expect_snapshot(
     create_task_id("origin_date",
       required = NULL,
