@@ -1,3 +1,7 @@
+# hubAdmin 0.2.0
+
+* Introduce validation check that ensures no all null task IDs exist in `tasks.json`.  
+
 # hubAdmin 0.1.0
 
 * Allow task ID `create_task_id()` arguments `required` and `optional` to both be set to `NULL`, facilitating the encoding of `NA` task IDs in modeling tasks where no value is expected for a given task ID.  

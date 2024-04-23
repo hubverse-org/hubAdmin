@@ -152,12 +152,15 @@ perform_dynamic_config_validations <- function(validation) {
       )
     ),
     # Perform config level validation
-    list(validate_round_ids_unique(config_json, schema))
+    list(
+      validate_round_ids_unique(config_json, schema),
+      validate_task_ids_not_all_null(config_json, schema)
+    )
   ) %>%
     purrr::list_rbind()
 
 
-  if (nrow(errors_tbl) > 1) {
+  if (nrow(errors_tbl) > 0) {
     # assign FALSE without loosing attributes
     validation[] <- FALSE
     attr(validation, "errors") <- rbind(

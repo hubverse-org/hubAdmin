@@ -771,3 +771,25 @@
       4 duplicate value: 2022-10-22
       5 duplicate value: 2022-10-29
 
+# All null task IDs error successfully
+
+    Code
+      out
+    Output
+      [1] FALSE
+      attr(,"config_path")
+      [1] "testdata/both_null_tasks_all.json"
+      attr(,"schema_version")
+      [1] "v2.0.0"
+      attr(,"schema_url")
+      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      attr(,"errors")
+                                    instancePath
+      1 /rounds/*/model_tasks/*/task_ids/horizon
+                                                                        schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/task_ids
+               keyword                                                      message
+      1 task_id values task_id values cannot all be null across all modeling tasks.
+        schema data
+      1        null
+

@@ -364,6 +364,8 @@ validate_mt_property_unique_vals <- function(model_task_grp,
   }
 }
 
+## ROUND LEVEL VALIDATIONS ----
+# Check that round id variables are consistent across modeling tasks
 validate_round_ids_consistent <- function(round, round_i,
                                           schema) {
   n_mt <- length(round[["model_tasks"]])
@@ -411,6 +413,7 @@ validate_round_ids_consistent <- function(round, round_i,
     as.data.frame()
 }
 
+## CONFIG LEVEL VALIDATIONS ----
 # Validate that round IDs are unique across all rounds in config file
 validate_round_ids_unique <- function(config_tasks, schema) {
   round_ids <- hubUtils::get_round_ids(config_tasks)
@@ -482,10 +485,54 @@ dup_round_id_error_df <- function(dup_round_id,
     as.data.frame()
 }
 
+# Validate that task ids do not contain all null values across config file
+validate_task_ids_not_all_null <- function(config_tasks, schema) {
+  task_id_names <- hubUtils::get_task_id_names(config_tasks)
+
+  check_task_id_vals <- purrr::map_lgl(
+    purrr::set_names(task_id_names),
+    ~ is_null_task_id(.x, config_tasks)
+  )
+
+  if (any(check_task_id_vals)) {
+    invalid_task_ids <- names(check_task_id_vals[check_task_id_vals])
+
+    error_row <- data.frame(
+      instancePath = paste0(
+        "/rounds/*/model_tasks/*/task_ids", "/",
+        invalid_task_ids
+      ),
+      schemaPath = get_error_path(schema, "task_ids", "schema"),
+      keyword = "task_id values",
+      message = glue::glue(
+        "task_id values cannot all be null across all modeling tasks."
+      ),
+      schema = "",
+      data = "null"
+    )
+    return(error_row)
+  }
+
+  return(data.frame())
+}
+
+
+
 get_round_id_var <- function(idx, config_tasks) {
   if (config_tasks[["rounds"]][[idx]][["round_id_from_variable"]]) {
     config_tasks[["rounds"]][[idx]][["round_id"]]
   } else {
     "rounds"
   }
+}
+
+is_null_task_id <- function(task_id_name, config_tasks) {
+  purrr::map(
+    config_tasks[["rounds"]],
+    ~ .x[["model_tasks"]]
+  ) %>%
+    purrr::map(~ .x %>%
+      purrr::map(~ .x[["task_ids"]][[task_id_name]])) %>% # nolint: indentation_linter
+    unlist(use.names = FALSE) %>%
+    is.null()
 }

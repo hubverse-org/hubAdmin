@@ -101,3 +101,10 @@ test_that("Duplicate round ID values across rounds error successfully", {
   expect_snapshot(out)
   expect_false(out)
 })
+
+test_that("All null task IDs error successfully", {
+  config_path <- testthat::test_path("testdata", "both_null_tasks_all.json")
+  out <- suppressWarnings(validate_config(config_path = config_path))
+  expect_snapshot(out)
+  expect_false(out)
+})
