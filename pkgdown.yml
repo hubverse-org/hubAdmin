@@ -1,9 +1,9 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
   hub-setup: hub-setup.html
-last_built: 2024-04-02T09:54Z
+last_built: 2024-04-23T09:21Z
 urls:
   reference: https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference
   article: https://infectious-disease-modeling-hubs.github.io/hubAdmin/articles
