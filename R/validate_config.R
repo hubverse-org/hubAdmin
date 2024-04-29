@@ -207,6 +207,22 @@ val_round <- function(round, round_i, schema) {
         schema = schema
       )
     ),
+    purrr::imap(
+      model_task_grps,
+      ~ validate_mt_sample_range(
+        model_task_grp = .x, model_task_i = .y,
+        round_i = round_i,
+        schema = schema
+      )
+    ),
+    purrr::imap(
+      model_task_grps,
+      ~ validate_mt_sample_comp_tids(
+        model_task_grp = .x, model_task_i = .y,
+        round_i = round_i,
+        schema = schema
+      )
+    ),
     list(
       validate_round_ids_consistent(
         round = round,
