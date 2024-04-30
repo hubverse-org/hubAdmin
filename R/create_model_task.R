@@ -174,12 +174,14 @@ check_task_id_target_key_values <- function(target_key_name, task_ids, # nolint:
 }
 
 check_compound_taskids_valid <- function(task_ids,
-                                        output_type) {
-  comp_tids <- purrr::pluck(output_type,
-                            "output_type",
-                            "sample",
-                            "output_type_id_params",
-                            "compound_taskid_set")
+                                         output_type) {
+  comp_tids <- purrr::pluck(
+    output_type,
+    "output_type",
+    "sample",
+    "output_type_id_params",
+    "compound_taskid_set"
+  )
   tids <- names(task_ids[["task_ids"]])
 
   if (is.null(comp_tids)) {
