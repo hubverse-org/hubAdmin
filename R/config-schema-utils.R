@@ -9,10 +9,7 @@ get_config_file_schema_version <- function(config_path, config) {
     config = config
   )
 
-  version <- stringr::str_extract(
-    config_schema_version,
-    "v([0-9]\\.){2}[0-9](\\.[0-9]+)?"
-  )
+  version <- extract_version_n(config_schema_version)
 
   if (length(version) == 0L) {
     cli::cli_abort(
