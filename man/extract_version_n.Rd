@@ -17,8 +17,3 @@ The schema version number as a character string.
 Extract the schema version from a schema \code{id} or config \code{schema_version} property
 character string
 }
-\examples{
-extract_version_n(
-  "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v3.0.0/tasks-schema.json"
-)
-}
