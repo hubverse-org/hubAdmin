@@ -77,7 +77,9 @@ create_model_task <- function(task_ids, output_type, target_metadata) {
     call = call
   )
 
+  # Dynamic model task level checks
   check_target_key_valid(target_metadata, task_ids, call)
+  check_compound_taskids_valid(task_ids, output_type)
 
   structure(
     c(
@@ -167,6 +169,34 @@ check_task_id_target_key_values <- function(target_key_name, task_ids, # nolint:
             {.val {task_id_values}}"
       ),
       call = call
+    )
+  }
+}
+
+check_compound_taskids_valid <- function(task_ids,
+                                        output_type) {
+  comp_tids <- purrr::pluck(output_type,
+                            "output_type",
+                            "sample",
+                            "output_type_id_params",
+                            "compound_taskid_set")
+  tids <- names(task_ids[["task_ids"]])
+
+  if (is.null(comp_tids)) {
+    return()
+  }
+  invalid_comp_tids <- setdiff(comp_tids, tids)
+
+  if (length(invalid_comp_tids) > 0) {
+    cli::cli_abort(
+      c(
+        "!" = "{.arg output_type} {.field compound_taskid_set} values must
+              match valid {.arg task_ids} {.field names}:
+        {.val {tids}}",
+        "x" = "{.field compound_taskid_set} value{?s}
+        {.val {invalid_comp_tids}} do{?es/} not."
+      ),
+      call = rlang::caller_env()
     )
   }
 }

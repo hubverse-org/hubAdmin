@@ -34,8 +34,12 @@ create_output_type_pmf(
 )
 
 create_output_type_sample(
-  required,
-  optional,
+  is_required,
+  output_type_id_type,
+  max_length = NULL,
+  min_samples_per_task,
+  max_samples_per_task,
+  compound_taskid_set = NULL,
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
@@ -66,6 +70,23 @@ specified.}
 \item{branch}{The branch of the Infectious Disease Modeling Hubs
 \href{https://github.com/Infectious-Disease-Modeling-Hubs/schemas}{schemas repository}
 from which to fetch schema. Defaults to \code{"main"}.}
+
+\item{is_required}{Logical. Is this sample output type required?}
+
+\item{output_type_id_type}{Character string. The data type of the output_type_id.
+One of "integer" or "string".}
+
+\item{max_length}{Integer. Optional. The maximum length of the output_type_id
+value if type is \code{"character"}.}
+
+\item{min_samples_per_task}{Integer. The minimum number of samples per task.
+Must be equal to or less than \code{max_samples_per_task}.}
+
+\item{max_samples_per_task}{Integer. The maximum number of samples per task.
+Must be equal to or greater than \code{min_samples_per_task}.}
+
+\item{compound_taskid_set}{Character vector. Optional. The set of compound
+task IDs that the sample each output type can be associated with.}
 }
 \value{
 a named list of class \code{output_type_item} representing a \code{quantile},
@@ -127,9 +148,14 @@ create_output_type_pmf(
   value_type = "double"
 )
 create_output_type_sample(
-  required = 1:10, optional = 11:15,
-  value_type = "double"
-)
+ is_required = TRUE,
+ output_type_id_type = "integer",
+ min_samples_per_task = 70L, max_samples_per_task = 100L,
+ value_type = "double",
+ value_minimum = 0L,
+ value_maximum = 1L,
+ branch = "br-v3.0.0"
+ )
 }
 \seealso{
 \code{\link[=create_output_type]{create_output_type()}}

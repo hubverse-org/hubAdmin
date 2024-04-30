@@ -190,9 +190,14 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 #'   value_type = "double"
 #' )
 #' create_output_type_sample(
-#'   required = 1:10, optional = 11:15,
-#'   value_type = "double"
-#' )
+#'  is_required = TRUE,
+#'  output_type_id_type = "integer",
+#'  min_samples_per_task = 70L, max_samples_per_task = 100L,
+#'  value_type = "double",
+#'  value_minimum = 0L,
+#'  value_maximum = 1L,
+#'  branch = "br-v3.0.0"
+#'  )
 create_output_type_quantile <- function(required, optional,
                                         value_type, value_minimum = NULL,
                                         value_maximum = NULL,
@@ -235,18 +240,133 @@ create_output_type_pmf <- function(required, optional, value_type,
   )
 }
 
+#' @param is_required Logical. Is this sample output type required?
+#' @param output_type_id_type Character string. The data type of the output_type_id.
+#' One of "integer" or "string".
+#' @param max_length Integer. Optional. The maximum length of the output_type_id
+#' value if type is `"character"`.
+#' @param min_samples_per_task Integer. The minimum number of samples per task.
+#' Must be equal to or less than `max_samples_per_task`.
+#' @param max_samples_per_task Integer. The maximum number of samples per task.
+#' Must be equal to or greater than `min_samples_per_task`.
+#' @param compound_taskid_set Character vector. Optional. The set of compound
+#' task IDs that the sample each output type can be associated with.
+#'
 #' @describeIn create_output_type_quantile Create a list representation of a `sample`
 #' output type.
 #' @export
-create_output_type_sample <- function(required, optional, value_type,
+create_output_type_sample <- function(is_required, output_type_id_type, max_length = NULL,
+                                      min_samples_per_task, max_samples_per_task,
+                                      compound_taskid_set = NULL, value_type,
                                       value_minimum = NULL, value_maximum = NULL,
                                       schema_version = "latest",
                                       branch = "main") {
-  create_output_type_dist(
-    output_type = "sample", required = required, optional = optional,
-    value_type = value_type, value_minimum = value_minimum,
-    value_maximum = value_maximum, schema_version = schema_version,
-    branch = branch
+  rlang::check_required(is_required)
+  rlang::check_required(output_type_id_type)
+  rlang::check_required(min_samples_per_task)
+  rlang::check_required(max_samples_per_task)
+  rlang::check_required(value_type)
+  call <- rlang::current_call()
+
+  schema <- download_tasks_schema(schema_version, branch)
+
+  if (extract_version_n(schema$`$id`) < "v3.0.0") {
+    cli::cli_abort(
+      "This function is only supported for schema versions {.val v3.0.0} and above."
+    )
+  }
+  output_type_schema <- get_schema_output_type(schema, "sample")
+  output_type_id_schema <- purrr::pluck(
+    output_type_schema,
+    "properties",
+    "output_type_id_params",
+    "properties"
+  )
+
+  type <- output_type_id_type # nolint: object_usage_linter
+  scalar_params <- c(
+    "is_required", "type", "min_samples_per_task",
+    "max_samples_per_task"
+  )
+  if (!is.null(max_length)) {
+    scalar_params <- c(scalar_params, "max_length")
+  }
+  purrr::walk(
+    scalar_params,
+    function(x) {
+      check_input(
+        input = get(x),
+        property = x,
+        output_type_id_schema,
+        parent_property = "output_type_id_params",
+        call = call,
+        scalar = TRUE
+      )
+    }
+  )
+  if (min_samples_per_task > max_samples_per_task) {
+    cli::cli_abort(
+      "{.var min_samples_per_task} must be less than or equal to {.var max_samples_per_task}."
+    )
+  }
+
+  if (!is.null(compound_taskid_set)) {
+    check_input(
+      input = compound_taskid_set,
+      property = "compound_taskid_set",
+      output_type_id_schema,
+      parent_property = "output_type_id_params",
+      call = call
+    )
+  }
+
+
+  output_type_id_params <- list(
+    output_type_id_params = list(
+      is_required = is_required,
+      output_type_id_type = output_type_id_type,
+      max_length = max_length,
+      min_samples_per_task = min_samples_per_task,
+      max_samples_per_task = max_samples_per_task,
+      compound_taskid_set = compound_taskid_set
+    ) %>%
+      purrr::compact()
+  )
+
+  # Check and create value
+  value <- list(
+    type = value_type,
+    minimum = value_minimum,
+    maximum = value_maximum
+  ) %>%
+    purrr::compact()
+
+  value_schema <- purrr::pluck(
+    output_type_schema,
+    "properties",
+    "value",
+    "properties"
+  )
+
+  purrr::walk(
+    names(value),
+    function(x) {
+      check_input(
+        input = value[[x]],
+        property = x,
+        value_schema,
+        parent_property = "value",
+        scalar = TRUE,
+        call = call
+      )
+    }
+  )
+
+  structure(
+    list(c(output_type_id_params, list(value = value))),
+    class = c("output_type_item", "list"),
+    names = "sample",
+    schema_id = schema$`$id`
   )
 }
 
