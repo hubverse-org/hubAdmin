@@ -1,4 +1,4 @@
-#' #' Create an object of class `task_id`
+#' Create an object of class `task_id`
 #'
 #' Create a representation of a task ID item as a list object of
 #' class `task_id`. This can be combined with

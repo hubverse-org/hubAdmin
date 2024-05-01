@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_task_id.R
 \name{create_task_id}
 \alias{create_task_id}
-\title{#' Create an object of class \code{task_id}}
+\title{Create an object of class \code{task_id}}
 \usage{
 create_task_id(
   name,
