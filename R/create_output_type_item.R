@@ -194,8 +194,8 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 #'   output_type_id_type = "integer",
 #'   min_samples_per_task = 70L, max_samples_per_task = 100L,
 #'   value_type = "double",
-#'   value_minimum = 0L,
-#'   value_maximum = 1L,
+#'   value_minimum = 0,
+#'   value_maximum = 1,
 #'   branch = "br-v3.0.0"
 #' )
 create_output_type_quantile <- function(required, optional,
