@@ -9,7 +9,7 @@ get_config_file_schema_version <- function(config_path, config) {
     config = config
   )
 
-  version <- extract_version(config_schema_version)
+  version <- extract_schema_version(config_schema_version)
 
   if (length(version) == 0L) {
     cli::cli_abort(
