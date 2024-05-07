@@ -354,7 +354,7 @@ validate_mt_sample_range <- function(model_task_grp,
 # Validate that compound_taskid_set values are valid task ids for a
 # given modeling task group in a given round.
 # Returns NULL if not applicable or check passes and error df row if check fails.
-validate_mt_sample_comp_tids <- function(model_task_grp,
+validate_mt_sample_compound_taskids <- function(model_task_grp,
                                          model_task_i,
                                          round_i,
                                          schema) {

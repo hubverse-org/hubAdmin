@@ -217,7 +217,7 @@ val_round <- function(round, round_i, schema) {
     ),
     purrr::imap(
       model_task_grps,
-      ~ validate_mt_sample_comp_tids(
+      ~ validate_mt_sample_compound_taskids(
         model_task_grp = .x, model_task_i = .y,
         round_i = round_i,
         schema = schema
