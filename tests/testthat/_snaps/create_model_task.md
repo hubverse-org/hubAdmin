@@ -156,7 +156,7 @@
       $output_type$sample$output_type_id_params$is_required
       [1] FALSE
       
-      $output_type$sample$output_type_id_params$output_type_id_type
+      $output_type$sample$output_type_id_params$type
       [1] "character"
       
       $output_type$sample$output_type_id_params$max_length

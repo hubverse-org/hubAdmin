@@ -324,7 +324,7 @@ create_output_type_sample <- function(is_required, output_type_id_type, max_leng
   output_type_id_params <- list(
     output_type_id_params = list(
       is_required = is_required,
-      output_type_id_type = output_type_id_type,
+      type = type,
       max_length = max_length,
       min_samples_per_task = min_samples_per_task,
       max_samples_per_task = max_samples_per_task,

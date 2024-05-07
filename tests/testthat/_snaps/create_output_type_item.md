@@ -343,7 +343,7 @@
       $sample$output_type_id_params$is_required
       [1] TRUE
       
-      $sample$output_type_id_params$output_type_id_type
+      $sample$output_type_id_params$type
       [1] "integer"
       
       $sample$output_type_id_params$min_samples_per_task
@@ -383,7 +383,7 @@
       $sample$output_type_id_params$is_required
       [1] FALSE
       
-      $sample$output_type_id_params$output_type_id_type
+      $sample$output_type_id_params$type
       [1] "character"
       
       $sample$output_type_id_params$max_length
