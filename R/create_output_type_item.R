@@ -242,7 +242,7 @@ create_output_type_pmf <- function(required, optional, value_type,
 
 #' @param is_required Logical. Is this sample output type required?
 #' @param output_type_id_type Character string. The data type of the output_type_id.
-#' One of "integer" or "string".
+#' One of "integer" or "character".
 #' @param max_length Integer. Optional. The maximum length of the output_type_id
 #' value if type is `"character"`.
 #' @param min_samples_per_task Integer. The minimum number of samples per task.
