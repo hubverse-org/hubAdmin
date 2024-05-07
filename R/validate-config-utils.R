@@ -355,9 +355,9 @@ validate_mt_sample_range <- function(model_task_grp,
 # given modeling task group in a given round.
 # Returns NULL if not applicable or check passes and error df row if check fails.
 validate_mt_sample_compound_taskids <- function(model_task_grp,
-                                         model_task_i,
-                                         round_i,
-                                         schema) {
+                                                model_task_i,
+                                                round_i,
+                                                schema) {
   sample_config <- purrr::pluck(
     model_task_grp,
     "output_type",
