@@ -74,7 +74,7 @@ from which to fetch schema. Defaults to \code{"main"}.}
 \item{is_required}{Logical. Is this sample output type required?}
 
 \item{output_type_id_type}{Character string. The data type of the output_type_id.
-One of "integer" or "string".}
+One of "integer" or "character".}
 
 \item{max_length}{Integer. Optional. The maximum length of the output_type_id
 value if type is \code{"character"}.}
@@ -97,9 +97,6 @@ Create a representation of a \code{quantile}, \code{cdf}, \code{pmf} or \code{sa
 type as a list object of class \code{output_type_item}. This can be combined with
 additional \code{output_type_item}s using function \code{\link[=create_output_type]{create_output_type()}} to
 create an \code{output_type} object for a given model_task.
-This can be combined with other building blocks which can then be written as
-or appended to \code{tasks.json} Hub config files.
-output type.
 This can be combined with other building blocks which can then be written as
 or appended to \code{tasks.json} Hub config files.
 }
@@ -148,14 +145,14 @@ create_output_type_pmf(
   value_type = "double"
 )
 create_output_type_sample(
- is_required = TRUE,
- output_type_id_type = "integer",
- min_samples_per_task = 70L, max_samples_per_task = 100L,
- value_type = "double",
- value_minimum = 0L,
- value_maximum = 1L,
- branch = "br-v3.0.0"
- )
+  is_required = TRUE,
+  output_type_id_type = "integer",
+  min_samples_per_task = 70L, max_samples_per_task = 100L,
+  value_type = "double",
+  value_minimum = 0,
+  value_maximum = 1,
+  branch = "br-v3.0.0"
+)
 }
 \seealso{
 \code{\link[=create_output_type]{create_output_type()}}
