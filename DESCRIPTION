@@ -24,7 +24,7 @@ Imports:
     fs,
     glue,
     gt (>= 0.10.0),
-    hubUtils (>= 0.0.1),
+    hubUtils (>= 0.1.0),
     jsonlite,
     jsonvalidate,
     magrittr,
