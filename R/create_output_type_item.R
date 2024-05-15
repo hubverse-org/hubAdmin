@@ -267,7 +267,7 @@ create_output_type_sample <- function(is_required, output_type_id_type, max_leng
 
   schema <- download_tasks_schema(schema_version, branch)
 
-  if (extract_schema_version(schema$`$id`) < "v3.0.0") {
+  if (hubUtils::extract_schema_version(schema$`$id`) < "v3.0.0") {
     cli::cli_abort(
       "This function is only supported for schema versions {.val v3.0.0} and above."
     )
