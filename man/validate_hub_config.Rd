@@ -38,7 +38,20 @@ You can print a more concise and easier to view version of an errors table with
 \code{\link[=view_config_val_errors]{view_config_val_errors()}}.
 }
 \description{
-Validate the \code{admin.json} and \code{tasks.json} Hub config files in a single call.
+Validate the \code{admin.json}, \code{tasks.json} and \code{model-metadata-schema.json} Hub
+config files in a single call.
+Note that, for \code{tasks.json} and \code{model-metadata-schema.json} config files,
+validation is performed in two stages:
+\enumerate{
+\item Initial validation against the schema is performed using the \code{\link{jsonvalidate}}
+package which uses the \code{"ajv"} (Another JSON Schema Validator) validation engine.
+In the case of \code{model-metadata-schema.json}, \code{jsonvalidate} just checks that
+the file is valid JSON and can be parsed correctly.
+\item If the initial validation is successful, additional dynamic validations are
+performed.
+This means that only after the initial validation passes, will any dynamic
+validation errors be detected.
+}
 }
 \examples{
 validate_hub_config(
