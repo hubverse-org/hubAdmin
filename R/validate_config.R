@@ -1,5 +1,16 @@
-#' Validate a hub config file against a Infectious Disease Modeling Hubs schema
+#' Validate a hub config file against a hubverse schema
 #'
+#' This function validates a single hub config file against it's corresponding
+#'  schema.
+#'  Note that, for `tasks.json` config files, validation is performed
+#'  in two stages:
+#'  1. Initial validation against the schema is performed using the
+#'  [`jsonvalidate`](https://docs.ropensci.org/jsonvalidate/)
+#'  package which uses the `"ajv"` (Another JSON Schema Validator) validation engine.
+#'  2. If the initial validation is successful, additional dynamic validations are
+#'  performed.
+#'  This means that only after the initial validation passes, will any dynamic
+#'  validation errors be detected.
 #' @param hub_path Path to a local hub directory.
 #' @param config Name of config file to validate. One of `"tasks"` or `"admin"`.
 #' @param config_path Defaults to `NULL` which assumes all config files are in

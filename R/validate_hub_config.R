@@ -1,6 +1,18 @@
-#' Validate Hub config files against Infectious Disease Modeling Hubs schema.
+#' Validate Hub config files against hubverse schema.
 #'
-#' Validate the `admin.json` and `tasks.json` Hub config files in a single call.
+#' Validate the `admin.json`, `tasks.json` and `model-metadata-schema.json` Hub
+#' config files in a single call.
+#'  Note that, for `tasks.json` and `model-metadata-schema.json` config files,
+#'  validation is performed in two stages:
+#'  1. Initial validation against the schema is performed using the
+#'  [`jsonvalidate`](https://docs.ropensci.org/jsonvalidate/)
+#'  package which uses the `"ajv"` (Another JSON Schema Validator) validation engine.
+#'  In the case of `model-metadata-schema.json`, `jsonvalidate` just checks that
+#'  the file is valid JSON and can be parsed correctly.
+#'  2. If the initial validation is successful, additional dynamic validations are
+#'  performed.
+#'  This means that only after the initial validation passes, will any dynamic
+#'  validation errors be detected.
 #' @inheritParams validate_config
 #'
 #' @return Returns a list of the results of validation, one for each `hub-config`

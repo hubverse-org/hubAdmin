@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_config.R
 \name{validate_config}
 \alias{validate_config}
-\title{Validate a hub config file against a Infectious Disease Modeling Hubs schema}
+\title{Validate a hub config file against a hubverse schema}
 \usage{
 validate_config(
   hub_path = ".",
@@ -46,7 +46,19 @@ You can print a more concise and easier to view version of an errors table with
 \code{\link[=view_config_val_errors]{view_config_val_errors()}}.
 }
 \description{
-Validate a hub config file against a Infectious Disease Modeling Hubs schema
+This function validates a single hub config file against it's corresponding
+schema.
+Note that, for \code{tasks.json} config files, validation is performed
+in two stages:
+\enumerate{
+\item Initial validation against the schema is performed using the
+\href{https://docs.ropensci.org/jsonvalidate/}{\code{jsonvalidate}}
+package which uses the \code{"ajv"} (Another JSON Schema Validator) validation engine.
+\item If the initial validation is successful, additional dynamic validations are
+performed.
+This means that only after the initial validation passes, will any dynamic
+validation errors be detected.
+}
 }
 \examples{
 # Valid config file
