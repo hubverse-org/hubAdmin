@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_hub_config.R
 \name{validate_hub_config}
 \alias{validate_hub_config}
-\title{Validate Hub config files against Infectious Disease Modeling Hubs schema.}
+\title{Validate Hub config files against hubverse schema.}
 \usage{
 validate_hub_config(
   hub_path = ".",
@@ -43,7 +43,8 @@ config files in a single call.
 Note that, for \code{tasks.json} and \code{model-metadata-schema.json} config files,
 validation is performed in two stages:
 \enumerate{
-\item Initial validation against the schema is performed using the \code{\link{jsonvalidate}}
+\item Initial validation against the schema is performed using the
+\href{https://docs.ropensci.org/jsonvalidate/}{\code{jsonvalidate}}
 package which uses the \code{"ajv"} (Another JSON Schema Validator) validation engine.
 In the case of \code{model-metadata-schema.json}, \code{jsonvalidate} just checks that
 the file is valid JSON and can be parsed correctly.

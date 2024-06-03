@@ -4,7 +4,8 @@
 #'  schema.
 #'  Note that, for `tasks.json` config files, validation is performed
 #'  in two stages:
-#'  1. Initial validation against the schema is performed using the [`jsonvalidate`]
+#'  1. Initial validation against the schema is performed using the
+#'  [`jsonvalidate`](https://docs.ropensci.org/jsonvalidate/)
 #'  package which uses the `"ajv"` (Another JSON Schema Validator) validation engine.
 #'  2. If the initial validation is successful, additional dynamic validations are
 #'  performed.

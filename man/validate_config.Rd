@@ -51,7 +51,8 @@ schema.
 Note that, for \code{tasks.json} config files, validation is performed
 in two stages:
 \enumerate{
-\item Initial validation against the schema is performed using the \code{\link{jsonvalidate}}
+\item Initial validation against the schema is performed using the
+\href{https://docs.ropensci.org/jsonvalidate/}{\code{jsonvalidate}}
 package which uses the \code{"ajv"} (Another JSON Schema Validator) validation engine.
 \item If the initial validation is successful, additional dynamic validations are
 performed.
