@@ -119,8 +119,8 @@ validate_hub_config <- function(hub_path = ".", schema_version = "from_config",
   attr(validations, "config_dir") <- fs::path(hub_path, "hub-config")
   attr(validations, "schema_version") <- schema_version
   attr(validations, "schema_url") <- gsub(
-    "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/",
-    "https://github.com/Infectious-Disease-Modeling-Hubs/schemas/tree/",
+    "https://raw.githubusercontent.com/hubverse-org/schemas/",
+    "https://github.com/hubverse-org/schemas/tree/",
     unique(schema_url_dirnames),
     fixed = TRUE
   )

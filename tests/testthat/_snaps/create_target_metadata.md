@@ -66,7 +66,7 @@
       attr(,"n")
       [1] 2
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.1/tasks-schema.json"
 
 # create_target_metadata functions error correctly
 
@@ -123,5 +123,5 @@
       x `schema_id` attributes are not consistent across all items.
       Item `schema_id` attributes:
       * Item 1 : invalid_schema
-      * Item 2 : https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.1/tasks-schema.json
+      * Item 2 : https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.1/tasks-schema.json
 

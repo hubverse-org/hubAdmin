@@ -14,7 +14,7 @@
 #' @param schema_version Character string specifying the json schema version to
 #'   be used for validation. The default value `"latest"` will use the latest version
 #'   available in the Infectious Disease Modeling Hubs
-#'   [schemas repository](https://github.com/Infectious-Disease-Modeling-Hubs/schemas).
+#'   [schemas repository](https://github.com/hubverse-org/schemas).
 #'   Alternatively, a specific version of a schema (e.g. `"v0.0.1"`)  can be
 #'   specified.
 #' @details `required` and `optional` vectors for standard task_ids defined in a Hub schema

@@ -42,7 +42,7 @@ check_config_schema_version <- function(schema_version, config = c("tasks", "adm
   }
 
   check_prefix <- grepl(
-    "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/",
+    "https://raw.githubusercontent.com/hubverse-org/schemas/main/",
     schema_version,
     fixed = TRUE
   )
@@ -51,7 +51,7 @@ check_config_schema_version <- function(schema_version, config = c("tasks", "adm
     cli::cli_abort(c(
       "x" = "Invalid {.code schema_version} property.",
       "i" = "Valid {.code schema_version} properties should start with
-                         {.val https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/}
+                         {.val https://raw.githubusercontent.com/hubverse-org/schemas/main/}
                          and resolve to the schema file's raw contents on GitHub."
     ))
   }
@@ -89,7 +89,7 @@ validate_schema_version_property <- function(validation, config = c("tasks", "ad
     )
   }
 
-  check_prefix <- grepl("https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/",
+  check_prefix <- grepl("https://raw.githubusercontent.com/hubverse-org/schemas/main/",
     schema_version,
     fixed = TRUE
   )
@@ -103,7 +103,7 @@ validate_schema_version_property <- function(validation, config = c("tasks", "ad
         keyword = "schema_version prefix",
         message = paste(
           "Invalid 'schema_version' property. Should start with",
-          "'https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/'"
+          "'https://raw.githubusercontent.com/hubverse-org/schemas/main/'"
         ),
         schema = "",
         data = schema_version

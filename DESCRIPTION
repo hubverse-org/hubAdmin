@@ -16,8 +16,8 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Config/testthat/edition: 3
-URL: https://github.com/Infectious-Disease-Modeling-Hubs/hubAdmin
-BugReports: https://github.com/Infectious-Disease-Modeling-Hubs/hubAdmin/issues
+URL: https://github.com/hubverse-org/hubAdmin
+BugReports: https://github.com/hubverse-org/hubAdmin/issues
 Imports: 
     checkmate,
     cli,
@@ -43,9 +43,9 @@ Suggests:
     rmarkdown,
     testthat (>= 3.2.0)
 Remotes:
-    Infectious-Disease-Modeling-Hubs/hubData@feature/handle-samples,
-    Infectious-Disease-Modeling-Hubs/hubUtils@enhancement/v3-utils
-Config/Needs/website: Infectious-Disease-Modeling-Hubs/hubStyle
+    hubverse-org/hubData@feature/handle-samples,
+    hubverse-org/hubUtils@enhancement/v3-utils
+Config/Needs/website: hubverse-org/hubStyle
 Depends: 
     R (>= 2.10)
 LazyData: true
