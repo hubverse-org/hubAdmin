@@ -16,8 +16,7 @@ validate_hub_config(
 \item{schema_version}{Character string specifying the json schema version to
 be used for validation. The default value \code{"from_config"} will use the
 version specified in the \code{schema_version} property of the config file.
-\code{"latest"} will use the latest version available in the Infectious Disease
-Modeling Hubs
+\code{"latest"} will use the latest version available in the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}.
 Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
 specified.}
