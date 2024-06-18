@@ -25,7 +25,7 @@
 #'   [schemas repository](https://github.com/hubverse-org/schemas).
 #'   Alternatively, a specific version of a schema (e.g. `"v0.0.1"`)  can be
 #'  specified.
-#' @param branch The branch of the Infectious Disease Modeling Hubs
+#' @param branch The branch of the hubverse
 #'   [schemas repository](https://github.com/hubverse-org/schemas)
 #'   from which to fetch schema. Defaults to `"main"`.
 #' @return Returns the result of validation. If validation is successful, will
