@@ -16,7 +16,7 @@ library(hubAdmin)
 
 ## Create Hub Repository from Template
 
-The first step to setting up a Modeling Hub is to make a copy of the [`hubTemplate`](https://github.com/Infectious-Disease-Modeling-Hubs/hubTemplate) GitHub template repository and clone a local copy of it.
+The first step to setting up a Modeling Hub is to make a copy of the [`hubTemplate`](https://github.com/hubverse-org/hubTemplate) GitHub template repository and clone a local copy of it.
 
 
 ## Configure Modeling Hub
@@ -28,7 +28,7 @@ Hubs are configured through two JSON config files which are used to validate new
 These files should live in a directory called `hub-config/` in the root of the Hub repository.
 
 
-For more details on these files, guidance on how to set them up and access to templates, please see our central [**hubDocs**](https://github.com/Infectious-Disease-Modeling-Hubs/hubDocs) as well the [JSON schema](https://github.com/Infectious-Disease-Modeling-Hubs/schemas) the config files should adhere to.
+For more details on these files, guidance on how to set them up and access to templates, please see our central [**hubDocs**](https://github.com/hubverse-org/hubDocs) as well the [JSON schema](https://github.com/hubverse-org/schemas) the config files should adhere to.
 
 
 ## Validate Config files

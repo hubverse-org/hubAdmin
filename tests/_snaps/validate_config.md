@@ -163,7 +163,7 @@
       attr(,"schema_version")
       [1] "v0.0.0.9"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v0.0.0.9/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json
 
 # Dynamic config errors detected successfully by custom R validation
 
@@ -176,7 +176,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                                                 instancePath
       1 /rounds/0/model_tasks/1/target_metadata/0/target_keys/target_measure
@@ -220,7 +220,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                                                 instancePath
       1 /rounds/0/model_tasks/1/target_metadata/0/target_keys/target_measure
@@ -589,7 +589,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
 
 # Duplicate values in individual array error successfully
 
@@ -633,7 +633,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
 
 # Duplicate values across property error successfully
 
@@ -646,7 +646,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                         instancePath
       1     /rounds/0/model_tasks/0/task_ids/horizon
@@ -680,7 +680,7 @@
       attr(,"schema_version")
       [1] "v1.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v1.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json
       attr(,"errors")
                                           instancePath schemaPath      keyword
       1 /rounds/0/model_tasks/1/task_ids/forecast_date         NA round_id var
@@ -706,7 +706,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                           instancePath
       1 /rounds/0/model_tasks/1/task_ids/forecast_date
@@ -738,7 +738,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                         instancePath
       1 /rounds/1/model_tasks/0/task_ids/origin_date

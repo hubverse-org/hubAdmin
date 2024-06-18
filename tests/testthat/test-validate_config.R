@@ -133,3 +133,10 @@ test_that("All null task IDs error successfully", {
   expect_snapshot(out)
   expect_false(out)
 })
+
+test_that("Old orgname config validates successfully", {
+  config_path <- testthat::test_path("testdata", "task-old-orgname.json")
+  out <- suppressMessages(validate_config(config_path = config_path))
+  expect_snapshot(out)
+  expect_true(out)
+})

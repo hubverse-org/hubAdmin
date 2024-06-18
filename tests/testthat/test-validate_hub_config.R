@@ -27,7 +27,7 @@ test_that("Hub with config errors fails validation", {
 
   expect_equal(
     attr(val, "schema_url"),
-    "https://github.com/Infectious-Disease-Modeling-Hubs/schemas/tree/main/v2.0.0"
+    "https://github.com/hubverse-org/schemas/tree/main/v2.0.0"
   )
 
   expect_equal(

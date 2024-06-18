@@ -25,14 +25,13 @@ config file to be validated.}
 \item{schema_version}{Character string specifying the json schema version to
 be used for validation. The default value \code{"from_config"} will use the
 version specified in the \code{schema_version} property of the config file.
-\code{"latest"} will use the latest version available in the Infectious Disease
-Modeling Hubs
-\href{https://github.com/Infectious-Disease-Modeling-Hubs/schemas}{schemas repository}.
+\code{"latest"} will use the latest version available in the hubverse
+\href{https://github.com/hubverse-org/schemas}{schemas repository}.
 Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
 specified.}
 
-\item{branch}{The branch of the Infectious Disease Modeling Hubs
-\href{https://github.com/Infectious-Disease-Modeling-Hubs/schemas}{schemas repository}
+\item{branch}{The branch of the hubverse
+\href{https://github.com/hubverse-org/schemas}{schemas repository}
 from which to fetch schema. Defaults to \code{"main"}.}
 }
 \value{
