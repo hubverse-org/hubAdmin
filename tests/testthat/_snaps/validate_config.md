@@ -854,3 +854,16 @@
         schema data
       1        null
 
+# Old orgname config validates successfully
+
+    Code
+      out
+    Output
+      [1] TRUE
+      attr(,"config_path")
+      [1] "testdata/task-old-orgname.json"
+      attr(,"schema_version")
+      [1] "v2.0.0"
+      attr(,"schema_url")
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
+
