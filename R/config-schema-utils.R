@@ -42,9 +42,9 @@ check_config_schema_version <- function(schema_version, config = c("tasks", "adm
   }
 
   check_prefix <- grepl(
-    "https://raw.githubusercontent.com/hubverse-org/schemas/main/",
+    "https://raw.githubusercontent.com/(hubverse-org|Infectious-Disease-Modeling-Hubs)/schemas/main/",
     schema_version,
-    fixed = TRUE
+    fixed = FALSE
   )
 
   if (!check_prefix) {
@@ -89,9 +89,9 @@ validate_schema_version_property <- function(validation, config = c("tasks", "ad
     )
   }
 
-  check_prefix <- grepl("https://raw.githubusercontent.com/hubverse-org/schemas/main/",
+  check_prefix <- grepl("https://raw.githubusercontent.com/(hubverse-org|Infectious-Disease-Modeling-Hubs)/schemas/main/",
     schema_version,
-    fixed = TRUE
+    fixed = FALSE
   )
 
   if (!check_prefix) {
