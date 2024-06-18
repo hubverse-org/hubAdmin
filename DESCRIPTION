@@ -10,7 +10,7 @@ Authors@R:
       person("Evan L.", "Ray", , "elray@umass.edu", role = "ctb"),
       person(family = "Consortium of Infectious Disease Modeling Hubs",
            role = c("cph")))
-Description: A set of utility functions for administering hubverse Infectious Disease Modeling Hubs.
+Description: A set of utility functions for administering hubverse Hubs.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
