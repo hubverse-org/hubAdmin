@@ -20,8 +20,7 @@
 #' @param schema_version Character string specifying the json schema version to
 #'   be used for validation. The default value `"from_config"` will use the
 #'   version specified in the `schema_version` property of the config file.
-#'   `"latest"` will use the latest version available in the Infectious Disease
-#'   Modeling Hubs
+#'   `"latest"` will use the latest version available in the hubverse
 #'   [schemas repository](https://github.com/hubverse-org/schemas).
 #'   Alternatively, a specific version of a schema (e.g. `"v0.0.1"`)  can be
 #'  specified.
