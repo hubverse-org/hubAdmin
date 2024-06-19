@@ -152,8 +152,7 @@ test_that("create_output_type_sample works", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v3.0.0"
+      value_maximum = 1L
     )
   )
   expect_snapshot(
@@ -165,8 +164,7 @@ test_that("create_output_type_sample works", {
       compound_taskid_set = c("horizon", "target", "location"),
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v3.0.0"
+      value_maximum = 1L
     )
   )
 })
@@ -180,8 +178,7 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 10:11, max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v3.0.0"
+      value_maximum = 1L
     ),
     error = TRUE
   )
@@ -193,8 +190,7 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 110L, max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v3.0.0"
+      value_maximum = 1L
     ),
     error = TRUE
   )
@@ -206,8 +202,7 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v3.0.0"
+      value_maximum = 1L
     ),
     error = TRUE
   )
@@ -222,8 +217,7 @@ test_that("create_output_type_sample errors correctly", {
       compound_taskid_set = c(1, 2, 3),
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v3.0.0"
+      value_maximum = 1L
     ),
     error = TRUE
   )

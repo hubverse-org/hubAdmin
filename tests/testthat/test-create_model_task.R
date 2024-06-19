@@ -49,26 +49,22 @@ test_that("create_model_task functions work correctly", {
             "2023-01-02",
             "2023-01-09",
             "2023-01-16"
-          ),
-          branch = "br-v3.0.0"
+          )
         ),
         create_task_id("location",
           required = "US",
-          optional = c("01", "02", "04", "05", "06"),
-          branch = "br-v3.0.0"
+          optional = c("01", "02", "04", "05", "06")
         ),
         create_task_id("horizon",
           required = 1L,
-          optional = 2:4,
-          branch = "br-v3.0.0"
+          optional = 2:4
         )
       ),
       output_type = create_output_type(
         create_output_type_mean(
           is_required = TRUE,
           value_type = "double",
-          value_minimum = 0L,
-          branch = "br-v3.0.0"
+          value_minimum = 0L
         ),
         create_output_type_sample(
           is_required = FALSE,
@@ -78,8 +74,7 @@ test_that("create_model_task functions work correctly", {
           compound_taskid_set = c("horizon", "origin_date"),
           value_type = "double",
           value_minimum = 0L,
-          value_maximum = 1L,
-          branch = "br-v3.0.0"
+          value_maximum = 1L
         )
       ),
       target_metadata = create_target_metadata(
@@ -90,8 +85,7 @@ test_that("create_model_task functions work correctly", {
           target_keys = NULL,
           target_type = "discrete",
           is_step_ahead = TRUE,
-          time_unit = "week",
-          branch = "br-v3.0.0"
+          time_unit = "week"
         )
       )
     )
@@ -292,26 +286,22 @@ test_that("create_output_type_point functions error correctly", {
             "2023-01-02",
             "2023-01-09",
             "2023-01-16"
-          ),
-          branch = "br-v3.0.0"
+          )
         ),
         create_task_id("location",
           required = "US",
-          optional = c("01", "02", "04", "05", "06"),
-          branch = "br-v3.0.0"
+          optional = c("01", "02", "04", "05", "06")
         ),
         create_task_id("horizon",
           required = 1L,
-          optional = 2:4,
-          branch = "br-v3.0.0"
+          optional = 2:4
         )
       ),
       output_type = create_output_type(
         create_output_type_mean(
           is_required = TRUE,
           value_type = "double",
-          value_minimum = 0L,
-          branch = "br-v3.0.0"
+          value_minimum = 0L
         ),
         create_output_type_sample(
           is_required = FALSE,
@@ -321,8 +311,7 @@ test_that("create_output_type_point functions error correctly", {
           compound_taskid_set = c("horizon", "random_task_id"),
           value_type = "double",
           value_minimum = 0L,
-          value_maximum = 1L,
-          branch = "br-v3.0.0"
+          value_maximum = 1L
         )
       ),
       target_metadata = create_target_metadata(
@@ -333,8 +322,7 @@ test_that("create_output_type_point functions error correctly", {
           target_keys = NULL,
           target_type = "discrete",
           is_step_ahead = TRUE,
-          time_unit = "week",
-          branch = "br-v3.0.0"
+          time_unit = "week"
         )
       )
     ),

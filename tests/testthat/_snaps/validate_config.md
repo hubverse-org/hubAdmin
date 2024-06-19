@@ -9,7 +9,7 @@
       attr(,"schema_version")
       [1] "v3.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/br-v3.0.0/v3.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json
 
 # Config for samples fail correctly
 
@@ -22,7 +22,7 @@
       attr(,"schema_version")
       [1] "v3.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/br-v3.0.0/v3.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json
       attr(,"errors")
                                                                      instancePath
       1 /rounds/0/model_tasks/0/task_ids/output_type/sample/output_type_id_params
@@ -46,7 +46,7 @@
       attr(,"schema_version")
       [1] "v3.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/br-v3.0.0/v3.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json
       attr(,"errors")
                                                                                          instancePath
       1 /rounds/0/model_tasks/0/task_ids/output_type/sample/output_type_id_params/compound_taskid_set

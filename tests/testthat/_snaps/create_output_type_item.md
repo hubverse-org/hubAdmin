@@ -336,7 +336,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 70L, max_samples_per_task = 100L, value_type = "double",
-        value_minimum = 0L, value_maximum = 1L, branch = "br-v3.0.0")
+        value_minimum = 0L, value_maximum = 1L)
     Output
       $sample
       $sample$output_type_id_params
@@ -376,7 +376,7 @@
       create_output_type_sample(is_required = FALSE, output_type_id_type = "character",
         max_length = 5L, min_samples_per_task = 70L, max_samples_per_task = 100L,
         compound_taskid_set = c("horizon", "target", "location"), value_type = "double",
-        value_minimum = 0L, value_maximum = 1L, branch = "br-v3.0.0")
+        value_minimum = 0L, value_maximum = 1L)
     Output
       $sample
       $sample$output_type_id_params
@@ -421,7 +421,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 10:11, max_samples_per_task = 100L, value_type = "character",
-        value_minimum = 0L, value_maximum = 1L, branch = "br-v3.0.0")
+        value_minimum = 0L, value_maximum = 1L)
     Condition
       Error in `map()`:
       i In index: 3.
@@ -433,7 +433,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 110L, max_samples_per_task = 100L, value_type = "character",
-        value_minimum = 0L, value_maximum = 1L, branch = "br-v3.0.0")
+        value_minimum = 0L, value_maximum = 1L)
     Condition
       Error in `create_output_type_sample()`:
       ! `min_samples_per_task` must be less than or equal to `max_samples_per_task`.
@@ -443,7 +443,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 70L, max_samples_per_task = 100L, value_type = "character",
-        value_minimum = 0L, value_maximum = 1L, branch = "br-v3.0.0")
+        value_minimum = 0L, value_maximum = 1L)
     Condition
       Error in `map()`:
       i In index: 1.
@@ -458,7 +458,7 @@
       create_output_type_sample(is_required = FALSE, output_type_id_type = "character",
         max_length = 5L, min_samples_per_task = 70L, max_samples_per_task = 100L,
         compound_taskid_set = c(1, 2, 3), value_type = "double", value_minimum = 0L,
-        value_maximum = 1L, branch = "br-v3.0.0")
+        value_maximum = 1L)
     Condition
       Error in `create_output_type_sample()`:
       x `compound_taskid_set` is of type <double>.
