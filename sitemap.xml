@@ -1,93 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/404.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/404.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/CODE_OF_CONDUCT.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/CONTRIBUTING.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/CONTRIBUTING.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/LICENSE-text.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/LICENSE.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/articles/hub-setup.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/articles/hub-setup.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/articles/index.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/authors.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/authors.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/index.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/index.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/news/index.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/news/index.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_config.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_config.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_model_task.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_model_task.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_model_tasks.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_model_tasks.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_output_type.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_output_type.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_output_type_mean.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_output_type_mean.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_output_type_quantile.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_output_type_quantile.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_round.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_round.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_rounds.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_rounds.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_target_metadata.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_target_metadata.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_target_metadata_item.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_target_metadata_item.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_task_id.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_task_id.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/create_task_ids.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/create_task_ids.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/hub_locations_eu.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/hub_locations_us.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/index.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/validate_config.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/pipe.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/validate_hub_config.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/validate_config.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/validate_model_metadata_schema.html</loc>
   </url>
   <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/validate_hub_config.html</loc>
-  </url>
-  <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/validate_model_metadata_schema.html</loc>
-  </url>
-  <url>
-    <loc>https://infectious-disease-modeling-hubs.github.io/hubAdmin/reference/view_config_val_errors.html</loc>
+    <loc>https://hubverse-org.github.io/hubAdmin/reference/view_config_val_errors.html</loc>
   </url>
 </urlset>
