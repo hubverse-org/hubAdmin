@@ -150,8 +150,7 @@ create_output_type_sample(
   min_samples_per_task = 70L, max_samples_per_task = 100L,
   value_type = "double",
   value_minimum = 0,
-  value_maximum = 1,
-  branch = "br-v3.0.0"
+  value_maximum = 1
 )
 }
 \seealso{
