@@ -1,6 +1,6 @@
 test_that("Creating schema paths works correctly", {
   schema <- hubUtils::get_schema(
-    "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v1.0.0/tasks-schema.json"
+    "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
   )
   expect_equal(
     get_error_path(schema, "mean", "schema"),
@@ -21,7 +21,7 @@ test_that("Creating schema paths works correctly", {
   )
   # Test that custom_task_id returns task_ids/additionalProperties schema path with version >= v2.0.0
   schema <- hubUtils::get_schema(
-    "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/br-v2.0.0/v2.0.0/tasks-schema.json"
+    "https://raw.githubusercontent.com/hubverse-org/schemas/br-v2.0.0/v2.0.0/tasks-schema.json"
   )
   expect_equal(
     get_error_path(schema, "custom_task_id", "schema"),
@@ -37,7 +37,7 @@ test_that("Creating schema paths works correctly", {
 
 test_that("Creating instance paths works correctly", {
   schema <- hubUtils::get_schema(
-    "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v1.0.0/tasks-schema.json"
+    "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
   )
   round_i <- 1L
   model_task_i <- 2L

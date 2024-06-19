@@ -1,3 +1,64 @@
+# Config for samples handled succesfully
+
+    Code
+      out
+    Output
+      [1] TRUE
+      attr(,"config_path")
+      [1] "testdata/tasks-samples-pass.json"
+      attr(,"schema_version")
+      [1] "v3.0.0"
+      attr(,"schema_url")
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json
+
+# Config for samples fail correctly
+
+    Code
+      out
+    Output
+      [1] FALSE
+      attr(,"config_path")
+      [1] "testdata/tasks-samples-error-range.json"
+      attr(,"schema_version")
+      [1] "v3.0.0"
+      attr(,"schema_url")
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json
+      attr(,"errors")
+                                                                     instancePath
+      1 /rounds/0/model_tasks/0/task_ids/output_type/sample/output_type_id_params
+                                                                                                                   schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/output_type_id_params
+                    keyword
+      1 Sample number range
+                                                                    message schema
+      1 min_samples_per_task must be less or equal to max_samples_per_task.       
+                                                       data
+      1 min_samples_per_task: 60;\nmax_samples_per_task: 40
+
+---
+
+    Code
+      out
+    Output
+      [1] FALSE
+      attr(,"config_path")
+      [1] "testdata/tasks-samples-error-task-ids.json"
+      attr(,"schema_version")
+      [1] "v3.0.0"
+      attr(,"schema_url")
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json
+      attr(,"errors")
+                                                                                         instancePath
+      1 /rounds/0/model_tasks/0/task_ids/output_type/sample/output_type_id_params/compound_taskid_set
+                                                                                                                                       schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/output_type_id_params/compound_taskid_set
+                           keyword
+      1 compound_taskid_set values
+                                                                 message schema
+      1 compound_taskid_set value(s) 'origin_date' not valid task id(s).       
+                                                                                                                         data
+      1 compound_taskid_set values: origin_date, location, horizon;\ntask id values: forecast_date, target, horizon, location
+
 # Config errors detected successfully
 
     Code
@@ -163,7 +224,7 @@
       attr(,"schema_version")
       [1] "v0.0.0.9"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v0.0.0.9/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json
 
 # Dynamic config errors detected successfully by custom R validation
 
@@ -176,7 +237,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                                                 instancePath
       1 /rounds/0/model_tasks/1/target_metadata/0/target_keys/target_measure
@@ -220,7 +281,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                                                 instancePath
       1 /rounds/0/model_tasks/1/target_metadata/0/target_keys/target_measure
@@ -589,7 +650,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
 
 # Duplicate values in individual array error successfully
 
@@ -633,7 +694,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
 
 # Duplicate values across property error successfully
 
@@ -646,7 +707,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                         instancePath
       1     /rounds/0/model_tasks/0/task_ids/horizon
@@ -680,7 +741,7 @@
       attr(,"schema_version")
       [1] "v1.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v1.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json
       attr(,"errors")
                                           instancePath schemaPath      keyword
       1 /rounds/0/model_tasks/1/task_ids/forecast_date         NA round_id var
@@ -706,7 +767,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                           instancePath
       1 /rounds/0/model_tasks/1/task_ids/forecast_date
@@ -738,7 +799,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                         instancePath
       1 /rounds/1/model_tasks/0/task_ids/origin_date
@@ -782,7 +843,7 @@
       attr(,"schema_version")
       [1] "v2.0.0"
       attr(,"schema_url")
-      https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.0/tasks-schema.json
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
       attr(,"errors")
                                     instancePath
       1 /rounds/*/model_tasks/*/task_ids/horizon
@@ -792,4 +853,17 @@
       1 task_id values task_id values cannot all be null across all modeling tasks.
         schema data
       1        null
+
+# Old orgname config validates successfully
+
+    Code
+      out
+    Output
+      [1] TRUE
+      attr(,"config_path")
+      [1] "testdata/task-old-orgname.json"
+      attr(,"schema_version")
+      [1] "v2.0.0"
+      attr(,"schema_url")
+      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
 

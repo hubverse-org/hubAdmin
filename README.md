@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# hubAdmin <a href="https://Infectious-Disease-Modeling-Hubs.github.io/hubAdmin/"><img src="man/figures/logo.png" align="right" height="131" alt="hubAdmin website" /></a>
+# hubAdmin <a href="https://hubverse-org.github.io/hubAdmin/"><img src="man/figures/logo.png" align="right" height="131" alt="hubAdmin website" /></a>
 
 <!-- badges: start -->
 
@@ -9,11 +9,11 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/hubAdmin)](https://CRAN.R-project.org/package=hubAdmin)
-[![R-CMD-check](https://github.com/Infectious-Disease-Modeling-Hubs/hubAdmin/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Infectious-Disease-Modeling-Hubs/hubAdmin/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/hubverse-org/hubAdmin/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hubverse-org/hubAdmin/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of hubAdmin is to provide a set of utility functions for
-administering hubverse Infectious Disease Modeling Hubs.
+administering hubverse Hubs.
 
 This package is part of the
 [hubverse](https://hubdocs.readthedocs.io/en/latest/) ecosystem, which
@@ -27,7 +27,7 @@ You can install the development version of hubAdmin from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("Infectious-Disease-Modeling-Hubs/hubAdmin")
+remotes::install_github("hubverse-org/hubAdmin")
 ```
 
 > ##### **Note:**

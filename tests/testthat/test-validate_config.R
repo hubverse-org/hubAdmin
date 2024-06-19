@@ -23,6 +23,28 @@ test_that("Config validated successfully", {
   ))))
 })
 
+test_that("Config for samples handled succesfully", {
+  config_path <- testthat::test_path("testdata", "tasks-samples-pass.json")
+  out <- suppressMessages(validate_config(config_path = config_path,
+                                          schema_version = "latest"))
+  expect_snapshot(out)
+  expect_true(out)
+})
+test_that("Config for samples fail correctly", {
+  config_path <- testthat::test_path("testdata", "tasks-samples-error-range.json")
+  out <- suppressWarnings(validate_config(config_path = config_path,
+                                          schema_version = "latest"))
+  expect_snapshot(out)
+  expect_false(out)
+
+  config_path <- testthat::test_path("testdata", "tasks-samples-error-task-ids.json")
+  out <- suppressWarnings(validate_config(config_path = config_path,
+                                          schema_version = "latest"))
+  expect_snapshot(out)
+  expect_false(out)
+})
+
+
 
 test_that("Config errors detected successfully", {
   config_path <- testthat::test_path("testdata", "tasks-errors.json")
@@ -107,4 +129,11 @@ test_that("All null task IDs error successfully", {
   out <- suppressWarnings(validate_config(config_path = config_path))
   expect_snapshot(out)
   expect_false(out)
+})
+
+test_that("Old orgname config validates successfully", {
+  config_path <- testthat::test_path("testdata", "task-old-orgname.json")
+  out <- suppressMessages(validate_config(config_path = config_path))
+  expect_snapshot(out)
+  expect_true(out)
 })

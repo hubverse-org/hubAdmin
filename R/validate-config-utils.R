@@ -301,7 +301,112 @@ find_invalid_target_keys <- function(target_keys, model_task_grp) {
     stats::setNames(names(target_keys))
 }
 
+# Validate the range (minimum & maximum) of acceptable sample numbers for a
+# given modeling task group in a given round.
+# Returns NULL if not applicable or check passes and error df row if check fails.
+validate_mt_sample_range <- function(model_task_grp,
+                                     model_task_i,
+                                     round_i,
+                                     schema) {
+  sample_config <- purrr::pluck(
+    model_task_grp,
+    "output_type",
+    "sample",
+    "output_type_id_params"
+  )
 
+  if (is.null(sample_config)) {
+    return(NULL)
+  }
+
+  check <- sample_config$max_samples_per_task < sample_config$min_samples_per_task
+
+  if (check) {
+    error_row <- data.frame(
+      instancePath = glue::glue(
+        get_error_path(
+          schema,
+          "output_type/sample/output_type_id_params",
+          "instance"
+        )
+      ),
+      schemaPath = paste(
+        get_error_path(
+          schema,
+          "sample",
+          "schema"
+        ), "output_type_id_params",
+        sep = "/"
+      ),
+      keyword = "Sample number range",
+      message = glue::glue(
+        "min_samples_per_task must be less or equal to max_samples_per_task."
+      ),
+      schema = "",
+      data = glue::glue("min_samples_per_task: {sample_config$min_samples_per_task};
+            max_samples_per_task: {sample_config$max_samples_per_task}")
+    )
+    return(error_row)
+  }
+  return(NULL)
+}
+
+# Validate that compound_taskid_set values are valid task ids for a
+# given modeling task group in a given round.
+# Returns NULL if not applicable or check passes and error df row if check fails.
+validate_mt_sample_compound_taskids <- function(model_task_grp,
+                                                model_task_i,
+                                                round_i,
+                                                schema) {
+  sample_config <- purrr::pluck(
+    model_task_grp,
+    "output_type",
+    "sample",
+    "output_type_id_params"
+  )
+
+  comp_tids <- sample_config[["compound_taskid_set"]]
+
+  if (is.null(comp_tids)) {
+    return(NULL)
+  }
+  invalid_comp_tids <- setdiff(comp_tids, get_grp_task_ids(model_task_grp))
+
+  check <- length(invalid_comp_tids) > 0L
+
+  if (check) {
+    error_row <- data.frame(
+      instancePath = glue::glue(
+        get_error_path(
+          schema,
+          "output_type/sample/output_type_id_params/compound_taskid_set",
+          "instance"
+        )
+      ),
+      schemaPath = paste(
+        get_error_path(
+          schema,
+          "sample",
+          "schema"
+        ), "output_type_id_params", "compound_taskid_set",
+        sep = "/"
+      ),
+      keyword = "compound_taskid_set values",
+      message = glue::glue(
+        "compound_taskid_set value(s) '{invalid_comp_tids}' not valid task id(s)."
+      ),
+      schema = "",
+      data = glue::glue(
+        "compound_taskid_set values: {glue::glue_collapse(comp_tids, sep = ', ')};
+        task id values: {
+          glue::glue_collapse(get_grp_task_ids(model_task_grp), sep = ', ')
+        }"
+      )
+    )
+    return(error_row)
+  }
+  return(NULL)
+}
 
 validate_mt_property_unique_vals <- function(model_task_grp,
                                              model_task_i,
@@ -321,7 +426,7 @@ validate_mt_property_unique_vals <- function(model_task_grp,
   val_properties <- switch(property,
     task_ids = model_task_grp[["task_ids"]],
     output_type = model_task_grp[["output_type"]][
-      c("quantile", "cdf", "pmf", "sample")
+      c("quantile", "cdf", "pmf")
     ] %>%
       purrr::compact() %>%
       purrr::map(

@@ -85,7 +85,133 @@
       attr(,"class")
       [1] "model_task" "list"      
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+
+---
+
+    Code
+      create_model_task(task_ids = create_task_ids(create_task_id("origin_date",
+        required = NULL, optional = c("2023-01-02", "2023-01-09", "2023-01-16")),
+      create_task_id("location", required = "US", optional = c("01", "02", "04", "05",
+        "06")), create_task_id("horizon", required = 1L, optional = 2:4)),
+      output_type = create_output_type(create_output_type_mean(is_required = TRUE,
+        value_type = "double", value_minimum = 0L), create_output_type_sample(
+        is_required = FALSE, output_type_id_type = "character", max_length = 5L,
+        min_samples_per_task = 70L, max_samples_per_task = 100L, compound_taskid_set = c(
+          "horizon", "origin_date"), value_type = "double", value_minimum = 0L,
+        value_maximum = 1L)), target_metadata = create_target_metadata(
+        create_target_metadata_item(target_id = "inc hosp", target_name = "Weekly incident influenza hospitalizations",
+          target_units = "rate per 100,000 population", target_keys = NULL,
+          target_type = "discrete", is_step_ahead = TRUE, time_unit = "week")))
+    Output
+      $task_ids
+      $task_ids$origin_date
+      $task_ids$origin_date$required
+      NULL
+      
+      $task_ids$origin_date$optional
+      [1] "2023-01-02" "2023-01-09" "2023-01-16"
+      
+      
+      $task_ids$location
+      $task_ids$location$required
+      [1] "US"
+      
+      $task_ids$location$optional
+      [1] "01" "02" "04" "05" "06"
+      
+      
+      $task_ids$horizon
+      $task_ids$horizon$required
+      [1] 1
+      
+      $task_ids$horizon$optional
+      [1] 2 3 4
+      
+      
+      
+      $output_type
+      $output_type$mean
+      $output_type$mean$output_type_id
+      $output_type$mean$output_type_id$required
+      [1] NA
+      
+      $output_type$mean$output_type_id$optional
+      NULL
+      
+      
+      $output_type$mean$value
+      $output_type$mean$value$type
+      [1] "double"
+      
+      $output_type$mean$value$minimum
+      [1] 0
+      
+      
+      
+      $output_type$sample
+      $output_type$sample$output_type_id_params
+      $output_type$sample$output_type_id_params$is_required
+      [1] FALSE
+      
+      $output_type$sample$output_type_id_params$type
+      [1] "character"
+      
+      $output_type$sample$output_type_id_params$max_length
+      [1] 5
+      
+      $output_type$sample$output_type_id_params$min_samples_per_task
+      [1] 70
+      
+      $output_type$sample$output_type_id_params$max_samples_per_task
+      [1] 100
+      
+      $output_type$sample$output_type_id_params$compound_taskid_set
+      [1] "horizon"     "origin_date"
+      
+      
+      $output_type$sample$value
+      $output_type$sample$value$type
+      [1] "double"
+      
+      $output_type$sample$value$minimum
+      [1] 0
+      
+      $output_type$sample$value$maximum
+      [1] 1
+      
+      
+      
+      
+      $target_metadata
+      $target_metadata[[1]]
+      $target_metadata[[1]]$target_id
+      [1] "inc hosp"
+      
+      $target_metadata[[1]]$target_name
+      [1] "Weekly incident influenza hospitalizations"
+      
+      $target_metadata[[1]]$target_units
+      [1] "rate per 100,000 population"
+      
+      $target_metadata[[1]]$target_keys
+      NULL
+      
+      $target_metadata[[1]]$target_type
+      [1] "discrete"
+      
+      $target_metadata[[1]]$is_step_ahead
+      [1] TRUE
+      
+      $target_metadata[[1]]$time_unit
+      [1] "week"
+      
+      
+      
+      attr(,"class")
+      [1] "model_task" "list"      
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
 
 ---
 
@@ -249,7 +375,7 @@
       attr(,"class")
       [1] "model_task" "list"      
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
 
 # create_output_type_point functions error correctly
 
@@ -308,6 +434,27 @@
       x `schema_id` attributes are not consistent across all arguments.
       Argument `schema_id` attributes:
       * task_ids : invalid_schema_id
-      * output_type : https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.1/tasks-schema.json
-      * target_metadata : https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v2.0.1/tasks-schema.json
+      * output_type : https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json
+      * target_metadata : https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json
+
+---
+
+    Code
+      create_model_task(task_ids = create_task_ids(create_task_id("origin_date",
+        required = NULL, optional = c("2023-01-02", "2023-01-09", "2023-01-16")),
+      create_task_id("location", required = "US", optional = c("01", "02", "04", "05",
+        "06")), create_task_id("horizon", required = 1L, optional = 2:4)),
+      output_type = create_output_type(create_output_type_mean(is_required = TRUE,
+        value_type = "double", value_minimum = 0L), create_output_type_sample(
+        is_required = FALSE, output_type_id_type = "character", max_length = 5L,
+        min_samples_per_task = 70L, max_samples_per_task = 100L, compound_taskid_set = c(
+          "horizon", "random_task_id"), value_type = "double", value_minimum = 0L,
+        value_maximum = 1L)), target_metadata = create_target_metadata(
+        create_target_metadata_item(target_id = "inc hosp", target_name = "Weekly incident influenza hospitalizations",
+          target_units = "rate per 100,000 population", target_keys = NULL,
+          target_type = "discrete", is_step_ahead = TRUE, time_unit = "week")))
+    Condition
+      Error in `create_model_task()`:
+      ! `output_type` compound_taskid_set values must match valid `task_ids` names: "origin_date", "location", and "horizon"
+      x compound_taskid_set value "random_task_id" does not.
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/validate_config.R
 \name{validate_config}
 \alias{validate_config}
-\title{Validate a hub config file against a Infectious Disease Modeling Hubs schema}
+\title{Validate a hub config file against a hubverse schema}
 \usage{
 validate_config(
   hub_path = ".",
@@ -25,14 +25,13 @@ config file to be validated.}
 \item{schema_version}{Character string specifying the json schema version to
 be used for validation. The default value \code{"from_config"} will use the
 version specified in the \code{schema_version} property of the config file.
-\code{"latest"} will use the latest version available in the Infectious Disease
-Modeling Hubs
-\href{https://github.com/Infectious-Disease-Modeling-Hubs/schemas}{schemas repository}.
+\code{"latest"} will use the latest version available in the hubverse
+\href{https://github.com/hubverse-org/schemas}{schemas repository}.
 Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
 specified.}
 
-\item{branch}{The branch of the Infectious Disease Modeling Hubs
-\href{https://github.com/Infectious-Disease-Modeling-Hubs/schemas}{schemas repository}
+\item{branch}{The branch of the hubverse
+\href{https://github.com/hubverse-org/schemas}{schemas repository}
 from which to fetch schema. Defaults to \code{"main"}.}
 }
 \value{
@@ -46,7 +45,19 @@ You can print a more concise and easier to view version of an errors table with
 \code{\link[=view_config_val_errors]{view_config_val_errors()}}.
 }
 \description{
-Validate a hub config file against a Infectious Disease Modeling Hubs schema
+This function validates a single hub config file against it's corresponding
+schema.
+Note that, for \code{tasks.json} config files, validation is performed
+in two stages:
+\enumerate{
+\item Initial validation against the schema is performed using the
+\href{https://docs.ropensci.org/jsonvalidate/}{\code{jsonvalidate}}
+package which uses the \code{"ajv"} (Another JSON Schema Validator) validation engine.
+\item If the initial validation is successful, additional dynamic validations are
+performed.
+This means that only after the initial validation passes, will any dynamic
+validation errors be detected.
+}
 }
 \examples{
 # Valid config file

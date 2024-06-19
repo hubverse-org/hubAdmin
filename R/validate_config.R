@@ -1,5 +1,16 @@
-#' Validate a hub config file against a Infectious Disease Modeling Hubs schema
+#' Validate a hub config file against a hubverse schema
 #'
+#' This function validates a single hub config file against it's corresponding
+#'  schema.
+#'  Note that, for `tasks.json` config files, validation is performed
+#'  in two stages:
+#'  1. Initial validation against the schema is performed using the
+#'  [`jsonvalidate`](https://docs.ropensci.org/jsonvalidate/)
+#'  package which uses the `"ajv"` (Another JSON Schema Validator) validation engine.
+#'  2. If the initial validation is successful, additional dynamic validations are
+#'  performed.
+#'  This means that only after the initial validation passes, will any dynamic
+#'  validation errors be detected.
 #' @param hub_path Path to a local hub directory.
 #' @param config Name of config file to validate. One of `"tasks"` or `"admin"`.
 #' @param config_path Defaults to `NULL` which assumes all config files are in
@@ -9,13 +20,12 @@
 #' @param schema_version Character string specifying the json schema version to
 #'   be used for validation. The default value `"from_config"` will use the
 #'   version specified in the `schema_version` property of the config file.
-#'   `"latest"` will use the latest version available in the Infectious Disease
-#'   Modeling Hubs
-#'   [schemas repository](https://github.com/Infectious-Disease-Modeling-Hubs/schemas).
+#'   `"latest"` will use the latest version available in the hubverse
+#'   [schemas repository](https://github.com/hubverse-org/schemas).
 #'   Alternatively, a specific version of a schema (e.g. `"v0.0.1"`)  can be
 #'  specified.
-#' @param branch The branch of the Infectious Disease Modeling Hubs
-#'   [schemas repository](https://github.com/Infectious-Disease-Modeling-Hubs/schemas)
+#' @param branch The branch of the hubverse
+#'   [schemas repository](https://github.com/hubverse-org/schemas)
 #'   from which to fetch schema. Defaults to `"main"`.
 #' @return Returns the result of validation. If validation is successful, will
 #'   return `TRUE`. If any validation errors are detected, returns `FALSE` with
@@ -204,6 +214,22 @@ val_round <- function(round, round_i, schema) {
       ~ validate_mt_property_unique_vals(
         model_task_grp = .x, model_task_i = .y,
         round_i = round_i, property = "output_type",
+        schema = schema
+      )
+    ),
+    purrr::imap(
+      model_task_grps,
+      ~ validate_mt_sample_range(
+        model_task_grp = .x, model_task_i = .y,
+        round_i = round_i,
+        schema = schema
+      )
+    ),
+    purrr::imap(
+      model_task_grps,
+      ~ validate_mt_sample_compound_taskids(
+        model_task_grp = .x, model_task_i = .y,
+        round_i = round_i,
         schema = schema
       )
     ),

@@ -5,7 +5,7 @@
         "name": "Joe Bloggs",
         "email": "j.bloggs@cidmh.com"
     },
-    "repository_url": "https://github.com/Infectious-Disease-Modeling-Hubs/example-simple-forecast-hub",
+    "repository_url": "https://github.com/hubverse-org/example-simple-forecast-hub",
     "hub_models": [{
         "team_abbr": "simple_hub",
         "model_abbr": "baseline",

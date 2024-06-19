@@ -20,7 +20,7 @@
       [1] "from_markdown"
       
       $subtitle
-      [1] "Report for file **`testdata/tasks-errors.json`** using\nschema version [**v0.0.0.9**](https://raw.githubusercontent.com/Infectious-Disease-Modeling-Hubs/schemas/main/v0.0.0.9/tasks-schema.json)"
+      [1] "Report for file **`testdata/tasks-errors.json`** using\nschema version [**v0.0.0.9**](https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json)"
       attr(,"class")
       [1] "from_markdown"
       

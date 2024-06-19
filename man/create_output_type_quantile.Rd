@@ -34,8 +34,12 @@ create_output_type_pmf(
 )
 
 create_output_type_sample(
-  required,
-  optional,
+  is_required,
+  output_type_id_type,
+  max_length = NULL,
+  min_samples_per_task,
+  max_samples_per_task,
+  compound_taskid_set = NULL,
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
@@ -58,14 +62,31 @@ all values are required.}
 
 \item{schema_version}{Character string specifying the json schema version to
 be used for validation. The default value \code{"latest"} will use the latest version
-available in the Infectious Disease Modeling Hubs
-\href{https://github.com/Infectious-Disease-Modeling-Hubs/schemas}{schemas repository}.
+available in the hubverse
+\href{https://github.com/hubverse-org/schemas}{schemas repository}.
 Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
 specified.}
 
-\item{branch}{The branch of the Infectious Disease Modeling Hubs
-\href{https://github.com/Infectious-Disease-Modeling-Hubs/schemas}{schemas repository}
+\item{branch}{The branch of the hubverse
+\href{https://github.com/hubverse-org/schemas}{schemas repository}
 from which to fetch schema. Defaults to \code{"main"}.}
+
+\item{is_required}{Logical. Is this sample output type required?}
+
+\item{output_type_id_type}{Character string. The data type of the output_type_id.
+One of "integer" or "character".}
+
+\item{max_length}{Integer. Optional. The maximum length of the output_type_id
+value if type is \code{"character"}.}
+
+\item{min_samples_per_task}{Integer. The minimum number of samples per task.
+Must be equal to or less than \code{max_samples_per_task}.}
+
+\item{max_samples_per_task}{Integer. The maximum number of samples per task.
+Must be equal to or greater than \code{min_samples_per_task}.}
+
+\item{compound_taskid_set}{Character vector. Optional. The set of compound
+task IDs that the sample each output type can be associated with.}
 }
 \value{
 a named list of class \code{output_type_item} representing a \code{quantile},
@@ -76,9 +97,6 @@ Create a representation of a \code{quantile}, \code{cdf}, \code{pmf} or \code{sa
 type as a list object of class \code{output_type_item}. This can be combined with
 additional \code{output_type_item}s using function \code{\link[=create_output_type]{create_output_type()}} to
 create an \code{output_type} object for a given model_task.
-This can be combined with other building blocks which can then be written as
-or appended to \code{tasks.json} Hub config files.
-output type.
 This can be combined with other building blocks which can then be written as
 or appended to \code{tasks.json} Hub config files.
 }
@@ -127,8 +145,12 @@ create_output_type_pmf(
   value_type = "double"
 )
 create_output_type_sample(
-  required = 1:10, optional = 11:15,
-  value_type = "double"
+  is_required = TRUE,
+  output_type_id_type = "integer",
+  min_samples_per_task = 70L, max_samples_per_task = 100L,
+  value_type = "double",
+  value_minimum = 0,
+  value_maximum = 1
 )
 }
 \seealso{

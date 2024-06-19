@@ -29,7 +29,6 @@ test_that("create_output_type_point functions work correctly", {
   )
 })
 
-
 test_that("create_output_type_point functions error correctly", {
   expect_snapshot(
     create_output_type_mean(
@@ -100,12 +99,6 @@ test_that("create_output_type_dist functions work correctly", {
       value_type = "double"
     )
   )
-  expect_snapshot(
-    create_output_type_sample(
-      required = 1:10, optional = 11:15,
-      value_type = "double"
-    )
-  )
 
   # Test back-compatibility
   expect_snapshot(
@@ -148,31 +141,97 @@ test_that("create_output_type_dist functions error correctly", {
     ),
     error = TRUE
   )
-  expect_snapshot(
-    create_output_type_sample(
-      required = 0:10, optional = 11:15,
-      value_type = "double"
-    ),
-    error = TRUE
-  )
-  expect_snapshot(
-    create_output_type_sample(
-      required = 1:10, optional = 11:15,
-      value_type = "character"
-    ),
-    error = TRUE
-  )
 })
 
 
-test_that("create_output_type_dist functions creates expected warnings", {
+test_that("create_output_type_sample works", {
   expect_snapshot(
     create_output_type_sample(
-      required = 1:50,
-      optional = NULL,
+      is_required = TRUE,
+      output_type_id_type = "integer",
+      min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
       value_maximum = 1L
     )
+  )
+  expect_snapshot(
+    create_output_type_sample(
+      is_required = FALSE,
+      output_type_id_type = "character",
+      max_length = 5L,
+      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      compound_taskid_set = c("horizon", "target", "location"),
+      value_type = "double",
+      value_minimum = 0L,
+      value_maximum = 1L
+    )
+  )
+})
+
+test_that("create_output_type_sample errors correctly", {
+  # min_samples_per_task vector instead of scalar fails
+  expect_snapshot(
+    create_output_type_sample(
+      is_required = TRUE,
+      output_type_id_type = "integer",
+      min_samples_per_task = 10:11, max_samples_per_task = 100L,
+      value_type = "character",
+      value_minimum = 0L,
+      value_maximum = 1L
+    ),
+    error = TRUE
+  )
+  # min_samples_per_task greater than max_samples_per_task fails
+  expect_snapshot(
+    create_output_type_sample(
+      is_required = TRUE,
+      output_type_id_type = "integer",
+      min_samples_per_task = 110L, max_samples_per_task = 100L,
+      value_type = "character",
+      value_minimum = 0L,
+      value_maximum = 1L
+    ),
+    error = TRUE
+  )
+  # value_type as character fails
+  expect_snapshot(
+    create_output_type_sample(
+      is_required = TRUE,
+      output_type_id_type = "integer",
+      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      value_type = "character",
+      value_minimum = 0L,
+      value_maximum = 1L
+    ),
+    error = TRUE
+  )
+
+  # Integer compound_taskid_set fails
+  expect_snapshot(
+    create_output_type_sample(
+      is_required = FALSE,
+      output_type_id_type = "character",
+      max_length = 5L,
+      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      compound_taskid_set = c(1, 2, 3),
+      value_type = "double",
+      value_minimum = 0L,
+      value_maximum = 1L
+    ),
+    error = TRUE
+  )
+  # Earlier schema version fails
+  expect_snapshot(
+    create_output_type_sample(
+      is_required = TRUE,
+      output_type_id_type = "integer",
+      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      value_type = "integer",
+      value_minimum = 0L,
+      value_maximum = 1L,
+      schema_version = "v2.0.0"
+    ),
+    error = TRUE
   )
 })
