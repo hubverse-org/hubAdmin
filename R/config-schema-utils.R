@@ -89,7 +89,8 @@ validate_schema_version_property <- function(validation, config = c("tasks", "ad
     )
   }
 
-  check_prefix <- grepl("https://raw.githubusercontent.com/(hubverse-org|Infectious-Disease-Modeling-Hubs)/schemas/main/",
+  check_prefix <- grepl(
+    "https://raw.githubusercontent.com/(hubverse-org|Infectious-Disease-Modeling-Hubs)/schemas/main/",
     schema_version,
     fixed = FALSE
   )
