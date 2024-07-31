@@ -4,7 +4,7 @@
       tbl$`_source_notes`
     Output
       [[1]]
-      [1] "For more information, please consult the\n                                 [**`hubDocs` documentation**.](https://hubdocs.readthedocs.io/en/latest/)"
+      [1] "For more information, please consult the\n                                 [**`hubDocs` documentation**.](https://hubverse.io/en/latest/)"
       attr(,"class")
       [1] "from_markdown"
       

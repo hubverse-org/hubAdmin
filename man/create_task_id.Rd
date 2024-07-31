@@ -46,7 +46,7 @@ appended to \code{tasks.json} Hub config files.
 \details{
 \code{required} and \code{optional} vectors for standard task_ids defined in a Hub schema
 must match data types and formats specified in the schema. For more details consult
-the \href{https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}
+the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}
 
 JSON schema data type names differ to those in R. Use the following mappings to
 create vectors of appropriate data types which will correspond to correct JSON

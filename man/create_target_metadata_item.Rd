@@ -38,7 +38,7 @@ define a single target value.}
 of the target that might include information such as definitions of a 'rate' or similar.}
 
 \item{target_type}{character string. Target statistical data type. Consult the
-\href{https://hubdocs.readthedocs.io/en/latest/format/hub-metadata.html#model-tasks-tasks-json-interactive-schema}{appropriate version of the hub schema}
+\href{https://hubverse.io/en/latest/format/hub-metadata.html#model-tasks-tasks-json-interactive-schema}{appropriate version of the hub schema}
 for potential values.}
 
 \item{is_step_ahead}{logical. Whether the target is part of a sequence of values}
@@ -71,7 +71,7 @@ appended to \code{tasks.json} Hub config files.
 }
 \details{
 For more details consult
-the \href{https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
+the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
 }
 \examples{
 create_target_metadata_item(

@@ -22,7 +22,7 @@
 #' of the target that might include information such as definitions of a 'rate' or similar.
 #' @param target_type character string. Target statistical data type. Consult the
 #' [appropriate version of the hub schema](
-#' https://hubdocs.readthedocs.io/en/latest/format/hub-metadata.html#model-tasks-tasks-json-interactive-schema)
+#' https://hubverse.io/en/latest/format/hub-metadata.html#model-tasks-tasks-json-interactive-schema)
 #' for potential values.
 #' @param is_step_ahead logical. Whether the target is part of a sequence of values
 #' @param time_unit character string. If `is_step_ahead` is `TRUE`, then this
@@ -32,7 +32,7 @@
 #' @seealso [create_target_metadata()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #' @return a named list of class `target_metadata_item`.
 #' @export
 #'

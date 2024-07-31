@@ -33,13 +33,13 @@
 #'  of file format in `admin.json`. For more details on whether this argument can
 #'  be used as well as available formats, please consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #' @return a named list of class `round`.
 #' @export
 #' @seealso [create_rounds()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #' @examples
 #' model_tasks <- create_model_tasks(
 #'   create_model_task(
