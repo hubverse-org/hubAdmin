@@ -19,7 +19,7 @@ class \code{config}. This can be written out to a \code{tasks.json} file.
 }
 \details{
 For more details consult
-the \href{https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
+the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
 }
 \examples{
 rounds <- create_rounds(
