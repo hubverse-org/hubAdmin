@@ -132,7 +132,7 @@ view_config_val_errors <- function(x) {
     ) %>%
     gt::tab_source_note(
       source_note = gt::md("For more information, please consult the
-                                 [**`hubDocs` documentation**.](https://hubdocs.readthedocs.io/en/latest/)")
+                                 [**`hubDocs` documentation**.](https://hubverse.io/en/latest/)")
     )
 }
 

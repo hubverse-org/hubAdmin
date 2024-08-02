@@ -54,7 +54,7 @@ This option in only available for some versions of the schema and is ignored if
 not allowed in the version of the schema used. It also overrides any specification
 of file format in \code{admin.json}. For more details on whether this argument can
 be used as well as available formats, please consult
-the \href{https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.}
+the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.}
 }
 \value{
 a named list of class \code{round}.
@@ -68,7 +68,7 @@ appended to \code{tasks.json} Hub config files.
 }
 \details{
 For more details consult
-the \href{https://hubdocs.readthedocs.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
+the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
 }
 \examples{
 model_tasks <- create_model_tasks(
