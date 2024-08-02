@@ -335,7 +335,7 @@ check_oneof_input <- function(input, property = c("required", "optional"), # nol
 
   if (typeof(input) == "character") {
     value_schema <- oneof_schema[["character"]]
-    unmatched_values_exist <- !is.null(value_schema[["pattern"]] &&
+    unmatched_values_exist <- !is.null(value_schema[["pattern"]]) &&
       !any(grepl(value_schema[["pattern"]], input))
     if (unmatched_values_exist) {
       cli::cli_abort(
