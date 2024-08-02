@@ -1,3 +1,7 @@
+# hubAdmin 1.0.1
+
+* Update `create_output_type_cdf()` to accommodate less restrictive `output_type_id` checks introduced in schema version [`v3.0.1`](https://github.com/hubverse-org/schemas/releases/tag/v3.0.1).
+
 # hubAdmin 1.0.0
 
 * Breaking changes: Support schema v3.0.0 specification of sample output type IDs which are now specified through a `output_type_id_params` object instead of `output_type_id`. The main breaking change is in `create_output_type_sample()` which now takes arguments incompatible with previous schema versions and returns an object with an `output_type_id_params` object instead of `output_type_id`. Additional but back-compatible dynamic validation checks on sample output types have been added to `validate_config()`.

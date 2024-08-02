@@ -25,7 +25,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -54,7 +54,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -79,7 +79,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -177,7 +177,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -208,7 +208,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -240,7 +240,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -272,7 +272,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -312,7 +312,7 @@
 
     Code
       create_output_type_cdf(required = NULL, optional = c("EW202240", "EW202241",
-        "EW2022423"), value_type = "double")
+        "EW2022423"), value_type = "double", schema_version = "v3.0.0")
     Condition
       Error in `map()`:
       i In index: 2.
@@ -368,7 +368,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -414,7 +414,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 # create_output_type_sample errors correctly
 

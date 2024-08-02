@@ -125,7 +125,8 @@ test_that("create_output_type_dist functions error correctly", {
         "EW202241",
         "EW2022423"
       ),
-      value_type = "double"
+      value_type = "double",
+      schema_version = "v3.0.0"
     ),
     error = TRUE
   )
