@@ -335,10 +335,9 @@ check_oneof_input <- function(input, property = c("required", "optional"), # nol
 
   if (typeof(input) == "character") {
     value_schema <- oneof_schema[["character"]]
-    if (!is.null(value_schema[["pattern"]]) && !any(
-      grepl(value_schema[["pattern"]], input)
-    )
-    ) {
+    unmatched_values_exist <- !is.null(value_schema[["pattern"]] &&
+      !any(grepl(value_schema[["pattern"]], input))
+    if (unmatched_values_exist) {
       cli::cli_abort(
         c(
           "x" = "Values of {.arg {property}} must match regex pattern
