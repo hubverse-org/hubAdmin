@@ -23,12 +23,24 @@ test_that("Config validated successfully", {
   ))))
 })
 
+
 test_that("Config for samples handled succesfully", {
   config_path <- testthat::test_path("testdata", "tasks-samples-pass.json")
   out <- suppressMessages(validate_config(config_path = config_path,
                                           schema_version = "latest"))
   expect_snapshot(out)
   expect_true(out)
+})
+test_that("Missing files returns an invalid config with an immediate message", {
+  tmp <- withr::local_tempdir()
+  mask_tmp <- function(x) {
+    sub(tmp, "[masked]", x, fixed = TRUE)
+  }
+  suppressMessages({
+    expect_message(out <- validate_config(hub_path = tmp), "error in parsing")
+  })
+  expect_snapshot(out, transform = mask_tmp)
+  expect_false(out)
 })
 test_that("Config for samples fail correctly", {
   config_path <- testthat::test_path("testdata", "tasks-samples-error-range.json")
