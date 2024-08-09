@@ -705,6 +705,7 @@ make_config_error <- function(path, msg) {
   attr(validation, "schema_version") <- NULL
   attr(validation, "schema_url") <- NULL
   class(validation) <- c("hubval", "error")
-  print(validation)
+  # so it doesn't print the actual value, just the message
+  capture.output(print(validation))
   return(validation)
 }
