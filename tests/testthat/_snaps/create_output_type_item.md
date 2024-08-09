@@ -25,7 +25,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -54,7 +54,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -79,7 +79,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -177,7 +177,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -208,105 +208,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
-
----
-
-    Code
-      create_output_type_cdf(required = NULL, optional = c("EW202240", "EW202241",
-        "EW202242"), value_type = "double")
-    Output
-      $cdf
-      $cdf$output_type_id
-      $cdf$output_type_id$required
-      NULL
-      
-      $cdf$output_type_id$optional
-      [1] "EW202240" "EW202241" "EW202242"
-      
-      
-      $cdf$value
-      $cdf$value$type
-      [1] "double"
-      
-      $cdf$value$minimum
-      [1] 0
-      
-      $cdf$value$maximum
-      [1] 1
-      
-      
-      
-      attr(,"class")
-      [1] "output_type_item" "list"            
-      attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
-
----
-
-    Code
-      create_output_type_pmf(required = NULL, optional = c("low", "moderate", "high",
-        "extreme"), value_type = "double")
-    Output
-      $pmf
-      $pmf$output_type_id
-      $pmf$output_type_id$required
-      NULL
-      
-      $pmf$output_type_id$optional
-      [1] "low"      "moderate" "high"     "extreme" 
-      
-      
-      $pmf$value
-      $pmf$value$type
-      [1] "double"
-      
-      $pmf$value$minimum
-      [1] 0
-      
-      $pmf$value$maximum
-      [1] 1
-      
-      
-      
-      attr(,"class")
-      [1] "output_type_item" "list"            
-      attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
-
----
-
-    Code
-      create_output_type_quantile(required = c(0.25, 0.5, 0.75), optional = c(0.1,
-        0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9), value_type = "double", value_minimum = 0,
-      schema_version = "v1.0.0")
-    Condition
-      Warning:
-      Hub configured using schema version v1.0.0. Support for schema earlier than v2.0.0 was deprecated in hubUtils 0.0.0.9010.
-      i Please upgrade Hub config files to conform to, at minimum, version v2.0.0 as soon as possible.
-    Output
-      $quantile
-      $quantile$type_id
-      $quantile$type_id$required
-      [1] 0.25 0.50 0.75
-      
-      $quantile$type_id$optional
-      [1] 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9
-      
-      
-      $quantile$value
-      $quantile$value$type
-      [1] "double"
-      
-      $quantile$value$minimum
-      [1] 0
-      
-      
-      
-      attr(,"class")
-      [1] "output_type_item" "list"            
-      attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 # create_output_type_dist functions error correctly
 
@@ -316,9 +218,8 @@
     Condition
       Error in `map()`:
       i In index: 2.
-      Caused by error in `create_output_type_cdf()`:
-      ! The maximum number of characters allowed for values in `optional` is 8.
-      x Value "EW2022423" has more characters than allowed
+      Caused by error in `grepl()`:
+      ! invalid 'pattern' argument
 
 ---
 
@@ -368,7 +269,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 ---
 
@@ -414,7 +315,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
 # create_output_type_sample errors correctly
 
