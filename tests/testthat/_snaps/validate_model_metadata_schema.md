@@ -1,15 +1,3 @@
-# Missing files returns an invalid config with an immediate message
-
-    Code
-      out
-    Output
-      [1] FALSE
-    Message
-      x error in parsing
-        '[masked]/hub-config/model-metadata-schema.json'
-      i (File does not exist:
-        '[masked]/hub-config/model-metadata-schema.json')
-
 # validate_model_metadata_schema works
 
     Code
