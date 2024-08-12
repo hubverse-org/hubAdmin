@@ -666,7 +666,6 @@ print.hubval <- function(x, ...) {
 print.conval <- function(x, ...) {
   # print the result
   print(as.vector(x))
-  thing <- match.call()[["x"]]
   config_path <- unclass(attr(x, "config_path"))
   short_path <- trim_config_path(config_path) # nolint
   if (inherits(x, "error")) {
