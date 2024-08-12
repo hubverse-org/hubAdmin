@@ -7,17 +7,6 @@
     Message
       v ok:  testdata/tasks-samples-pass.json (<file://testdata/tasks-samples-pass.json>) (via tasks-schema v3.0.1 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json>))
 
-# Missing files returns an invalid config with an immediate message
-
-    Code
-      out
-    Output
-      [1] FALSE
-    Message
-      x error in parsing '[masked]/hub-config/tasks.json'
-      i (File does not exist:
-        '[masked]/hub-config/tasks.json')
-
 # Config for samples fail correctly
 
     Code

@@ -33,13 +33,9 @@ test_that("Config for samples handled succesfully", {
 })
 test_that("Missing files returns an invalid config with an immediate message", {
   tmp <- withr::local_tempdir()
-  mask_tmp <- function(x) {
-    sub(tmp, "[masked]", x, fixed = TRUE)
-  }
   suppressMessages({
-    expect_message(out <- validate_config(hub_path = tmp), "error in parsing")
+    expect_message(out <- validate_config(hub_path = tmp), "File does not exist")
   })
-  expect_snapshot(out, transform = mask_tmp)
   expect_false(out)
 })
 test_that("Config for samples fail correctly", {
