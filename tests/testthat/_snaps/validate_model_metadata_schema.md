@@ -38,11 +38,11 @@
 # validate_model_metadata_schema errors for imparsable json
 
     Code
-      out_error
+      out
     Output
       [1] FALSE
     Message
       x error in parsing
-        '/tmp/Rtmp3YBxV9/file11fd653576c7a/hub-config/model-metadata-schema.json'
+        '[masked]/hub-config/model-metadata-schema.json'
       i (SyntaxError: missing ) after argument list)
 

@@ -4,7 +4,9 @@ test_that("Missing files returns an invalid config with an immediate message", {
     sub(tmp, "[masked]", x, fixed = TRUE)
   }
   suppressMessages({
-    expect_message(out <- validate_model_metadata_schema(hub_path = tmp), "error in parsing")
+    expect_message(out <- validate_model_metadata_schema(hub_path = tmp),
+      "error in parsing"
+    )
   })
   expect_snapshot(out, transform = mask_tmp)
   expect_false(out)
@@ -49,9 +51,12 @@ test_that("validate_model_metadata_schema errors for imparsable json", {
     file = fs::path(tmp, "hub-config", "model-metadata-schema.json"),
     append = TRUE
   )
-  out_error <- suppressWarnings(
-    validate_model_metadata_schema(hub_path = tmp)
-  )
-  expect_false(out_error)
-  expect_snapshot(out_error)
+  suppressMessages({
+    expect_message(out <- validate_model_metadata_schema(hub_path = tmp),
+      "error in parsing"
+    )
+  })
+  expect_snapshot(out, transform = mask_tmp)
+  expect_false(out)
+
 })
