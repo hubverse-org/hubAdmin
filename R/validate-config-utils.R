@@ -643,6 +643,7 @@ is_null_task_id <- function(task_id_name, config_tasks) {
 }
 
 #' @export
+# nolint start
 print.hubval <- function(x, ...) {
   cli::cli_div()
   config_dir <- unclass(attr(x, "config_dir"))
@@ -658,6 +659,7 @@ print.hubval <- function(x, ...) {
     print(x[[i]])
   })
 }
+# nolint end
 
 
 #' @export
