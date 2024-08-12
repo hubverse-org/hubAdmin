@@ -648,8 +648,11 @@ print.hubval <- function(x, ...) {
   # print the result
   print(as.vector(x))
   thing <- match.call()[["x"]]
+  if (thing == "x") {
+    thing <- ".Last.value"
+  }
   config_path <- unclass(attr(x, "config_path"))
-  short_path <- trim_config_path(config_path)
+  short_path <- trim_config_path(config_path) # nolint
   if (inherits(x, "error")) {
     cli::cli_bullets(
       c(
@@ -659,29 +662,34 @@ print.hubval <- function(x, ...) {
     )
     return(invisible(x))
   }
-  schema_version <- attr(x, "schema_version")
-  schema_url <- attr(x, "schema_url")
+  # nolint start
+  schema_version <- attr(x, "schema_version") 
+  schema_url <- attr(x, "schema_url") 
   if (!is.null(schema_url)) {
+    via <- "via"
     name <- sub("([^.]+)\\.[[:alnum:]]+$", "\\1", basename(schema_url))
   } else {
-    name <- "none"
+    via <- "from"
+    name <- "default json schema"
+    schema_url <- paste0("file://", config_path)
   }
 
   if (isTRUE(x)) {
     cli::cli_alert_success(
-      "ok:  {.href [{short_path}](file://{config_path})} (via {.href [{name} {schema_version}]({schema_url})})"
+      "ok:  {.href [{short_path}](file://{config_path})} ({via} {.href [{name} {schema_version}]({schema_url})})"
     )
   } else {
     errors <- attr(x, "errors")
     n <- nrow(errors)
     cli::cli_bullets(c(
-      "!" = "{.strong {n} schema errors}:  {.href [{short_path}](file://{config_path})} (via {.href [{name} {schema_version}]({schema_url})})",
+      "!" = "{.strong {n} schema errors}:  {.href [{short_path}](file://{config_path})} ({via} {.href [{name} {schema_version}]({schema_url})})",
       # this doesn't work unless the user explicitly calls "print" :'(
       # https://hachyderm.io/@zkamvar/112933516988688350
       # "use {.run view_config_val_errors({thing})} to view the errors in a table."
-      "i" = "use {.fn view_config_val_errors} to view the errors in a table."
+      "i" = "use {.run view_config_val_errors({thing})} to view the errors in a table."
     ))
   }
+  # nolint end
 
 }
 

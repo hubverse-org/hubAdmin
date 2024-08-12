@@ -28,7 +28,7 @@
       ! 1 schema errors: testdata/tasks-samples-error-range.json
         (<file://testdata/tasks-samples-error-range.json>) (via tasks-schema v3.0.1
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -57,7 +57,7 @@
         (<file://testdata/tasks-samples-error-task-ids.json>) (via tasks-schema
         v3.0.1
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -85,7 +85,7 @@
       ! 8 schema errors: testdata/tasks-errors.json
         (<file://testdata/tasks-errors.json>) (via tasks-schema v0.0.0.9
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -256,7 +256,7 @@
       ! 4 schema errors: testdata/tasks-errors-rval.json
         (<file://testdata/tasks-errors-rval.json>) (via tasks-schema v2.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -304,7 +304,7 @@
       ! 6 schema errors: testdata/tasks-errors-rval-reserved.json
         (<file://testdata/tasks-errors-rval-reserved.json>) (via tasks-schema v2.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -364,7 +364,7 @@
       ! 1 schema errors: testdata/tasks-addprop.json
         (<file://testdata/tasks-addprop.json>) (via tasks-schema v2.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -694,7 +694,7 @@
       ! 2 schema errors: testdata/dup-in-array.json
         (<file://testdata/dup-in-array.json>) (via tasks-schema v2.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -742,7 +742,7 @@
       ! 3 schema errors: testdata/dup-in-property.json
         (<file://testdata/dup-in-property.json>) (via tasks-schema v2.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -780,7 +780,7 @@
       ! 2 schema errors: testdata/round-id-inconsistent.json
         (<file://testdata/round-id-inconsistent.json>) (via tasks-schema v1.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -810,7 +810,7 @@
       ! 2 schema errors: testdata/round-id-inconsistent2.json
         (<file://testdata/round-id-inconsistent2.json>) (via tasks-schema v2.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -846,7 +846,7 @@
       ! 5 schema errors: testdata/dup-in-round-id.json
         (<file://testdata/dup-in-round-id.json>) (via tasks-schema v2.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
@@ -894,7 +894,7 @@
       ! 1 schema errors: testdata/both_null_tasks_all.json
         (<file://testdata/both_null_tasks_all.json>) (via tasks-schema v2.0.0
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
-      i use `view_config_val_errors()` to view the errors in a table.
+      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
 
 ---
 
