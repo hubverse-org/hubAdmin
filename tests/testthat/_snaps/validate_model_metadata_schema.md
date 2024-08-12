@@ -9,7 +9,7 @@
         (<file://testdata/error_hub/hub-config/model-metadata-schema.json>) (from
         default json schema
         (<file://testdata/error_hub/hub-config/model-metadata-schema.json>))
-      i use `view_config_val_errors(.Last.value)` to view the errors in a table.
+      i use `view_config_val_errors()` to view the errors in a table.
 
 ---
 
@@ -22,7 +22,7 @@
         (<file://testdata/error_hub/hub-config/model-metadata-schema.json>) (from
         default json schema
         (<file://testdata/error_hub/hub-config/model-metadata-schema.json>))
-      i use `view_config_val_errors(out_error)` to view the errors in a table.
+      i use `view_config_val_errors()` to view the errors in a table.
 
 ---
 

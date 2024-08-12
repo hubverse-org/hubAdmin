@@ -124,6 +124,7 @@ validate_hub_config <- function(hub_path = ".", schema_version = "from_config",
     unique(schema_url_dirnames),
     fixed = TRUE
   )
+  class(validations) <- "hubval"
 
   return(validations)
 }

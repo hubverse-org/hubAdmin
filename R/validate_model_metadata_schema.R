@@ -75,15 +75,6 @@ validate_model_metadata_schema <- function(hub_path = ".") {
     validation[] <- FALSE
     attr(validation, "errors") <- errors_tbl
   }
-  if (validation) {
-    cli::cli_alert_success(
-      "Successfully validated config file {.file {config_path}}"
-    )
-  } else {
-    cli::cli_warn(
-      "Schema errors detected in config file {.file {config_path}}"
-    )
-  }
-  class(validation) <- "hubval"
+  class(validation) <- "conval"
   return(validation)
 }

@@ -123,16 +123,7 @@ validate_config <- function(hub_path = ".",
     }
   }
 
-  if (validation) {
-    cli::cli_alert_success(
-      "Successfully validated config file {.file {config_path}} against schema {.url {schema_url}}"
-    )
-  } else {
-    cli::cli_warn(
-      "Schema errors detected in config file {.file {config_path}} validated against schema {.url {schema_url}}"
-    )
-  }
-  class(validation) <- "hubval"
+  class(validation) <- "conval"
   return(validation)
 }
 

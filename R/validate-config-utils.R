@@ -642,15 +642,29 @@ is_null_task_id <- function(task_id_name, config_tasks) {
     is.null()
 }
 
-
 #' @export
 print.hubval <- function(x, ...) {
+  cli::cli_div()
+  config_dir <- unclass(attr(x, "config_dir"))
+  schema_version <- attr(x, "schema_version") 
+  schema_url <- attr(x, "schema_url") 
+  cli::cli_text("{cli::symbol$i} {.href [schema version {schema_version}]({schema_url})}")
+  lapply(names(x), function(i) {
+    if (x[[i]]) {
+      cli::cli_h3("${i}")
+    } else {
+      cli::cli_h3("{.strong ${i}}")
+    }
+    print(x[[i]])
+  })
+}
+
+
+#' @export
+print.conval <- function(x, ...) {
   # print the result
   print(as.vector(x))
   thing <- match.call()[["x"]]
-  if (thing == "x") {
-    thing <- ".Last.value"
-  }
   config_path <- unclass(attr(x, "config_path"))
   short_path <- trim_config_path(config_path) # nolint
   if (inherits(x, "error")) {
@@ -686,11 +700,10 @@ print.hubval <- function(x, ...) {
       # this doesn't work unless the user explicitly calls "print" :'(
       # https://hachyderm.io/@zkamvar/112933516988688350
       # "use {.run view_config_val_errors({thing})} to view the errors in a table."
-      "i" = "use {.run view_config_val_errors({thing})} to view the errors in a table."
+      "i" = "use {.fn view_config_val_errors} to view the errors in a table."
     ))
   }
   # nolint end
-
 }
 
 trim_config_path <- function(path) {
@@ -712,7 +725,7 @@ make_config_error <- function(path, msg) {
   attr(validation, "config_path") <- path
   attr(validation, "schema_version") <- NULL
   attr(validation, "schema_url") <- NULL
-  class(validation) <- c("hubval", "error")
+  class(validation) <- c("conval", "error")
   # so it doesn't print the actual value, just the message
   capture.output(print(validation))
   return(validation)
