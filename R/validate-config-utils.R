@@ -656,8 +656,8 @@ print.hubval <- function(x, ...) {
   if (inherits(x, "error")) {
     cli::cli_bullets(
       c(
-      "x" = "{.strong error} in parsing {.file {config_path}}",
-      "i" = "({attr(x, 'message')})"
+        "x" = "{.strong error} in parsing {.file {config_path}}",
+        "i" = "({attr(x, 'message')})"
       )
     )
     return(invisible(x))
