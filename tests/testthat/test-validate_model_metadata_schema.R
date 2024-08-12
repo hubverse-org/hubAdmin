@@ -2,7 +2,8 @@ test_that("Missing files returns an invalid config with an immediate message", {
   withr::local_options(list(width = 120))
   tmp <- withr::local_tempdir()
   mask_tmp <- function(x) {
-    sub(tmp, "[masked]", x, fixed = TRUE)
+    x <- sub(tmp, "[masked]", x, fixed = TRUE)
+    sub("/private[masked]", "[masked]", x, fixed = TRUE)
   }
   suppressMessages({
     expect_message(out <- validate_model_metadata_schema(hub_path = tmp),
@@ -41,7 +42,8 @@ test_that("validate_model_metadata_schema errors for imparsable json", {
   withr::local_options(list(width = 120))
   tmp <- withr::local_tempdir()
   mask_tmp <- function(x) {
-    sub(tmp, "[masked]", x, fixed = TRUE)
+    x <- sub(tmp, "[masked]", x, fixed = TRUE)
+    sub("/private[masked]", "[masked]", x, fixed = TRUE)
   }
   testhub <- testthat::test_path(
     "testdata", "error_hub"
