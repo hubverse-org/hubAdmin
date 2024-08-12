@@ -1,4 +1,5 @@
 test_that("Missing files returns an invalid config with an immediate message", {
+  withr::local_options(list(width = 120))
   tmp <- withr::local_tempdir()
   mask_tmp <- function(x) {
     sub(tmp, "[masked]", x, fixed = TRUE)
@@ -37,6 +38,7 @@ test_that("validate_model_metadata_schema works", {
 })
 
 test_that("validate_model_metadata_schema errors for imparsable json", {
+  withr::local_options(list(width = 120))
   tmp <- withr::local_tempdir()
   mask_tmp <- function(x) {
     sub(tmp, "[masked]", x, fixed = TRUE)
@@ -47,7 +49,7 @@ test_that("validate_model_metadata_schema errors for imparsable json", {
 
   fs::dir_copy(testhub, tmp, overwrite = TRUE)
   # muck about
-  cat("!green crayon? {", 
+  cat("!green crayon? {\n", 
     file = fs::path(tmp, "hub-config", "model-metadata-schema.json"),
     append = TRUE
   )
