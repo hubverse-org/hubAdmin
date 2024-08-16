@@ -30,7 +30,10 @@ validate_model_metadata_schema <- function(hub_path = ".") {
     ext = "json"
   )
   # check config file to be checked exists and is correct extension
-  checkmate::assert_file_exists(config_path, extension = "json")
+  config_result <- assert_config_exists(config_path)
+  if (inherits(config_result, "error")) {
+    return(config_result)
+  }
 
   schema <- try(
     jsonvalidate::json_validator(
@@ -41,12 +44,8 @@ validate_model_metadata_schema <- function(hub_path = ".") {
   )
 
   if (inherits(schema, "try-error")) {
-    cli::cli_abort(
-      c(
-        "x" = "Parsing error detected in {.path model-metadata-schema.json}",
-        "!" = attr(schema, "condition")$message
-      )
-    )
+    validation <- make_config_error(config_path, attr(schema, "condition")$message)
+    return(validation)
   }
 
   validation <- TRUE
@@ -76,14 +75,6 @@ validate_model_metadata_schema <- function(hub_path = ".") {
     validation[] <- FALSE
     attr(validation, "errors") <- errors_tbl
   }
-  if (validation) {
-    cli::cli_alert_success(
-      "Successfully validated config file {.file {config_path}}"
-    )
-  } else {
-    cli::cli_warn(
-      "Schema errors detected in config file {.file {config_path}}"
-    )
-  }
+  class(validation) <- "conval"
   return(validation)
 }

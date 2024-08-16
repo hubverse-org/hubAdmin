@@ -641,3 +641,97 @@ is_null_task_id <- function(task_id_name, config_tasks) {
     unlist(use.names = FALSE) %>%
     is.null()
 }
+
+#' @export
+# nolint start
+print.hubval <- function(x, ...) {
+  cli::cli_div()
+  config_dir <- unclass(attr(x, "config_dir"))
+  schema_version <- attr(x, "schema_version") 
+  schema_url <- attr(x, "schema_url") 
+  cli::cli_text("{cli::symbol$i} {.href [schema version {schema_version}]({schema_url})}")
+  lapply(names(x), function(i) {
+    if (x[[i]]) {
+      cli::cli_h3("${i}")
+    } else {
+      cli::cli_h3("{.strong ${i}}")
+    }
+    print(x[[i]])
+  })
+  cli::cli_end()
+  return(invisible(x))
+}
+# nolint end
+
+
+#' @export
+print.conval <- function(x, ...) {
+  # print the result
+  print(as.vector(x))
+  config_path <- unclass(attr(x, "config_path"))
+  short_path <- trim_config_path(config_path) # nolint
+  if (inherits(x, "error")) {
+    cli::cli_bullets(
+      c(
+        "x" = "{.strong error} in parsing {.file {config_path}}",
+        "i" = "({attr(x, 'message')})"
+      )
+    )
+    return(invisible(x))
+  }
+  # nolint start
+  schema_version <- attr(x, "schema_version") 
+  schema_url <- attr(x, "schema_url") 
+  if (!is.null(schema_url)) {
+    via <- "via"
+    name <- sub("([^.]+)\\.[[:alnum:]]+$", "\\1", basename(schema_url))
+  } else {
+    via <- "from"
+    name <- "default json schema"
+    schema_url <- paste0("file://", config_path)
+  }
+
+  if (isTRUE(x)) {
+    cli::cli_alert_success(
+      "ok:  {.href [{short_path}](file://{config_path})} ({via} {.href [{name} {schema_version}]({schema_url})})"
+    )
+  } else {
+    errors <- attr(x, "errors")
+    n <- nrow(errors)
+    cli::cli_bullets(c(
+      "!" = "{.strong {n} schema errors}:  {.href [{short_path}](file://{config_path})} ({via} {.href [{name} {schema_version}]({schema_url})})",
+      # this doesn't work unless the user explicitly calls "print" :'(
+      # https://hachyderm.io/@zkamvar/112933516988688350
+      # "use {.run view_config_val_errors({thing})} to view the errors in a table."
+      "i" = "use {.fn view_config_val_errors} to view table of error details."
+    ))
+  }
+  cli::cli_end()
+  return(invisible(x))
+  # nolint end
+}
+
+trim_config_path <- function(path) {
+  frag <- rev(fs::path_split(path)[[1]])[1:2]
+  unclass(fs::path_join(rev(frag)))
+}
+
+assert_config_exists <- function(path) {
+  validation <- checkmate::check_file_exists(path, extension = "json")
+  if (!isTRUE(validation)) {
+    validation <- make_config_error(path, validation)
+  }
+  return(validation)
+}
+
+make_config_error <- function(path, msg) {
+  validation <- FALSE
+  attr(validation, "message") <- msg
+  attr(validation, "config_path") <- path
+  attr(validation, "schema_version") <- NULL
+  attr(validation, "schema_url") <- NULL
+  class(validation) <- c("conval", "error")
+  # so it doesn't print the actual value, just the message
+  capture.output(print(validation))
+  return(validation)
+}

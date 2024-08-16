@@ -73,7 +73,10 @@ validate_config <- function(hub_path = ".",
   }
 
   # check config file to be checked exists and is correct extension
-  checkmate::assert_file_exists(config_path, extension = "json")
+  config_result <- assert_config_exists(config_path)
+  if (inherits(config_result, "error")) {
+    return(config_result)
+  }
 
   if (schema_version == "from_config") {
     schema_version <- get_config_file_schema_version(config_path, config)
@@ -120,15 +123,7 @@ validate_config <- function(hub_path = ".",
     }
   }
 
-  if (validation) {
-    cli::cli_alert_success(
-      "Successfully validated config file {.file {config_path}} against schema {.url {schema_url}}"
-    )
-  } else {
-    cli::cli_warn(
-      "Schema errors detected in config file {.file {config_path}} validated against schema {.url {schema_url}}"
-    )
-  }
+  class(validation) <- "conval"
   return(validation)
 }
 

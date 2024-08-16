@@ -4,12 +4,8 @@
       out
     Output
       [1] TRUE
-      attr(,"config_path")
-      [1] "testdata/tasks-samples-pass.json"
-      attr(,"schema_version")
-      [1] "v3.0.1"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json
+    Message
+      v ok:  testdata/tasks-samples-pass.json (<file://testdata/tasks-samples-pass.json>) (via tasks-schema v3.0.1 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json>))
 
 # Config for samples fail correctly
 
@@ -17,13 +13,17 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/tasks-samples-error-range.json"
-      attr(,"schema_version")
-      [1] "v3.0.1"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 1 schema errors: testdata/tasks-samples-error-range.json
+        (<file://testdata/tasks-samples-error-range.json>) (via tasks-schema v3.0.1
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                                                      instancePath
       1 /rounds/0/model_tasks/0/task_ids/output_type/sample/output_type_id_params
                                                                                                                    schemaPath
@@ -41,13 +41,18 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/tasks-samples-error-task-ids.json"
-      attr(,"schema_version")
-      [1] "v3.0.1"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 1 schema errors: testdata/tasks-samples-error-task-ids.json
+        (<file://testdata/tasks-samples-error-task-ids.json>) (via tasks-schema
+        v3.0.1
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                                                                          instancePath
       1 /rounds/0/model_tasks/0/task_ids/output_type/sample/output_type_id_params/compound_taskid_set
                                                                                                                                        schemaPath
@@ -65,7 +70,17 @@
       out
     Output
       [1] FALSE
-      attr(,"errors")
+    Message
+      ! 8 schema errors: testdata/tasks-errors.json
+        (<file://testdata/tasks-errors.json>) (via tasks-schema v0.0.0.9
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                                      instancePath
       1          /rounds/0/model_tasks/0/task_ids/target/required
       2 /rounds/0/model_tasks/0/output_type/mean/type_id/optional
@@ -219,12 +234,6 @@
       6                           /rounds/0/submissions_due/start
       7                             /rounds/0/submissions_due/end
       8                                 /rounds/0/submissions_due
-      attr(,"config_path")
-      [1] "testdata/tasks-errors.json"
-      attr(,"schema_version")
-      [1] "v0.0.0.9"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json
 
 # Dynamic config errors detected successfully by custom R validation
 
@@ -232,13 +241,17 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/tasks-errors-rval.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 4 schema errors: testdata/tasks-errors-rval.json
+        (<file://testdata/tasks-errors-rval.json>) (via tasks-schema v2.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                                                 instancePath
       1 /rounds/0/model_tasks/1/target_metadata/0/target_keys/target_measure
       2 /rounds/0/model_tasks/1/target_metadata/1/target_keys/target_measure
@@ -276,13 +289,17 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/tasks-errors-rval-reserved.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 6 schema errors: testdata/tasks-errors-rval-reserved.json
+        (<file://testdata/tasks-errors-rval-reserved.json>) (via tasks-schema v2.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                                                 instancePath
       1 /rounds/0/model_tasks/1/target_metadata/0/target_keys/target_measure
       2 /rounds/0/model_tasks/1/target_metadata/1/target_keys/target_measure
@@ -332,7 +349,17 @@
       out
     Output
       [1] FALSE
-      attr(,"errors")
+    Message
+      ! 1 schema errors: testdata/tasks-addprop.json
+        (<file://testdata/tasks-addprop.json>) (via tasks-schema v2.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                instancePath
       1 /rounds/0/model_tasks/0/output_type
                                                                                                 schemaPath
@@ -645,12 +672,6 @@
       1 inc flu hosp, daily incident influenza hospitalizations, count, inc flu hosp, This target represents a count of the number of new hospitalizations per day in a given location., TRUE, day
                                    dataPath
       1 /rounds/0/model_tasks/0/output_type
-      attr(,"config_path")
-      [1] "testdata/tasks-addprop.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
 
 # Duplicate values in individual array error successfully
 
@@ -658,7 +679,17 @@
       out
     Output
       [1] FALSE
-      attr(,"errors")
+    Message
+      ! 2 schema errors: testdata/dup-in-array.json
+        (<file://testdata/dup-in-array.json>) (via tasks-schema v2.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                                                 instancePath
       1                /rounds/1/model_tasks/0/task_ids/origin_date/optional
       2 /rounds/1/model_tasks/0/output_type/quantile/output_type_id/required
@@ -689,12 +720,6 @@
                                                                     dataPath
       1                /rounds/1/model_tasks/0/task_ids/origin_date/optional
       2 /rounds/1/model_tasks/0/output_type/quantile/output_type_id/required
-      attr(,"config_path")
-      [1] "testdata/dup-in-array.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
 
 # Duplicate values across property error successfully
 
@@ -702,13 +727,17 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/dup-in-property.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 3 schema errors: testdata/dup-in-property.json
+        (<file://testdata/dup-in-property.json>) (via tasks-schema v2.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                         instancePath
       1     /rounds/0/model_tasks/0/task_ids/horizon
       2   /rounds/1/model_tasks/0/task_ids/age_group
@@ -736,13 +765,17 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/round-id-inconsistent.json"
-      attr(,"schema_version")
-      [1] "v1.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 2 schema errors: testdata/round-id-inconsistent.json
+        (<file://testdata/round-id-inconsistent.json>) (via tasks-schema v1.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                           instancePath schemaPath      keyword
       1 /rounds/0/model_tasks/1/task_ids/forecast_date         NA round_id var
       2 /rounds/0/model_tasks/1/task_ids/forecast_date         NA round_id var
@@ -762,13 +795,17 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/round-id-inconsistent2.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 2 schema errors: testdata/round-id-inconsistent2.json
+        (<file://testdata/round-id-inconsistent2.json>) (via tasks-schema v2.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                           instancePath
       1 /rounds/0/model_tasks/1/task_ids/forecast_date
       2 /rounds/0/model_tasks/1/task_ids/forecast_date
@@ -794,13 +831,17 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/dup-in-round-id.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 5 schema errors: testdata/dup-in-round-id.json
+        (<file://testdata/dup-in-round-id.json>) (via tasks-schema v2.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                         instancePath
       1 /rounds/1/model_tasks/0/task_ids/origin_date
       2 /rounds/1/model_tasks/0/task_ids/origin_date
@@ -838,13 +879,17 @@
       out
     Output
       [1] FALSE
-      attr(,"config_path")
-      [1] "testdata/both_null_tasks_all.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
-      attr(,"errors")
+    Message
+      ! 1 schema errors: testdata/both_null_tasks_all.json
+        (<file://testdata/both_null_tasks_all.json>) (via tasks-schema v2.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
                                     instancePath
       1 /rounds/*/model_tasks/*/task_ids/horizon
                                                                         schemaPath
@@ -860,10 +905,13 @@
       out
     Output
       [1] TRUE
-      attr(,"config_path")
-      [1] "testdata/task-old-orgname.json"
-      attr(,"schema_version")
-      [1] "v2.0.0"
-      attr(,"schema_url")
-      https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json
+    Message
+      v ok:  testdata/task-old-orgname.json (<file://testdata/task-old-orgname.json>) (via tasks-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
+      NULL
 
