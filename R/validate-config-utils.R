@@ -701,7 +701,7 @@ print.conval <- function(x, ...) {
       # this doesn't work unless the user explicitly calls "print" :'(
       # https://hachyderm.io/@zkamvar/112933516988688350
       # "use {.run view_config_val_errors({thing})} to view the errors in a table."
-      "i" = "use {.fn view_config_val_errors} to view the errors in a table."
+      "i" = "use {.fn view_config_val_errors} to view table of error details."
     ))
   }
   # nolint end
