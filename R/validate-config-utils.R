@@ -658,6 +658,8 @@ print.hubval <- function(x, ...) {
     }
     print(x[[i]])
   })
+  cli::cli_end()
+  return(invisible(x))
 }
 # nolint end
 
@@ -704,6 +706,8 @@ print.conval <- function(x, ...) {
       "i" = "use {.fn view_config_val_errors} to view table of error details."
     ))
   }
+  cli::cli_end()
+  return(invisible(x))
   # nolint end
 }
 
