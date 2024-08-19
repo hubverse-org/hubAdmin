@@ -1,4 +1,5 @@
 test_that("ci_validate_hub creates message of success", {
+  skip_if_offline()
   # generator to overwrite the `timestamp()` function with known stamps
   broken_clock <- function(when = "NOW") {
     function(path) {
@@ -48,6 +49,7 @@ test_that("ci_validate_hub creates message of success", {
 })
 
 test_that("ci_validate_hub creates message of failure", {
+  skip_if_offline()
   # generator to overwrite the `timestamp()` function with known stamps
   broken_clock <- function(when = "NOW") {
     function(path) {
