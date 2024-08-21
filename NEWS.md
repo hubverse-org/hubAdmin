@@ -6,7 +6,11 @@
 
 ## hubAdmin 1.0.1
 
-* Update `create_output_type_cdf()` to accommodate less restrictive `output_type_id` checks introduced in schema version [`v3.0.1`](https://github.com/hubverse-org/schemas/releases/tag/v3.0.1).
+* Update `create_output_type_cdf()` to accommodate less restrictive
+  `output_type_id` checks introduced in schema version
+  [`v3.0.1`](https://github.com/hubverse-org/schemas/releases/tag/v3.0.1)
+  (implemented: @annakrystalli, #29).
+* URL for hubdocs updated (@zkamvar, #27)
 * Output of `validate_config()` and `validate_hub_config()` are now classed so
   the summary of their contents is printed nicely to the screen, reducing the
   amount of screen space needed to report success or failure (suggested: 
