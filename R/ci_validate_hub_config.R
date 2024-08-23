@@ -14,7 +14,7 @@
 #' directory. If running interactively, it will need to be cleaned up.
 #' @details
 #' This function is to be used within a continuous integration context.
-#' It is intended to be used in a workflow that checks the validity of 
+#' It is intended to be used in a workflow that checks the validity of
 #' a hub context. Below is an example setup of steps on GitHub Actions
 #' where the environment variables `PR_NUMBER` and `HUB_PATH` have been
 #' defined:
@@ -50,18 +50,18 @@
 #'          exit 1
 #' ```
 #'
-#' @note This function is not intended for interactive use. 
+#' @note This function is not intended for interactive use.
 #'
 #' @keywords internal
 #' @export
 #' @examples
-#' # 
+#' #
 #' tmp <- tempfile()
 #' out <- tempfile()
 #' dir.create(tmp)
 #' # Results from a valid hub -----------------------------------------
 #' file.copy(
-#'   from = system.file("testhubs/simple/", package = "hubUtils"), 
+#'   from = system.file("testhubs/simple/", package = "hubUtils"),
 #'   to = tmp,
 #'   recursive = TRUE
 #' )
@@ -71,7 +71,7 @@
 #' writeLines(readLines(out))
 #' # message to user shows success and a timestamp
 #' writeLines(readLines(file.path(hub, "diff.md")))
-#' 
+#'
 #' # Results from an invalid hub --------------------------------------
 #' # reset output file
 #' out <- tempfile()
