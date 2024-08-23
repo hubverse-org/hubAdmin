@@ -46,7 +46,7 @@
 #'      - name: Error on Failure
 #'        if: ${{ steps.validate.outputs.result == 'false' }}
 #'        run: |
-#'          echo "::error title=Invalid Configuration::Errors were detected in one or more config files in 'hub-config/'"
+#'          echo "::error title=Invalid Configuration::Errors were detected"
 #'          exit 1
 #' ```
 #'

@@ -61,7 +61,7 @@ defined:
      - name: Error on Failure
        if: $\{\{ steps.validate.outputs.result == 'false' \}\}
        run: |
-         echo "::error title=Invalid Configuration::Errors were detected in one or more config files in 'hub-config/'"
+         echo "::error title=Invalid Configuration::Errors were detected"
          exit 1
 }\if{html}{\out{</div>}}
 }
@@ -69,13 +69,13 @@ defined:
 This function is not intended for interactive use.
 }
 \examples{
-# 
+#
 tmp <- tempfile()
 out <- tempfile()
 dir.create(tmp)
 # Results from a valid hub -----------------------------------------
 file.copy(
-  from = system.file("testhubs/simple/", package = "hubUtils"), 
+  from = system.file("testhubs/simple/", package = "hubUtils"),
   to = tmp,
   recursive = TRUE
 )
