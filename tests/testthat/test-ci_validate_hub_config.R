@@ -57,7 +57,7 @@ test_that("ci_validate_hub creates message of failure", {
     }
   }
   tmp <- withr::local_tempdir()
-  fs::dir_copy(testthat::test_path("testdata", "error_hub") , tmp)
+  fs::dir_copy(testthat::test_path("testdata", "error_hub"), tmp)
   out  <- withr::local_tempfile()
   err <- fs::path(tmp, "error_hub")
   # the diff file should not exist
@@ -96,4 +96,3 @@ test_that("ci_validate_hub creates message of failure", {
   expect_match(tail(diff2, 1), "LATER")
 
 })
-
