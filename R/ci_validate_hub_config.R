@@ -9,8 +9,8 @@
 #'
 #' @return a logical value indicating if the hub config is valid or not. This
 #' has the side-effect of creating a file called `diff.md` in the `hub_path`
-#' directory. If running interactively, it will need to be cleaned up. 
-#' 
+#' directory. If running interactively, it will need to be cleaned up.
+#'
 #' @
 ci_validate_hub_config <- function(hub_path = Sys.getenv("HUB_PATH"), gh_output = Sys.getenv("GITHUB_OUTPUT"), ...) {
   diff <- file.path(hub_path, "diff.md")

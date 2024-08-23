@@ -21,13 +21,13 @@ test_that("ci_validate_hub creates message of success", {
       suppressMessages()
   )
 
-  # the output file exists and contains the 
+  # the output file exists and contains the
   expect_true(fs::file_exists(fs::path(simp, "diff.md")))
   diff1 <- readLines(fs::path(simp, "diff.md"))
   expect_match(diff1[1], "correct")
   expect_match(tail(diff1, 1), "NOW")
   expect_snapshot(writeLines(diff1))
-  
+
   # Second run overwrites the file ------------------------------
   expect_true(fs::file_exists(fs::path(simp, "diff.md")))
   # the results should be true
@@ -62,7 +62,7 @@ test_that("ci_validate_hub creates message of failure", {
   err <- fs::path(tmp, "error_hub")
   # the diff file should not exist
   expect_false(fs::file_exists(fs::path(err, "diff.md")))
-  # the results should be false 
+  # the results should be false
   local_mocked_bindings(timestamp = broken_clock("NOW"))
   expect_false(
     ci_validate_hub_config(hub_path = err, gh_output = out) %>%
@@ -71,16 +71,16 @@ test_that("ci_validate_hub creates message of failure", {
       suppressMessages()
   )
 
-  # the output file exists and contains the 
+  # the output file exists and contains the
   expect_true(fs::file_exists(fs::path(err, "diff.md")))
   diff1 <- readLines(fs::path(err, "diff.md"))
   expect_match(diff1[1], "Invalid Configuration")
   expect_match(tail(diff1, 1), "NOW")
   # NOTE: not attempting to snapshot the generated table because its ID and
   # the file path changes all the time and testthat's masking is flaky on CI
-  # systems that tend to change their tempdir specifictions. 
-  
-  # the results should be false 
+  # systems that tend to change their tempdir specifictions.
+
+  # the results should be false
   local_mocked_bindings(timestamp = broken_clock("LATER"))
   expect_false(
     ci_validate_hub_config(hub_path = err, gh_output = out) %>%
