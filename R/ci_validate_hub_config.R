@@ -15,7 +15,7 @@
 #' @details
 #' This function is to be used within a continuous integration context.
 #' It is intended to be used in a workflow that checks the validity of
-#' a hub context. Below is an example setup of steps on GitHub Actions
+#' a hub's configuration files. Below is an example setup of steps on GitHub Actions
 #' where the environment variables `PR_NUMBER` and `HUB_PATH` have been
 #' defined:
 #'
