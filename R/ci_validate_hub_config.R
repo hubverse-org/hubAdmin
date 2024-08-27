@@ -105,8 +105,7 @@ ci_validate_hub_config <- function(
     hub_path = Sys.getenv("HUB_PATH"),
     gh_output = Sys.getenv("GITHUB_OUTPUT"),
     diff = stdout(),
-    ...
-  ) {
+    ...) {
   v <- validate_hub_config(hub_path = hub_path, ...)
   # check if there were any failures
   invalid <- any(vapply(v, isFALSE, logical(1)))
