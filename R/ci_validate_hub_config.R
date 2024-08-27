@@ -7,16 +7,22 @@
 #' @param gh_output path to a file that can record variables for use by other
 #'   actions. This defaults to the value of the `GITHUB_OUTPUT` environment
 #'   variable.
-#' @param ... arguments passed on to [validate_hub_config()].
+#' @param diff path to a file (defaults to `stdout()`) that will contain a user
+#'   facing message with a time stamp that shows if the hub was correctly
+#'   configured along with the output of [view_config_val_errors()] (if any).
+#' @inheritDotParams validate_hub_config
+#' @inherit validate_hub_config return
 #'
-#' @return a logical value indicating if the hub config is valid or not. This
-#' has the side-effect of creating a file called `diff.md` in the `hub_path`
-#' directory. If running interactively, it will need to be cleaned up.
 #' @details
-#' This function is to be used within a continuous integration context.
-#' It is intended to be used in a workflow that checks the validity of
-#' a hub's configuration files. Below is an example setup of steps on GitHub Actions
-#' where the environment variables `PR_NUMBER` and `HUB_PATH` have been
+#' This function is to be used within a continuous integration context. You can
+#' find this used in the [`validate-config` hubverse
+#' workflow](https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config).
+#' To use the workflow with your own hub, you can use
+#' `hubCI::use_hub_github_action('validate-config')`
+#'
+#' This function is intended to be used in a workflow that checks the validity
+#' of a hub's configuration files. Below is an excerpt of steps on GitHub
+#' Actions where the environment variables `PR_NUMBER` and `HUB_PATH` have been
 #' defined:
 #'
 #' ```yaml
@@ -34,7 +40,9 @@
 #'            any::sessioninfo
 #'      - name: Run validations
 #'        id: validate
-#'        run: hubAdmin::ci_validate_config()
+#'        run: |
+#'          diff_path <- file.path(Sys.getenv("HUB_PATH"), "diff.md")
+#'          hubAdmin::ci_validate_config(diff = diff_path)
 #'        shell: Rscript {0}
 #'      - name: "Comment on PR"
 #'        id: comment-diff
@@ -55,22 +63,28 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' #
-#' tmp <- tempfile()
+#' # setup ------------
+#' hubdir <- tempfile()
 #' out <- tempfile()
-#' dir.create(tmp)
+#' diff <- tempfile()
+#' on.exit({
+#'   unlink(hubdir, recursive = TRUE)
+#'   unlink(out)
+#'   unlink(diff)
+#' })
+#' dir.create(hubdir)
 #' # Results from a valid hub -----------------------------------------
 #' file.copy(
 #'   from = system.file("testhubs/simple/", package = "hubUtils"),
-#'   to = tmp,
+#'   to = hubdir,
 #'   recursive = TRUE
 #' )
-#' hub <- file.path(tmp, "simple")
-#' ci_validate_hub_config(hub_path = hub, gh_output = out)
+#' hub <- file.path(hubdir, "simple")
+#' ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 #' # result is true
-#' writeLines(readLines(out))
+#' readLines(out)
 #' # message to user shows success and a timestamp
-#' writeLines(readLines(file.path(hub, "diff.md")))
+#' readLines(diff)
 #'
 #' # Results from an invalid hub --------------------------------------
 #' # reset output file
@@ -81,14 +95,18 @@
 #' tasks <- readLines(tasks_path)
 #' writeLines(sub('minimum": 0', 'minimum": "0"', tasks), tasks_path)
 #' # validate
-#' ci_validate_hub_config(hub_path = hub, gh_output = out)
+#' ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 #' # result is now false
-#' writeLines(readLines(out))
+#' readLines(out)
 #' # message to user now shows a table
-#' writeLines(head(readLines(file.path(hub, "diff.md"))))
-#' writeLines(tail(readLines(file.path(hub, "diff.md"))))
-ci_validate_hub_config <- function(hub_path = Sys.getenv("HUB_PATH"), gh_output = Sys.getenv("GITHUB_OUTPUT"), ...) {
-  diff <- file.path(hub_path, "diff.md")
+#' head(readLines(diff))
+#' tail(readLines(diff))
+ci_validate_hub_config <- function(
+    hub_path = Sys.getenv("HUB_PATH"),
+    gh_output = Sys.getenv("GITHUB_OUTPUT"),
+    diff = stdout(),
+    ...
+  ) {
   v <- validate_hub_config(hub_path = hub_path, ...)
   # check if there were any failures
   invalid <- any(vapply(v, isFALSE, logical(1)))

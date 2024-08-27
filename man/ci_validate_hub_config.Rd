@@ -7,6 +7,7 @@
 ci_validate_hub_config(
   hub_path = Sys.getenv("HUB_PATH"),
   gh_output = Sys.getenv("GITHUB_OUTPUT"),
+  diff = stdout(),
   ...
 )
 }
@@ -18,21 +19,48 @@ environment variable.}
 actions. This defaults to the value of the \code{GITHUB_OUTPUT} environment
 variable.}
 
-\item{...}{arguments passed on to \code{\link[=validate_hub_config]{validate_hub_config()}}.}
+\item{diff}{path to a file (defaults to \code{stdout()}) that will contain a user
+facing message with a time stamp that shows if the hub was correctly
+configured along with the output of \code{\link[=view_config_val_errors]{view_config_val_errors()}} (if any).}
+
+\item{...}{
+  Arguments passed on to \code{\link[=validate_hub_config]{validate_hub_config}}
+  \describe{
+    \item{\code{schema_version}}{Character string specifying the json schema version to
+be used for validation. The default value \code{"from_config"} will use the
+version specified in the \code{schema_version} property of the config file.
+\code{"latest"} will use the latest version available in the hubverse
+\href{https://github.com/hubverse-org/schemas}{schemas repository}.
+Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
+specified.}
+    \item{\code{branch}}{The branch of the hubverse
+\href{https://github.com/hubverse-org/schemas}{schemas repository}
+from which to fetch schema. Defaults to \code{"main"}.}
+  }}
 }
 \value{
-a logical value indicating if the hub config is valid or not. This
-has the side-effect of creating a file called \code{diff.md} in the \code{hub_path}
-directory. If running interactively, it will need to be cleaned up.
+Returns a list of the results of validation, one for each \code{hub-config}
+file validated. A value of \code{TRUE} for a given file indicates that validation
+was successful.
+A value of \code{FALSE} for a given file indicates that validation errors were
+detected. Details of errors will be appended as a data.frame to an \code{errors} attribute.
+To access the errors table for a given element use \code{attr(x, "errors")}
+where \code{x} is the any element of the output of the function that is \code{FALSE}.
+You can print a more concise and easier to view version of an errors table with
+\code{\link[=view_config_val_errors]{view_config_val_errors()}}.
 }
 \description{
 A continuous integration helper
 }
 \details{
-This function is to be used within a continuous integration context.
-It is intended to be used in a workflow that checks the validity of
-a hub context. Below is an example setup of steps on GitHub Actions
-where the environment variables \code{PR_NUMBER} and \code{HUB_PATH} have been
+This function is to be used within a continuous integration context. You can
+find this used in the \href{https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config}{\code{validate-config} hubverse workflow}.
+To use the workflow with your own hub, you can use
+\code{hubCI::use_hub_github_action('validate-config')}
+
+This function is intended to be used in a workflow that checks the validity
+of a hub's configuration files. Below is an excerpt of steps on GitHub
+Actions where the environment variables \code{PR_NUMBER} and \code{HUB_PATH} have been
 defined:
 
 \if{html}{\out{<div class="sourceCode yaml">}}\preformatted{     - uses: actions/checkout@v4
@@ -49,7 +77,9 @@ defined:
            any::sessioninfo
      - name: Run validations
        id: validate
-       run: hubAdmin::ci_validate_config()
+       run: |
+         diff_path <- file.path(Sys.getenv("HUB_PATH"), "diff.md")
+         hubAdmin::ci_validate_config(diff = diff_path)
        shell: Rscript \{0\}
      - name: "Comment on PR"
        id: comment-diff
@@ -69,22 +99,28 @@ defined:
 This function is not intended for interactive use.
 }
 \examples{
-#
-tmp <- tempfile()
+# setup ------------
+hubdir <- tempfile()
 out <- tempfile()
-dir.create(tmp)
+diff <- tempfile()
+on.exit({
+  unlink(hubdir, recursive = TRUE)
+  unlink(out)
+  unlink(diff)
+})
+dir.create(hubdir)
 # Results from a valid hub -----------------------------------------
 file.copy(
   from = system.file("testhubs/simple/", package = "hubUtils"),
-  to = tmp,
+  to = hubdir,
   recursive = TRUE
 )
-hub <- file.path(tmp, "simple")
-ci_validate_hub_config(hub_path = hub, gh_output = out)
+hub <- file.path(hubdir, "simple")
+ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 # result is true
-writeLines(readLines(out))
+readLines(out)
 # message to user shows success and a timestamp
-writeLines(readLines(file.path(hub, "diff.md")))
+readLines(diff)
 
 # Results from an invalid hub --------------------------------------
 # reset output file
@@ -95,11 +131,11 @@ tasks_path <- file.path(hub, "hub-config", "tasks.json")
 tasks <- readLines(tasks_path)
 writeLines(sub('minimum": 0', 'minimum": "0"', tasks), tasks_path)
 # validate
-ci_validate_hub_config(hub_path = hub, gh_output = out)
+ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 # result is now false
-writeLines(readLines(out))
+readLines(out)
 # message to user now shows a table
-writeLines(head(readLines(file.path(hub, "diff.md"))))
-writeLines(tail(readLines(file.path(hub, "diff.md"))))
+head(readLines(diff))
+tail(readLines(diff))
 }
 \keyword{internal}
