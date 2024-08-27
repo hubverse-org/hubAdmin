@@ -1,16 +1,18 @@
 Package: hubAdmin
-Title: Utilities for administering hubverse Hubs
+Title: Utilities for Administering Hubverse Hubs
 Version: 1.0.1.9000
-Authors@R: 
-    c(person("Anna", "Krystalli", , "annakrystalli@googlemail.com", role = c("aut", "cre"),
+Authors@R: c(
+    person("Anna", "Krystalli", , "annakrystalli@googlemail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2378-4915")),
-      person("Li", "Shandross", , "lshandross@umass.edu", role = "ctb"),
-      person("Nicholas G.", "Reich", , "nick@umass.edu", role = "ctb",
+    person("Li", "Shandross", , "lshandross@umass.edu", role = "ctb"),
+    person("Nicholas G.", "Reich", , "nick@umass.edu", role = "ctb",
            comment = c(ORCID = "0000-0003-3503-9899")),
-      person("Evan L.", "Ray", , "elray@umass.edu", role = "ctb"),
-      person(family = "Consortium of Infectious Disease Modeling Hubs",
-           role = c("cph")))
-Description: A set of utility functions for administering hubverse Hubs.
+    person("Evan L.", "Ray", , "elray@umass.edu", role = "ctb"),
+    person("Zhian N.", "Kamvar", , "zkamvar@gmail.com", role = c("ctb"), 
+           comment = c(ORCID = "0000-0003-1458-7108")),
+    person(, "Consortium of Infectious Disease Modeling Hubs", role = "cph")
+  )
+Description: A set of utility functions for administering 'hubverse' Hubs.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
