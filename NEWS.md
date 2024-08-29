@@ -1,4 +1,4 @@
-# hubAdmin (development)
+# hubAdmin 1.0.2
 
 * New feature: Add `ci_validate_hub_config()` as a non-interactive function that works with
   GitHub to produce a validation report on Continous Integration (#37)
