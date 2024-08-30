@@ -1,4 +1,5 @@
 test_that("correct hub validates successfully", {
+  skip_if_offline()
   expect_true(
     validate_hub_config(hub_path = system.file(
       "testhubs/simple/",
@@ -11,6 +12,7 @@ test_that("correct hub validates successfully", {
 })
 
 test_that("Hub with config errors fails validation", {
+  skip_if_offline()
   val <- validate_hub_config(
     hub_path = testthat::test_path(
       "testdata", "error_hub"

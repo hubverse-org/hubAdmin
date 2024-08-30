@@ -732,6 +732,6 @@ make_config_error <- function(path, msg) {
   attr(validation, "schema_url") <- NULL
   class(validation) <- c("conval", "error")
   # so it doesn't print the actual value, just the message
-  capture.output(print(validation))
+  utils::capture.output(print(validation))
   return(validation)
 }
