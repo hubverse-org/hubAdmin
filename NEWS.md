@@ -1,4 +1,4 @@
-# hubAdmin (development version)
+# hubAdmin 1.1.0
 
 * Add `write_config()` functions to write objects of class `<config>` to JSON files (#3)
 
