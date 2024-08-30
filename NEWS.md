@@ -1,3 +1,7 @@
+# hubAdmin (development version)
+
+* Add `write_config()` functions to write objects of class `<config>` to JSON files (#3).
+
 # hubAdmin 1.0.1
 
 * Update `create_output_type_cdf()` to accommodate less restrictive
