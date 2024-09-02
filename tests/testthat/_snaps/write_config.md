@@ -1,4 +1,4 @@
-# write config works
+# write_config creates config path with default settings
 
     Code
       cat(file_contents, sep = "\n")
@@ -59,7 +59,7 @@
         ]
       }
 
----
+# write_config handles overwrite settings correctly
 
     Code
       write_config(config = config, hub_path = temp_hub, overwrite = TRUE)
