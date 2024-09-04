@@ -1,3 +1,7 @@
+# hubAdmin 1.1.0
+
+* Add `write_config()` functions to write objects of class `<config>` to JSON files (#3)
+
 # hubAdmin 1.0.2
 
 * New feature: Add `ci_validate_hub_config()` as a non-interactive function that works with
