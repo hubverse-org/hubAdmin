@@ -7,6 +7,9 @@
 #' in the output file may not conform to schema expectations. They might be an
 #' `<array>` when a `<scalar>` is required or vice versa.
 #' `validate_config()` can be used to validate JSON config files and identify any deviations.
+#' Note also that these errors are introduced every time a JSON file is written
+#' from an R object. That includes when reading in a valid JSON config file and
+#' writing it back out.
 #' For more information, see the [hubverse schema documentation](
 #' https://hubverse.io/en/latest/user-guide/hub-config.html#model-tasks-tasks-json-interactive-schema)
 #' @param config Object of class `<config>` to write to a JSON file.
