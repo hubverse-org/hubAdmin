@@ -2,8 +2,19 @@
 #'
 #' Create a representation of a complete `"tasks"` config file as a list object of
 #' class `config`. This can be written out to a `tasks.json` file.
+#'
 #' @param rounds An object of class `rounds` created using function
 #' [`create_rounds()`]
+#' @param output_type_id_datatype A character string specifying the value of the
+#'  `output_type_id_datatype` property. Only available since [hubverse schema v3.0.1](
+#'  https://github.com/hubverse-org/schemas/releases/tag/v3.0.1).
+#'  Ignored if NULL (default) and throws a warning if a value is provided and the
+#'  schema version used for the config is <= v3.0.1.
+#'  This property is used to set the data type of the `output_type_id` column in
+#' model outputs and can take values of `"auto"`, `"character"`, `"double"`,
+#' `"integer"`, `"logical"`, or `"Date"`.
+#' For more details consult the [hubDocs documentation on model output datatypes](
+#' https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema)
 #'
 #' @return a named list of class `config`.
 #' @export
@@ -65,17 +76,43 @@
 #'   )
 #' )
 #' create_config(rounds)
-create_config <- function(rounds) {
+create_config <- function(rounds, output_type_id_datatype = NULL) {
   rlang::check_required(rounds)
-
   check_object_class(rounds, "rounds")
+  schema_id <- attr(rounds, "schema_id")
+  output_type_id_datatype <- check_output_type_id_datatype(
+    schema_id,
+    output_type_id_datatype
+  )
 
   structure(
     list(
-      schema_version = attr(rounds, "schema_id"),
-      rounds = rounds$rounds
-    ),
+      schema_version = schema_id,
+      rounds = rounds$rounds,
+      output_type_id_datatype = output_type_id_datatype
+    ) %>% purrr::compact(), # remove output_type_id_datatype if NULL
     class = c("config", "list"),
-    schema_id = attr(rounds, "schema_id")
+    schema_id = schema_id
   )
+}
+
+check_output_type_id_datatype <- function(schema_id, output_type_id_datatype) {
+  checkmate::assert_choice(output_type_id_datatype,
+    c(
+      "auto", "character", "double", "integer",
+      "logical", "Date"
+    ),
+    null.ok = TRUE
+  )
+  pre_v3_1 <- hubUtils::extract_schema_version(schema_id) < "v3.0.1"
+  not_null <- !is.null(output_type_id_datatype)
+
+  if (pre_v3_1 && not_null) {
+    cli::cli_alert_warning(
+      "{.arg output_type_id_datatype} not avalaible in
+      schema versions <= {.val v3.0.1}"
+    )
+    return(NULL)
+  }
+  return(output_type_id_datatype)
 }

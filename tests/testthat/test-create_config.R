@@ -63,3 +63,27 @@ test_that("create_config functions error correctly", {
     error = TRUE
   )
 })
+
+test_that("create_config handles output_type_id_datatype correctly ", {
+  test_rounds <- create_test_rounds()
+  expect_null(
+    create_config(test_rounds)$output_type_id_datatype
+  )
+  expect_snapshot(
+    create_config(test_rounds, output_type_id_datatype = "character")
+  )
+
+  # Use older schema
+  test_rounds_old <- test_rounds
+  attr(test_rounds_old, "schema_id") <- "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
+  expect_null(
+    suppressMessages(
+      create_config(test_rounds_old,
+        output_type_id_datatype = "character"
+      )$output_type_id_datatype
+    )
+  )
+  expect_snapshot(
+    create_config(test_rounds_old, output_type_id_datatype = "character")
+  )
+})

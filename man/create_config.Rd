@@ -4,11 +4,20 @@
 \alias{create_config}
 \title{Create a \code{config} class object.}
 \usage{
-create_config(rounds)
+create_config(rounds, output_type_id_datatype = NULL)
 }
 \arguments{
 \item{rounds}{An object of class \code{rounds} created using function
 \code{\link[=create_rounds]{create_rounds()}}}
+
+\item{output_type_id_datatype}{A character string specifying the value of the
+\code{output_type_id_datatype} property. Only available since \href{https://github.com/hubverse-org/schemas/releases/tag/v3.0.1}{hubverse schema v3.0.1}.
+Ignored if NULL (default) and throws a warning if a value is provided and the
+schema version used for the config is <= v3.0.1.
+This property is used to set the data type of the \code{output_type_id} column in
+model outputs and can take values of \code{"auto"}, \code{"character"}, \code{"double"},
+\code{"integer"}, \code{"logical"}, or \code{"Date"}.
+For more details consult the \href{https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema}{hubDocs documentation on model output datatypes}}
 }
 \value{
 a named list of class \code{config}.
