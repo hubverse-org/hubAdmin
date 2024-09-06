@@ -75,7 +75,7 @@ test_that("create_config handles output_type_id_datatype correctly ", {
 
   # Use older schema
   test_rounds_old <- test_rounds
-  attr(test_rounds_old, "schema_id") <- "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
+  attr(test_rounds_old, "schema_id") <- "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json" # nolint line_length_linter
   expect_null(
     suppressMessages(
       create_config(test_rounds_old,
