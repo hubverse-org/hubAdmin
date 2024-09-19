@@ -3,6 +3,7 @@
 S3method(print,conval)
 S3method(print,hubval)
 export("%>%")
+export(as_config)
 export(ci_validate_hub_config)
 export(create_config)
 export(create_model_task)
