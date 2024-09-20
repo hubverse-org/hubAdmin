@@ -12,6 +12,7 @@ badge](https://hubverse-org.r-universe.dev/badges/hubAdmin)](https://hubverse-or
 [![CRAN
 status](https://www.r-pkg.org/badges/version/hubAdmin)](https://CRAN.R-project.org/package=hubAdmin)
 [![R-CMD-check](https://github.com/hubverse-org/hubAdmin/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/hubverse-org/hubAdmin/actions/workflows/R-CMD-check.yaml)
+
 <!-- badges: end -->
 
 The goal of hubAdmin is to provide a set of utility functions for
@@ -23,9 +24,9 @@ modeling hubs to share and collaborate on their work.
 
 ## Installation
 
-> [!NOTE] 
-> If you have any problems with installation of package `V8`
-> (more likely on Linux), please consult the [V8 installation
+> [!NOTE]  
+> If you have any problems with installation of package `V8` (more
+> likely on Linux), please consult the [V8 installation
 > instructions](https://github.com/jeroen/V8#installation).
 
 ### Latest
