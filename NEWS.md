@@ -1,3 +1,5 @@
+# hubAdmin (development version)
+
 # hubAdmin 1.1.1
 
 * Add `output_type_id_datatype` argument to `create_config()`. This allows for the specification of the data type of the `output_type_id` column of model output data through schema property `output_type_id_datatype`, introduced in [v3.0.1 version of the hubverse schema](https://github.com/hubverse-org/schemas/releases/tag/v3.0.1)  (#41)
