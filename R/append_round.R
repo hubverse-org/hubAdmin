@@ -146,8 +146,8 @@ append_round <- function(config, ...) {
   round_round_ids <- hubUtils::get_round_ids(rounds)
 
   if (any(config_round_ids %in% round_round_ids)) {
-    dups <- config_round_ids[config_round_ids %in% round_round_ids] |>
-      unique() # nolint: object_usage_linter
+    dups <- config_round_ids[config_round_ids %in% round_round_ids] |> # nolint: object_usage_linter
+      unique()
     cli::cli_abort(
       c(
         "x" = "{.arg round_id}{?s} {.val {dups}} already exist{?s/} in {.arg config}.",
