@@ -5,7 +5,7 @@
 #' @param format the format to return the schema in. Defaults to "list". Can be "list" or "json".
 #'
 #' @return The requested version of the tasks hubverse schema in the specified format.
-#' @export
+#' @noRd
 #' @examplesIf curl::has_internet()
 #' download_tasks_schema()
 #' download_tasks_schema(format = "json")

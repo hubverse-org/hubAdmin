@@ -107,16 +107,20 @@ schema_autobox <- function(config) {
   return(config)
 }
 
-#' Identify the paths to properties in a hubverse schema that can be arrays of vectors
+#' Get potential paths to properties in a config file that can be arrays from a hubverse schema
 #'
-#' Identify the paths to properties in a hubverse schema that can be arrays of vectors, i.e. not arrays of objects.
-#' Properties that can be arrays of objects are ignored. Useful to determine properties that may need to be boxed.
+#' The functions identifies properties in a hubverse schema that can be arrays of
+#' vectors and returns the paths of such elements in a config. Properties that can
+#' be arrays of objects are ignored.
+#' Useful to determine elements in a config object that may
+#' need to be boxed.
+#' The vector paths returned, in conjuction with `!!!` can be used to subset a config object using
+#' [purrr::pluck()] or modify it at depth using [purrr::modify_in()]. Note that any `"items"` elements indicate that the property is an array of objects and will need replacing with an element index to correctly subset into the config objects.
 #' @param schema a list representation of a hubverse schema
 #'
 #' @return a list where each element is character vector of a path to a property
-#'  in the schema that can be an array of vectors.
-#' @export
-#'
+#'  in the schema that can be an array of vectors. Elements returned as `"items"`
+#' @noRd
 #' @examplesIf curl::has_internet()
 #' schema <- download_tasks_schema("v3.0.1")
 #' get_array_paths(schema)
