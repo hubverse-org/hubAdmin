@@ -8,6 +8,7 @@ write_config(
   config,
   hub_path = ".",
   config_path = NULL,
+  autobox = TRUE,
   overwrite = FALSE,
   silent = FALSE
 )
@@ -20,6 +21,10 @@ Ignored if \code{config_path} is specified.}
 
 \item{config_path}{Path to write the config object to. If \code{NULL} defaults to
 \code{hub-config/tasks.json} within \code{hub_path}. If specified, overrides \code{hub_path}.}
+
+\item{autobox}{Logical. Whether to automatically box vectors of length \code{1L} that
+should be arrays in the JSON output according to the hubverse schema.
+See \code{\link[=schema_autobox]{schema_autobox()}} for more details.}
 
 \item{overwrite}{Logical. Whether to overwrite the file if it already exists.}
 

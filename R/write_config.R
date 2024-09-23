@@ -12,11 +12,15 @@
 #' writing it back out.
 #' For more information, see the [hubverse schema documentation](
 #' https://hubverse.io/en/latest/user-guide/hub-config.html#model-tasks-tasks-json-interactive-schema)
+#'
 #' @param config Object of class `<config>` to write to a JSON file.
 #' @param hub_path Path to the hub directory. Defaults to the current working directory.
 #'  Ignored if `config_path` is specified.
 #' @param config_path Path to write the config object to. If `NULL` defaults to
 #' `hub-config/tasks.json` within `hub_path`. If specified, overrides `hub_path`.
+#' @param autobox Logical. Whether to automatically box vectors of length `1L` that
+#' should be arrays in the JSON output according to the hubverse schema.
+#' See [schema_autobox()] for more details.
 #' @param overwrite Logical. Whether to overwrite the file if it already exists.
 #' @param silent Logical. Whether to suppress informational messages.
 #'
@@ -92,7 +96,7 @@
 #' # Clean up
 #' unlink(temp_hub)
 write_config <- function(config, hub_path = ".", config_path = NULL,
-                         overwrite = FALSE, silent = FALSE) {
+                         autobox = TRUE, overwrite = FALSE, silent = FALSE) {
   if (!inherits(config, "config")) {
     cli::cli_abort(
       c("x" = "{.arg config} must be an object of class {.cls config}
@@ -121,6 +125,10 @@ write_config <- function(config, hub_path = ".", config_path = NULL,
     )
   }
 
+  if (autobox) {
+    config <- schema_autobox(config)
+  }
+
   jsonlite::write_json(
     x = config,
     path = config_path,
@@ -131,15 +139,19 @@ write_config <- function(config, hub_path = ".", config_path = NULL,
 
   if (isFALSE(silent)) {
     cli::cli_alert_success("{.arg config} written out successfully.")
-    cli::cli_bullets(
-      c(
-        "!" = "Due to inconsistencies between R and JSON data types,
-          some properties in the output file may not conform to schema expectations.
-          They might be an {.cls array} when a {.cls scalar} is required or vice versa.",
-        "*" = "Please validate the file with {.code validate_config()}
+    if (isFALSE(autobox)) {
+      cli::cli_bullets(
+        c(
+          "!" = "Autoboxing was disabled. Some properties in the output file may
+          not conform to schema expectations.",
+          "i" = "Due to inconsistencies between R and JSON data types,
+          some properties in the output file might be an {.cls array} when a
+          {.cls scalar} is required or vice versa.",
+          "*" = "Please validate the file with {.code validate_config()}
         to identify any deviations."
+        )
       )
-    )
+    }
   }
   invisible(stats::setNames(TRUE, config_path))
 }

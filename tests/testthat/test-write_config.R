@@ -104,3 +104,27 @@ test_that("write_config validates length of hub_path and config_path", {
     regexp = "Assertion on 'config_path' failed: Must have length 1."
   )
 })
+
+test_that("write_config with autobox = FALSE does not box and issues warning", {
+  rounds <- create_test_rounds()
+  config <- create_test_config(rounds)
+  temp_hub <- setup_test_hub()
+  setup_test_hub_with_config_dir(temp_hub)
+
+  # Move to temp hub working directory to use default hub_path "." setting.
+  original_wd <- getwd()
+  setwd(temp_hub)
+  expect_snapshot(
+    write_config(
+      config = config,
+      hub_path = temp_hub,
+      autobox = FALSE
+    )
+  )
+  result <- write_config(config = config, silent = TRUE,
+                         autobox = FALSE, overwrite = TRUE)
+  expect_true(result)
+  file_contents <- readLines(file.path(temp_hub, "hub-config/tasks.json"))
+  expect_snapshot(cat(file_contents, sep = "\n"))
+  setwd(original_wd)
+})
