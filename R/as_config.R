@@ -13,7 +13,10 @@
 #' )
 #' as_config(config_tasks)
 as_config <- function(x) {
-  schema_id <- x$schema_version
+  x$schema_version <- schema_id <- validate_schema_url_prefix(x$schema_version,
+    property_name = "schema_version",
+    call = rlang::current_env()
+  )
 
   validate_schema_id(schema_id, call = rlang::current_env())
   validate_config_properties(schema_id, x, call = rlang::current_env())
