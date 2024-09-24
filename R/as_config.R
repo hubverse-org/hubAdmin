@@ -75,6 +75,17 @@ validate_schema_id <- function(schema_id, property_name = "schema_version",
 
 validate_schema_url_prefix <- function(schema_url, property_name = "schema_version",
                                        call = rlang::caller_env()) {
+  if (grepl("Infectious-Disease-Modeling-Hubs", schema_url, fixed = TRUE)) {
+    # update the schema url if they have an old one
+    cli::cli_alert_info(
+      "Updating superseded URL {.var Infectious-Disease-Modeling-hubs} to {.var hubverse-org}"
+    )
+    schema_url <- sub(
+      "Infectious-Disease-Modeling-Hubs", "hubverse-org",
+      schema_url,
+      fixed = TRUE
+    )
+  }
   check_prefix <- grepl(
     "https://raw.githubusercontent.com/(hubverse-org|Infectious-Disease-Modeling-Hubs)/schemas/main/",
     schema_url,
@@ -86,11 +97,6 @@ validate_schema_url_prefix <- function(schema_url, property_name = "schema_versi
               {.val https://raw.githubusercontent.com/hubverse-org/schemas/main/}"),
       call = call
     )
-  }
-  if (grepl("Infectious-Disease-Modeling-Hubs", schema_url, fixed = TRUE)) {
-    # update the schema url if they have an old one
-    cli::cli_alert_info("Updating superseded URL {.var Infectious-Disease-Modeling-hubs} to {.var hubverse-org}")
-    schema_url <- sub("Infectious-Disease-Modeling-Hubs", "hubverse-org", schema_url, fixed = TRUE)
   }
   return(invisible(schema_url))
 }
