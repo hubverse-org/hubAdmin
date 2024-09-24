@@ -11,13 +11,13 @@ test_that("as_config modifies outdated URLs", {
   orig <- config_tasks <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
   )
-  config_tasks$schema_version <- sub("hubverse-org", 
-    "Infectious-Disease-Modelling-Hubs",
+  config_tasks$schema_version <- sub("hubverse-org",
+    "Infectious-Disease-Modeling-Hubs",
     config_tasks$schema_version
   )
   # a message will be issued that the URL is updated
   expect_message(res <- as_config(config_tasks), 'superseded URL')
-  # the resulting should be equal to the original 
+  # the resulting should be equal to the original
   expect_equal(orig$schema_version, res$schema_version)
 })
 
