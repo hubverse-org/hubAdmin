@@ -2,6 +2,8 @@
 
 * Add `as_config()` function to convert a list representation of a `tasks.json` config file to a `<config>` class object (#42). Useful when wanting to programmatically manipulate the contents of a `tasks.json` config file.
 * Add `append_round()` function to append one or more `<round>` class objects to the `rounds` property of a `<config>` class object (#42). 
+* Add `schema_autobox()` function that uses the schema to "box" length one vectors in a `<config>` class object that should be arrays in JSON format (#44). This transformation is now applied by default when writing a `<config>` class object to a JSON file using `write_json()` but can be deactivated using the `autobox` argument. The transformation is also applied to any properties that should be arrays covered by `additionalProperties` in the schema (e.g. custom task IDs). 
+* Add `get_array_schema_paths()` utility function for extracting paths to potential array properties in a JSON schema and export previously internal `download_tasks_schema()`.
 
 # hubAdmin 1.1.1
 
