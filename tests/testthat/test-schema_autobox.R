@@ -109,18 +109,114 @@ test_that("schema autobox boxes length 1L vectors correctly", {
         )
     )
   )
+
+  # Add more rounds & modeling tasks
+  more_rounds_config <- config
+  more_rounds_config$rounds <- c(
+    config$rounds,
+    config$rounds
+  )
+  more_rounds_config$rounds[[1]]$model_tasks <- list(
+    config$rounds[[1]]$model_tasks[[1]],
+    config$rounds[[1]]$model_tasks[[1]]
+  )
+
+  expect_snapshot(
+    schema_autobox(more_rounds_config) |>
+      jsonlite::toJSON(
+        auto_unbox = TRUE, na = "string",
+        null = "null", pretty = TRUE
+      )
+  )
 })
 
 test_that("schema autobox errors correctly", {
+  skip_if_offline()
   # Test that schema_autobox errors when the config is not a <config> class object
   expect_error(schema_autobox(1))
   expect_error(schema_autobox(list(rounds = list(a = 1))))
 })
 
-test_that("get_array_paths identifies potential arrays correctly", {
+test_that("get_array_schema_paths identifies potential arrays correctly", {
   skip_if_offline()
   schema <- download_tasks_schema("v3.0.1")
   expect_snapshot(
-    get_array_paths(schema)
+    get_array_schema_paths(schema)
+  )
+})
+
+
+test_that("schema autobox works on additionalProperties", {
+  skip_if_offline()
+  nowcast_config <- hubUtils::read_config_file(
+    config_path = test_path("testdata/tasks-append.json")
+  ) |> as_config()
+
+  # Check that additional property config paths are identified and processed correctly
+  expect_snapshot(
+    append_additional_properties(
+      config = nowcast_config,
+      paths = get_array_schema_paths(download_tasks_schema("v3.0.1"))
+    )
+  )
+
+  # Check that the config file is processed correctly
+  expect_snapshot(
+    schema_autobox(nowcast_config)$rounds[[1]]$model_tasks[[1]]$task_ids$nowcast_date
+  )
+  expect_snapshot(
+    schema_autobox(nowcast_config)$rounds[[1]]$model_tasks[[1]]$task_ids$variant
+  )
+
+  # Check that the config file is processed correctly as a whole
+  expect_snapshot(
+    schema_autobox(nowcast_config) |>
+      jsonlite::toJSON(
+        auto_unbox = TRUE, na = "string",
+        null = "null", pretty = TRUE
+      )
+  )
+
+  # Specifically compare the nowcast_date required property
+  expect_snapshot(
+    waldo::compare(
+      nowcast_config$rounds[[1]]$model_tasks[[1]]$task_ids$nowcast_date$required |>
+        jsonlite::toJSON(
+          auto_unbox = TRUE, na = "string",
+          null = "null", pretty = TRUE
+        ),
+      schema_autobox(nowcast_config)$rounds[[1]]$model_tasks[[1]]$task_ids$nowcast_date$required |>
+        jsonlite::toJSON(
+          auto_unbox = TRUE, na = "string",
+          null = "null", pretty = TRUE
+        )
+    )
+  )
+})
+
+test_that("schema autobox box_extra_paths works", {
+  skip_if_offline()
+  nowcast_config <- hubUtils::read_config_file(
+    config_path = test_path("testdata/tasks-append.json")
+  ) |> as_config()
+
+  nowcast_config$rounds[[1]]$extra_array_property <- "length_1L_property"
+
+  expect_snapshot(
+    waldo::compare(
+      nowcast_config$rounds[[1]]$extra_array_property |>
+        jsonlite::toJSON(
+          auto_unbox = TRUE, na = "string",
+          null = "null", pretty = TRUE
+        ),
+      schema_autobox(
+        nowcast_config,
+        list(c("rounds", "items", "extra_array_property"))
+      )$rounds[[1]]$extra_array_property |>
+        jsonlite::toJSON(
+          auto_unbox = TRUE, na = "string",
+          null = "null", pretty = TRUE
+        )
+    )
   )
 })
