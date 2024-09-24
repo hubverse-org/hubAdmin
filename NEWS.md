@@ -1,3 +1,8 @@
+# hubAdmin (development version)
+
+* Add `as_config()` function to convert a list representation of a `tasks.json` config file to a `<config>` class object (#42). Useful when wanting to programmatically manipulate the contents of a `tasks.json` config file.
+* Add `append_round()` function to append one or more `<round>` class objects to the `rounds` property of a `<config>` class object (#42). 
+
 # hubAdmin 1.1.1
 
 * Add `output_type_id_datatype` argument to `create_config()`. This allows for the specification of the data type of the `output_type_id` column of model output data through schema property `output_type_id_datatype`, introduced in [v3.0.1 version of the hubverse schema](https://github.com/hubverse-org/schemas/releases/tag/v3.0.1)  (#41)
