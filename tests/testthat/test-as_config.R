@@ -16,7 +16,7 @@ test_that("as_config modifies outdated URLs", {
     config_tasks$schema_version
   )
   # a message will be issued that the URL is updated
-  expect_message(res <- as_config(config_tasks), 'superseded URL')
+  expect_message(res <- as_config(config_tasks), "superseded URL")
   # the resulting should be equal to the original
   expect_equal(orig$schema_version, res$schema_version)
 })
