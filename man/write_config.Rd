@@ -9,6 +9,7 @@ write_config(
   hub_path = ".",
   config_path = NULL,
   autobox = TRUE,
+  box_extra_paths = NULL,
   overwrite = FALSE,
   silent = FALSE
 )
@@ -26,6 +27,12 @@ Ignored if \code{config_path} is specified.}
 should be arrays in the JSON output according to the hubverse schema.
 See \code{\link[=schema_autobox]{schema_autobox()}} for more details.}
 
+\item{box_extra_paths}{a list of character vectors of paths to elements in the
+\verb{<config>} that can be arrays of vectors but are not covered by the schema.
+Elements in a path where arrays of objects are expected should be encoded
+as \code{"items"}. See output of \code{\link[=get_array_schema_paths]{get_array_schema_paths()}} for more details,
+especially the examples.}
+
 \item{overwrite}{Logical. Whether to overwrite the file if it already exists.}
 
 \item{silent}{Logical. Whether to suppress informational messages.}
@@ -36,18 +43,8 @@ TRUE invisibly.
 \description{
 Write a \strong{tasks} \verb{<config>} class object to a \code{tasks.json} JSON file.
 }
-\details{
-! WARNING: Due to inconsistencies between R and JSON data types, in particular the
-fact that R has no concept of a scalar, some properties
-in the output file may not conform to schema expectations. They might be an
-\verb{<array>} when a \verb{<scalar>} is required or vice versa.
-\code{validate_config()} can be used to validate JSON config files and identify any deviations.
-Note also that these errors are introduced every time a JSON file is written
-from an R object. That includes when reading in a valid JSON config file and
-writing it back out.
-For more information, see the \href{https://hubverse.io/en/latest/user-guide/hub-config.html#model-tasks-tasks-json-interactive-schema}{hubverse schema documentation}
-}
 \examples{
+\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 rounds <- create_rounds(
   create_round(
     round_id_from_variable = TRUE,
@@ -108,11 +105,17 @@ dir.create(file.path(temp_hub, "hub-config"))
 write_config(config, hub_path = temp_hub)
 cat(readLines(file.path(temp_hub, "hub-config/tasks.json")), sep = "\n")
 # Validate config
-if (curl::has_internet()) {
-  v <- validate_config(hub_path = temp_hub)
-  print(v)
-  view_config_val_errors(v)
-}
-# Clean up
+validate_config(hub_path = temp_hub)
+
+# Add a custom additional property (allowed by in schema version >= v3.0.0) that
+# should be an array to the first round of the config.
+rounds[[1]][[1]]$extra_array_property <- "length_1L_property"
+config <- create_config(rounds)
+write_config(
+  config = config, hub_path = temp_hub, overwrite = TRUE,
+  box_extra_paths = list(c("rounds", "items", "extra_array_property"))
+)
+cat(readLines(file.path(temp_hub, "hub-config/tasks.json")), sep = "\n")
 unlink(temp_hub)
+\dontshow{\}) # examplesIf}
 }
