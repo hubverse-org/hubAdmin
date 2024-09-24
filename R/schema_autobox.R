@@ -9,7 +9,14 @@
 #' such elements that exist in the `<config>` object and have a length of 1.
 #' This ensures that they are written out as arrays instead of scalars in JSON
 #' output files.
+#'
 #' @param config a `<config>` class object.
+#' @param box_extra_paths a list of character vectors of paths to elements in the
+#' `<config>` that can be arrays of vectors but are not covered by the schema.
+#' Elements in a path where arrays of objects are expected should be encoded
+#' as `"items"`. See output of [get_array_schema_paths()] for more details,
+#' especially the examples.
+#' @importFrom rlang !!!
 #'
 #' @return a `<config>` class object with list elements that can be arrays boxed.
 #' @export
@@ -74,7 +81,8 @@
 #'     auto_unbox = TRUE, na = "string",
 #'     null = "null", pretty = TRUE
 #'   )
-schema_autobox <- function(config) {
+schema_autobox <- function(config, box_extra_paths = NULL) {
+  checkmate::assert_list(box_extra_paths, null.ok = TRUE)
   if (!inherits(config, "config")) {
     cli::cli_abort(
       c("x" = "{.arg config} must be an object of class {.cls config}
@@ -88,7 +96,15 @@ schema_autobox <- function(config) {
 
   # Get list of paths to config properties that can be arrays and may require
   # boxing.
-  paths <- get_array_paths(schema) |>
+  paths <- get_array_schema_paths(schema)
+  if (!is.null(box_extra_paths)) {
+    paths <- c(paths, box_extra_paths) |> unique()
+  }
+
+  # Identify and append any additional properties that may need to be boxed.
+  paths <- append_additional_properties(config, paths)
+
+  paths <- paths |>
     purrr::map(~ expand_path_items(.x, config)) |>
     purrr::list_flatten()
 
@@ -112,19 +128,18 @@ schema_autobox <- function(config) {
 #' The functions identifies properties in a hubverse schema that can be arrays of
 #' vectors and returns the paths of such elements in a config. Properties that can
 #' be arrays of objects are ignored.
-#' Useful to determine elements in a config object that may
-#' need to be boxed.
-#' The vector paths returned, in conjuction with `!!!` can be used to subset a config object using
-#' [purrr::pluck()] or modify it at depth using [purrr::modify_in()]. Note that any `"items"` elements indicate that the property is an array of objects and will need replacing with an element index to correctly subset into the config objects.
+#' Useful to determine elements in a config object that may need to be boxed.
+#' Note that any `"items"` elements indicate that the property is an array of objects
+#'  and will be expanded with element index when applied to config objects.
 #' @param schema a list representation of a hubverse schema
 #'
 #' @return a list where each element is character vector of a path to a property
 #'  in the schema that can be an array of vectors. Elements returned as `"items"`
-#' @noRd
+#' @export
 #' @examplesIf curl::has_internet()
 #' schema <- download_tasks_schema("v3.0.1")
-#' get_array_paths(schema)
-get_array_paths <- function(schema) {
+#' get_array_schema_paths(schema)
+get_array_schema_paths <- function(schema) {
   checkmate::assert_list(schema)
   is_array_recursive(schema) |>
     unlist() |>
@@ -170,7 +185,7 @@ box <- function(x) {
 expand_items <- function(x, config) {
   item_idx <- purrr::map_lgl(x, \(.x) .x == "items") |>
     which() |>
-    head(1L)
+    utils::head(1L)
   at <- x[1:(item_idx - 1L)]
   item_n <- purrr::pluck(config, !!!at) |>
     length()
@@ -188,7 +203,7 @@ expand_path_items <- function(path, config) {
   while (purrr::some(path, ~ purrr::has_element(.x, "items"))) {
     path <- purrr::map(
       path,
-      \(.x){
+      \(.x) {
         expand_items(.x, config)
       }
     ) |>
