@@ -87,4 +87,10 @@ validate_schema_url_prefix <- function(schema_url, property_name = "schema_versi
       call = call
     )
   }
+  if (grepl("Infectious-Disease-Modeling-Hubs", schema_url, fixed = TRUE)) {
+    # update the schema url if they have an old one
+    cli::cli_alert_info("Updating superseded URL {.var Infectious-Disease-Modeling-hubs} to {.var hubverse-org}")
+    schema_url <- sub("Infectious-Disease-Modeling-Hubs", "hubverse-org", schema_url, fixed = TRUE)
+  }
+  return(invisible(schema_url))
 }
