@@ -4,10 +4,16 @@
 \alias{schema_autobox}
 \title{Box elements of a \verb{<config>} class object that can be arrays}
 \usage{
-schema_autobox(config)
+schema_autobox(config, box_extra_paths = NULL)
 }
 \arguments{
 \item{config}{a \verb{<config>} class object.}
+
+\item{box_extra_paths}{a list of character vectors of paths to elements in the
+\verb{<config>} that can be arrays of vectors but are not covered by the schema.
+Elements in a path where arrays of objects are expected should be encoded
+as \code{"items"}. See output of \code{\link[=get_array_schema_paths]{get_array_schema_paths()}} for more details,
+especially the examples.}
 }
 \value{
 a \verb{<config>} class object with list elements that can be arrays boxed.
