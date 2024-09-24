@@ -1,7 +1,8 @@
 #' Box elements of a `<config>` class object that can be arrays
 #'
 #' Due to inconsistencies between R and JSON data types, in particular the
-#' fact that R has no concept of a scalar, when writing R list objects to JSON with [write_config()],
+#' fact that R has no concept of a scalar, when writing R list objects to JSON
+#' with [write_config()],
 #' some properties in the output file may not conform to schema expectations.
 #' In particular, list elements that are vectors of length `1L` will be written
 #' as scalars, regardless of whether the schema expects an array. This function
@@ -9,6 +10,8 @@
 #' such elements that exist in the `<config>` object and have a length of 1.
 #' This ensures that they are written out as arrays instead of scalars in JSON
 #' output files.
+#' The transformation is also applied to any properties that should be arrays
+#' covered by `additionalProperties` in the schema (e.g. custom task IDs).
 #'
 #' @param config a `<config>` class object.
 #' @param box_extra_paths a list of character vectors of paths to elements in the

@@ -20,7 +20,8 @@ a \verb{<config>} class object with list elements that can be arrays boxed.
 }
 \description{
 Due to inconsistencies between R and JSON data types, in particular the
-fact that R has no concept of a scalar, when writing R list objects to JSON with \code{\link[=write_config]{write_config()}},
+fact that R has no concept of a scalar, when writing R list objects to JSON
+with \code{\link[=write_config]{write_config()}},
 some properties in the output file may not conform to schema expectations.
 In particular, list elements that are vectors of length \code{1L} will be written
 as scalars, regardless of whether the schema expects an array. This function
@@ -28,6 +29,8 @@ uses the hubverse schema to identify elements that can be arrays and "box" any
 such elements that exist in the \verb{<config>} object and have a length of 1.
 This ensures that they are written out as arrays instead of scalars in JSON
 output files.
+The transformation is also applied to any properties that should be arrays
+covered by \code{additionalProperties} in the schema (e.g. custom task IDs).
 }
 \examples{
 config <- create_config(
