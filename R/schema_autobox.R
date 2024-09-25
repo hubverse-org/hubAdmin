@@ -175,13 +175,7 @@ is_array_recursive <- function(x) {
 }
 
 box <- function(x) {
-  if (is.list(x)) {
-    return(x)
-  }
-  if (is.null(x)) {
-    return(x)
-  }
-  if (length(x) > 1L) {
+  if (is.list(x) || is.null(x) || length(x) > 1L) {
     return(x)
   }
   list(x)
