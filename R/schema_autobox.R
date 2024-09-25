@@ -108,6 +108,9 @@ schema_autobox <- function(config, box_extra_paths = NULL) {
   paths <- append_additional_properties(config, paths)
 
   paths <- paths |>
+    # expand_path_items() basically expands arrays of objects that in the schema 
+    # are encoded as "items" to integer indices in an actual config file, 
+    # according to the number of each element in the config.
     purrr::map(~ expand_path_items(.x, config)) |>
     purrr::list_flatten()
 
