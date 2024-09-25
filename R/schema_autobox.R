@@ -108,8 +108,8 @@ schema_autobox <- function(config, box_extra_paths = NULL) {
   paths <- append_additional_properties(config, paths)
 
   paths <- paths |>
-    # expand_path_items() basically expands arrays of objects that in the schema 
-    # are encoded as "items" to integer indices in an actual config file, 
+    # expand_path_items() basically expands arrays of objects that in the schema
+    # are encoded as "items" to integer indices in an actual config file,
     # according to the number of each element in the config.
     purrr::map(~ expand_path_items(.x, config)) |>
     purrr::list_flatten()
@@ -192,7 +192,7 @@ expand_items <- function(x, config) {
   item_idx <- purrr::map_lgl(x, \(.x) .x == "items") |>
     which() |>
     utils::head(1L)
-  # This identifies the first instance of an "items" element in a schema path 
+  # This identifies the first instance of an "items" element in a schema path
   # and subsets the parent path to it (which is also a valid config file path)
   at <- x[seq_len(item_idx - 1L)]
   # It then counts how many elements the above parent path contains.
