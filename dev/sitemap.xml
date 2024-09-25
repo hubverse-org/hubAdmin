@@ -23,8 +23,11 @@
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/create_target_metadata_item.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/create_task_id.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/create_task_ids.html</loc></url>
+<url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/download_tasks_schema.html</loc></url>
+<url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/get_array_schema_paths.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/index.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/pipe.html</loc></url>
+<url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/schema_autobox.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/validate_hub_config.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/validate_model_metadata_schema.html</loc></url>
