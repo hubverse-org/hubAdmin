@@ -2,28 +2,23 @@
 #'
 #' Write a **tasks** `<config>` class object to a `tasks.json` JSON file.
 #'
-#' ! WARNING: Due to inconsistencies between R and JSON data types, in particular the
-#' fact that R has no concept of a scalar, some properties
-#' in the output file may not conform to schema expectations. They might be an
-#' `<array>` when a `<scalar>` is required or vice versa.
-#' `validate_config()` can be used to validate JSON config files and identify any deviations.
-#' Note also that these errors are introduced every time a JSON file is written
-#' from an R object. That includes when reading in a valid JSON config file and
-#' writing it back out.
-#' For more information, see the [hubverse schema documentation](
-#' https://hubverse.io/en/latest/user-guide/hub-config.html#model-tasks-tasks-json-interactive-schema)
 #' @param config Object of class `<config>` to write to a JSON file.
 #' @param hub_path Path to the hub directory. Defaults to the current working directory.
 #'  Ignored if `config_path` is specified.
 #' @param config_path Path to write the config object to. If `NULL` defaults to
 #' `hub-config/tasks.json` within `hub_path`. If specified, overrides `hub_path`.
+#' @param autobox Logical. Whether to automatically box vectors of length `1L` that
+#' should be arrays in the JSON output according to the hubverse schema.
+#' See [schema_autobox()] for more details.
 #' @param overwrite Logical. Whether to overwrite the file if it already exists.
 #' @param silent Logical. Whether to suppress informational messages.
+#' @inheritParams schema_autobox
 #'
 #' @return TRUE invisibly.
 #' @export
 #'
-#' @examples
+#' @examplesIf curl::has_internet()
+#' # Create rounds object
 #' rounds <- create_rounds(
 #'   create_round(
 #'     round_id_from_variable = TRUE,
@@ -75,23 +70,37 @@
 #'     )
 #'   )
 #' )
+#'
 #' # Create config object
 #' config <- create_config(rounds)
-#' # Create temporary hub
-#' temp_hub <- tempdir()
-#' dir.create(file.path(temp_hub, "hub-config"))
-#' # Write config
-#' write_config(config, hub_path = temp_hub)
-#' cat(readLines(file.path(temp_hub, "hub-config/tasks.json")), sep = "\n")
-#' # Validate config
-#' if (curl::has_internet()) {
-#'   v <- validate_config(hub_path = temp_hub)
-#'   print(v)
-#'   view_config_val_errors(v)
-#' }
-#' # Clean up
-#' unlink(temp_hub)
+#'
+#' # Create temporary hub and write config
+#' withr::with_tempdir({
+#'   dir.create("hub-config")
+#'
+#'   # Write config
+#'   write_config(config, hub_path = ".")
+#'
+#'   # Read and print tasks.json
+#'   cat(readLines(file.path("hub-config", "tasks.json")), sep = "\n")
+#'
+#'   # Validate config
+#'   validate_config(hub_path = ".")
+#'
+#'   # Add a custom additional property to the first round of the config
+#'   rounds[[1]][[1]]$extra_array_property <- "length_1L_property"
+#'   config <- create_config(rounds)
+#'
+#'   write_config(
+#'     config = config, hub_path = ".", overwrite = TRUE,
+#'     box_extra_paths = list(c("rounds", "items", "extra_array_property"))
+#'   )
+#'
+#'   # Read and print tasks.json again
+#'   cat(readLines(file.path("hub-config", "tasks.json")), sep = "\n")
+#' })
 write_config <- function(config, hub_path = ".", config_path = NULL,
+                         autobox = TRUE, box_extra_paths = NULL,
                          overwrite = FALSE, silent = FALSE) {
   if (!inherits(config, "config")) {
     cli::cli_abort(
@@ -121,6 +130,10 @@ write_config <- function(config, hub_path = ".", config_path = NULL,
     )
   }
 
+  if (autobox) {
+    config <- schema_autobox(config, box_extra_paths = box_extra_paths)
+  }
+
   jsonlite::write_json(
     x = config,
     path = config_path,
@@ -131,15 +144,19 @@ write_config <- function(config, hub_path = ".", config_path = NULL,
 
   if (isFALSE(silent)) {
     cli::cli_alert_success("{.arg config} written out successfully.")
-    cli::cli_bullets(
-      c(
-        "!" = "Due to inconsistencies between R and JSON data types,
-          some properties in the output file may not conform to schema expectations.
-          They might be an {.cls array} when a {.cls scalar} is required or vice versa.",
-        "*" = "Please validate the file with {.code validate_config()}
+    if (isFALSE(autobox)) {
+      cli::cli_bullets(
+        c(
+          "!" = "Autoboxing was disabled. Some properties in the output file may
+          not conform to schema expectations.",
+          "i" = "Due to inconsistencies between R and JSON data types,
+          some properties in the output file might be an {.cls array} when a
+          {.cls scalar} is required or vice versa.",
+          "*" = "Please validate the file with {.code validate_config()}
         to identify any deviations."
+        )
       )
-    )
+    }
   }
   invisible(stats::setNames(TRUE, config_path))
 }
