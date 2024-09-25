@@ -155,21 +155,20 @@ test_that("write_config with autobox = FALSE does not box and issues warning", {
   setup_test_hub_with_config_dir(temp_hub)
 
   # Move to temp hub working directory to use default hub_path "." setting.
-  original_wd <- getwd()
-  setwd(temp_hub)
-  expect_snapshot(
-    write_config(
-      config = config,
-      hub_path = temp_hub,
-      autobox = FALSE
+  withr::with_dir(temp_hub, {
+    expect_snapshot(
+      write_config(
+        config = config,
+        hub_path = temp_hub,
+        autobox = FALSE
+      )
     )
-  )
-  result <- write_config(
-    config = config, silent = TRUE,
-    autobox = FALSE, overwrite = TRUE
-  )
-  expect_false(suppressMessages(validate_config()))
-  setwd(original_wd)
+    result <- write_config(
+      config = config, silent = TRUE,
+      autobox = FALSE, overwrite = TRUE
+    )
+    expect_false(suppressMessages(validate_config()))
+  })
 })
 
 
