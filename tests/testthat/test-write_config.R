@@ -181,18 +181,17 @@ test_that("write_config with box_extra_paths works", {
   setup_test_hub_with_config_dir(temp_hub)
 
   # Move to temp hub working directory to use default hub_path "." setting.
-  original_wd <- getwd()
-  setwd(temp_hub)
+  withr::with_dir(temp_hub, {
+  
+    write_config(
+      config = config,
+      hub_path = temp_hub,
+      silent = TRUE,
+      box_extra_paths = list(c("rounds", "items", "extra_array_property"))
+    )
+    file_contents <- readLines(file.path(temp_hub, "hub-config/tasks.json"))
+    expect_snapshot(cat(file_contents, sep = "\n"))
+    expect_true(suppressMessages(validate_config()))
 
-  write_config(
-    config = config,
-    hub_path = temp_hub,
-    silent = TRUE,
-    box_extra_paths = list(c("rounds", "items", "extra_array_property"))
-  )
-  file_contents <- readLines(file.path(temp_hub, "hub-config/tasks.json"))
-  expect_snapshot(cat(file_contents, sep = "\n"))
-  expect_true(suppressMessages(validate_config()))
-
-  setwd(original_wd)
+  })
 })
