@@ -195,6 +195,10 @@ expand_items <- function(x, config) {
   # This identifies the first instance of an "items" element in a schema path 
   # and subsets the parent path to it (which is also a valid config file path)
   at <- x[seq_len(item_idx - 1L)]
+  # It then counts how many elements the above parent path contains.
+  # It's used below to expand a single schema path to as many paths as actual elements
+  # in the config by substituting the "items" elements in the schema path with
+  # integer indices. This is effectively transforming a schema path to valid config paths
   item_n <- purrr::pluck(config, !!!at) |>
     length()
 
