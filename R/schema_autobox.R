@@ -202,7 +202,7 @@ expand_items <- function(x, config) {
   item_n <- purrr::pluck(config, !!!at) |>
     length()
 
-  purrr::map(1:item_n, \(.x, item_idx) {
+  purrr::map(seq_len(item_n), \(.x, item_idx) {
     x <- as.list(x)
     x[[item_idx]] <- as.integer(.x)
     return(x)
