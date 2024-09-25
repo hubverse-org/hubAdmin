@@ -45,6 +45,7 @@ Write a \strong{tasks} \verb{<config>} class object to a \code{tasks.json} JSON 
 }
 \examples{
 \dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+# Create rounds object
 rounds <- create_rounds(
   create_round(
     round_id_from_variable = TRUE,
@@ -96,26 +97,34 @@ rounds <- create_rounds(
     )
   )
 )
+
 # Create config object
 config <- create_config(rounds)
-# Create temporary hub
-temp_hub <- tempdir()
-dir.create(file.path(temp_hub, "hub-config"))
-# Write config
-write_config(config, hub_path = temp_hub)
-cat(readLines(file.path(temp_hub, "hub-config/tasks.json")), sep = "\n")
-# Validate config
-validate_config(hub_path = temp_hub)
 
-# Add a custom additional property (allowed by in schema version >= v3.0.0) that
-# should be an array to the first round of the config.
-rounds[[1]][[1]]$extra_array_property <- "length_1L_property"
-config <- create_config(rounds)
-write_config(
-  config = config, hub_path = temp_hub, overwrite = TRUE,
-  box_extra_paths = list(c("rounds", "items", "extra_array_property"))
-)
-cat(readLines(file.path(temp_hub, "hub-config/tasks.json")), sep = "\n")
-unlink(temp_hub)
+# Create temporary hub and write config
+withr::with_tempdir({
+  dir.create("hub-config")
+
+  # Write config
+  write_config(config, hub_path = ".")
+
+  # Read and print tasks.json
+  cat(readLines(file.path("hub-config", "tasks.json")), sep = "\n")
+
+  # Validate config
+  validate_config(hub_path = ".")
+
+  # Add a custom additional property to the first round of the config
+  rounds[[1]][[1]]$extra_array_property <- "length_1L_property"
+  config <- create_config(rounds)
+
+  write_config(
+    config = config, hub_path = ".", overwrite = TRUE,
+    box_extra_paths = list(c("rounds", "items", "extra_array_property"))
+  )
+
+  # Read and print tasks.json again
+  cat(readLines(file.path("hub-config", "tasks.json")), sep = "\n")
+})
 \dontshow{\}) # examplesIf}
 }

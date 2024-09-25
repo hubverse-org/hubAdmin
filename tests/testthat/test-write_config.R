@@ -182,7 +182,6 @@ test_that("write_config with box_extra_paths works", {
 
   # Move to temp hub working directory to use default hub_path "." setting.
   withr::with_dir(temp_hub, {
-  
     write_config(
       config = config,
       hub_path = temp_hub,
@@ -192,6 +191,5 @@ test_that("write_config with box_extra_paths works", {
     file_contents <- readLines(file.path(temp_hub, "hub-config/tasks.json"))
     expect_snapshot(cat(file_contents, sep = "\n"))
     expect_true(suppressMessages(validate_config()))
-
   })
 })
