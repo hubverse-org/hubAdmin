@@ -192,7 +192,9 @@ expand_items <- function(x, config) {
   item_idx <- purrr::map_lgl(x, \(.x) .x == "items") |>
     which() |>
     utils::head(1L)
-  at <- x[1:(item_idx - 1L)]
+  # This identifies the first instance of an "items" element in a schema path 
+  # and subsets the parent path to it (which is also a valid config file path)
+  at <- x[seq_len(item_idx - 1L)]
   item_n <- purrr::pluck(config, !!!at) |>
     length()
 
