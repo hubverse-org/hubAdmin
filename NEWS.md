@@ -1,3 +1,5 @@
+# hubAdmin (development version)
+
 # hubAdmin 1.2.0
 
 * Add `as_config()` function to convert a list representation of a `tasks.json` config file to a `<config>` class object (#42). Useful when wanting to programmatically manipulate the contents of a `tasks.json` config file.
