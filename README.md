@@ -24,7 +24,7 @@ modeling hubs to share and collaborate on their work.
 
 ## Installation
 
-> [!NOTE]  
+> \[!NOTE\]  
 > If you have any problems with installation of package `V8` (more
 > likely on Linux), please consult the [V8 installation
 > instructions](https://github.com/jeroen/V8#installation).
@@ -48,6 +48,9 @@ you can install the development version of hubAdmin from
 # install.packages("remotes")
 remotes::install_github("hubverse-org/hubAdmin")
 ```
+
+You can also [**view the development version
+documentation**](https://hubverse-org.github.io/hubAdmin/dev/).
 
 ------------------------------------------------------------------------
 

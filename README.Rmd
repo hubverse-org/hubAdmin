@@ -50,6 +50,8 @@ If you want to test out new features that have not yet been released, you can in
 remotes::install_github("hubverse-org/hubAdmin")
 ```
 
+You can also [**view the development version documentation**](https://hubverse-org.github.io/hubAdmin/dev/).
+
 ***
 
 ## Code of Conduct
