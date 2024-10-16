@@ -34,6 +34,9 @@
 #'  be used as well as available formats, please consult
 #' the [documentation on `tasks.json` Hub config files](
 #' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' @param derived_task_ids character vector of derived task id names (i.e. task IDs
+#' whose values are depended on the values of other task IDs). Only available for
+#' schema version v4.0.0 and later.
 #' @return a named list of class `round`.
 #' @export
 #' @seealso [create_rounds()]
@@ -96,7 +99,8 @@ create_round <- function(round_id_from_variable,
                          round_id, round_name = NULL,
                          model_tasks,
                          submissions_due, last_data_date = NULL,
-                         file_format = NULL) {
+                         file_format = NULL,
+                         derived_task_ids = NULL) {
   rlang::check_required(round_id_from_variable)
   rlang::check_required(round_id)
   rlang::check_required(model_tasks)
