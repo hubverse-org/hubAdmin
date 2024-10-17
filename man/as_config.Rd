@@ -15,11 +15,18 @@ Often the output of \code{\link[hubUtils:read_config]{hubUtils::read_config()}} 
 a config list object with superclass \verb{<config>}.
 }
 \description{
-Coerce a config list to a config class object
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
+The function has moved to the \code{hubUtils} package and will be removed from
+\code{hubAdmin} in the next release. Please use \code{hubUtils::as_config()} instead.
+
+Note as well that \code{\link[hubUtils:read_config]{hubUtils::read_config()}} and \code{\link[hubUtils:read_config_file]{hubUtils::read_config_file()}}
+call \code{as_config()} on their output by default from \code{hubUtils} \verb{0.2.0}.
 }
 \examples{
 config_tasks <- hubUtils::read_config(
   hub_path = system.file("testhubs/simple", package = "hubUtils")
 )
-as_config(config_tasks)
+hubUtils::as_config(config_tasks)
 }

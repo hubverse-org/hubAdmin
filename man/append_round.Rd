@@ -129,6 +129,6 @@ append_round(config, new_round)
 # Append in existing config file
 config <- hubUtils::read_config_file(
   system.file("tasks.json", package = "hubAdmin")
-) |> as_config()
+)
 append_round(config, new_round)
 }

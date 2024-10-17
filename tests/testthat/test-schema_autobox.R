@@ -150,7 +150,7 @@ test_that("schema autobox works on additionalProperties", {
   skip_if_offline()
   nowcast_config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
-  ) |> as_config()
+  )
 
   # Check that additional property config paths are identified and processed correctly
   expect_snapshot(
@@ -198,7 +198,7 @@ test_that("schema autobox box_extra_paths works", {
   skip_if_offline()
   nowcast_config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
-  ) |> as_config()
+  )
 
   nowcast_config$rounds[[1]]$extra_array_property <- "length_1L_property"
 
