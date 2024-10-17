@@ -34,7 +34,8 @@ Imports:
     rlang,
     stringr,
     utils,
-    tibble
+    tibble,
+    lifecycle
 Suggests: 
     covr,
     curl,

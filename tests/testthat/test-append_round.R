@@ -1,7 +1,7 @@
 test_that("append_round works", {
   config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
-  ) |> as_config()
+  )
   round <- create_new_round()
 
   # Adding one round works
@@ -20,7 +20,7 @@ test_that("append_round works", {
 test_that("append_round fails with duplicate round_ids", {
   config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
-  ) |> as_config()
+  )
 
   expect_snapshot(
     append_round(config = config, create_new_round("2024-09-11")),
@@ -31,7 +31,7 @@ test_that("append_round fails with duplicate round_ids", {
 test_that("append_round fails with schema_id mismatch", {
   config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
-  ) |> as_config()
+  )
   round_with_mismatched_schema_id <- create_new_round()
   attr(round_with_mismatched_schema_id, "schema_id") <-
     "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json" # nolint: line_length_linter

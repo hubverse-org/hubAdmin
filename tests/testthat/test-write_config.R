@@ -115,7 +115,7 @@ test_that("write_config autoboxing works", {
   setup_test_hub_with_config_dir(temp_hub)
   config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
-  ) |> as_config()
+  )
 
   # Move to temp hub working directory to use default hub_path "." setting.
   original_wd <- getwd()
@@ -130,7 +130,7 @@ test_that("write_config autoboxing works", {
   expect_snapshot(cat(file_contents, sep = "\n"))
 
   # Re-reading and appending a new round to the config also works
-  config <- hubUtils::read_config(".") |> as_config()
+  config <- hubUtils::read_config(".")
   config_plus_new_round <- append_round(config = config, create_new_round())
 
   write_config(config_plus_new_round,
