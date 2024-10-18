@@ -123,20 +123,8 @@ create_round <- function(round_id_from_variable,
 
   property_names <- names(properties)
 
-
-  purrr::walk(
-    property_names[!property_names %in% c("submissions_due", "model_tasks")],
-    function(.x) {
-      check_input(
-        input = properties[[.x]],
-        property = .x,
-        round_schema,
-        parent_property = NULL,
-        scalar = TRUE,
-        call = call
-      )
-    }
-  )
+  check_properties_scalar(properties, round_schema, call = call)
+  check_properties_array(properties, round_schema, call = call)
   check_submission_due(submissions_due, round_schema, model_tasks)
 
   if (round_id_from_variable) {
