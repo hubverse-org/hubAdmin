@@ -101,6 +101,7 @@ create_config <- function(rounds,
       derived_task_ids = derived_task_ids
     ) %>% purrr::compact(), # remove output_type_id_datatype if NULL
     class = c("config", "list"),
+    type = "tasks",
     schema_id = schema_id
   )
 }
