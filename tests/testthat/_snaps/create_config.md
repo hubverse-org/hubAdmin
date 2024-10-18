@@ -104,6 +104,8 @@
       
       attr(,"class")
       [1] "config" "list"  
+      attr(,"type")
+      [1] "tasks"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
@@ -224,6 +226,8 @@
       
       attr(,"class")
       [1] "config" "list"  
+      attr(,"type")
+      [1] "tasks"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
 
@@ -233,7 +237,7 @@
       create_config(test_rounds_old, output_type_id_datatype = "character")
     Message
       ! `output_type_id_datatype` not avalaible in
-      schema versions <= "v3.0.1"
+      schema versions < "v3.0.1"
     Output
       $schema_version
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
@@ -336,6 +340,8 @@
       
       attr(,"class")
       [1] "config" "list"  
+      attr(,"type")
+      [1] "tasks"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
@@ -449,6 +455,8 @@
       
       attr(,"class")
       [1] "config" "list"  
+      attr(,"type")
+      [1] "tasks"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
 
