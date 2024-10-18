@@ -68,7 +68,8 @@ create_model_task <- function(task_ids, output_type, target_metadata) {
     )
   )
 
-  schema_id <- check_schema_ids( # nolint: object_usage_linter
+
+  schema_id <- check_schema_id_attr(
     list(
       task_ids,
       output_type,
@@ -76,7 +77,15 @@ create_model_task <- function(task_ids, output_type, target_metadata) {
     ),
     call = call
   )
-
+  branch <- check_schema_id_attr(
+    list(
+      task_ids,
+      output_type,
+      target_metadata
+    ),
+    attribute = "branch",
+    call = call
+  )
   # Dynamic model task level checks
   check_target_key_valid(target_metadata, task_ids, call)
   check_compound_taskids_valid(task_ids, output_type)
@@ -88,7 +97,8 @@ create_model_task <- function(task_ids, output_type, target_metadata) {
       target_metadata
     ),
     class = c("model_task", "list"),
-    schema_id = schema_id
+    schema_id = schema_id,
+    branch = branch
   )
 }
 

@@ -132,7 +132,8 @@ create_output_type_point <- function(output_type = c("mean", "median"),
     list(c(output_type_id, list(value = value))),
     class = c("output_type_item", "list"),
     names = output_type,
-    schema_id = schema$`$id`
+    schema_id = schema$`$id`,
+    branch = branch
   )
 }
 
@@ -362,7 +363,8 @@ create_output_type_sample <- function(is_required, output_type_id_type, max_leng
     list(c(output_type_id_params, list(value = value))),
     class = c("output_type_item", "list"),
     names = "sample",
-    schema_id = schema$`$id`
+    schema_id = schema$`$id`,
+    branch = branch
   )
 }
 
@@ -466,6 +468,7 @@ create_output_type_dist <- function(
     list(c(output_type_id, list(value = value))),
     class = c("output_type_item", "list"),
     names = output_type,
-    schema_id = schema$`$id`
+    schema_id = schema$`$id`,
+    branch = branch
   )
 }

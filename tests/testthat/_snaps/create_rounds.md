@@ -107,6 +107,8 @@
       [1] 1
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -332,6 +334,8 @@
       [1] 2
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 # create_round errors correctly
 

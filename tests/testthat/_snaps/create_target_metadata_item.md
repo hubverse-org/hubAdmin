@@ -32,6 +32,8 @@
       [1] "target_metadata_item" "list"                
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -62,6 +64,8 @@
       [1] "target_metadata_item" "list"                
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 # create_target_metadata_item functions error correctly
 

@@ -22,7 +22,8 @@ collect_items <- function(...,
 
   check_item_classes(items, item_class, call = call)
 
-  schema_id <- check_schema_ids(items, call = call) # nolint: object_usage_linter
+  schema_id <- check_schema_id_attr(items, call = call)
+  branch <- check_schema_id_attr(items, attribute = "branch", call = call)
 
   if (flatten) {
     items <- purrr::list_flatten(items)
@@ -58,7 +59,8 @@ collect_items <- function(...,
     class = c(output_class, "list"),
     names = output_class,
     n = length(items),
-    schema_id = schema_id
+    schema_id = schema_id,
+    branch = branch
   )
 }
 
