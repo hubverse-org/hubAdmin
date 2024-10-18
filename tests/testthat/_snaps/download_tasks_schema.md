@@ -1002,8 +1002,8 @@
                                                           "examples": [
                                                               {
                                                                   "required": [
-                                                                      10.0,
-                                                                      20.0
+                                                                      10,
+                                                                      20
                                                                   ],
                                                                   "optional": null
                                                               },
