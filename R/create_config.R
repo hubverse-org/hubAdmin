@@ -15,6 +15,9 @@
 #' `"integer"`, `"logical"`, or `"Date"`.
 #' For more details consult the [hubDocs documentation on model output datatypes](
 #' https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema)
+#' @param derived_task_ids character vector of derived task id names (i.e. task IDs
+#' whose values are depended on the values of other task IDs). Only available for
+#' schema version v4.0.0 and later.
 #'
 #' @return a named list of class `config`.
 #' @export
@@ -76,10 +79,15 @@
 #'   )
 #' )
 #' create_config(rounds)
-create_config <- function(rounds, output_type_id_datatype = NULL) {
+create_config <- function(rounds,
+                          output_type_id_datatype = NULL,
+                          derived_task_ids = NULL) {
   rlang::check_required(rounds)
   check_object_class(rounds, "rounds")
   schema_id <- attr(rounds, "schema_id")
+  if (!is.null(derived_task_ids)) {
+    check_derived_task_ids(derived_task_ids, rounds = rounds)
+  }
   output_type_id_datatype <- check_output_type_id_datatype(
     schema_id,
     output_type_id_datatype
@@ -89,7 +97,8 @@ create_config <- function(rounds, output_type_id_datatype = NULL) {
     list(
       schema_version = schema_id,
       rounds = rounds$rounds,
-      output_type_id_datatype = output_type_id_datatype
+      output_type_id_datatype = output_type_id_datatype,
+      derived_task_ids = derived_task_ids
     ) %>% purrr::compact(), # remove output_type_id_datatype if NULL
     class = c("config", "list"),
     schema_id = schema_id
@@ -110,9 +119,55 @@ check_output_type_id_datatype <- function(schema_id, output_type_id_datatype) {
   if (pre_v3_1 && not_null) {
     cli::cli_alert_warning(
       "{.arg output_type_id_datatype} not avalaible in
-      schema versions <= {.val v3.0.1}"
+      schema versions < {.val v3.0.1}"
     )
     return(NULL)
   }
   return(output_type_id_datatype)
+}
+
+check_derived_task_ids <- function(derived_task_ids, rounds, model_tasks,
+                                   call = rlang::caller_env()) {
+  rlang::check_exclusive(rounds, model_tasks)
+  if (rlang::is_missing(rounds)) {
+    schema_id <- attr(model_tasks, "schema_id")
+    all_model_tasks <- model_tasks$model_tasks
+    object <- "model_tasks"
+  } else {
+    schema_id <- attr(rounds, "schema_id")
+    all_model_tasks <- purrr::map(rounds$rounds, ~ .x$model_tasks) |>
+      purrr::flatten()
+    object <- "rounds"
+  }
+  pre_v4 <- hubUtils::version_lt("v4.0.0", schema_version = schema_id)
+  if (pre_v4) {
+    cli::cli_warn(
+      c("!" = "{.arg derived_task_ids} argument is only available for schema version
+                {.val v4.0.0} and later. Ignored."),
+      call = call
+    )
+    return(invisible(FALSE))
+  }
+
+  task_ids <- purrr::map(
+    all_model_tasks,
+    ~ names(.x$task_ids)
+  ) |>
+    unlist() |>
+    unique()
+
+  invalid_derived_task_ids <- setdiff(derived_task_ids, task_ids)
+
+  if (length(invalid_derived_task_ids) > 0L) {
+    cli::cli_abort(
+      c(
+        "x" = "{cli::qty(length(invalid_derived_task_ids))}
+        {.arg derived_task_ids} value{?s} {.val {invalid_derived_task_ids}}
+        {?is/are} not valid {.arg task_id} variable{?s}
+        in the provided {.arg {object}} object.",
+        "i" = "Valid {.arg task_id} variables are: {.val {task_ids}}"
+      ),
+      call = call
+    )
+  }
 }

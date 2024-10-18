@@ -11,7 +11,8 @@ create_round(
   model_tasks,
   submissions_due,
   last_data_date = NULL,
-  file_format = NULL
+  file_format = NULL,
+  derived_task_ids = NULL
 )
 }
 \arguments{
@@ -55,6 +56,10 @@ not allowed in the version of the schema used. It also overrides any specificati
 of file format in \code{admin.json}. For more details on whether this argument can
 be used as well as available formats, please consult
 the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.}
+
+\item{derived_task_ids}{character vector of derived task id names (i.e. task IDs
+whose values are depended on the values of other task IDs). Only available for
+schema version v4.0.0 and later.}
 }
 \value{
 a named list of class \code{round}.
