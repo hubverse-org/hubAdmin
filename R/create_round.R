@@ -109,8 +109,12 @@ create_round <- function(round_id_from_variable,
 
   check_object_class(model_tasks, "model_tasks")
 
-  schema <- hubUtils::get_schema(attr(model_tasks, "schema_id")) %>%
-    jsonlite::fromJSON(simplifyDataFrame = FALSE)
+  schema_version <- hubUtils::extract_schema_version(
+    attr(model_tasks, "schema_id")
+  )
+  branch <- attr(model_tasks, "branch")
+  schema <- download_tasks_schema(schema_version, branch)
+
   round_schema <- get_schema_round(schema)
 
   property_names <- c(
@@ -139,7 +143,8 @@ create_round <- function(round_id_from_variable,
     properties,
     class = c("round", "list"),
     round_id = round_id,
-    schema_id = schema$`$id`
+    schema_id = schema$`$id`,
+    branch = branch
   )
 }
 

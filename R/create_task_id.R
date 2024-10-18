@@ -97,7 +97,8 @@ create_task_id <- function(name, required, optional,
     )),
     class = c("task_id", "list"),
     names = name,
-    schema_id = schema$`$id`
+    schema_id = schema$`$id`,
+    branch = branch
   )
 }
 

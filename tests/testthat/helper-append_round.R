@@ -48,6 +48,7 @@ create_new_round <- function(round_id = "2024-09-18") {
     ),
     class = c("round", "list"),
     round_id = "nowcast_date",
+    branch = "main",
     schema_id = "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
   )
 }
