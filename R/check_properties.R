@@ -12,41 +12,41 @@
 # Check scalar properties against the schema
 check_properties_scalar <- function(properties, schema,
                                     call = rlang::caller_env()) {
-    schema_names <- prop_type_scalar(schema)
-    property_names <- intersect(schema_names, names(properties))
+  schema_names <- prop_type_scalar(schema)
+  property_names <- intersect(schema_names, names(properties))
 
-    purrr::walk(
-        property_names,
-        function(.x) {
-            check_input(
-                input = properties[[.x]],
-                property = .x,
-                schema,
-                parent_property = NULL,
-                scalar = TRUE,
-                call = call
-            )
-        }
-    )
+  purrr::walk(
+    property_names,
+    function(.x) {
+      check_input(
+        input = properties[[.x]],
+        property = .x,
+        schema,
+        parent_property = NULL,
+        scalar = TRUE,
+        call = call
+      )
+    }
+  )
 }
 
 # Check array properties against the schema
 check_properties_array <- function(properties, schema,
                                    call = rlang::caller_env()) {
-    schema_names <- prop_type_array(schema)
-    property_names <- intersect(schema_names, names(properties))
+  schema_names <- prop_type_array(schema)
+  property_names <- intersect(schema_names, names(properties))
 
-    purrr::walk(
-        property_names,
-        function(.x) {
-            check_input(
-                input = properties[[.x]],
-                property = .x,
-                schema,
-                parent_property = NULL,
-                scalar = FALSE,
-                call = call
-            )
-        }
-    )
+  purrr::walk(
+    property_names,
+    function(.x) {
+      check_input(
+        input = properties[[.x]],
+        property = .x,
+        schema,
+        parent_property = NULL,
+        scalar = FALSE,
+        call = call
+      )
+    }
+  )
 }
