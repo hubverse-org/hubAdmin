@@ -68,7 +68,7 @@ create_model_task <- function(task_ids, output_type, target_metadata) {
     )
   )
 
-  schema_id <- check_schema_ids(
+  schema_id <- check_schema_ids( # nolint: object_usage_linter
     list(
       task_ids,
       output_type,
