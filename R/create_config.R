@@ -133,12 +133,12 @@ check_derived_task_ids <- function(derived_task_ids, rounds, model_tasks,
   if (rlang::is_missing(rounds)) {
     schema_id <- attr(model_tasks, "schema_id")
     all_model_tasks <- model_tasks$model_tasks
-    object <- "model_tasks"
+    object <- "model_tasks" # nolint: object_usage_linter
   } else {
     schema_id <- attr(rounds, "schema_id")
     all_model_tasks <- purrr::map(rounds$rounds, ~ .x$model_tasks) |>
       purrr::flatten()
-    object <- "rounds"
+    object <- "rounds" # nolint: object_usage_linter
   }
   pre_v4 <- hubUtils::version_lt("v4.0.0", schema_version = schema_id)
   if (pre_v4) {
