@@ -46,27 +46,25 @@
     Code
       tbl$`_styles`
     Output
-      # A tibble: 18 x 7
-         locname grpname colname      locnum rownum colnum styles    
-         <chr>   <chr>   <chr>         <dbl>  <int>  <int> <list>    
-       1 data    <NA>    instancePath      5      1     NA <cll_styl>
-       2 data    <NA>    schemaPath        5      1     NA <cll_styl>
-       3 data    <NA>    schema            5      1     NA <cll_styl>
-       4 data    <NA>    instancePath      5      2     NA <cll_styl>
-       5 data    <NA>    schemaPath        5      2     NA <cll_styl>
-       6 data    <NA>    schema            5      2     NA <cll_styl>
-       7 data    <NA>    instancePath      5      3     NA <cll_styl>
-       8 data    <NA>    schemaPath        5      3     NA <cll_styl>
-       9 data    <NA>    schema            5      3     NA <cll_styl>
-      10 data    <NA>    schema            5      1     NA <cll_styl>
-      11 data    <NA>    schema            5      2     NA <cll_styl>
-      12 data    <NA>    schema            5      3     NA <cll_styl>
-      13 data    <NA>    message           5      1     NA <cll_styl>
-      14 data    <NA>    data              5      1     NA <cll_styl>
-      15 data    <NA>    message           5      2     NA <cll_styl>
-      16 data    <NA>    data              5      2     NA <cll_styl>
-      17 data    <NA>    message           5      3     NA <cll_styl>
-      18 data    <NA>    data              5      3     NA <cll_styl>
+         locname grpname      colname locnum rownum colnum        styles
+      1     data    <NA> instancePath      5      1     NA           pre
+      2     data    <NA>   schemaPath      5      1     NA           pre
+      3     data    <NA>       schema      5      1     NA           pre
+      4     data    <NA> instancePath      5      2     NA           pre
+      5     data    <NA>   schemaPath      5      2     NA           pre
+      6     data    <NA>       schema      5      2     NA           pre
+      7     data    <NA> instancePath      5      3     NA           pre
+      8     data    <NA>   schemaPath      5      3     NA           pre
+      9     data    <NA>       schema      5      3     NA           pre
+      10    data    <NA>       schema      5      1     NA      pre-wrap
+      11    data    <NA>       schema      5      2     NA      pre-wrap
+      12    data    <NA>       schema      5      3     NA      pre-wrap
+      13    data    <NA>      message      5      1     NA #F9E3D6, bold
+      14    data    <NA>         data      5      1     NA #F9E3D6, bold
+      15    data    <NA>      message      5      2     NA #F9E3D6, bold
+      16    data    <NA>         data      5      2     NA #F9E3D6, bold
+      17    data    <NA>      message      5      3     NA #F9E3D6, bold
+      18    data    <NA>         data      5      3     NA #F9E3D6, bold
 
 # length 1 paths and related type & enum errors handled correctly
 
