@@ -1,5 +1,8 @@
 # hubAdmin (development version)
 
+* Soft deprecate `as_config()` which has been moved to `hubUtils` (#56).
+* Add `derived_task_ids` property to `create_config()` (for specifying hub level derived task IDs) and `create_round()` (for specifying round level `derived_task_ids`) (#52).
+
 # hubAdmin 1.2.0
 
 * Add `as_config()` function to convert a list representation of a `tasks.json` config file to a `<config>` class object (#42). Useful when wanting to programmatically manipulate the contents of a `tasks.json` config file.
