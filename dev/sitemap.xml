@@ -9,7 +9,6 @@
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/index.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/news/index.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/append_round.html</loc></url>
-<url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/as_config.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/ci_validate_hub_config.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/create_config.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/create_model_task.html</loc></url>
@@ -27,6 +26,7 @@
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/get_array_schema_paths.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/index.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/pipe.html</loc></url>
+<url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/reexports.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/schema_autobox.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/validate_hub_config.html</loc></url>
