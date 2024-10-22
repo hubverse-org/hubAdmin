@@ -22,7 +22,7 @@ collect_items <- function(...,
 
   check_item_classes(items, item_class, call = call)
 
-  schema_id <- check_schema_ids(items, call = call)
+  schema_id <- check_schema_ids(items, call = call) # nolint: object_usage_linter
 
   if (flatten) {
     items <- purrr::list_flatten(items)
