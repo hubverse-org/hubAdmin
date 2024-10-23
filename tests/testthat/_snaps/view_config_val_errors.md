@@ -15,7 +15,7 @@
       tbl$`_heading`
     Output
       $title
-      [1] "**`hubUtils` config validation error report**"
+      [1] "**`hubAdmin` config validation error report**"
       attr(,"class")
       [1] "from_markdown"
       
