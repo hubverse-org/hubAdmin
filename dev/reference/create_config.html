@@ -45,7 +45,7 @@ class <code>config</code>. This can be written out to a <code>tasks.json</code> 
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_config</span><span class="op">(</span><span class="va">rounds</span>, output_type_id_datatype <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_config</span><span class="op">(</span><span class="va">rounds</span>, output_type_id_datatype <span class="op">=</span> <span class="cn">NULL</span>, derived_task_ids <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,6 +66,12 @@ This property is used to set the data type of the <code>output_type_id</code> co
 model outputs and can take values of <code>"auto"</code>, <code>"character"</code>, <code>"double"</code>,
 <code>"integer"</code>, <code>"logical"</code>, or <code>"Date"</code>.
 For more details consult the <a href="https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema" class="external-link">hubDocs documentation on model output datatypes</a></p></dd>
+
+
+<dt id="arg-derived-task-ids">derived_task_ids<a class="anchor" aria-label="anchor" href="#arg-derived-task-ids"></a></dt>
+<dd><p>character vector of derived task id names (i.e. task IDs
+whose values are depended on the values of other task IDs). Only available for
+schema version v4.0.0 and later.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -237,6 +243,8 @@ the <a href="https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.htm
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "config" "list"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"type")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "tasks"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"</span>
 </code></pre></div>
