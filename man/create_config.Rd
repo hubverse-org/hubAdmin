@@ -4,7 +4,7 @@
 \alias{create_config}
 \title{Create a \code{config} class object.}
 \usage{
-create_config(rounds, output_type_id_datatype = NULL)
+create_config(rounds, output_type_id_datatype = NULL, derived_task_ids = NULL)
 }
 \arguments{
 \item{rounds}{An object of class \code{rounds} created using function
@@ -18,6 +18,10 @@ This property is used to set the data type of the \code{output_type_id} column i
 model outputs and can take values of \code{"auto"}, \code{"character"}, \code{"double"},
 \code{"integer"}, \code{"logical"}, or \code{"Date"}.
 For more details consult the \href{https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema}{hubDocs documentation on model output datatypes}}
+
+\item{derived_task_ids}{character vector of derived task id names (i.e. task IDs
+whose values are depended on the values of other task IDs). Only available for
+schema version v4.0.0 and later.}
 }
 \value{
 a named list of class \code{config}.

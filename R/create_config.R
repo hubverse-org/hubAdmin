@@ -15,6 +15,9 @@
 #' `"integer"`, `"logical"`, or `"Date"`.
 #' For more details consult the [hubDocs documentation on model output datatypes](
 #' https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema)
+#' @param derived_task_ids character vector of derived task id names (i.e. task IDs
+#' whose values are depended on the values of other task IDs). Only available for
+#' schema version v4.0.0 and later.
 #'
 #' @return a named list of class `config`.
 #' @export
@@ -76,10 +79,15 @@
 #'   )
 #' )
 #' create_config(rounds)
-create_config <- function(rounds, output_type_id_datatype = NULL) {
+create_config <- function(rounds,
+                          output_type_id_datatype = NULL,
+                          derived_task_ids = NULL) {
   rlang::check_required(rounds)
   check_object_class(rounds, "rounds")
   schema_id <- attr(rounds, "schema_id")
+  if (!is.null(derived_task_ids)) {
+    check_derived_task_ids(derived_task_ids, rounds = rounds)
+  }
   output_type_id_datatype <- check_output_type_id_datatype(
     schema_id,
     output_type_id_datatype
@@ -89,9 +97,11 @@ create_config <- function(rounds, output_type_id_datatype = NULL) {
     list(
       schema_version = schema_id,
       rounds = rounds$rounds,
-      output_type_id_datatype = output_type_id_datatype
+      output_type_id_datatype = output_type_id_datatype,
+      derived_task_ids = derived_task_ids
     ) %>% purrr::compact(), # remove output_type_id_datatype if NULL
     class = c("config", "list"),
+    type = "tasks",
     schema_id = schema_id
   )
 }
@@ -110,7 +120,7 @@ check_output_type_id_datatype <- function(schema_id, output_type_id_datatype) {
   if (pre_v3_1 && not_null) {
     cli::cli_alert_warning(
       "{.arg output_type_id_datatype} not avalaible in
-      schema versions <= {.val v3.0.1}"
+      schema versions < {.val v3.0.1}"
     )
     return(NULL)
   }

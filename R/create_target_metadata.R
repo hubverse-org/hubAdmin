@@ -40,36 +40,44 @@ create_target_metadata <- function(...) {
 }
 
 
-check_schema_ids <- function(items, call = rlang::caller_env()) {
-  schema_ids <- purrr::map_chr(
+check_schema_id_attr <- function(items, attribute = c("schema_id", "branch"),
+                                 call = rlang::caller_env()) {
+  attribute <- rlang::arg_match(attribute)
+  schema_id_attr <- purrr::map_chr(
     items,
-    ~ attr(.x, "schema_id")
+    ~ attr(.x, attribute)
   )
 
-  unique_n <- schema_ids %>%
+  unique_n <- schema_id_attr %>%
     unique() %>%
     length()
 
   if (unique_n > 1L) {
-    if (!purrr::reduce(purrr::map(items, ~ class(.x)), identical)) {
+    # Check wether items are not of the same class (i.e. we're collecting task_ids,
+    # output_types and target_metadata instead of e.g. a number of individual task ids)
+    diff_classes <- !purrr::reduce(purrr::map(items, ~ class(.x)), identical)
+    if (diff_classes) {
       item_names <- purrr::map_chr(items, ~ names(.x))
-      schema_ids <- paste(item_names, ":", schema_ids)
+      schema_id_attr <- paste(item_names, ":", schema_id_attr)
       obj_ref <- "Argument" # nolint: object_usage_linter
     } else {
-      schema_ids <- paste("Item", seq_along(schema_ids), ":", schema_ids)
+      schema_id_attr <- paste("Item", seq_along(schema_id_attr), ":", schema_id_attr)
       obj_ref <- "Item"
     }
-    names(schema_ids) <- rep("*", length(schema_ids))
+    names(schema_id_attr) <- rep("*", length(schema_id_attr))
 
-    cli::cli_abort(c(
-      "!" = "All {tolower(obj_ref)}s supplied must be created against the same Hub schema.",
-      "x" = "{.arg schema_id} attributes are not consistent across all {tolower(obj_ref)}s.",
-      "{obj_ref} {.arg schema_id} attributes:",
-      schema_ids
-    ), call = call)
+    cli::cli_abort(
+      c(
+        "!" = "All {tolower(obj_ref)}s supplied must be created against the same Hub schema.",
+        "x" = "{.arg {attribute}} attributes are not consistent across all {tolower(obj_ref)}s.",
+        "{obj_ref} {.arg {attribute}} attributes:",
+        schema_id_attr
+      ),
+      call = call
+    )
   }
 
-  unique(schema_ids)
+  unique(schema_id_attr)
 }
 
 

@@ -26,6 +26,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -55,6 +57,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -80,6 +84,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -110,6 +116,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 # create_output_type_point functions error correctly
 
@@ -178,6 +186,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -209,6 +219,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -241,6 +253,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -273,6 +287,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -307,6 +323,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 # create_output_type_dist functions error correctly
 
@@ -369,6 +387,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -415,6 +435,8 @@
       [1] "output_type_item" "list"            
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 # create_output_type_sample errors correctly
 

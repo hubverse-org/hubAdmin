@@ -87,3 +87,72 @@ test_that("create_config handles output_type_id_datatype correctly ", {
     create_config(test_rounds_old, output_type_id_datatype = "character")
   )
 })
+
+test_that("create_config derived_task_ids argument", {
+  # TODO: Remove branch specification when v4.0.0 released
+  expect_snapshot(
+    create_config(
+      create_rounds(
+        create_derived_task_ids_round(
+          version = "v4.0.0", branch = "br-v4.0.0"
+        )
+      ),
+      derived_task_ids = "location"
+    )
+  )
+  # Show that the derived_task_ids argument is removed when NULL
+  expect_snapshot(
+    waldo::compare(
+      create_config(
+        create_rounds(
+          create_derived_task_ids_round(
+            version = "v4.0.0", branch = "br-v4.0.0"
+          )
+        ),
+        derived_task_ids = "location"
+      ),
+      create_config(
+        create_rounds(
+          create_derived_task_ids_round(
+            version = "v4.0.0", branch = "br-v4.0.0"
+          )
+        ),
+        derived_task_ids = NULL
+      )
+    )
+  )
+  expect_warning(
+    create_config(
+      create_rounds(
+        create_derived_task_ids_round(
+          version = "v3.0.0"
+        )
+      ),
+      derived_task_ids = "random_task_id"
+    ),
+    regex = "argument is only available for schema version"
+  )
+
+  expect_snapshot(
+    create_config(
+      create_rounds(
+        create_derived_task_ids_round(
+          version = "v4.0.0", branch = "br-v4.0.0"
+        )
+      ),
+      derived_task_ids = 1L
+    ),
+    error = TRUE
+  )
+  expect_snapshot(
+    create_config(
+      create_rounds(
+        create_derived_task_ids_round(
+          version = "v4.0.0", branch = "br-v4.0.0"
+        )
+      ),
+      derived_task_ids = "random_task_id"
+    ),
+    error = TRUE
+  )
+})

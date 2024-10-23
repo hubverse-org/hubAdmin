@@ -34,6 +34,7 @@
 #'  be used as well as available formats, please consult
 #' the [documentation on `tasks.json` Hub config files](
 #' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' @inheritParams create_config
 #' @return a named list of class `round`.
 #' @export
 #' @seealso [create_rounds()]
@@ -96,7 +97,8 @@ create_round <- function(round_id_from_variable,
                          round_id, round_name = NULL,
                          model_tasks,
                          submissions_due, last_data_date = NULL,
-                         file_format = NULL) {
+                         file_format = NULL,
+                         derived_task_ids = NULL) {
   rlang::check_required(round_id_from_variable)
   rlang::check_required(round_id)
   rlang::check_required(model_tasks)
@@ -105,28 +107,33 @@ create_round <- function(round_id_from_variable,
 
   check_object_class(model_tasks, "model_tasks")
 
-  schema <- hubUtils::get_schema(attr(model_tasks, "schema_id")) %>%
-    jsonlite::fromJSON(simplifyDataFrame = FALSE)
+  schema_version <- hubUtils::extract_schema_version(
+    attr(model_tasks, "schema_id")
+  )
+  branch <- attr(model_tasks, "branch")
+  schema <- download_tasks_schema(schema_version, branch)
+
   round_schema <- get_schema_round(schema)
 
   property_names <- c(
     "round_id_from_variable", "round_id",
     "round_name", "model_tasks", "submissions_due",
     "last_data_date",
-    "file_format"
+    "file_format",
+    "derived_task_ids"
   ) %>%
     purrr::keep(~ .x %in% names(round_schema))
-
-  model_tasks <- model_tasks$model_tasks
   properties <- mget(property_names) %>%
     purrr::compact()
-
   property_names <- names(properties)
+  properties$model_tasks <- model_tasks$model_tasks
 
   check_properties_scalar(properties, round_schema, call = call)
   check_properties_array(properties, round_schema, call = call)
   check_submission_due(submissions_due, round_schema, model_tasks)
-
+  if (!is.null(derived_task_ids)) {
+    check_derived_task_ids(derived_task_ids, model_tasks = model_tasks)
+  }
   if (round_id_from_variable) {
     check_round_id_variable(model_tasks, round_id)
   }
@@ -135,14 +142,15 @@ create_round <- function(round_id_from_variable,
     properties,
     class = c("round", "list"),
     round_id = round_id,
-    schema_id = schema$`$id`
+    schema_id = schema$`$id`,
+    branch = branch
   )
 }
 
 check_round_id_variable <- function(model_tasks, round_id,
                                     call = rlang::caller_env()) {
   invalid_round_id <- purrr::map_lgl(
-    model_tasks,
+    model_tasks$model_tasks,
     ~ !round_id %in% names(.x$task_ids)
   )
 
@@ -208,7 +216,7 @@ check_submission_due <- function(submissions_due, round_schema, model_tasks,
       which(is_relative_to_schema),
       "properties"
     )
-    check_relative_to_variable(submissions_due, model_tasks,
+    check_relative_to_variable(submissions_due, model_tasks$model_tasks,
       call = call
     )
   } else {

@@ -103,6 +103,8 @@
       [1] "round_1"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -212,6 +214,8 @@
       [1] "origin_date"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 # create_round name matching works correctly
 
@@ -267,4 +271,152 @@
     Condition
       Error in `create_round()`:
       x `model_tasks` must inherit from class <model_tasks> but does not
+
+# create_round derived_task_ids argument
+
+    Code
+      create_derived_task_ids_round(version = "v4.0.0", branch = "br-v4.0.0",
+        derived_task_ids = "location")
+    Output
+      $round_id_from_variable
+      [1] TRUE
+      
+      $round_id
+      [1] "origin_date"
+      
+      $model_tasks
+      $model_tasks[[1]]
+      $model_tasks[[1]]$task_ids
+      $model_tasks[[1]]$task_ids$origin_date
+      $model_tasks[[1]]$task_ids$origin_date$required
+      NULL
+      
+      $model_tasks[[1]]$task_ids$origin_date$optional
+      [1] "2023-01-02" "2023-01-09" "2023-01-16"
+      
+      
+      $model_tasks[[1]]$task_ids$location
+      $model_tasks[[1]]$task_ids$location$required
+      [1] "US"
+      
+      $model_tasks[[1]]$task_ids$location$optional
+      [1] "01" "02" "04" "05" "06"
+      
+      
+      $model_tasks[[1]]$task_ids$horizon
+      $model_tasks[[1]]$task_ids$horizon$required
+      [1] 1
+      
+      $model_tasks[[1]]$task_ids$horizon$optional
+      [1] 2 3 4
+      
+      
+      
+      $model_tasks[[1]]$output_type
+      $model_tasks[[1]]$output_type$mean
+      $model_tasks[[1]]$output_type$mean$output_type_id
+      $model_tasks[[1]]$output_type$mean$output_type_id$required
+      [1] NA
+      
+      $model_tasks[[1]]$output_type$mean$output_type_id$optional
+      NULL
+      
+      
+      $model_tasks[[1]]$output_type$mean$value
+      $model_tasks[[1]]$output_type$mean$value$type
+      [1] "double"
+      
+      $model_tasks[[1]]$output_type$mean$value$minimum
+      [1] 0
+      
+      
+      
+      
+      $model_tasks[[1]]$target_metadata
+      $model_tasks[[1]]$target_metadata[[1]]
+      $model_tasks[[1]]$target_metadata[[1]]$target_id
+      [1] "inc hosp"
+      
+      $model_tasks[[1]]$target_metadata[[1]]$target_name
+      [1] "Weekly incident influenza hospitalizations"
+      
+      $model_tasks[[1]]$target_metadata[[1]]$target_units
+      [1] "rate per 100,000 population"
+      
+      $model_tasks[[1]]$target_metadata[[1]]$target_keys
+      NULL
+      
+      $model_tasks[[1]]$target_metadata[[1]]$target_type
+      [1] "discrete"
+      
+      $model_tasks[[1]]$target_metadata[[1]]$is_step_ahead
+      [1] TRUE
+      
+      $model_tasks[[1]]$target_metadata[[1]]$time_unit
+      [1] "week"
+      
+      
+      
+      
+      
+      $submissions_due
+      $submissions_due$relative_to
+      [1] "origin_date"
+      
+      $submissions_due$start
+      [1] -4
+      
+      $submissions_due$end
+      [1] 2
+      
+      
+      $derived_task_ids
+      [1] "location"
+      
+      attr(,"class")
+      [1] "round" "list" 
+      attr(,"round_id")
+      [1] "origin_date"
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
+
+---
+
+    Code
+      waldo::compare(create_derived_task_ids_round(version = "v4.0.0", branch = "br-v4.0.0",
+        derived_task_ids = "location"), create_derived_task_ids_round(version = "v4.0.0",
+        branch = "br-v4.0.0", derived_task_ids = NULL))
+    Output
+      `old` is length 5
+      `new` is length 4
+      
+      `names(old)[2:5]`: "round_id" "model_tasks" "submissions_due" "derived_task_ids"
+      `names(new)[2:4]`: "round_id" "model_tasks" "submissions_due"                   
+      
+      `old$derived_task_ids` is a character vector ('location')
+      `new$derived_task_ids` is absent
+
+---
+
+    Code
+      create_derived_task_ids_round(version = "v4.0.0", branch = "br-v4.0.0",
+        derived_task_ids = 1L)
+    Condition
+      Error in `map()`:
+      i In index: 1.
+      Caused by error in `create_round()`:
+      x `derived_task_ids` is of type <integer>.
+      ! Must be <character>.
+
+---
+
+    Code
+      create_derived_task_ids_round(version = "v4.0.0", branch = "br-v4.0.0",
+        derived_task_ids = c("random_task_id"))
+    Condition
+      Error in `create_round()`:
+      x `derived_task_ids` value "random_task_id" is not valid `task_id` variable in the provided `model_tasks` object.
+      i Valid `task_id` variables are: "origin_date", "location", and "horizon"
 
