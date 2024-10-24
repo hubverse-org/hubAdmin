@@ -7,7 +7,7 @@
     <a href="https://hubdocs.readthedocs.io/en/latest/" class="external-link"><img src="https://raw.githubusercontent.com/hubverse-org/hubStyle/main/inst/hubverse.png" id="logo" height="30" alt="hubverse"></a>
     <a class="navbar-brand me-2" href="../index.html">hubAdmin</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,8 +36,12 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3.0" id="hubadmin-130">hubAdmin 1.3.0<a class="anchor" aria-label="anchor" href="#hubadmin-130"></a></h2>
+<ul><li>Add <code>derived_task_ids</code> property to <code><a href="../reference/create_config.html">create_config()</a></code> (for specifying hub level derived task IDs) and <code><a href="../reference/create_round.html">create_round()</a></code> (for specifying round level derived task IDs) (<a href="https://github.com/hubverse-org/hubAdmin/issues/52" class="external-link">#52</a>). This adds compatibility for the upcoming schemas v4.0.0 release.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.0" id="hubadmin-120">hubAdmin 1.2.0<a class="anchor" aria-label="anchor" href="#hubadmin-120"></a></h2>
-<ul><li>Add <code><a href="../reference/as_config.html">as_config()</a></code> function to convert a list representation of a <code>tasks.json</code> config file to a <code>&lt;config&gt;</code> class object (<a href="https://github.com/hubverse-org/hubAdmin/issues/42" class="external-link">#42</a>). Useful when wanting to programmatically manipulate the contents of a <code>tasks.json</code> config file.</li>
+<ul><li>Add <code><a href="https://hubverse-org.github.io/hubUtils/reference/as_config.html" class="external-link">as_config()</a></code> function to convert a list representation of a <code>tasks.json</code> config file to a <code>&lt;config&gt;</code> class object (<a href="https://github.com/hubverse-org/hubAdmin/issues/42" class="external-link">#42</a>). Useful when wanting to programmatically manipulate the contents of a <code>tasks.json</code> config file.</li>
 <li>Add <code><a href="../reference/append_round.html">append_round()</a></code> function to append one or more <code>&lt;round&gt;</code> class objects to the <code>rounds</code> property of a <code>&lt;config&gt;</code> class object (<a href="https://github.com/hubverse-org/hubAdmin/issues/42" class="external-link">#42</a>).</li>
 <li>Add <code><a href="../reference/schema_autobox.html">schema_autobox()</a></code> function that uses the schema to “box” length one vectors in a <code>&lt;config&gt;</code> class object that should be arrays in JSON format (<a href="https://github.com/hubverse-org/hubAdmin/issues/44" class="external-link">#44</a>). This transformation is now applied by default when writing a <code>&lt;config&gt;</code> class object to a JSON file using <code>write_json()</code> but can be deactivated using the <code>autobox</code> argument. The transformation is also applied to any properties that should be arrays covered by <code>additionalProperties</code> in the schema (e.g. custom task IDs).</li>
 <li>Add <code><a href="../reference/get_array_schema_paths.html">get_array_schema_paths()</a></code> utility function for extracting paths to potential array properties in a JSON schema and export previously internal <code><a href="../reference/download_tasks_schema.html">download_tasks_schema()</a></code>.</li>
