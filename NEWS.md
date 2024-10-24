@@ -1,6 +1,6 @@
 # hubAdmin 1.3.0
 
-* Add `derived_task_ids` property to `create_config()` (for specifying hub level derived task IDs) and `create_round()` (for specifying round level derived task IDs) (#52).
+* Add `derived_task_ids` property to `create_config()` (for specifying hub level derived task IDs) and `create_round()` (for specifying round level derived task IDs) (#52). This adds compatibility for the upcoming schemas v4.0.0 release.
 
 # hubAdmin 1.2.0
 
