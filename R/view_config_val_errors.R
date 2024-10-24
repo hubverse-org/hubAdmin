@@ -53,7 +53,7 @@ view_config_val_errors <- function(x) {
   schema_version <- attr(x, "schema_version")
   schema_url <- attr(x, "schema_url")
 
-  title <- gt::md("**`hubUtils` config validation error report**")
+  title <- gt::md("**`hubAdmin` config validation error report**")
   subtitle <- gt::md(
     glue::glue("Report for {val_type} **`{val_path}`** using
                    schema version [**{schema_version}**]({schema_url})")
