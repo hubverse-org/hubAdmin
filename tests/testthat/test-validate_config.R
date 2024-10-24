@@ -26,8 +26,10 @@ test_that("Config validated successfully", {
 
 test_that("Config for samples handled succesfully", {
   config_path <- testthat::test_path("testdata", "tasks-samples-pass.json")
-  out <- suppressMessages(validate_config(config_path = config_path,
-                                          schema_version = "latest"))
+  out <- suppressMessages(validate_config(
+    config_path = config_path,
+    schema_version = "latest"
+  ))
   expect_snapshot(out)
   expect_true(out)
 })
@@ -40,15 +42,19 @@ test_that("Missing files returns an invalid config with an immediate message", {
 })
 test_that("Config for samples fail correctly", {
   config_path <- testthat::test_path("testdata", "tasks-samples-error-range.json")
-  out <- suppressWarnings(validate_config(config_path = config_path,
-                                          schema_version = "latest"))
+  out <- suppressWarnings(validate_config(
+    config_path = config_path,
+    schema_version = "latest"
+  ))
   expect_snapshot(out)
   expect_snapshot(attr(out, "errors"))
   expect_false(out)
 
   config_path <- testthat::test_path("testdata", "tasks-samples-error-task-ids.json")
-  out <- suppressWarnings(validate_config(config_path = config_path,
-                                          schema_version = "latest"))
+  out <- suppressWarnings(validate_config(
+    config_path = config_path,
+    schema_version = "latest"
+  ))
   expect_snapshot(out)
   expect_snapshot(attr(out, "errors"))
   expect_false(out)
@@ -63,7 +69,6 @@ test_that("Config errors detected successfully", {
   expect_snapshot(attr(out, "errors"))
   expect_false(out)
 })
-
 
 
 test_that("Dynamic config errors detected successfully by custom R validation", {
@@ -157,4 +162,30 @@ test_that("Old orgname config validates successfully", {
   expect_snapshot(out)
   expect_snapshot(attr(out, "errors"))
   expect_true(out)
+})
+
+test_that("target keys error if arrays passed", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "tasks-target-key-array-v4.json"
+  )
+  # TODO: remove branch argument when v4.0.0 is released.
+  out_v4 <- suppressMessages(validate_config(
+    config_path = config_path,
+    schema_version = "v4.0.0",
+    branch = "br-v4.0.0"
+  ))
+  expect_snapshot(out_v4)
+  # latest schema should throw error with respect to target key type.
+  expect_snapshot(attr(out_v4, "errors"))
+  expect_false(out_v4)
+
+  out_v3 <- suppressMessages(validate_config(
+    config_path = config_path,
+    schema_version = "v3.0.0"
+  ))
+  # v3.0.0 schema should throw error about missing optional property in pmf
+  # but not about target keys.
+  expect_snapshot(attr(out_v3, "errors"))
+  expect_false(out_v3)
 })

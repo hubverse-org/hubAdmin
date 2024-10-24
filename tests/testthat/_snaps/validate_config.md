@@ -915,3 +915,67 @@
     Output
       NULL
 
+# target keys error if arrays passed
+
+    Code
+      out_v4
+    Output
+      [1] FALSE
+    Message
+      ! 1 schema errors: testdata/tasks-target-key-array-v4.json
+        (<file://testdata/tasks-target-key-array-v4.json>) (via tasks-schema v4.0.0
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/br-v4.0.0/v4.0.0/tasks-schema.json>))
+      i use `view_config_val_errors()` to view table of error details.
+
+---
+
+    Code
+      attr(out_v4, "errors")
+    Output
+                                                        instancePath
+      1 /rounds/0/model_tasks/0/target_metadata/0/target_keys/target
+                                                                                                                                      schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/target_metadata/items/properties/target_keys/additionalProperties/type
+        keyword   type        message schema   type                      data
+      1    type string must be string string string wk flu hosp rate category
+                                                            dataPath
+      1 /rounds/0/model_tasks/0/target_metadata/0/target_keys/target
+
+---
+
+    Code
+      attr(out_v3, "errors")
+    Output
+                                                  instancePath
+      1 /rounds/0/model_tasks/0/output_type/pmf/output_type_id
+                                                                                                                             schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/pmf/properties/output_type_id/required
+         keyword missingProperty                                message
+      1 required        optional must have required property 'optional'
+                    schema
+      1 required, optional
+                                                                                                                                                                                   parentSchema.description
+      1 Object containing required and optional arrays specifying valid categories of a discrete variable. Note that for ordinal variables, the category levels should be listed in order from low to high.
+                   parentSchema.examples parentSchema.type
+      1 NA, low, moderate, high, extreme            object
+                                                                                                                                                                         parentSchema.properties.required.description
+      1 Array of unique categories of a discrete variable that must be present for submission to be valid. Can be null if no categories are required and all valid categories are specified in the optional property.
+        parentSchema.properties.required.type
+      1                           array, null
+        parentSchema.properties.required.uniqueItems
+      1                                         TRUE
+        parentSchema.properties.required.type
+      1                                string
+                                                                                                                            parentSchema.properties.optional.description
+      1 Array of valid but not required unique categories of a discrete variable. Can be null if all categories are required and are specified in the required property.
+        parentSchema.properties.optional.type
+      1                           array, null
+        parentSchema.properties.optional.uniqueItems
+      1                                         TRUE
+        parentSchema.properties.optional.type parentSchema.required
+      1                                string    required, optional
+                              required
+      1 low, moderate, high, very high
+                                                      dataPath
+      1 /rounds/0/model_tasks/0/output_type/pmf/output_type_id
+
