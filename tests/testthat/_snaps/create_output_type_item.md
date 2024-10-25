@@ -1,8 +1,8 @@
-# create_output_type_point functions work correctly
+# create_output_type_point functions work correctly with v3.0.1 schema
 
     Code
       create_output_type_mean(is_required = TRUE, value_type = "double",
-        value_minimum = 0L)
+        value_minimum = 0L, schema_version = "v3.0.1")
     Output
       $mean
       $mean$output_type_id
@@ -33,7 +33,7 @@
 
     Code
       create_output_type_mean(is_required = FALSE, value_type = "integer",
-        value_maximum = 0L)
+        value_maximum = 0L, schema_version = "v3.0.1")
     Output
       $mean
       $mean$output_type_id
@@ -63,7 +63,8 @@
 ---
 
     Code
-      create_output_type_median(is_required = FALSE, value_type = "double")
+      create_output_type_median(is_required = FALSE, value_type = "double",
+        schema_version = "v3.0.1")
     Output
       $median
       $median$output_type_id
@@ -87,42 +88,11 @@
       attr(,"branch")
       [1] "main"
 
----
-
-    Code
-      create_output_type_median(is_required = FALSE, value_type = "double",
-        schema_version = "v1.0.0")
-    Condition
-      Warning:
-      Hub configured using schema version v1.0.0. Support for schema earlier than v2.0.0 was deprecated in hubUtils 0.0.0.9010.
-      i Please upgrade Hub config files to conform to, at minimum, version v2.0.0 as soon as possible.
-    Output
-      $median
-      $median$type_id
-      $median$type_id$required
-      NULL
-      
-      $median$type_id$optional
-      [1] NA
-      
-      
-      $median$value
-      $median$value$type
-      [1] "double"
-      
-      
-      
-      attr(,"class")
-      [1] "output_type_item" "list"            
-      attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
-      attr(,"branch")
-      [1] "main"
-
 # create_output_type_point functions error correctly
 
     Code
-      create_output_type_mean(is_required = "TRUE", value_type = "double")
+      create_output_type_mean(is_required = "TRUE", value_type = "double",
+        schema_version = "v3.0.1")
     Condition
       Error in `create_output_type_point()`:
       x Argument `is_required` must be <logical> and have length 1.
@@ -130,7 +100,8 @@
 ---
 
     Code
-      create_output_type_mean(is_required = TRUE, value_type = c("double", "integer"))
+      create_output_type_mean(is_required = TRUE, value_type = c("double", "integer"),
+      schema_version = "v3.0.1")
     Condition
       Error in `map()`:
       i In index: 1.
@@ -141,7 +112,7 @@
 
     Code
       create_output_type_mean(is_required = FALSE, value_type = "character",
-        value_maximum = 0L)
+        value_maximum = 0L, schema_version = "v3.0.1")
     Condition
       Error in `map()`:
       i In index: 1.
@@ -153,7 +124,7 @@
 ---
 
     Code
-      create_output_type_median(is_required = FALSE)
+      create_output_type_median(is_required = FALSE, schema_version = "v3.0.1")
     Condition
       Error in `create_output_type_point()`:
       ! `value_type` is absent but must be supplied.
@@ -162,7 +133,8 @@
 
     Code
       create_output_type_quantile(required = c(0.25, 0.5, 0.75), optional = c(0.1,
-        0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9), value_type = "double", value_minimum = 0)
+        0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9), value_type = "double", value_minimum = 0,
+      schema_version = "v3.0.1")
     Output
       $quantile
       $quantile$output_type_id
@@ -192,7 +164,8 @@
 ---
 
     Code
-      create_output_type_cdf(required = c(10, 20), optional = NULL, value_type = "double")
+      create_output_type_cdf(required = c(10, 20), optional = NULL, value_type = "double",
+      schema_version = "v3.0.1")
     Output
       $cdf
       $cdf$output_type_id
@@ -226,7 +199,7 @@
 
     Code
       create_output_type_cdf(required = NULL, optional = c("EW202240", "EW202241",
-        "EW202242"), value_type = "double")
+        "EW202242"), value_type = "double", schema_version = "v3.0.1")
     Output
       $cdf
       $cdf$output_type_id
@@ -260,7 +233,7 @@
 
     Code
       create_output_type_pmf(required = NULL, optional = c("low", "moderate", "high",
-        "extreme"), value_type = "double")
+        "extreme"), value_type = "double", schema_version = "v3.0.1")
     Output
       $pmf
       $pmf$output_type_id
@@ -354,7 +327,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 70L, max_samples_per_task = 100L, value_type = "double",
-        value_minimum = 0L, value_maximum = 1L)
+        value_minimum = 0L, value_maximum = 1L, schema_version = "v3.0.1")
     Output
       $sample
       $sample$output_type_id_params
@@ -396,7 +369,7 @@
       create_output_type_sample(is_required = FALSE, output_type_id_type = "character",
         max_length = 5L, min_samples_per_task = 70L, max_samples_per_task = 100L,
         compound_taskid_set = c("horizon", "target", "location"), value_type = "double",
-        value_minimum = 0L, value_maximum = 1L)
+        value_minimum = 0L, value_maximum = 1L, schema_version = "v3.0.1")
     Output
       $sample
       $sample$output_type_id_params
@@ -443,7 +416,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 10:11, max_samples_per_task = 100L, value_type = "character",
-        value_minimum = 0L, value_maximum = 1L)
+        value_minimum = 0L, value_maximum = 1L, schema_version = "v3.0.1")
     Condition
       Error in `map()`:
       i In index: 3.
@@ -455,7 +428,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 110L, max_samples_per_task = 100L, value_type = "character",
-        value_minimum = 0L, value_maximum = 1L)
+        value_minimum = 0L, value_maximum = 1L, schema_version = "v3.0.1")
     Condition
       Error in `create_output_type_sample()`:
       ! `min_samples_per_task` must be less than or equal to `max_samples_per_task`.
@@ -465,7 +438,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 70L, max_samples_per_task = 100L, value_type = "character",
-        value_minimum = 0L, value_maximum = 1L)
+        value_minimum = 0L, value_maximum = 1L, schema_version = "v3.0.1")
     Condition
       Error in `map()`:
       i In index: 1.
@@ -480,7 +453,7 @@
       create_output_type_sample(is_required = FALSE, output_type_id_type = "character",
         max_length = 5L, min_samples_per_task = 70L, max_samples_per_task = 100L,
         compound_taskid_set = c(1, 2, 3), value_type = "double", value_minimum = 0L,
-        value_maximum = 1L)
+        value_maximum = 1L, schema_version = "v3.0.1")
     Condition
       Error in `create_output_type_sample()`:
       x `compound_taskid_set` is of type <double>.

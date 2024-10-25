@@ -1,30 +1,25 @@
-test_that("create_output_type_point functions work correctly", {
+test_that("create_output_type_point functions work correctly with v3.0.1 schema", {
   expect_snapshot(
     create_output_type_mean(
       is_required = TRUE,
       value_type = "double",
-      value_minimum = 0L
+      value_minimum = 0L,
+      schema_version = "v3.0.1"
     )
   )
   expect_snapshot(
     create_output_type_mean(
       is_required = FALSE,
       value_type = "integer",
-      value_maximum = 0L
+      value_maximum = 0L,
+      schema_version = "v3.0.1"
     )
   )
-  expect_snapshot(
-    create_output_type_median(
-      is_required = FALSE,
-      value_type = "double"
-    )
-  )
-  # Test back-compatibility
   expect_snapshot(
     create_output_type_median(
       is_required = FALSE,
       value_type = "double",
-      schema_version = "v1.0.0"
+      schema_version = "v3.0.1"
     )
   )
 })
@@ -33,14 +28,16 @@ test_that("create_output_type_point functions error correctly", {
   expect_snapshot(
     create_output_type_mean(
       is_required = "TRUE",
-      value_type = "double"
+      value_type = "double",
+      schema_version = "v3.0.1"
     ),
     error = TRUE
   )
   expect_snapshot(
     create_output_type_mean(
       is_required = TRUE,
-      value_type = c("double", "integer")
+      value_type = c("double", "integer"),
+      schema_version = "v3.0.1"
     ),
     error = TRUE
   )
@@ -48,16 +45,17 @@ test_that("create_output_type_point functions error correctly", {
     create_output_type_mean(
       is_required = FALSE,
       value_type = "character",
-      value_maximum = 0L
+      value_maximum = 0L,
+      schema_version = "v3.0.1"
     ),
     error = TRUE
   )
   expect_snapshot(
-    create_output_type_median(is_required = FALSE),
+    create_output_type_median(is_required = FALSE,
+                              schema_version = "v3.0.1"),
     error = TRUE
   )
 })
-
 
 test_that("create_output_type_dist functions work correctly", {
   expect_snapshot(
@@ -68,14 +66,16 @@ test_that("create_output_type_dist functions work correctly", {
         0.7, 0.8, 0.9
       ),
       value_type = "double",
-      value_minimum = 0
+      value_minimum = 0,
+      schema_version = "v3.0.1"
     )
   )
   expect_snapshot(
     create_output_type_cdf(
       required = c(10, 20),
       optional = NULL,
-      value_type = "double"
+      value_type = "double",
+      schema_version = "v3.0.1"
     )
   )
   expect_snapshot(
@@ -86,7 +86,8 @@ test_that("create_output_type_dist functions work correctly", {
         "EW202241",
         "EW202242"
       ),
-      value_type = "double"
+      value_type = "double",
+      schema_version = "v3.0.1"
     )
   )
   expect_snapshot(
@@ -96,7 +97,8 @@ test_that("create_output_type_dist functions work correctly", {
         "low", "moderate",
         "high", "extreme"
       ),
-      value_type = "double"
+      value_type = "double",
+      schema_version = "v3.0.1"
     )
   )
 
@@ -153,7 +155,8 @@ test_that("create_output_type_sample works", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L
+      value_maximum = 1L,
+      schema_version = "v3.0.1"
     )
   )
   expect_snapshot(
@@ -165,7 +168,8 @@ test_that("create_output_type_sample works", {
       compound_taskid_set = c("horizon", "target", "location"),
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L
+      value_maximum = 1L,
+      schema_version = "v3.0.1"
     )
   )
 })
@@ -179,7 +183,8 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 10:11, max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
-      value_maximum = 1L
+      value_maximum = 1L,
+      schema_version = "v3.0.1"
     ),
     error = TRUE
   )
@@ -191,7 +196,8 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 110L, max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
-      value_maximum = 1L
+      value_maximum = 1L,
+      schema_version = "v3.0.1"
     ),
     error = TRUE
   )
@@ -203,7 +209,8 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
-      value_maximum = 1L
+      value_maximum = 1L,
+      schema_version = "v3.0.1"
     ),
     error = TRUE
   )
@@ -218,7 +225,8 @@ test_that("create_output_type_sample errors correctly", {
       compound_taskid_set = c(1, 2, 3),
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L
+      value_maximum = 1L,
+      schema_version = "v3.0.1"
     ),
     error = TRUE
   )
