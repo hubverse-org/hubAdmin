@@ -469,3 +469,125 @@
       Error in `create_output_type_sample()`:
       ! This function is only supported for schema versions "v3.0.0" and above.
 
+# create_output_type_item is back-compatible
+
+    Code
+      create_output_type_median(is_required = FALSE, value_type = "double",
+        schema_version = "v1.0.0")
+    Condition
+      Warning:
+      Hub configured using schema version v1.0.0. Support for schema earlier than v2.0.0 was deprecated in hubUtils 0.0.0.9010.
+      i Please upgrade Hub config files to conform to, at minimum, version v2.0.0 as soon as possible.
+    Output
+      $median
+      $median$type_id
+      $median$type_id$required
+      NULL
+      
+      $median$type_id$optional
+      [1] NA
+      
+      
+      $median$value
+      $median$value$type
+      [1] "double"
+      
+      
+      
+      attr(,"class")
+      [1] "output_type_item" "list"            
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
+
+# create_output_type_item works with v4 schema
+
+    Code
+      create_output_type_mean(is_required = TRUE, value_type = "double",
+        value_minimum = 0L, schema_version = "v4.0.0", branch = "br-v4.0.0")
+    Output
+      $mean
+      $mean$output_type_id
+      $mean$output_type_id$required
+      [1] NA
+      
+      
+      $mean$is_required
+      [1] TRUE
+      
+      $mean$value
+      $mean$value$type
+      [1] "double"
+      
+      $mean$value$minimum
+      [1] 0
+      
+      
+      
+      attr(,"class")
+      [1] "output_type_item" "list"            
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
+
+---
+
+    Code
+      create_output_type_mean(is_required = FALSE, value_type = "integer",
+        value_maximum = 0L, schema_version = "v4.0.0", branch = "br-v4.0.0")
+    Output
+      $mean
+      $mean$output_type_id
+      $mean$output_type_id$required
+      [1] NA
+      
+      
+      $mean$is_required
+      [1] FALSE
+      
+      $mean$value
+      $mean$value$type
+      [1] "integer"
+      
+      $mean$value$maximum
+      [1] 0
+      
+      
+      
+      attr(,"class")
+      [1] "output_type_item" "list"            
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
+
+---
+
+    Code
+      create_output_type_median(is_required = FALSE, value_type = "double",
+        schema_version = "v4.0.0", branch = "br-v4.0.0")
+    Output
+      $median
+      $median$output_type_id
+      $median$output_type_id$required
+      [1] NA
+      
+      
+      $median$is_required
+      [1] FALSE
+      
+      $median$value
+      $median$value$type
+      [1] "double"
+      
+      
+      
+      attr(,"class")
+      [1] "output_type_item" "list"            
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
+

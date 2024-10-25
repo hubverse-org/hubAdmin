@@ -244,3 +244,45 @@ test_that("create_output_type_sample errors correctly", {
     error = TRUE
   )
 })
+
+
+test_that("create_output_type_item is back-compatible", {
+  # Test back-compatibility
+  expect_snapshot(
+    create_output_type_median(
+      is_required = FALSE,
+      value_type = "double",
+      schema_version = "v1.0.0"
+    )
+  )
+})
+
+test_that("create_output_type_item works with v4 schema", {
+  # TODO: Remove branch argument when v4.0.0 is released
+  expect_snapshot(
+    create_output_type_mean(
+      is_required = TRUE,
+      value_type = "double",
+      value_minimum = 0L,
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    )
+  )
+  expect_snapshot(
+    create_output_type_mean(
+      is_required = FALSE,
+      value_type = "integer",
+      value_maximum = 0L,
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    )
+  )
+  expect_snapshot(
+    create_output_type_median(
+      is_required = FALSE,
+      value_type = "double",
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    )
+  )
+})

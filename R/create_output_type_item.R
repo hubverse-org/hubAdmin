@@ -70,30 +70,41 @@ create_output_type_point <- function(output_type = c("mean", "median"),
     ))
   }
   output_type <- rlang::arg_match(output_type)
-  # Get output type id property according to config schema version
-  # TODO: remove back-compatibility with schema versions < v2.0.0 when support
-  # retired
-  config_tid <- hubUtils::get_config_tid(
-    config_version = hubUtils::get_schema_version_latest(schema_version, branch)
-  )
-
   schema <- download_tasks_schema(schema_version, branch)
+  pre_v4 <- hubUtils::version_lt("v4.0.0", schema_version = schema$`$id`)
 
   # create output_type_id
-  if (is_required) {
+  if (pre_v4 && is_required) {
     output_type_id <- list(output_type_id = list(
       required = NA_character_,
       optional = NULL
     ))
-  } else {
+  }
+  if (pre_v4 && !is_required) {
     output_type_id <- list(output_type_id = list(
       required = NULL,
       optional = NA_character_
     ))
   }
+  if (!pre_v4) {
+    output_type_id <- list(
+      output_type_id = list(
+        required = NA_character_
+      ),
+      is_required = is_required
+    )
+  }
 
-  # TODO: Remove when support for versions < 2.0.0 retired
-  names(output_type_id) <- config_tid
+  if (hubUtils::version_lt("v2.0.0", schema_version = schema$`$id`)) {
+    # Get output type id property according to config schema version
+    # TODO: remove back-compatibility with schema versions < v2.0.0 when support
+    # retired
+    config_tid <- hubUtils::get_config_tid(
+      config_version = hubUtils::get_schema_version_latest(schema_version, branch)
+    )
+    names(output_type_id) <- config_tid
+  }
+
 
   output_type_schema <- get_schema_output_type(schema,
     output_type = output_type
