@@ -368,7 +368,7 @@ test_that("create_output_type_dist fns support v4 schema", {
     regexp = "is deprecated as of schema version"
   )
 
-# Show that function errors if is_required is missing
+  # Show that function errors if is_required is missing
   expect_snapshot(
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.75),

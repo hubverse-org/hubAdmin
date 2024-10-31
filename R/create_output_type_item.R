@@ -52,8 +52,10 @@ create_output_type_mean <- function(is_required, value_type, value_minimum = NUL
 #' @export
 #' @describeIn create_output_type_mean Create a list representation of a `median`
 #' output type.
-create_output_type_median <- function(is_required, value_type, value_minimum = NULL,
-                                      value_maximum = NULL, schema_version = "latest",
+create_output_type_median <- function(is_required, value_type,
+                                      value_minimum = NULL,
+                                      value_maximum = NULL,
+                                      schema_version = "latest",
                                       branch = "main") {
   create_output_type_point(
     output_type = "median", is_required = is_required,
@@ -65,9 +67,12 @@ create_output_type_median <- function(is_required, value_type, value_minimum = N
 
 
 create_output_type_point <- function(output_type = c("mean", "median"),
-                                     is_required, value_type, value_minimum = NULL,
-                                     value_maximum = NULL, schema_version = "latest",
-                                     branch = "main", call = rlang::caller_env()) {
+                                     is_required, value_type,
+                                     value_minimum = NULL,
+                                     value_maximum = NULL,
+                                     schema_version = "latest",
+                                     branch = "main",
+                                     call = rlang::caller_env()) {
   rlang::check_required(value_type)
   rlang::check_required(is_required)
 
@@ -243,7 +248,8 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 #'   schema_version = "v3.0.1"
 #' )
 create_output_type_quantile <- function(required, optional,
-                                        is_required, value_type, value_minimum = NULL,
+                                        is_required, value_type,
+                                        value_minimum = NULL,
                                         value_maximum = NULL,
                                         schema_version = "latest",
                                         branch = "main") {
@@ -301,10 +307,14 @@ create_output_type_pmf <- function(required, optional, is_required,
 #' @describeIn create_output_type_quantile Create a list representation of a `sample`
 #' output type.
 #' @export
-create_output_type_sample <- function(is_required, output_type_id_type, max_length = NULL,
-                                      min_samples_per_task, max_samples_per_task,
-                                      compound_taskid_set = NULL, value_type,
-                                      value_minimum = NULL, value_maximum = NULL,
+create_output_type_sample <- function(is_required, output_type_id_type,
+                                      max_length = NULL,
+                                      min_samples_per_task,
+                                      max_samples_per_task,
+                                      compound_taskid_set = NULL,
+                                      value_type,
+                                      value_minimum = NULL,
+                                      value_maximum = NULL,
                                       schema_version = "latest",
                                       branch = "main") {
   rlang::check_required(is_required)
@@ -429,7 +439,9 @@ create_output_type_dist <- function(
   output_type <- rlang::arg_match(output_type)
   # Get output type id property according to config schema version
   config_tid <- hubUtils::get_config_tid(
-    config_version = hubUtils::get_schema_version_latest(schema_version, branch)
+    config_version = hubUtils::get_schema_version_latest(
+      schema_version, branch
+    )
   )
 
   schema <- download_tasks_schema(schema_version, branch)
