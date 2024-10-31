@@ -325,6 +325,7 @@ create_output_type_sample <- function(is_required, output_type_id_type,
   call <- rlang::current_call()
 
   schema <- download_tasks_schema(schema_version, branch)
+  pre_v4 <- hubUtils::version_lt("v4.0.0", schema_version = schema$`$id`)
 
   if (hubUtils::extract_schema_version(schema$`$id`) < "v3.0.0") {
     cli::cli_abort(
@@ -332,62 +333,64 @@ create_output_type_sample <- function(is_required, output_type_id_type,
     )
   }
   output_type_schema <- get_schema_output_type(schema, "sample")
-  output_type_id_schema <- purrr::pluck(
+  output_type_id_params_schema <- purrr::pluck(
     output_type_schema,
     "properties",
     "output_type_id_params",
     "properties"
   )
-
   type <- output_type_id_type # nolint: object_usage_linter
-  scalar_params <- c(
-    "is_required", "type", "min_samples_per_task",
-    "max_samples_per_task"
-  )
-  if (!is.null(max_length)) {
-    scalar_params <- c(scalar_params, "max_length")
+
+  if (pre_v4) {
+    output_type_id_params <- list(
+      output_type_id_params = list(
+        is_required = is_required,
+        type = type,
+        max_length = max_length,
+        min_samples_per_task = min_samples_per_task,
+        max_samples_per_task = max_samples_per_task,
+        compound_taskid_set = compound_taskid_set
+      ) %>%
+        purrr::compact()
+    )
+  } else {
+    # check is required as it won't be checked against output_type_id_params
+    # further down and easy enough to check quickly here.
+    checkmate::assert_logical(is_required, len = 1L)
+    output_type_id_params <- list(
+      output_type_id_params = list(
+        type = type,
+        max_length = max_length,
+        min_samples_per_task = min_samples_per_task,
+        max_samples_per_task = max_samples_per_task,
+        compound_taskid_set = compound_taskid_set
+      ) %>%
+        purrr::compact(),
+      # separate `is_required` out from `output_type_id_params` in versions v4
+      # and later.
+      is_required = is_required
+    )
   }
-  purrr::walk(
-    scalar_params,
-    function(x) {
-      check_input(
-        input = get(x),
-        property = x,
-        output_type_id_schema,
-        parent_property = "output_type_id_params",
-        call = call,
-        scalar = TRUE
-      )
-    }
+
+  check_properties_scalar(
+    output_type_id_params$output_type_id_params,
+    output_type_id_params_schema,
+    call = call,
+    parent_property = "output_type_id_params"
   )
+  check_properties_array(
+    output_type_id_params$output_type_id_params,
+    output_type_id_params_schema,
+    call = call,
+    parent_property = "output_type_id_params"
+  )
+
   if (min_samples_per_task > max_samples_per_task) {
     cli::cli_abort(
-      "{.var min_samples_per_task} must be less than or equal to {.var max_samples_per_task}."
+      "{.var min_samples_per_task} must be less than or equal to
+      {.var max_samples_per_task}."
     )
   }
-
-  if (!is.null(compound_taskid_set)) {
-    check_input(
-      input = compound_taskid_set,
-      property = "compound_taskid_set",
-      output_type_id_schema,
-      parent_property = "output_type_id_params",
-      call = call
-    )
-  }
-
-
-  output_type_id_params <- list(
-    output_type_id_params = list(
-      is_required = is_required,
-      type = type,
-      max_length = max_length,
-      min_samples_per_task = min_samples_per_task,
-      max_samples_per_task = max_samples_per_task,
-      compound_taskid_set = compound_taskid_set
-    ) %>%
-      purrr::compact()
-  )
 
   # Check and create value
   value <- list(
@@ -404,18 +407,9 @@ create_output_type_sample <- function(is_required, output_type_id_type,
     "properties"
   )
 
-  purrr::walk(
-    names(value),
-    function(x) {
-      check_input(
-        input = value[[x]],
-        property = x,
-        value_schema,
-        parent_property = "value",
-        scalar = TRUE,
-        call = call
-      )
-    }
+  check_properties_scalar(value, value_schema,
+    call = call,
+    parent_property = "value"
   )
 
   structure(

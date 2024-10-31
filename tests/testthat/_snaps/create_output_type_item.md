@@ -327,6 +327,47 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 70L, max_samples_per_task = 100L, value_type = "double",
+        value_minimum = 0L, value_maximum = 1L, branch = "br-v4.0.0")
+    Output
+      $sample
+      $sample$output_type_id_params
+      $sample$output_type_id_params$type
+      [1] "integer"
+      
+      $sample$output_type_id_params$min_samples_per_task
+      [1] 70
+      
+      $sample$output_type_id_params$max_samples_per_task
+      [1] 100
+      
+      
+      $sample$is_required
+      [1] TRUE
+      
+      $sample$value
+      $sample$value$type
+      [1] "double"
+      
+      $sample$value$minimum
+      [1] 0
+      
+      $sample$value$maximum
+      [1] 1
+      
+      
+      
+      attr(,"class")
+      [1] "output_type_item" "list"            
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
+
+---
+
+    Code
+      create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
+        min_samples_per_task = 70L, max_samples_per_task = 100L, value_type = "double",
         value_minimum = 0L, value_maximum = 1L, schema_version = "v3.0.1")
     Output
       $sample
@@ -455,7 +496,9 @@
         compound_taskid_set = c(1, 2, 3), value_type = "double", value_minimum = 0L,
         value_maximum = 1L, schema_version = "v3.0.1")
     Condition
-      Error in `create_output_type_sample()`:
+      Error in `map()`:
+      i In index: 1.
+      Caused by error in `create_output_type_sample()`:
       x `compound_taskid_set` is of type <double>.
       ! Must be <character>.
 

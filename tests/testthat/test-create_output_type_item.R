@@ -158,6 +158,17 @@ test_that("create_output_type_sample works", {
       value_type = "double",
       value_minimum = 0L,
       value_maximum = 1L,
+      branch = "br-v4.0.0"
+    )
+  )
+  expect_snapshot(
+    create_output_type_sample(
+      is_required = TRUE,
+      output_type_id_type = "integer",
+      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      value_type = "double",
+      value_minimum = 0L,
+      value_maximum = 1L,
       schema_version = "v3.0.1"
     )
   )
@@ -177,6 +188,34 @@ test_that("create_output_type_sample works", {
 })
 
 test_that("create_output_type_sample errors correctly", {
+  # TODO: Remove branches when v4.0.0 is released
+  # v4 type fails correctly
+  expect_error(
+    create_output_type_sample(
+      is_required = TRUE,
+      output_type_id_type = "Date",
+      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      value_type = "double",
+      value_minimum = 0L,
+      value_maximum = 1L,
+      branch = "br-v4.0.0"
+    ),
+    regexp = 'Must be one of .*character.* and .*integer'
+  )
+  # v4 is_required fails correctly
+  expect_error(
+    create_output_type_sample(
+      is_required = 1L,
+      output_type_id_type = "Date",
+      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      value_type = "double",
+      value_minimum = 0L,
+      value_maximum = 1L,
+      branch = "br-v4.0.0"
+    ),
+    regexp =
+      "Assertion on 'is_required' failed: Must be of type 'logical', not 'integer'"
+  )
   # min_samples_per_task vector instead of scalar fails
   expect_snapshot(
     create_output_type_sample(
