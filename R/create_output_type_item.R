@@ -134,19 +134,9 @@ create_output_type_point <- function(output_type = c("mean", "median"),
   ) %>%
     purrr::compact()
 
-
-  purrr::walk(
-    names(value),
-    function(x) {
-      check_input(
-        input = value[[x]],
-        property = x,
-        value_schema,
-        parent_property = "value",
-        scalar = TRUE,
-        call = call
-      )
-    }
+  check_properties_scalar(value, value_schema,
+    call = call,
+    parent_property = "value"
   )
 
   structure(
@@ -532,18 +522,9 @@ create_output_type_dist <- function(
     "properties"
   )
 
-  purrr::walk(
-    names(value),
-    function(x) {
-      check_input(
-        input = value[[x]],
-        property = x,
-        value_schema,
-        parent_property = "value",
-        scalar = TRUE,
-        call = rlang::caller_env(n = 5)
-      )
-    }
+  check_properties_scalar(value, value_schema,
+    call = call,
+    parent_property = "value"
   )
 
   structure(
