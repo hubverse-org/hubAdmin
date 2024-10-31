@@ -200,7 +200,7 @@ test_that("create_output_type_sample errors correctly", {
       value_maximum = 1L,
       branch = "br-v4.0.0"
     ),
-    regexp = 'Must be one of .*character.* and .*integer'
+    regexp = "Must be one of .*character.* and .*integer"
   )
   # v4 is_required fails correctly
   expect_error(
