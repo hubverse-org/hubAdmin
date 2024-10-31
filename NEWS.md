@@ -1,5 +1,7 @@
 # hubAdmin (development version)
 
+* Support v4.0.0 schema configuration of output types and output type IDs when creating config files programmatically. Specifically, whether an output type is required or not is specified via the `is_required` logical property whereas the `output_type_id` values as provided through the `required` property.
+
 # hubAdmin 1.3.0
 
 * Add `derived_task_ids` property to `create_config()` (for specifying hub level derived task IDs) and `create_round()` (for specifying round level derived task IDs) (#52). This adds compatibility for the upcoming schemas v4.0.0 release.

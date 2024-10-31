@@ -10,6 +10,7 @@
 create_output_type_quantile(
   required,
   optional,
+  is_required,
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
@@ -20,6 +21,7 @@ create_output_type_quantile(
 create_output_type_cdf(
   required,
   optional,
+  is_required,
   value_type,
   schema_version = "latest",
   branch = "main"
@@ -28,6 +30,7 @@ create_output_type_cdf(
 create_output_type_pmf(
   required,
   optional,
+  is_required,
   value_type,
   schema_version = "latest",
   branch = "main"
@@ -51,8 +54,10 @@ create_output_type_sample(
 \item{required}{Atomic vector of required \code{output_type_id} values. Can be NULL if
 all values are optional.}
 
-\item{optional}{Atomic vector of optional \code{output_type_id} values. Can be NULL if
-all values are required.}
+\item{optional}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \strong{(schema >= v4.0.0)}. Atomic vector of optional
+\code{output_type_id} values. Can be NULL if all values are required.}
+
+\item{is_required}{Logical. Is this sample output type required?}
 
 \item{value_type}{Character string. The data type of the output_type values.}
 
@@ -70,8 +75,6 @@ specified.}
 \item{branch}{The branch of the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}
 from which to fetch schema. Defaults to \code{"main"}.}
-
-\item{is_required}{Logical. Is this sample output type required?}
 
 \item{output_type_id_type}{Character string. The data type of the output_type_id.
 One of "integer" or "character".}
@@ -122,27 +125,28 @@ output type.
 \examples{
 create_output_type_quantile(
   required = c(0.25, 0.5, 0.75),
-  optional = c(
-    0.1, 0.2, 0.3, 0.4, 0.6,
-    0.7, 0.8, 0.9
-  ),
+  is_required = TRUE,
   value_type = "double",
-  value_minimum = 0
+  value_minimum = 0,
+  branch = "br-v4.0.0"
 )
 create_output_type_cdf(
   required = c(10, 20),
-  optional = NULL,
-  value_type = "double"
+  is_required = FALSE,
+  value_type = "double",
+  branch = "br-v4.0.0"
 )
 create_output_type_cdf(
-  required = NULL,
-  optional = c("EW202240", "EW202241", "EW202242"),
-  value_type = "double"
+  required = c("EW202240", "EW202241", "EW202242"),
+  is_required = TRUE,
+  value_type = "double",
+  branch = "br-v4.0.0"
 )
 create_output_type_pmf(
-  required = NULL,
-  optional = c("low", "moderate", "high", "extreme"),
-  value_type = "double"
+  required = c("low", "moderate", "high", "extreme"),
+  is_required = FALSE,
+  value_type = "double",
+  branch = "br-v4.0.0"
 )
 create_output_type_sample(
   is_required = TRUE,
@@ -150,7 +154,37 @@ create_output_type_sample(
   min_samples_per_task = 70L, max_samples_per_task = 100L,
   value_type = "double",
   value_minimum = 0,
-  value_maximum = 1
+  value_maximum = 1,
+  branch = "br-v4.0.0"
+)
+# Pre v4.0.0 schema output
+create_output_type_quantile(
+  required = c(0.25, 0.5, 0.75),
+  optional = c(
+    0.1, 0.2, 0.3, 0.4, 0.6,
+    0.7, 0.8, 0.9
+  ),
+  value_type = "double",
+  value_minimum = 0,
+  schema_version = "v3.0.1"
+)
+create_output_type_cdf(
+  required = c(10, 20),
+  optional = NULL,
+  value_type = "double",
+  schema_version = "v3.0.1"
+)
+create_output_type_cdf(
+  required = NULL,
+  optional = c("EW202240", "EW202241", "EW202242"),
+  value_type = "double",
+  schema_version = "v3.0.1"
+)
+create_output_type_pmf(
+  required = NULL,
+  optional = c("low", "moderate", "high", "extreme"),
+  value_type = "double",
+  schema_version = "v3.0.1"
 )
 }
 \seealso{

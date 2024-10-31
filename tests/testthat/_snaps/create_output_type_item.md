@@ -591,3 +591,118 @@
       attr(,"branch")
       [1] "br-v4.0.0"
 
+# create_output_type_dist fns support v4 schema
+
+    Code
+      create_output_type_quantile(required = c(0.25, 0.5, 0.75), is_required = TRUE,
+      value_type = "double", value_minimum = 0, schema_version = "v4.0.0", branch = "br-v4.0.0")
+    Output
+      $quantile
+      $quantile$output_type_id
+      $quantile$output_type_id$required
+      [1] 0.25 0.50 0.75
+      
+      
+      $quantile$is_required
+      [1] TRUE
+      
+      $quantile$value
+      $quantile$value$type
+      [1] "double"
+      
+      $quantile$value$minimum
+      [1] 0
+      
+      
+      
+      attr(,"class")
+      [1] "output_type_item" "list"            
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
+
+---
+
+    Code
+      create_output_type_cdf(required = c("EW202240", "EW202241", "EW202242"),
+      is_required = FALSE, value_type = "double", schema_version = "v4.0.0", branch = "br-v4.0.0")
+    Output
+      $cdf
+      $cdf$output_type_id
+      $cdf$output_type_id$required
+      [1] "EW202240" "EW202241" "EW202242"
+      
+      
+      $cdf$is_required
+      [1] FALSE
+      
+      $cdf$value
+      $cdf$value$type
+      [1] "double"
+      
+      $cdf$value$minimum
+      [1] 0
+      
+      $cdf$value$maximum
+      [1] 1
+      
+      
+      
+      attr(,"class")
+      [1] "output_type_item" "list"            
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
+
+---
+
+    Code
+      create_output_type_cdf(required = c("EW202240", "EW202241", "EW202242"),
+      optional = c("EW202240", "EW202241", "EW202242"), is_required = FALSE,
+      value_type = "double", schema_version = "v4.0.0", branch = "br-v4.0.0")
+    Condition
+      Warning:
+      The `optional` argument of `create_output_type_cdf()` is deprecated as of schema version "v4.0.0" and above. Ignored.
+    Output
+      $cdf
+      $cdf$output_type_id
+      $cdf$output_type_id$required
+      [1] "EW202240" "EW202241" "EW202242"
+      
+      
+      $cdf$is_required
+      [1] FALSE
+      
+      $cdf$value
+      $cdf$value$type
+      [1] "double"
+      
+      $cdf$value$minimum
+      [1] 0
+      
+      $cdf$value$maximum
+      [1] 1
+      
+      
+      
+      attr(,"class")
+      [1] "output_type_item" "list"            
+      attr(,"schema_id")
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
+
+---
+
+    Code
+      create_output_type_quantile(required = c(0.25, 0.5, 0.75), optional = c(0.1,
+        0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9), value_type = "double", value_minimum = 0,
+      schema_version = "v4.0.0", branch = "br-v4.0.0")
+    Condition
+      Warning:
+      The `optional` argument of `create_output_type_quantile()` is deprecated as of schema version "v4.0.0" and above. Ignored.
+      Error in `create_output_type_dist()`:
+      ! `is_required` is absent but must be supplied.
+

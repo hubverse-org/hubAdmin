@@ -31,6 +31,13 @@
 #'   is_required = FALSE,
 #'   value_type = "integer"
 #' )
+#' # Pre v4.0.0 schema output
+#' create_output_type_mean(
+#'   is_required = TRUE,
+#'   value_type = "double",
+#'   value_minimum = 0L,
+#'   schema_version = "v3.0.1"
+#' )
 create_output_type_mean <- function(is_required, value_type, value_minimum = NULL,
                                     value_maximum = NULL, schema_version = "latest",
                                     branch = "main") {
@@ -97,8 +104,6 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 
   if (hubUtils::version_lt("v2.0.0", schema_version = schema$`$id`)) {
     # Get output type id property according to config schema version
-    # TODO: remove back-compatibility with schema versions < v2.0.0 when support
-    # retired
     config_tid <- hubUtils::get_config_tid(
       config_version = hubUtils::get_schema_version_latest(schema_version, branch)
     )
@@ -159,8 +164,8 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 #' or appended to `tasks.json` Hub config files.
 #' @param required Atomic vector of required `output_type_id` values. Can be NULL if
 #'  all values are optional.
-#' @param optional Atomic vector of optional `output_type_id` values. Can be NULL if
-#' all values are required.
+#' @param optional `r lifecycle::badge('deprecated')` **(schema >= v4.0.0)**. Atomic vector of optional
+#' `output_type_id` values. Can be NULL if all values are required.
 #' @inheritParams create_task_id
 #' @inheritParams create_output_type_mean
 #' @details For more details consult
@@ -176,27 +181,28 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 #' @examples
 #' create_output_type_quantile(
 #'   required = c(0.25, 0.5, 0.75),
-#'   optional = c(
-#'     0.1, 0.2, 0.3, 0.4, 0.6,
-#'     0.7, 0.8, 0.9
-#'   ),
+#'   is_required = TRUE,
 #'   value_type = "double",
-#'   value_minimum = 0
+#'   value_minimum = 0,
+#'   branch = "br-v4.0.0"
 #' )
 #' create_output_type_cdf(
 #'   required = c(10, 20),
-#'   optional = NULL,
-#'   value_type = "double"
+#'   is_required = FALSE,
+#'   value_type = "double",
+#'   branch = "br-v4.0.0"
 #' )
 #' create_output_type_cdf(
-#'   required = NULL,
-#'   optional = c("EW202240", "EW202241", "EW202242"),
-#'   value_type = "double"
+#'   required = c("EW202240", "EW202241", "EW202242"),
+#'   is_required = TRUE,
+#'   value_type = "double",
+#'   branch = "br-v4.0.0"
 #' )
 #' create_output_type_pmf(
-#'   required = NULL,
-#'   optional = c("low", "moderate", "high", "extreme"),
-#'   value_type = "double"
+#'   required = c("low", "moderate", "high", "extreme"),
+#'   is_required = FALSE,
+#'   value_type = "double",
+#'   branch = "br-v4.0.0"
 #' )
 #' create_output_type_sample(
 #'   is_required = TRUE,
@@ -204,16 +210,46 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 #'   min_samples_per_task = 70L, max_samples_per_task = 100L,
 #'   value_type = "double",
 #'   value_minimum = 0,
-#'   value_maximum = 1
+#'   value_maximum = 1,
+#'   branch = "br-v4.0.0"
+#' )
+#' # Pre v4.0.0 schema output
+#' create_output_type_quantile(
+#'   required = c(0.25, 0.5, 0.75),
+#'   optional = c(
+#'     0.1, 0.2, 0.3, 0.4, 0.6,
+#'     0.7, 0.8, 0.9
+#'   ),
+#'   value_type = "double",
+#'   value_minimum = 0,
+#'   schema_version = "v3.0.1"
+#' )
+#' create_output_type_cdf(
+#'   required = c(10, 20),
+#'   optional = NULL,
+#'   value_type = "double",
+#'   schema_version = "v3.0.1"
+#' )
+#' create_output_type_cdf(
+#'   required = NULL,
+#'   optional = c("EW202240", "EW202241", "EW202242"),
+#'   value_type = "double",
+#'   schema_version = "v3.0.1"
+#' )
+#' create_output_type_pmf(
+#'   required = NULL,
+#'   optional = c("low", "moderate", "high", "extreme"),
+#'   value_type = "double",
+#'   schema_version = "v3.0.1"
 #' )
 create_output_type_quantile <- function(required, optional,
-                                        value_type, value_minimum = NULL,
+                                        is_required, value_type, value_minimum = NULL,
                                         value_maximum = NULL,
                                         schema_version = "latest",
                                         branch = "main") {
   create_output_type_dist(
     output_type = "quantile", required = required, optional = optional,
-    value_type = value_type, value_minimum = value_minimum,
+    is_required = is_required, value_type = value_type, value_minimum = value_minimum,
     value_maximum = value_maximum, schema_version = schema_version,
     branch = branch
   )
@@ -222,12 +258,13 @@ create_output_type_quantile <- function(required, optional,
 #' @describeIn create_output_type_quantile Create a list representation of a `cdf`
 #' output type.
 #' @export
-create_output_type_cdf <- function(required, optional,
+create_output_type_cdf <- function(required, optional, is_required,
                                    value_type,
                                    schema_version = "latest",
                                    branch = "main") {
   create_output_type_dist(
     output_type = "cdf", required = required, optional = optional,
+    is_required = is_required,
     value_type = value_type, value_minimum = 0L,
     value_maximum = 1L, schema_version = schema_version,
     branch = branch
@@ -237,11 +274,12 @@ create_output_type_cdf <- function(required, optional,
 #' @describeIn create_output_type_quantile Create a list representation of a `pmf`
 #' output type.
 #' @export
-create_output_type_pmf <- function(required, optional, value_type,
-                                   schema_version = "latest",
+create_output_type_pmf <- function(required, optional, is_required,
+                                   value_type, schema_version = "latest",
                                    branch = "main") {
   create_output_type_dist(
     output_type = "pmf", required = required, optional = optional,
+    is_required = is_required,
     value_type = value_type, value_minimum = 0L,
     value_maximum = 1L, schema_version = schema_version,
     branch = branch
@@ -382,22 +420,37 @@ create_output_type_sample <- function(is_required, output_type_id_type, max_leng
 
 create_output_type_dist <- function(
     output_type = c("quantile", "cdf", "pmf", "sample"),
-    required, optional,
+    required, optional, is_required,
     value_type, value_minimum = NULL,
     value_maximum = NULL, schema_version = "latest",
     branch = "main", call = rlang::caller_env()) {
   rlang::check_required(value_type)
   rlang::check_required(required)
-  rlang::check_required(optional)
   output_type <- rlang::arg_match(output_type)
   # Get output type id property according to config schema version
-  # TODO: remove back-compatibility with schema versions < v2.0.0 when support
-  # retired
   config_tid <- hubUtils::get_config_tid(
     config_version = hubUtils::get_schema_version_latest(schema_version, branch)
   )
 
   schema <- download_tasks_schema(schema_version, branch)
+  pre_v4 <- hubUtils::version_lt("v4.0.0", schema_version = schema$`$id`)
+
+  if (pre_v4) {
+    rlang::check_required(optional)
+    output_type_id_props <- c("required", "optional")
+  } else {
+    # Signal the deprecation to the user
+    if (lifecycle::is_present(optional)) {
+      cli::cli_warn(
+        "The {.arg optional} argument of {.fn create_output_type_{output_type}}
+        is deprecated as of schema version {.val v4.0.0} and above. Ignored."
+      )
+    }
+    rlang::check_required(is_required)
+    checkmate::assert_logical(is_required, len = 1L)
+    output_type_id_props <- "required"
+  }
+
   output_type_schema <- get_schema_output_type(schema, output_type)
   output_type_id_schema <- purrr::pluck(
     output_type_schema,
@@ -409,7 +462,7 @@ create_output_type_dist <- function(
   # Check and create output_type_id
   if (output_type == "cdf") {
     purrr::walk(
-      c("required", "optional"),
+      output_type_id_props,
       function(x) {
         check_oneof_input(
           input = get(x),
@@ -421,7 +474,7 @@ create_output_type_dist <- function(
     )
   } else {
     purrr::walk(
-      c("required", "optional"),
+      output_type_id_props,
       function(x) {
         check_input(
           input = get(x),
@@ -434,17 +487,29 @@ create_output_type_dist <- function(
     )
   }
 
-  check_prop_not_all_null(required, optional)
-  check_prop_type_const(required, optional)
-  check_prop_dups(required, optional)
+  if (pre_v4) {
+    check_prop_not_all_null(required, optional)
+    check_prop_type_const(required, optional)
+    check_prop_dups(required, optional)
 
-  output_type_id <- list(output_type_id = list(
-    required = required,
-    optional = optional
-  ))
+    output_type_id <- list(
+      output_type_id = list(
+        required = required,
+        optional = optional
+      )
+    )
+  } else {
+    output_type_id <- list(
+      output_type_id = list(
+        required = required
+      ),
+      is_required = is_required
+    )
+  }
 
-  # TODO: Remove when support for versions < 2.0.0 retired
-  names(output_type_id) <- config_tid
+  if (hubUtils::version_lt("v2.0.0", schema_version = schema$`$id`)) {
+    names(output_type_id) <- config_tid
+  }
 
   # Check and create value
   value <- list(

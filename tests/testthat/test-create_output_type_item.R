@@ -51,8 +51,10 @@ test_that("create_output_type_point functions error correctly", {
     error = TRUE
   )
   expect_snapshot(
-    create_output_type_median(is_required = FALSE,
-                              schema_version = "v3.0.1"),
+    create_output_type_median(
+      is_required = FALSE,
+      schema_version = "v3.0.1"
+    ),
     error = TRUE
   )
 })
@@ -284,5 +286,101 @@ test_that("create_output_type_item works with v4 schema", {
       schema_version = "v4.0.0",
       branch = "br-v4.0.0"
     )
+  )
+})
+
+
+test_that("create_output_type_dist fns support v4 schema", {
+  # TODO: Remove branch argument when v4.0.0 is released
+
+  expect_snapshot(
+    create_output_type_quantile(
+      required = c(0.25, 0.5, 0.75),
+      is_required = TRUE,
+      value_type = "double",
+      value_minimum = 0,
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    )
+  )
+  expect_snapshot(
+    create_output_type_cdf(
+      required = c(
+        "EW202240",
+        "EW202241",
+        "EW202242"
+      ),
+      is_required = FALSE,
+      value_type = "double",
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    )
+  )
+
+  # Show that optional values are ignored and warning issued
+  expect_equal(
+    suppressWarnings(
+      create_output_type_quantile(
+        required = c(0.25, 0.5, 0.75),
+        optional = c(
+          0.1, 0.2, 0.3, 0.4, 0.6,
+          0.7, 0.8, 0.9
+        ),
+        is_required = TRUE,
+        value_type = "double",
+        value_minimum = 0,
+        schema_version = "v4.0.0",
+        branch = "br-v4.0.0"
+      )$quantile$output_type_id$required
+    ), c(0.25, 0.5, 0.75)
+  )
+  expect_snapshot(
+    create_output_type_cdf(
+      required = c(
+        "EW202240",
+        "EW202241",
+        "EW202242"
+      ),
+      optional = c(
+        "EW202240",
+        "EW202241",
+        "EW202242"
+      ),
+      is_required = FALSE,
+      value_type = "double",
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    )
+  )
+  expect_warning(
+    create_output_type_quantile(
+      required = c(0.25, 0.5, 0.75),
+      optional = c(
+        0.1, 0.2, 0.3, 0.4, 0.6,
+        0.7, 0.8, 0.9
+      ),
+      is_required = TRUE,
+      value_type = "double",
+      value_minimum = 0,
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    ),
+    regexp = "is deprecated as of schema version"
+  )
+
+# Show that function errors if is_required is missing
+  expect_snapshot(
+    create_output_type_quantile(
+      required = c(0.25, 0.5, 0.75),
+      optional = c(
+        0.1, 0.2, 0.3, 0.4, 0.6,
+        0.7, 0.8, 0.9
+      ),
+      value_type = "double",
+      value_minimum = 0,
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    ),
+    error = TRUE
   )
 })
