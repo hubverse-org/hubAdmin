@@ -26,6 +26,7 @@ view_config_val_errors <- function(x) {
   }
 
   if (length(x) > 1L) {
+    # Process multiple config file error_tbls
     error_df <- purrr::map2(
       x, names(x),
       ~ compile_errors(.x, .y) %>%
@@ -40,6 +41,7 @@ view_config_val_errors <- function(x) {
       "schemaPath"
     )
   } else {
+    # Process single config file error_tbl
     error_df <- attr(x, "errors") %>%
       process_error_df()
     val_path <- attr(x, "config_path")
@@ -58,8 +60,6 @@ view_config_val_errors <- function(x) {
     glue::glue("Report for {val_type} **`{val_path}`** using
                    schema version [**{schema_version}**]({schema_url})")
   )
-
-
 
   # Create table ----
   gt::gt(error_df) %>%
@@ -136,8 +136,7 @@ view_config_val_errors <- function(x) {
     )
 }
 
-
-
+# Create tree representation of error (instance and schema) paths
 path_to_tree <- function(x) {
   # Split up path and remove blank and root elements
   paths <- strsplit(x, "/") %>%
@@ -173,9 +172,11 @@ path_to_tree <- function(x) {
   paste(paths, collapse = " \n ")
 }
 
-
-
+# Process and mark up data.frame cell entries (e.g. a `properties` df) with
+# markdown formatting and collapse to a single string. Mainly applicable to
+# oneOf schema column cell formatting.
 dataframe_to_markdown <- function(x) {
+  # Process data.frame row by row
   split(x, seq_len(nrow(x))) %>%
     purrr::map(
       ~ unlist(.x, use.names = TRUE) %>%
@@ -191,16 +192,16 @@ dataframe_to_markdown <- function(x) {
     gsub("[^']NA", "'NA'", .)
 }
 
-
-
+# precess individual cell entries according to their type. Data.frames are processed
+# with markdown formatting to strings and vectors are collapsed into a single string.
 process_element <- function(x) {
   if (inherits(x, "data.frame")) {
     return(dataframe_to_markdown(x))
   }
-
   vector_to_character(x)
 }
 
+# Process vector error tbl cell entries into a single string
 vector_to_character <- function(x) {
   # unlist and collapse list columns
   out <- unlist(x, recursive = TRUE, use.names = TRUE)
@@ -211,8 +212,9 @@ vector_to_character <- function(x) {
   out %>% paste(collapse = ", ")
 }
 
-
-
+# In oneOf validation of point estimate output type IDs,
+# the maxItems and matching const property of one of the properties is not
+# informative and can be removed. Only relevant to pre v4.0.0 schema versions
 remove_null_properties <- function(x) {
   null_maxitem <- names(x[is.na(x) & grepl("maxItems", names(x))])
   x[!names(x) %in% c(
@@ -224,8 +226,8 @@ remove_null_properties <- function(x) {
   )]
 }
 
-
-
+# Remove rows with duplicate instancePath values that are not informative. This affects
+# enum schema deviations in particular
 remove_superfluous_enum_rows <- function(errors_tbl) {
   dup_inst <- duplicated(errors_tbl$instancePath)
 
@@ -252,6 +254,7 @@ remove_superfluous_enum_rows <- function(errors_tbl) {
   errors_tbl
 }
 
+# Compile errors from multiple config files into a single data.frame
 compile_errors <- function(x, file_name) {
   errors_tbl <- attr(x, "errors")
   if (!is.null(errors_tbl)) {
@@ -262,33 +265,33 @@ compile_errors <- function(x, file_name) {
   }
 }
 
-
+# Overall error_df processing to remove superfluous columns, extract pertinent
+# information into more standard columns and formats.
 process_error_df <- function(errors_tbl) {
   if (is.null(errors_tbl)) {
     return(NULL)
   }
-  errors_tbl[c("dataPath", "parentSchema", "params")] <- NULL
+  errors_tbl[c("dataPath", "parentSchema")] <- NULL
   errors_tbl <- errors_tbl[!grepl("oneOf.+", errors_tbl$schemaPath), ]
   errors_tbl <- remove_superfluous_enum_rows(errors_tbl)
 
-  # Get rid of unnecessarily verbose data entry when a required property is
-  # missing. Addressing this is dependent on the data column data type.
+  # Get rid of unnecessarily verbose data entry when a data column is a data.frame
+  if (inherits(errors_tbl$data, "data.frame")) {
+    errors_tbl$data <- ""
+  }
+
+  # Extract missingProperties property names from params to the data column.
   if (any(errors_tbl$keyword == "required")) {
-    if (inherits(errors_tbl$data, "data.frame")) {
-      errors_tbl$data <- ""
-    } else {
-      errors_tbl$data[errors_tbl$keyword == "required"] <- ""
-    }
+    errors_tbl <- extract_params_to_data(errors_tbl, "required")
   }
-  # Get rid of unnecessarily verbose data entry when an additionalProperties property is
-  # detected Addressing this is dependent on the data column data type.
+
+  # Extract additionalProperties property names to the data column.
   if (any(errors_tbl$keyword == "additionalProperties")) {
-    if (inherits(errors_tbl$data, "data.frame")) {
-      errors_tbl$data <- ""
-    } else {
-      errors_tbl$data[errors_tbl$keyword == "additionalProperties"] <- ""
-    }
+    errors_tbl <- extract_params_to_data(errors_tbl, "additionalProperties")
   }
+
+  # Remove params column
+  errors_tbl["params"] <- NULL
 
   error_df <- split(errors_tbl, seq_len(nrow(errors_tbl))) %>%
     purrr::map(
@@ -307,4 +310,29 @@ process_error_df <- function(errors_tbl) {
   error_df[["message"]] <- paste("\u274c", error_df[["message"]])
 
   error_df
+}
+
+# Extract informative values from params data.frame and add it to the data column
+extract_params_to_data <- function(errors_tbl, param = c(
+                                     "additionalProperties", "required"
+                                   )) {
+  param <- rlang::arg_match(param)
+  which <- errors_tbl$keyword == param
+
+  # If a params object is missing, replace data column with empty string as
+  # the contents are too verbose to be informative and return early
+  if (is.null(errors_tbl$params)) {
+    errors_tbl$data[which] <- ""
+    return(errors_tbl)
+  }
+  # Get names of missing/additional properties from params object
+  at <- switch(param,
+    required = "missingProperty",
+    additionalProperties = "additionalProperty"
+  )
+  data_vals <- purrr::keep_at(errors_tbl$params, at) |> unlist()
+
+  # Replace appropriate rows in data column with property names
+  errors_tbl$data[which] <- data_vals[which]
+  errors_tbl
 }

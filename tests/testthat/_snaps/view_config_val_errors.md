@@ -90,7 +90,7 @@
        $ keyword     : chr [1:2] "required" "type"
        $ message     : chr [1:2] "❌ must have required property 'target_metadata'" "❌ must be number,integer"
        $ schema      : chr [1:2] "task_ids, output_type, target_metadata" "number, integer"
-       $ data        : chr [1:2] "" "0"
+       $ data        : chr [1:2] "target_metadata" "0"
 
 ---
 
@@ -103,7 +103,7 @@
        $ keyword     : chr "required"
        $ message     : chr "❌ must have required property 'target_metadata'"
        $ schema      : chr "task_ids, output_type, target_metadata"
-       $ data        : chr ""
+       $ data        : chr "target_metadata"
 
 ---
 
@@ -116,7 +116,7 @@
        $ keyword     : chr [1:2] "required" "required"
        $ message     : chr [1:2] "❌ must have required property 'round_id_from_variable'" "❌ must have required property 'target_metadata'"
        $ schema      : chr [1:2] "round_id_from_variable, round_id, model_tasks, submissions_due" "task_ids, output_type, target_metadata"
-       $ data        : chr [1:2] "" ""
+       $ data        : chr [1:2] "round_id_from_variable" "target_metadata"
 
 ---
 
@@ -129,7 +129,7 @@
        $ keyword     : chr [1:2] "required" "required"
        $ message     : chr [1:2] "❌ must have required property 'output_type'" "❌ must have required property 'target_metadata'"
        $ schema      : chr [1:2] "task_ids, output_type, target_metadata" "task_ids, output_type, target_metadata"
-       $ data        : chr [1:2] "" ""
+       $ data        : chr [1:2] "output_type" "target_metadata"
 
 # Report handles additional property errors successfully
 
@@ -142,7 +142,7 @@
        $ keyword     : chr "additionalProperties"
        $ message     : chr "❌ must NOT have additional properties"
        $ schema      : chr "FALSE"
-       $ data        : chr ""
+       $ data        : chr "target_metadata"
 
 # Report works corectly on validate_hub_config output
 
@@ -156,5 +156,5 @@
        $ keyword     : chr [1:5] "required" "type" "oneOf" "oneOf" ...
        $ message     : chr [1:5] "❌ must have required property 'target_metadata'" "❌ must be array,null" "❌ must match exactly one schema in oneOf" "❌ must match exactly one schema in oneOf" ...
        $ schema      : chr [1:5] "task_ids, output_type, target_metadata" "array, null" "**1** \n **required-description:** When mean is required, property set to single element 'NA' array \n **requir"| __truncated__ "**1** \n **relative_to-description:** Name of task id variable in relation to which submission start and end da"| __truncated__ ...
-       $ data        : chr [1:5] "" "wk inc flu hosp" "required: NA, optional: NA" "start: -6, end: 1" ...
+       $ data        : chr [1:5] "target_metadata" "wk inc flu hosp" "required: NA, optional: NA" "start: -6, end: 1" ...
 
