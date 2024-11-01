@@ -60,6 +60,7 @@ or appended to <code>tasks.json</code> Hub config files.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_output_type_quantile</span><span class="op">(</span></span>
 <span>  <span class="va">required</span>,</span>
 <span>  <span class="va">optional</span>,</span>
+<span>  <span class="va">is_required</span>,</span>
 <span>  <span class="va">value_type</span>,</span>
 <span>  value_minimum <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  value_maximum <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -70,6 +71,7 @@ or appended to <code>tasks.json</code> Hub config files.</p>
 <span><span class="fu">create_output_type_cdf</span><span class="op">(</span></span>
 <span>  <span class="va">required</span>,</span>
 <span>  <span class="va">optional</span>,</span>
+<span>  <span class="va">is_required</span>,</span>
 <span>  <span class="va">value_type</span>,</span>
 <span>  schema_version <span class="op">=</span> <span class="st">"latest"</span>,</span>
 <span>  branch <span class="op">=</span> <span class="st">"main"</span></span>
@@ -78,6 +80,7 @@ or appended to <code>tasks.json</code> Hub config files.</p>
 <span><span class="fu">create_output_type_pmf</span><span class="op">(</span></span>
 <span>  <span class="va">required</span>,</span>
 <span>  <span class="va">optional</span>,</span>
+<span>  <span class="va">is_required</span>,</span>
 <span>  <span class="va">value_type</span>,</span>
 <span>  schema_version <span class="op">=</span> <span class="st">"latest"</span>,</span>
 <span>  branch <span class="op">=</span> <span class="st">"main"</span></span>
@@ -108,8 +111,12 @@ all values are optional.</p></dd>
 
 
 <dt id="arg-optional">optional<a class="anchor" aria-label="anchor" href="#arg-optional"></a></dt>
-<dd><p>Atomic vector of optional <code>output_type_id</code> values. Can be NULL if
-all values are required.</p></dd>
+<dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> <strong>(schema &gt;= v4.0.0)</strong>. Atomic vector of optional
+<code>output_type_id</code> values. Can be NULL if all values are required.</p></dd>
+
+
+<dt id="arg-is-required">is_required<a class="anchor" aria-label="anchor" href="#arg-is-required"></a></dt>
+<dd><p>Logical. Is this sample output type required?</p></dd>
 
 
 <dt id="arg-value-type">value_type<a class="anchor" aria-label="anchor" href="#arg-value-type"></a></dt>
@@ -137,10 +144,6 @@ specified.</p></dd>
 <dd><p>The branch of the hubverse
 <a href="https://github.com/hubverse-org/schemas" class="external-link">schemas repository</a>
 from which to fetch schema. Defaults to <code>"main"</code>.</p></dd>
-
-
-<dt id="arg-is-required">is_required<a class="anchor" aria-label="anchor" href="#arg-is-required"></a></dt>
-<dd><p>Logical. Is this sample output type required?</p></dd>
 
 
 <dt id="arg-output-type-id-type">output_type_id_type<a class="anchor" aria-label="anchor" href="#arg-output-type-id-type"></a></dt>
@@ -199,12 +202,186 @@ output type.</p></li>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">create_output_type_quantile</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  is_required <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>  value_minimum <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  branch <span class="op">=</span> <span class="st">"br-v4.0.0"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $quantile</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $quantile$output_type_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $quantile$output_type_id$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.25 0.50 0.75</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $quantile$is_required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $quantile$value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $quantile$value$type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $quantile$value$minimum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "output_type_item" "list"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "br-v4.0.0"</span>
+<span class="r-in"><span><span class="fu">create_output_type_cdf</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  is_required <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>  branch <span class="op">=</span> <span class="st">"br-v4.0.0"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$output_type_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$output_type_id$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10 20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$is_required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$value$type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$value$minimum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$value$maximum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "output_type_item" "list"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "br-v4.0.0"</span>
+<span class="r-in"><span><span class="fu">create_output_type_cdf</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"EW202240"</span>, <span class="st">"EW202241"</span>, <span class="st">"EW202242"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  is_required <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>  branch <span class="op">=</span> <span class="st">"br-v4.0.0"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$output_type_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$output_type_id$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "EW202240" "EW202241" "EW202242"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$is_required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$value$type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$value$minimum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$value$maximum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "output_type_item" "list"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "br-v4.0.0"</span>
+<span class="r-in"><span><span class="fu">create_output_type_pmf</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"moderate"</span>, <span class="st">"high"</span>, <span class="st">"extreme"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  is_required <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>  branch <span class="op">=</span> <span class="st">"br-v4.0.0"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pmf</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$output_type_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$output_type_id$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "low"      "moderate" "high"     "extreme" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$is_required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$value$type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$value$minimum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$value$maximum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "output_type_item" "list"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "br-v4.0.0"</span>
+<span class="r-in"><span><span class="fu">create_output_type_sample</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  is_required <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  output_type_id_type <span class="op">=</span> <span class="st">"integer"</span>,</span></span>
+<span class="r-in"><span>  min_samples_per_task <span class="op">=</span> <span class="fl">70L</span>, max_samples_per_task <span class="op">=</span> <span class="fl">100L</span>,</span></span>
+<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>  value_minimum <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  value_maximum <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  branch <span class="op">=</span> <span class="st">"br-v4.0.0"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params$type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "integer"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params$min_samples_per_task</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 70</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params$max_samples_per_task</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$is_required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$value$type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$value$minimum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$value$maximum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "output_type_item" "list"            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "br-v4.0.0"</span>
+<span class="r-in"><span><span class="co"># Pre v4.0.0 schema output</span></span></span>
+<span class="r-in"><span><span class="fu">create_output_type_quantile</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  optional <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.6</span>,</span></span>
 <span class="r-in"><span>    <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span>,</span></span>
 <span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
-<span class="r-in"><span>  value_minimum <span class="op">=</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span>  value_minimum <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  schema_version <span class="op">=</span> <span class="st">"v3.0.1"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $quantile</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $quantile$output_type_id</span>
@@ -233,7 +410,8 @@ output type.</p></li>
 <span class="r-in"><span><span class="fu">create_output_type_cdf</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  required <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  optional <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
-<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span></span></span>
+<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>  schema_version <span class="op">=</span> <span class="st">"v3.0.1"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cdf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$output_type_id</span>
@@ -265,7 +443,8 @@ output type.</p></li>
 <span class="r-in"><span><span class="fu">create_output_type_cdf</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  required <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  optional <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"EW202240"</span>, <span class="st">"EW202241"</span>, <span class="st">"EW202242"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span></span></span>
+<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>  schema_version <span class="op">=</span> <span class="st">"v3.0.1"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cdf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cdf$output_type_id</span>
@@ -297,7 +476,8 @@ output type.</p></li>
 <span class="r-in"><span><span class="fu">create_output_type_pmf</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  required <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  optional <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"moderate"</span>, <span class="st">"high"</span>, <span class="st">"extreme"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span></span></span>
+<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>  schema_version <span class="op">=</span> <span class="st">"v3.0.1"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pmf</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$output_type_id</span>
@@ -316,47 +496,6 @@ output type.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $pmf$value$maximum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "output_type_item" "list"            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "main"</span>
-<span class="r-in"><span><span class="fu">create_output_type_sample</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  is_required <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>  output_type_id_type <span class="op">=</span> <span class="st">"integer"</span>,</span></span>
-<span class="r-in"><span>  min_samples_per_task <span class="op">=</span> <span class="fl">70L</span>, max_samples_per_task <span class="op">=</span> <span class="fl">100L</span>,</span></span>
-<span class="r-in"><span>  value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
-<span class="r-in"><span>  value_minimum <span class="op">=</span> <span class="fl">0</span>,</span></span>
-<span class="r-in"><span>  value_maximum <span class="op">=</span> <span class="fl">1</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params$is_required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "integer"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params$min_samples_per_task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$output_type_id_params$max_samples_per_task</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$value$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$value$minimum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sample$value$maximum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
