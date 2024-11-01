@@ -422,4 +422,17 @@ test_that("create_output_type_dist fns support v4 schema", {
     ),
     error = TRUE
   )
+
+  # Show that `required` cannot be NULL
+  expect_snapshot(
+    create_output_type_quantile(
+      required = NULL,
+      is_required = TRUE,
+      value_type = "double",
+      value_minimum = 0,
+      schema_version = "v4.0.0",
+      branch = "br-v4.0.0"
+    ),
+    error = TRUE
+  )
 })

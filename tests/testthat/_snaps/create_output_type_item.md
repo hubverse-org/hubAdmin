@@ -749,3 +749,14 @@
       Error in `create_output_type_dist()`:
       ! `is_required` is absent but must be supplied.
 
+---
+
+    Code
+      create_output_type_quantile(required = NULL, is_required = TRUE, value_type = "double",
+        value_minimum = 0, schema_version = "v4.0.0", branch = "br-v4.0.0")
+    Condition
+      Error in `map()`:
+      i In index: 1.
+      Caused by error in `create_output_type_quantile()`:
+      x `required` cannot be NULL.
+
