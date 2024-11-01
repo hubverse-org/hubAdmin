@@ -396,9 +396,9 @@
       $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id$required
       [1] NA
       
-      $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id$optional
-      NULL
       
+      $rounds[[1]]$model_tasks[[1]]$output_type$mean$is_required
+      [1] TRUE
       
       $rounds[[1]]$model_tasks[[1]]$output_type$mean$value
       $rounds[[1]]$model_tasks[[1]]$output_type$mean$value$type

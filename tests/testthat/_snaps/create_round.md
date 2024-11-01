@@ -318,9 +318,9 @@
       $model_tasks[[1]]$output_type$mean$output_type_id$required
       [1] NA
       
-      $model_tasks[[1]]$output_type$mean$output_type_id$optional
-      NULL
       
+      $model_tasks[[1]]$output_type$mean$is_required
+      [1] TRUE
       
       $model_tasks[[1]]$output_type$mean$value
       $model_tasks[[1]]$output_type$mean$value$type

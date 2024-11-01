@@ -78,6 +78,13 @@ create_output_type_median(
   is_required = FALSE,
   value_type = "integer"
 )
+# Pre v4.0.0 schema output
+create_output_type_mean(
+  is_required = TRUE,
+  value_type = "double",
+  value_minimum = 0L,
+  schema_version = "v3.0.1"
+)
 }
 \seealso{
 \code{\link[=create_output_type]{create_output_type()}}
