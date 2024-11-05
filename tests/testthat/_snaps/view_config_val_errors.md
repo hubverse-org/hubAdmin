@@ -40,6 +40,11 @@
        $ message     : chr [1:3] "❌ must be array,null" "❌ must match exactly one schema in oneOf" "❌ must match exactly one schema in oneOf"
        $ schema      : chr [1:3] "array, null" "**1** \n **required-description:** When mean is required, property set to single element 'NA' array \n **requir"| __truncated__ "**1** \n **relative_to-description:** Name of task id variable in relation to which submission start and end da"| __truncated__
        $ data        : chr [1:3] "wk inc flu hosp" "required: NA, optional: NA" "start: -6, end: 1"
+       - attr(*, "path")= chr "testdata/tasks-errors.json"
+       - attr(*, "type")= chr "file"
+       - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
+       - attr(*, "schema_version")= chr "v0.0.0.9"
+       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json"
 
 ---
 
@@ -78,6 +83,11 @@
        $ message     : chr [1:2] "❌ must be equal to one of the allowed values" "❌ must be string"
        $ schema      : chr [1:2] "csv, parquet, arrow" "string"
        $ data        : chr [1:2] "csvs" "US/Eastern"
+       - attr(*, "path")= chr "testdata/admin-errors2.json"
+       - attr(*, "type")= chr "file"
+       - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
+       - attr(*, "schema_version")= chr "v1.0.0"
+       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/admin-schema.json"
 
 # Data column handled correctly when required property missing
 
@@ -91,6 +101,11 @@
        $ message     : chr [1:2] "❌ must have required property 'target_metadata'" "❌ must be number,integer"
        $ schema      : chr [1:2] "task_ids, output_type, target_metadata" "number, integer"
        $ data        : chr [1:2] "target_metadata" "0"
+       - attr(*, "path")= chr "testdata/tasks_required_missing.json"
+       - attr(*, "type")= chr "file"
+       - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
+       - attr(*, "schema_version")= chr "v2.0.0"
+       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 ---
 
@@ -104,6 +119,11 @@
        $ message     : chr "❌ must have required property 'target_metadata'"
        $ schema      : chr "task_ids, output_type, target_metadata"
        $ data        : chr "target_metadata"
+       - attr(*, "path")= chr "testdata/tasks_required_missing_only.json"
+       - attr(*, "type")= chr "file"
+       - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
+       - attr(*, "schema_version")= chr "v2.0.0"
+       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 ---
 
@@ -117,6 +137,11 @@
        $ message     : chr [1:2] "❌ must have required property 'round_id_from_variable'" "❌ must have required property 'target_metadata'"
        $ schema      : chr [1:2] "round_id_from_variable, round_id, model_tasks, submissions_due" "task_ids, output_type, target_metadata"
        $ data        : chr [1:2] "round_id_from_variable" "target_metadata"
+       - attr(*, "path")= chr "testdata/tasks_required_missing_only2.json"
+       - attr(*, "type")= chr "file"
+       - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
+       - attr(*, "schema_version")= chr "v2.0.0"
+       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 ---
 
@@ -130,6 +155,11 @@
        $ message     : chr [1:2] "❌ must have required property 'output_type'" "❌ must have required property 'target_metadata'"
        $ schema      : chr [1:2] "task_ids, output_type, target_metadata" "task_ids, output_type, target_metadata"
        $ data        : chr [1:2] "output_type" "target_metadata"
+       - attr(*, "path")= chr "testdata/tasks_required_missing_only2b.json"
+       - attr(*, "type")= chr "file"
+       - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
+       - attr(*, "schema_version")= chr "v2.0.0"
+       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 # Report handles additional property errors successfully
 
@@ -143,6 +173,11 @@
        $ message     : chr "❌ must NOT have additional properties"
        $ schema      : chr "FALSE"
        $ data        : chr "target_metadata"
+       - attr(*, "path")= chr "testdata/tasks-addprop.json"
+       - attr(*, "type")= chr "file"
+       - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
+       - attr(*, "schema_version")= chr "v2.0.0"
+       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 # Report works corectly on validate_hub_config output
 
@@ -157,4 +192,9 @@
        $ message     : chr [1:5] "❌ must have required property 'target_metadata'" "❌ must be array,null" "❌ must match exactly one schema in oneOf" "❌ must match exactly one schema in oneOf" ...
        $ schema      : chr [1:5] "task_ids, output_type, target_metadata" "array, null" "**1** \n **required-description:** When mean is required, property set to single element 'NA' array \n **requir"| __truncated__ "**1** \n **relative_to-description:** Name of task id variable in relation to which submission start and end da"| __truncated__ ...
        $ data        : chr [1:5] "target_metadata" "wk inc flu hosp" "required: NA, optional: NA" "start: -6, end: 1" ...
+       - attr(*, "path")= 'fs_path' chr "testdata/error_hub/hub-config"
+       - attr(*, "type")= chr "directory"
+       - attr(*, "loc_cols")= chr [1:3] "fileName" "instancePath" "schemaPath"
+       - attr(*, "schema_version")= chr "v2.0.0"
+       - attr(*, "schema_url")= chr "https://github.com/hubverse-org/schemas/tree/main/v2.0.0"
 
