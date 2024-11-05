@@ -107,3 +107,51 @@ test_that("Creating instance paths works correctly", {
     "/rounds/0/model_tasks/1/target_metadata/0/target_keys"
   )
 })
+
+
+test_that("Paths with miltiple potential matches at different depths created correctly", {
+  # TODO: Remove `br-v4.0.0` branch in schema URL when v4.0.0 released.
+  schema <- hubUtils::get_schema(
+    "https://raw.githubusercontent.com/hubverse-org/schemas/br-v4.0.0/v4.0.0/tasks-schema.json"
+  )
+  # Top level match returned by default.
+  expect_equal(
+    get_error_path(
+      schema, "rounds/items/properties/derived_task_ids",
+      "schema"
+    ),
+    "#/properties/rounds/items/properties/derived_task_ids"
+  )
+  # Lower level match returned when fuller path provided.
+  expect_equal(
+    get_error_path(
+      schema, "derived_task_ids",
+      "schema"
+    ),
+    "#/properties/derived_task_ids"
+  )
+  # Top level match returned by default. `round_i` ignored
+  expect_equal(
+    glue::glue_data(
+      list(round_i = 1L),
+      get_error_path(
+        schema,
+        "derived_task_ids",
+        "instance"
+      )
+    ),
+    "/derived_task_ids"
+  )
+  # Lower level match returned when fuller path provided. `round_i` interpolated
+  expect_equal(
+    glue::glue_data(
+      list(round_i = 1L),
+      get_error_path(
+        schema,
+        "rounds/items/properties/derived_task_ids",
+        "instance"
+      )
+    ),
+    "/rounds/0/derived_task_ids"
+  )
+})
