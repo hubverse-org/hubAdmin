@@ -234,8 +234,10 @@ remove_superfluous_enum_rows <- function(errors_tbl) {
 }
 
 # Extract informative values from params data.frame and add it to the data column
-extract_params_to_data <- function(errors_tbl, param = c(
-                                     "additionalProperties", "required"
+extract_params_to_data <- function(errors_tbl,
+                                   param = c(
+                                     "additionalProperties",
+                                     "required"
                                    )) {
   param <- rlang::arg_match(param)
   which <- errors_tbl$keyword == param
