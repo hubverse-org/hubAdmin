@@ -102,6 +102,12 @@ clean_error_df <- function(errors_tbl) {
   # Remove params column
   errors_tbl["params"] <- NULL
 
+  # The error table output from jsonvalidate contains cells that are comprised of
+  # single-element vectors, vectors, lists, and data.frames.
+  # We want to collapse each cell into a single character string so that we can
+  # create a clean summary table. We do so by processing each row and then each
+  # cell in each row individually, collapsing and concatenating as required by
+  # the contents of each cell.
   error_df <- split(errors_tbl, seq_len(nrow(errors_tbl))) %>%
     purrr::map(~ flatten_error_tbl_row(.x)) %>%
     purrr::list_rbind() %>%
@@ -116,43 +122,15 @@ flatten_error_tbl_row <- function(x) {
     purrr::map(~ collapse_element(.x)) %>%
     tibble::as_tibble()
 }
-
-# Create tree representation of error (instance and schema) paths
-path_to_tree <- function(x) {
-  # Split up path and remove blank and root elements
-  paths <- strsplit(x, "/") %>%
-    unlist() %>%
-    as.list()
-  paths <- paths[!(paths == "" | paths == "#")]
-
-  # Highlight property names and convert from 0 to 1 array index
-  paths <- paths %>%
-    purrr::map_if(
-      !is.na(as.numeric(paths)),
-      ~ as.numeric(.x) + 1
-    ) %>%
-    purrr::map_if(
-      !paths %in% c("items", "properties"),
-      ~ paste0("**", .x, "**")
-    ) %>%
-    unlist() %>%
-    suppressWarnings()
-
-  # build path tree
-  if (length(paths) > 1L) {
-    for (i in 2:length(paths)) {
-      paths[i] <- paste0(
-        "\u2514",
-        paste(rep("\u2500", times = i - 2),
-          collapse = ""
-        ),
-        paths[i]
-      )
-    }
+# Collapse individual cell entries to a single string according to their type.
+# - data.frames are processed with markdown formatting
+# - vectors are collapsed to a comma-separated string
+collapse_element <- function(x) {
+  if (inherits(x, "data.frame")) {
+    return(dataframe_to_markdown(x))
   }
-  paste(paths, collapse = " \n ")
+  vector_to_character(x)
 }
-
 # Process and mark up data.frame cell entries (e.g. a `properties` df) with
 # markdown formatting and collapse to a single string. Mainly applicable to
 # oneOf schema column cell formatting.
@@ -171,16 +149,6 @@ dataframe_to_markdown <- function(x) {
     paste0("**", names(.), "** \n ", .) %>%
     paste(collapse = "\n\n ") %>%
     gsub("[^']NA", "'NA'", .)
-}
-
-# Collapse individual cell entries to a single string according to their type.
-# - data.frames are processed with markdown formatting
-# - vectors are collapsed to a comma-separated string
-collapse_element <- function(x) {
-  if (inherits(x, "data.frame")) {
-    return(dataframe_to_markdown(x))
-  }
-  vector_to_character(x)
 }
 
 # Process vector error tbl cell entries into a single string
@@ -234,6 +202,42 @@ remove_superfluous_enum_rows <- function(errors_tbl) {
   }
 
   errors_tbl
+}
+
+# Create tree representation of error (instance and schema) paths
+path_to_tree <- function(x) {
+  # Split up path and remove blank and root elements
+  paths <- strsplit(x, "/") %>%
+    unlist() %>%
+    as.list()
+  paths <- paths[!(paths == "" | paths == "#")]
+
+  # Highlight property names and convert from 0 to 1 array index
+  paths <- paths %>%
+    purrr::map_if(
+      !is.na(as.numeric(paths)),
+      ~ as.numeric(.x) + 1
+    ) %>%
+    purrr::map_if(
+      !paths %in% c("items", "properties"),
+      ~ paste0("**", .x, "**")
+    ) %>%
+    unlist() %>%
+    suppressWarnings()
+
+  # build path tree
+  if (length(paths) > 1L) {
+    for (i in 2:length(paths)) {
+      paths[i] <- paste0(
+        "\u2514",
+        paste(rep("\u2500", times = i - 2),
+              collapse = ""
+        ),
+        paths[i]
+      )
+    }
+  }
+  paste(paths, collapse = " \n ")
 }
 
 # Extract informative values from params data.frame and add it to the data column
