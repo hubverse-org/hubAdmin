@@ -173,8 +173,9 @@ dataframe_to_markdown <- function(x) {
     gsub("[^']NA", "'NA'", .)
 }
 
-# Collapse individual cell entries according to their type. Data.frames are processed
-# with markdown formatting to strings and vectors are collapsed into a single string.
+# Collapse individual cell entries to a single string according to their type. 
+# - data.frames are processed with markdown formatting
+# - vectors are collapsed to a comma-separated string
 collapse_element <- function(x) {
   if (inherits(x, "data.frame")) {
     return(dataframe_to_markdown(x))
