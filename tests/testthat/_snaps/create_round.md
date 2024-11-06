@@ -316,7 +316,7 @@
       $model_tasks[[1]]$output_type$mean
       $model_tasks[[1]]$output_type$mean$output_type_id
       $model_tasks[[1]]$output_type$mean$output_type_id$required
-      [1] NA
+      NULL
       
       
       $model_tasks[[1]]$output_type$mean$is_required

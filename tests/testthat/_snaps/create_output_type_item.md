@@ -553,7 +553,7 @@
       $mean
       $mean$output_type_id
       $mean$output_type_id$required
-      [1] NA
+      NULL
       
       
       $mean$is_required
@@ -584,7 +584,7 @@
       $mean
       $mean$output_type_id
       $mean$output_type_id$required
-      [1] NA
+      NULL
       
       
       $mean$is_required
@@ -615,7 +615,7 @@
       $median
       $median$output_type_id
       $median$output_type_id$required
-      [1] NA
+      NULL
       
       
       $median$is_required

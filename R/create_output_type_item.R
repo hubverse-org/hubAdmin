@@ -101,7 +101,7 @@ create_output_type_point <- function(output_type = c("mean", "median"),
   if (!pre_v4) {
     output_type_id <- list(
       output_type_id = list(
-        required = NA_character_
+        required = NULL
       ),
       is_required = is_required
     )
