@@ -206,3 +206,44 @@ test_that("target keys error if arrays passed", {
   expect_snapshot(attr(out_v3, "errors"))
   expect_false(out_v3)
 })
+
+test_that("v4 validation works", {
+  skip_if_offline()
+  config_path <- testthat::test_path(
+    "testdata",
+    "v4-tasks.json"
+  )
+  expect_true(
+    suppressMessages(
+      validate_config(
+        config_path = config_path,
+        branch = "br-v4.0.0"
+      )
+    )
+  )
+  config_path <- testthat::test_path("testdata", "v4-tasks-fail.json")
+  expect_false(
+    suppressMessages(
+      v4_fail <- validate_config(config_path = config_path, branch = "br-v4.0.0")
+    )
+  )
+  expect_snapshot(extract_error_tbl_cols(v4_fail))
+
+  # Ensure dynamic validation works and catches invalid derived task IDs at config
+  # and round level.
+  config_path <- testthat::test_path("testdata", "v4-tasks-fail-dynamic.json")
+  expect_false(
+    suppressMessages(
+      v4_fail_dynamic <- validate_config(config_path = config_path, branch = "br-v4.0.0")
+    )
+  )
+  expect_snapshot(
+    extract_error_tbl_cols(v4_fail_dynamic, c(
+      "message", "data"
+    ))
+  )
+  expect_equal(
+    extract_error_tbl_cols(v4_fail_dynamic, c("instancePath"))$instancePath,
+    structure(c("/rounds/0/derived_task_ids", "/derived_task_ids"), class = c("glue", "character"))
+  )
+})

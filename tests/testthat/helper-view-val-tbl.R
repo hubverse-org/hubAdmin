@@ -1,3 +1,10 @@
+extract_error_tbl_cols <- function(x, cols = c(
+  "message"
+)) {
+  attr(x, "errors")[cols] |>
+    tibble::as_tibble()
+}
+
 expect_tab <- function(tab) {
   # Expect that the object has the correct classes
   expect_s3_class(tab, "gt_tbl")
