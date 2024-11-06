@@ -231,7 +231,7 @@ path_to_tree <- function(x) {
       paths[i] <- paste0(
         "\u2514",
         paste(rep("\u2500", times = i - 2),
-              collapse = ""
+          collapse = ""
         ),
         paths[i]
       )
