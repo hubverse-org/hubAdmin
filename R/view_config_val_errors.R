@@ -103,16 +103,18 @@ clean_error_df <- function(errors_tbl) {
   errors_tbl["params"] <- NULL
 
   error_df <- split(errors_tbl, seq_len(nrow(errors_tbl))) %>%
-    purrr::map(
-      ~ unlist(.x, recursive = FALSE) %>%
-        purrr::map(~ collapse_element(.x)) %>%
-        tibble::as_tibble()
-    ) %>%
+    purrr::map(~ flatten_error_tbl_row(.x)) %>%
     purrr::list_rbind() %>%
     # split long column names
     stats::setNames(gsub("\\.", " ", names(.)))
 
   error_df
+}
+
+flatten_error_tbl_row <- function(x) {
+  unlist(x, recursive = FALSE) %>%
+    purrr::map(~ collapse_element(.x)) %>%
+    tibble::as_tibble()
 }
 
 # Create tree representation of error (instance and schema) paths
