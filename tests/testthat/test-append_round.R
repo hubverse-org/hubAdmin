@@ -1,4 +1,5 @@
 test_that("append_round works", {
+  skip_if_offline()
   config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
   )
@@ -18,6 +19,7 @@ test_that("append_round works", {
 })
 
 test_that("append_round fails with duplicate round_ids", {
+  skip_if_offline()
   config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
   )
@@ -29,6 +31,7 @@ test_that("append_round fails with duplicate round_ids", {
 })
 
 test_that("append_round fails with schema_id mismatch", {
+  skip_if_offline()
   config <- hubUtils::read_config_file(
     config_path = test_path("testdata/tasks-append.json")
   )

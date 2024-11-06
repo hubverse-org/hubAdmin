@@ -1,4 +1,5 @@
 test_that("create_output_type_point functions work correctly with v3.0.1 schema", {
+  skip_if_offline()
   expect_snapshot(
     create_output_type_mean(
       is_required = TRUE,
@@ -25,6 +26,7 @@ test_that("create_output_type_point functions work correctly with v3.0.1 schema"
 })
 
 test_that("create_output_type_point functions error correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_output_type_mean(
       is_required = "TRUE",
@@ -60,6 +62,7 @@ test_that("create_output_type_point functions error correctly", {
 })
 
 test_that("create_output_type_dist functions work correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.75),
@@ -121,6 +124,7 @@ test_that("create_output_type_dist functions work correctly", {
 
 
 test_that("create_output_type_dist functions error correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_output_type_cdf(
       required = NULL,
@@ -150,6 +154,7 @@ test_that("create_output_type_dist functions error correctly", {
 
 
 test_that("create_output_type_sample works", {
+  skip_if_offline()
   expect_snapshot(
     create_output_type_sample(
       is_required = TRUE,
@@ -188,6 +193,7 @@ test_that("create_output_type_sample works", {
 })
 
 test_that("create_output_type_sample errors correctly", {
+  skip_if_offline()
   # TODO: Remove branches when v4.0.0 is released
   # v4 type fails correctly
   expect_error(
@@ -288,6 +294,7 @@ test_that("create_output_type_sample errors correctly", {
 
 
 test_that("create_output_type_item is back-compatible", {
+  skip_if_offline()
   # Test back-compatibility
   expect_snapshot(
     create_output_type_median(
@@ -299,6 +306,7 @@ test_that("create_output_type_item is back-compatible", {
 })
 
 test_that("create_output_type_item works with v4 schema", {
+  skip_if_offline()
   # TODO: Remove branch argument when v4.0.0 is released
   expect_snapshot(
     create_output_type_mean(
@@ -330,6 +338,7 @@ test_that("create_output_type_item works with v4 schema", {
 
 
 test_that("create_output_type_dist fns support v4 schema", {
+  skip_if_offline()
   # TODO: Remove branch argument when v4.0.0 is released
 
   expect_snapshot(

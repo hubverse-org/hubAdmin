@@ -1,4 +1,5 @@
 test_that("create_task_ids functions work correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_task_ids(
       create_task_id("origin_date",
@@ -34,6 +35,7 @@ test_that("create_task_ids functions work correctly", {
 
 
 test_that("create_task_ids functions error correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_task_ids(
       create_task_id("origin_date",

@@ -1,4 +1,5 @@
 test_that("create_output_type functions work correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_output_type(
       create_output_type_mean(
@@ -25,6 +26,7 @@ test_that("create_output_type functions work correctly", {
 
 
 test_that("create_output_type functions error correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_output_type(
       create_output_type_mean(

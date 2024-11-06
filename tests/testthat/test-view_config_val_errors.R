@@ -1,4 +1,5 @@
 test_that("Errors report launch successful", {
+  skip_if_offline()
   config_path <- testthat::test_path("testdata", "tasks-errors.json")
   validation <- suppressWarnings(
     validate_config(config_path = config_path)
@@ -19,6 +20,7 @@ test_that("Errors report launch successful", {
 })
 
 test_that("length 1 paths and related type & enum errors handled correctly", {
+  skip_if_offline()
   config_path <- testthat::test_path("testdata", "admin-errors2.json")
   # TODO - change branch back to main branch when
   validation <- suppressWarnings(
@@ -33,6 +35,7 @@ test_that("length 1 paths and related type & enum errors handled correctly", {
 })
 
 test_that("Data column handled correctly when required property missing", {
+  skip_if_offline()
   set.seed(1)
   # One nested property missing, one type error
   config_path <- testthat::test_path("testdata", "tasks_required_missing.json")
@@ -66,6 +69,7 @@ test_that("Data column handled correctly when required property missing", {
 })
 
 test_that("Report handles additional property errors successfully", {
+  skip_if_offline()
   config_path <- testthat::test_path("testdata", "tasks-addprop.json")
   out <- suppressWarnings(validate_config(config_path = config_path))
   tbl <- view_config_val_errors(out)
@@ -76,6 +80,7 @@ test_that("Report handles additional property errors successfully", {
 # validate_hub_config output ----
 
 test_that("Report works corectly on validate_hub_config output", {
+  skip_if_offline()
   config_dir <- system.file(
     "testhubs/simple/",
     package = "hubUtils"
