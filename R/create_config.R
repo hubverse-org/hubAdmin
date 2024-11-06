@@ -85,6 +85,8 @@ create_config <- function(rounds,
   rlang::check_required(rounds)
   check_object_class(rounds, "rounds")
   schema_id <- attr(rounds, "schema_id")
+  branch <- attr(rounds, "branch")
+
   if (!is.null(derived_task_ids)) {
     check_derived_task_ids(derived_task_ids, rounds = rounds)
   }
@@ -102,7 +104,8 @@ create_config <- function(rounds,
     ) %>% purrr::compact(), # remove output_type_id_datatype if NULL
     class = c("config", "list"),
     type = "tasks",
-    schema_id = schema_id
+    schema_id = schema_id,
+    branch = branch
   )
 }
 

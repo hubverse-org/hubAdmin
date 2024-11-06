@@ -108,6 +108,8 @@
       [1] "tasks"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 # create_config functions error correctly
 
@@ -230,6 +232,8 @@
       [1] "tasks"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 ---
 
@@ -344,6 +348,8 @@
       [1] "tasks"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "main"
 
 # create_config derived_task_ids argument
 
@@ -459,6 +465,8 @@
       [1] "tasks"
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      attr(,"branch")
+      [1] "br-v4.0.0"
 
 ---
 
