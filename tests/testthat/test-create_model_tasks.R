@@ -1,4 +1,5 @@
 test_that("create_model_tasks functions work correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_model_tasks(
       create_model_task(
@@ -163,6 +164,7 @@ test_that("create_model_tasks functions work correctly", {
 
 
 test_that("create_model_tasks functions error correctly", {
+  skip_if_offline()
   model_task_1 <- create_model_task(
     task_ids = create_task_ids(
       create_task_id("origin_date",

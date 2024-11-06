@@ -1,4 +1,5 @@
 test_that("create_task_id works correctly", {
+  skip_if_offline()
   expect_snapshot(create_task_id("horizon",
     required = 1L,
     optional = 2:4
@@ -36,6 +37,7 @@ test_that("create_task_id works correctly", {
 
 
 test_that("create_task_id errors correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_task_id("origin_date",
       required = NULL,
@@ -63,6 +65,7 @@ test_that("create_task_id errors correctly", {
 })
 
 test_that("create_task_id name matching works correctly", {
+  skip_if_offline()
   expect_equal(
     names(
       suppressMessages(

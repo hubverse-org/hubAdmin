@@ -1,4 +1,5 @@
 test_that("create_target_metadata functions work correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_target_metadata(
       create_target_metadata_item(
@@ -25,6 +26,7 @@ test_that("create_target_metadata functions work correctly", {
 
 
 test_that("create_target_metadata functions error correctly", {
+  skip_if_offline()
   expect_snapshot(
     create_target_metadata(
       create_target_metadata_item(

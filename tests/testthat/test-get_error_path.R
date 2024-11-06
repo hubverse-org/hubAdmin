@@ -1,4 +1,5 @@
 test_that("Creating schema paths works correctly", {
+  skip_if_offline()
   schema <- hubUtils::get_schema(
     "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
   )
@@ -36,6 +37,7 @@ test_that("Creating schema paths works correctly", {
 })
 
 test_that("Creating instance paths works correctly", {
+  skip_if_offline()
   schema <- hubUtils::get_schema(
     "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/tasks-schema.json"
   )
