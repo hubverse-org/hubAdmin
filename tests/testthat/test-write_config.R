@@ -193,3 +193,30 @@ test_that("write_config with box_extra_paths works", {
     expect_true(suppressMessages(validate_config()))
   })
 })
+
+test_that("write_config with v4 works", {
+  # TODO: Remove references to br-v4.0.0 when v4.0.0 released
+  skip_if_offline()
+  rounds <- create_test_rounds(branch = "br-v4.0.0", version = "v4.0.0")
+  config <- create_test_config(rounds)
+  temp_hub <- setup_test_hub()
+  setup_test_hub_with_config_dir(temp_hub)
+
+  # Move to temp hub working directory to use default hub_path "." setting.
+  withr::with_dir(temp_hub, {
+    expect_snapshot(
+      write_config(
+        config = config,
+        hub_path = temp_hub
+      )
+    )
+    expect_true(
+      suppressMessages(
+        validate_config(hub_path = temp_hub, branch = "br-v4.0.0")
+      )
+    )
+    expect_snapshot(
+      cat(readLines(file.path(temp_hub, "hub-config/tasks.json")), sep = "\n")
+    )
+  })
+})
