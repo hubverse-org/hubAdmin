@@ -296,6 +296,15 @@ get_grp_task_ids <- function(model_task_grp) {
   names(model_task_grp[["task_ids"]])
 }
 
+get_round_task_ids <- function(round) {
+  purrr::map(
+    round[["model_tasks"]],
+    ~ get_grp_task_ids(.x)
+  ) |>
+    unlist() |>
+    unique()
+}
+
 find_invalid_target_keys <- function(target_keys, model_task_grp) {
   !names(target_keys) %in% get_grp_task_ids(model_task_grp) %>%
     stats::setNames(names(target_keys))
@@ -518,6 +527,39 @@ validate_round_ids_consistent <- function(round, round_i,
     as.data.frame()
 }
 
+# Check that round derived_task_ids match valid round task ID names
+validate_round_derived_task_ids <- function(round, round_i, schema) {
+  derived_task_ids <- round[["derived_task_ids"]]
+  if (is.null(derived_task_ids)) {
+    return(NULL)
+  }
+  task_ids <- get_round_task_ids(round)
+  invalid_derived_task_ids <- setdiff(derived_task_ids, task_ids)
+  if (length(invalid_derived_task_ids) == 0L) {
+    return(NULL)
+  }
+
+  tibble::tibble(
+    instancePath = glue::glue_data(
+      list(round_i = round_i),
+      get_error_path(
+        schema,
+        "rounds/items/properties/derived_task_ids",
+        "instance"
+      )
+    ),
+    schemaPath = get_error_path(
+      schema, "rounds/items/properties/derived_task_ids",
+      "schema"
+    ),
+    keyword = "round derived task IDs",
+    message = "derived_task_ids values MUST MATCH valid round task_id variable names",
+    schema = paste(task_ids, collapse = ", "),
+    data = paste(invalid_derived_task_ids, collapse = ", ")
+  )
+}
+
+
 ## CONFIG LEVEL VALIDATIONS ----
 # Validate that round IDs are unique across all rounds in config file
 validate_round_ids_unique <- function(config_tasks, schema) {
@@ -621,7 +663,27 @@ validate_task_ids_not_all_null <- function(config_tasks, schema) {
   return(data.frame())
 }
 
+# Check that config derived_task_ids match valid round task ID names
+validate_config_derived_task_ids <- function(config_tasks, schema) {
+  derived_task_ids <- config_tasks[["derived_task_ids"]]
+  if (is.null(derived_task_ids)) {
+    return(NULL)
+  }
+  task_ids <- hubUtils::get_task_id_names(config_tasks)
+  invalid_derived_task_ids <- setdiff(derived_task_ids, task_ids)
 
+  if (length(invalid_derived_task_ids) == 0L) {
+    return(NULL)
+  }
+  tibble::tibble(
+    instancePath = get_error_path(schema, "derived_task_ids", "instance"),
+    schemaPath = get_error_path(schema, "derived_task_ids", "schema"),
+    keyword = "config derived task IDs",
+    message = "derived_task_ids values MUST MATCH valid config task_id variable names",
+    schema = paste(task_ids, collapse = ", "),
+    data = paste(invalid_derived_task_ids, collapse = ", ")
+  )
+}
 
 get_round_id_var <- function(idx, config_tasks) {
   if (config_tasks[["rounds"]][[idx]][["round_id_from_variable"]]) {
@@ -647,8 +709,8 @@ is_null_task_id <- function(task_id_name, config_tasks) {
 print.hubval <- function(x, ...) {
   cli::cli_div()
   config_dir <- unclass(attr(x, "config_dir"))
-  schema_version <- attr(x, "schema_version") 
-  schema_url <- attr(x, "schema_url") 
+  schema_version <- attr(x, "schema_version")
+  schema_url <- attr(x, "schema_url")
   cli::cli_text("{cli::symbol$i} {.href [schema version {schema_version}]({schema_url})}")
   lapply(names(x), function(i) {
     if (x[[i]]) {
@@ -680,8 +742,8 @@ print.conval <- function(x, ...) {
     return(invisible(x))
   }
   # nolint start
-  schema_version <- attr(x, "schema_version") 
-  schema_url <- attr(x, "schema_url") 
+  schema_version <- attr(x, "schema_version")
+  schema_url <- attr(x, "schema_url")
   if (!is.null(schema_url)) {
     via <- "via"
     name <- sub("([^.]+)\\.[[:alnum:]]+$", "\\1", basename(schema_url))

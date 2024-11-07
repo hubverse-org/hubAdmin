@@ -1,6 +1,7 @@
 # hubAdmin (development version)
 
 * Support v4.0.0 schema configuration of output types and output type IDs when creating config files programmatically. Specifically, whether an output type is required or not is specified via the `is_required` logical property whereas the `output_type_id` values as provided through the `required` property.
+* Add dynamic checks to ensure `derived_task_ids` match valid task ID names to validation of `task.json` config files (#69).
 
 # hubAdmin 1.3.0
 
