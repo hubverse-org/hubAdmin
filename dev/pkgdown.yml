@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   articles/hub-setup: hub-setup.html
-last_built: 2024-11-06T20:01Z
+last_built: 2024-11-07T08:27Z
 urls:
   reference: https://hubverse-org.github.io/hubAdmin/reference
   article: https://hubverse-org.github.io/hubAdmin/articles
