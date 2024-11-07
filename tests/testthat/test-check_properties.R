@@ -1,4 +1,5 @@
 test_that("check_properties_scalar works", {
+  skip_if_offline()
   properties <- create_example_properties()
   schema <- download_tasks_schema("v3.0.1")
   round_schema <- get_schema_round(schema)
@@ -21,6 +22,7 @@ test_that("check_properties_scalar works", {
 })
 
 test_that("check_properties_array works", {
+  skip_if_offline()
   properties <- create_example_properties()
   schema <- download_tasks_schema("v3.0.1")
   round_schema <- get_schema_round(schema)
