@@ -18,8 +18,8 @@
 #' (i.e wrapped in `{}`).
 #' They are defined by variables `round_i`, `model_task_i` or `target_key_i` depending
 #' on the depth of the property being validated. Values for these variables need to be passed
-#' using `glue::glue_data()` and explicitly.
-#' passing an index variable and it's value as a named list.
+#' using `glue::glue_data()` and explicitly passing an index variable
+#' and it's value as a named list.
 #' @noRd
 #' @examples
 #' # Return the instance path to the origin date task ID in the second modeling task
