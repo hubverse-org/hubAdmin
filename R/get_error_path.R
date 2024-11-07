@@ -30,7 +30,7 @@
 #'   list(model_task_i = 2L),
 #'   get_error_path(schema, "origin_date", "instance")
 #' )
-#' # By default, firsth highest level match returned
+#' # By default, first highest level match returned
 #' get_error_path(schema, "derived_task_ids", "schema")
 #' # Target lower level properties by defining more of the path
 #' get_error_path(schema, "rounds/items/properties/derived_task_ids", "schema")
