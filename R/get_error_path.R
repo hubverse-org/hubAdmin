@@ -13,7 +13,7 @@
 #'
 #'
 #' @return a path, either to an instance location in the config or a location in
-#' the schema. Note that in instance paths. any array location indices are
+#' the schema. Note that in instance paths, any array location indices are
 #' unevaluated in the output and are instead encoded a glue interpolation strings
 #' (i.e wrapped in `{}`).
 #' They are defined by variables `round_i`, `model_task_i` or `target_key_i` depending
