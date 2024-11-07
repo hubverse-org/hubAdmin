@@ -92,14 +92,9 @@ get_error_path <- function(schema, element = "target_metadata",
   # index to a specific element in that object), then add an "\items" string to the
   # end of the path where a location index will be added during instance
   # path interpolation.
-  if (append_item_n && any(
-    grepl(
-      paste(path, "items", sep = "/"),
-      schema_paths
-    )
-  ) &&
-    length(path) != 0L
-  ) {
+  path_exists <- length(path) != 0
+  is_array <- any(grepl(paste(path, "items", sep = "/"), schema_paths))
+  if (append_item_n && path_exists && is_array) {
     path <- paste(path, "items", sep = "/")
   }
 
