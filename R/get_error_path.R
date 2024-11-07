@@ -118,7 +118,7 @@ generate_instance_path_glue <- function(path) {
     unlist()
   is_item <- split_path == "items"
   n_item_props <- sum(is_item)
-  split_path[is_item] <- utils::head(item_props, n_item_props)
+  split_path[is_item] <- item_props[seq_len(n_item_props)]
   paste(split_path, collapse = "/")
 }
 
