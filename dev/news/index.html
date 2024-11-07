@@ -37,7 +37,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="hubadmin-development-version">hubAdmin (development version)<a class="anchor" aria-label="anchor" href="#hubadmin-development-version"></a></h2>
-<ul><li>Support v4.0.0 schema configuration of output types and output type IDs when creating config files programmatically. Specifically, whether an output type is required or not is specified via the <code>is_required</code> logical property whereas the <code>output_type_id</code> values as provided through the <code>required</code> property.</li>
+<ul><li>Support v4.0.0 schema configuration of output types and output type IDs when creating config files programmatically. Specifically, whether an output type is required or not is specified via the <code>is_required</code> logical property whereas the <code>output_type_id</code> values as provided through the <code>required</code> property only (<a href="https://github.com/hubverse-org/hubAdmin/issues/53" class="external-link">#53</a>). In addition, <code>output_type_id</code> <code>required</code> value is now encoded as <code>NULL</code> instead of <code>NA</code> (<a href="https://github.com/hubverse-org/hubAdmin/issues/72" class="external-link">#72</a>).</li>
+<li>Programmatically created higher level config elements now have a <code>branch</code> attribute that can be used to create and validate objects against a schema which is still in development and has not been released to the <code>main</code> branch yet.</li>
 <li>Add dynamic checks to ensure <code>derived_task_ids</code> match valid task ID names to validation of <code>task.json</code> config files (<a href="https://github.com/hubverse-org/hubAdmin/issues/69" class="external-link">#69</a>).</li>
 </ul></div>
     <div class="section level2">
