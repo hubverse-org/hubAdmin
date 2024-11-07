@@ -93,9 +93,14 @@ schema_autobox <- function(config, box_extra_paths = NULL) {
     )
   }
   schema_id <- attr(config, "schema_id")
-  schema <- download_tasks_schema(
-    hubUtils::extract_schema_version(schema_id)
-  )
+  schema_version <- hubUtils::extract_schema_version(schema_id)
+  # If we can extract a branch from the config object, use that.
+  # Otherwise, default to main
+  branch <- attr(config, "branch")
+  if (is.null(branch)) {
+    branch <- "main"
+  }
+  schema <- download_tasks_schema(schema_version, branch)
 
   # Get list of paths to config properties that can be arrays and may require
   # boxing.

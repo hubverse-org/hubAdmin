@@ -1,5 +1,5 @@
 # Setup fixtures for creating test objects
-create_test_rounds <- function() {
+create_test_rounds <- function(branch = "main", version = "v3.0.1") {
   create_rounds(
     create_round(
       round_id_from_variable = TRUE,
@@ -13,22 +13,30 @@ create_test_rounds <- function() {
                 "2023-01-02",
                 "2023-01-09",
                 "2023-01-16"
-              )
+              ),
+              branch = branch,
+              schema_version = version
             ),
             create_task_id("location",
               required = "US",
-              optional = c("01", "02", "04", "05", "06")
+              optional = c("01", "02", "04", "05", "06"),
+              branch = branch,
+              schema_version = version
             ),
             create_task_id("horizon",
               required = 1L,
-              optional = 2:4
+              optional = 2:4,
+              branch = branch,
+              schema_version = version
             )
           ),
           output_type = create_output_type(
             create_output_type_mean(
               is_required = TRUE,
               value_type = "double",
-              value_minimum = 0L
+              value_minimum = 0L,
+              branch = branch,
+              schema_version = version
             )
           ),
           target_metadata = create_target_metadata(
@@ -39,7 +47,9 @@ create_test_rounds <- function() {
               target_keys = NULL,
               target_type = "discrete",
               is_step_ahead = TRUE,
-              time_unit = "week"
+              time_unit = "week",
+              branch = branch,
+              schema_version = version
             )
           )
         )
