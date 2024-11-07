@@ -4,20 +4,20 @@ test_that("create_rounds functions work correctly", {
     create_model_task(
       task_ids = create_task_ids(
         create_task_id("origin_date",
-                       required = NULL,
-                       optional = c(
-                         "2023-01-02",
-                         "2023-01-09",
-                         "2023-01-16"
-                       )
+          required = NULL,
+          optional = c(
+            "2023-01-02",
+            "2023-01-09",
+            "2023-01-16"
+          )
         ),
         create_task_id("location",
-                       required = "US",
-                       optional = c("01", "02", "04", "05", "06")
+          required = "US",
+          optional = c("01", "02", "04", "05", "06")
         ),
         create_task_id("horizon",
-                       required = 1L,
-                       optional = 2:4
+          required = 1L,
+          optional = 2:4
         )
       ),
       output_type = create_output_type(
@@ -162,20 +162,20 @@ test_that("create_round errors correctly", {
     create_model_task(
       task_ids = create_task_ids(
         create_task_id("origin_date",
-                       required = NULL,
-                       optional = c(
-                         "2023-01-02",
-                         "2023-01-09",
-                         "2023-01-16"
-                       )
+          required = NULL,
+          optional = c(
+            "2023-01-02",
+            "2023-01-09",
+            "2023-01-16"
+          )
         ),
         create_task_id("location",
-                       required = "US",
-                       optional = c("01", "02", "04", "05", "06")
+          required = "US",
+          optional = c("01", "02", "04", "05", "06")
         ),
         create_task_id("horizon",
-                       required = 1L,
-                       optional = 2:4
+          required = 1L,
+          optional = 2:4
         )
       ),
       output_type = create_output_type(
