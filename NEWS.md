@@ -2,6 +2,7 @@
 
 * Support v4.0.0 schema configuration of output types and output type IDs when creating config files programmatically. Specifically, whether an output type is required or not is specified via the `is_required` logical property whereas the `output_type_id` values as provided through the `required` property only (#53). In addition, `output_type_id` `required` value is now encoded as `NULL` instead of `NA` (#72).
 * Programmatically created higher level config elements now have a `branch` attributes that can be used to create and validate objects against a schema which is still in development and has not been released to the `main` branch yet.
+* Add dynamic checks to ensure `derived_task_ids` match valid task ID names to validation of `task.json` config files 
 
 # hubAdmin 1.3.0
 
