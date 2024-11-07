@@ -979,3 +979,29 @@
                                                       dataPath
       1 /rounds/0/model_tasks/0/output_type/pmf/output_type_id
 
+# v4 validation works
+
+    Code
+      extract_error_tbl_cols(v4_fail)
+    Output
+      # A tibble: 6 x 1
+        message                                  
+        <chr>                                    
+      1 must NOT have additional properties      
+      2 must NOT have additional properties      
+      3 must have required property 'is_required'
+      4 must be null                             
+      5 must have required property 'is_required'
+      6 must NOT have additional properties      
+
+---
+
+    Code
+      extract_error_tbl_cols(v4_fail_dynamic, c("message", "data"))
+    Output
+      # A tibble: 2 x 2
+        message                                                                data   
+        <chr>                                                                  <chr>  
+      1 derived_task_ids values MUST MATCH valid round task_id variable names  target~
+      2 derived_task_ids values MUST MATCH valid config task_id variable names random~
+

@@ -159,7 +159,8 @@ perform_dynamic_config_validations <- function(validation) {
     # Perform config level validation
     list(
       validate_round_ids_unique(config_json, schema),
-      validate_task_ids_not_all_null(config_json, schema)
+      validate_task_ids_not_all_null(config_json, schema),
+      validate_config_derived_task_ids(config_json, schema)
     )
   ) %>%
     purrr::list_rbind()
@@ -230,6 +231,11 @@ val_round <- function(round, round_i, schema) {
     ),
     list(
       validate_round_ids_consistent(
+        round = round,
+        round_i = round_i,
+        schema = schema
+      ),
+      validate_round_derived_task_ids(
         round = round,
         round_i = round_i,
         schema = schema
