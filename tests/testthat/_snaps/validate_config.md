@@ -999,9 +999,10 @@
     Code
       extract_error_tbl_cols(v4_fail_dynamic, c("message", "data"))
     Output
-      # A tibble: 2 x 2
+      # A tibble: 3 x 2
         message                                                                data   
         <chr>                                                                  <chr>  
       1 derived_task_ids values MUST MATCH valid round task_id variable names  target~
       2 derived_task_ids values MUST MATCH valid config task_id variable names random~
+      3 derived_task_ids MUST NOT contain required values.                     target~
 
