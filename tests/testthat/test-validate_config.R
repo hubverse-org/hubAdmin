@@ -244,6 +244,12 @@ test_that("v4 validation works", {
   )
   expect_equal(
     extract_error_tbl_cols(v4_fail_dynamic, c("instancePath"))$instancePath,
-    structure(c("/rounds/0/derived_task_ids", "/derived_task_ids"), class = c("glue", "character"))
+    structure(
+      c(
+        "/rounds/0/derived_task_ids", "/rounds/0/derived_task_ids",
+        "/derived_task_ids", "/derived_task_ids"
+      ),
+      class = c("glue", "character")
+    )
   )
 })

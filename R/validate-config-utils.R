@@ -535,28 +535,65 @@ validate_round_derived_task_ids <- function(round, round_i, schema) {
   }
   task_ids <- get_round_task_ids(round)
   invalid_derived_task_ids <- setdiff(derived_task_ids, task_ids)
-  if (length(invalid_derived_task_ids) == 0L) {
+  valid_derived_task_ids <- setdiff(
+    derived_task_ids,
+    invalid_derived_task_ids
+  )
+  req_derived_task_ids <- derived_task_ids_with_required_vals(
+    round, valid_derived_task_ids,
+    depth = "round"
+  )
+  names_valid <- length(invalid_derived_task_ids) == 0L
+  no_req_values <- length(req_derived_task_ids) == 0L
+
+  if (names_valid && no_req_values) {
     return(NULL)
   }
-
-  tibble::tibble(
-    instancePath = glue::glue_data(
-      list(round_i = round_i),
-      get_error_path(
-        schema,
-        "rounds/items/properties/derived_task_ids",
-        "instance"
+  out <- NULL
+  if (!names_valid) {
+    out <- tibble::tibble(
+      instancePath = glue::glue_data(
+        list(round_i = round_i),
+        get_error_path(
+          schema,
+          "rounds/items/properties/derived_task_ids",
+          "instance"
+        )
+      ),
+      schemaPath = get_error_path(
+        schema, "rounds/items/properties/derived_task_ids",
+        "schema"
+      ),
+      keyword = "round derived task IDs",
+      message = "derived_task_ids values MUST MATCH valid round task_id variable names",
+      schema = paste(task_ids, collapse = ", "),
+      data = paste(invalid_derived_task_ids, collapse = ", ")
+    )
+  }
+  if (!no_req_values) {
+    out <- rbind(
+      out,
+      tibble::tibble(
+        instancePath = glue::glue_data(
+          list(round_i = round_i),
+          get_error_path(
+            schema,
+            "rounds/items/properties/derived_task_ids",
+            "instance"
+          )
+        ),
+        schemaPath = get_error_path(
+          schema, "rounds/items/properties/derived_task_ids",
+          "schema"
+        ),
+        keyword = "round derived task IDs",
+        message = "derived_task_ids MUST NOT contain required values",
+        schema = paste(task_ids, collapse = ", "),
+        data = paste(req_derived_task_ids, collapse = ", ")
       )
-    ),
-    schemaPath = get_error_path(
-      schema, "rounds/items/properties/derived_task_ids",
-      "schema"
-    ),
-    keyword = "round derived task IDs",
-    message = "derived_task_ids values MUST MATCH valid round task_id variable names",
-    schema = paste(task_ids, collapse = ", "),
-    data = paste(invalid_derived_task_ids, collapse = ", ")
-  )
+    )
+  }
+  out
 }
 
 
@@ -671,18 +708,78 @@ validate_config_derived_task_ids <- function(config_tasks, schema) {
   }
   task_ids <- hubUtils::get_task_id_names(config_tasks)
   invalid_derived_task_ids <- setdiff(derived_task_ids, task_ids)
+  valid_derived_task_ids <- setdiff(
+    derived_task_ids,
+    invalid_derived_task_ids
+  )
+  req_derived_task_ids <- derived_task_ids_with_required_vals(
+    config_tasks, valid_derived_task_ids
+  )
+  names_valid <- length(invalid_derived_task_ids) == 0L
+  no_req_values <- length(req_derived_task_ids) == 0L
 
-  if (length(invalid_derived_task_ids) == 0L) {
+  if (names_valid && no_req_values) {
     return(NULL)
   }
-  tibble::tibble(
-    instancePath = get_error_path(schema, "derived_task_ids", "instance"),
-    schemaPath = get_error_path(schema, "derived_task_ids", "schema"),
-    keyword = "config derived task IDs",
-    message = "derived_task_ids values MUST MATCH valid config task_id variable names",
-    schema = paste(task_ids, collapse = ", "),
-    data = paste(invalid_derived_task_ids, collapse = ", ")
-  )
+  out <- NULL
+  if (!names_valid) {
+    out <- tibble::tibble(
+      instancePath = get_error_path(schema, "derived_task_ids", "instance"),
+      schemaPath = get_error_path(schema, "derived_task_ids", "schema"),
+      keyword = "config derived task IDs",
+      message = "derived_task_ids values MUST MATCH valid config task_id variable names",
+      schema = paste(task_ids, collapse = ", "),
+      data = paste(invalid_derived_task_ids, collapse = ", ")
+    )
+  }
+  if (!no_req_values) {
+    out <-
+      rbind(
+        out,
+        tibble::tibble(
+          instancePath = get_error_path(schema, "derived_task_ids", "instance"),
+          schemaPath = get_error_path(schema, "derived_task_ids", "schema"),
+          keyword = "config derived task IDs",
+          message = "derived_task_ids MUST NOT contain required values.",
+          schema = paste(task_ids, collapse = ", "),
+          data = paste(req_derived_task_ids, collapse = ", ")
+        )
+      )
+  }
+  out
+}
+
+### Utilities ----
+derived_task_ids_with_required_vals <- function(x, derived_task_ids,
+                                                depth = c("config", "round")) {
+  depth <- rlang::arg_match(depth)
+  # If dealing with config depth, extract rounds
+  if (depth == "config") {
+    x <- x[["rounds"]]
+  } else {
+    # To allow for map to work correctly on individual rounds as inputs
+    x <- list(x)
+  }
+  # Extract required values from derived_task_ids in each round and model task
+  purrr::map(
+    x,
+    ~ purrr::map(
+      .x[["model_tasks"]],
+      ~ purrr::map(
+        .x[["task_ids"]][derived_task_ids],
+        ~ .x[["required"]]
+      )
+    )
+  ) |>
+    # Flatten
+    purrr::flatten() |>
+    purrr::flatten() |>
+    # Remove all that are NULL
+    purrr::compact() |>
+    # Extract the names of any task IDs left (i.e. that are not NULL and thus
+    # have required values)
+    names() |>
+    unique()
 }
 
 get_round_id_var <- function(idx, config_tasks) {

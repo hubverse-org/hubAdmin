@@ -189,7 +189,9 @@ remove_superfluous_enum_rows <- function(errors_tbl) {
 
     dup_unneccessary <- purrr::map_lgl(
       dup_keywords,
-      ~ all(.x == c("type", "enum") | .x == c("type", "const"))
+      ~ {
+        setequal(.x, c("type", "enum")) || setequal(.x, c("type", "const"))
+      }
     )
 
     if (any(dup_unneccessary)) {
