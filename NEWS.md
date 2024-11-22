@@ -1,4 +1,4 @@
-# hubAdmin (development version)
+# hubAdmin 1.4.0
 
 * Support v4.0.0 schema configuration of output types and output type IDs when creating config files programmatically. Specifically, whether an output type is required or not is specified via the `is_required` logical property whereas the `output_type_id` values as provided through the `required` property only (#53). In addition, `output_type_id` `required` value is now encoded as `NULL` instead of `NA` (#72).
 * Programmatically created higher level config elements now have a `branch` attribute that can be used to create and validate objects against a schema which is still in development and has not been released to the `main` branch yet.
