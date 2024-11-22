@@ -105,3 +105,21 @@ test_that("Report works corectly on validate_hub_config output", {
 
   expect_snapshot(str(tbl$`_data`))
 })
+
+
+# validate_hub_config output ----
+test_that("Error report throws no warnings (#79)", {
+  skip_if_offline()
+  config_path <- testthat::test_path(
+    "testdata",
+    "admin-v4-errors.json"
+  )
+  suppressMessages(
+    vals <- validate_config(
+      config_path = config_path,
+      branch = "br-v4.0.0",
+      config = "admin"
+    )
+  )
+  expect_no_warning(view_config_val_errors(vals))
+})
