@@ -147,7 +147,7 @@
                 "start": -6,
                 "end": 2
             },
-            "derived_task_ids": ["target_end_date"]
+            "derived_task_ids": ["target_end_date", "target_date"]
         }
 
     ],

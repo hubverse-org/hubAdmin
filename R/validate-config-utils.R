@@ -572,6 +572,7 @@ validate_round_derived_task_ids <- function(round, round_i, schema) {
   }
   if (!no_req_values) {
     out <- rbind(
+      out,
       tibble::tibble(
         instancePath = glue::glue_data(
           list(round_i = round_i),
