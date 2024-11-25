@@ -8,9 +8,6 @@
       
       `old$rounds[[1]]$model_tasks[[1]]$task_ids$horizon$required` is an integer vector (1)
       `new$rounds[[1]]$model_tasks[[1]]$task_ids$horizon$required` is a list
-      
-      `old$rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id$required` is a character vector (NA)
-      `new$rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id$required` is a list
 
 ---
 
@@ -19,7 +16,7 @@
       null = "null", pretty = TRUE)
     Output
       {
-        "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json",
+        "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json",
         "rounds": [
           {
             "round_id_from_variable": true,
@@ -47,11 +44,9 @@
                 "output_type": {
                   "mean": {
                     "output_type_id": {
-                      "required": [
-                        "NA"
-                      ],
-                      "optional": null
+                      "required": null
                     },
+                    "is_required": true,
                     "value": {
                       "type": "double",
                       "minimum": 0
@@ -111,8 +106,7 @@
       model_tasks[[1]]$output_type$mean$output_type_id$required, auto_unbox = TRUE,
       na = "string", null = "null", pretty = TRUE))
     Output
-      `lines(old)`: "\"NA\""               
-      `lines(new)`: "["      "  \"NA\"" "]"
+      v No differences
 
 ---
 
@@ -121,7 +115,7 @@
       null = "null", pretty = TRUE)
     Output
       {
-        "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json",
+        "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json",
         "rounds": [
           {
             "round_id_from_variable": true,
@@ -149,11 +143,9 @@
                 "output_type": {
                   "mean": {
                     "output_type_id": {
-                      "required": [
-                        "NA"
-                      ],
-                      "optional": null
+                      "required": null
                     },
+                    "is_required": true,
                     "value": {
                       "type": "double",
                       "minimum": 0
@@ -194,11 +186,9 @@
                 "output_type": {
                   "mean": {
                     "output_type_id": {
-                      "required": [
-                        "NA"
-                      ],
-                      "optional": null
+                      "required": null
                     },
+                    "is_required": true,
                     "value": {
                       "type": "double",
                       "minimum": 0
@@ -250,11 +240,9 @@
                 "output_type": {
                   "mean": {
                     "output_type_id": {
-                      "required": [
-                        "NA"
-                      ],
-                      "optional": null
+                      "required": null
                     },
+                    "is_required": true,
                     "value": {
                       "type": "double",
                       "minimum": 0

@@ -4,7 +4,7 @@
       create_config(rounds)
     Output
       $schema_version
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       
       $rounds
       $rounds[[1]]
@@ -46,11 +46,11 @@
       $rounds[[1]]$model_tasks[[1]]$output_type$mean
       $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id
       $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id$required
-      [1] NA
-      
-      $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id$optional
       NULL
       
+      
+      $rounds[[1]]$model_tasks[[1]]$output_type$mean$is_required
+      [1] TRUE
       
       $rounds[[1]]$model_tasks[[1]]$output_type$mean$value
       $rounds[[1]]$model_tasks[[1]]$output_type$mean$value$type
@@ -107,7 +107,7 @@
       attr(,"type")
       [1] "tasks"
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 

@@ -41,11 +41,11 @@
       $output_type$mean
       $output_type$mean$output_type_id
       $output_type$mean$output_type_id$required
-      [1] NA
-      
-      $output_type$mean$output_type_id$optional
       NULL
       
+      
+      $output_type$mean$is_required
+      [1] TRUE
       
       $output_type$mean$value
       $output_type$mean$value$type
@@ -85,7 +85,7 @@
       attr(,"class")
       [1] "model_task" "list"      
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -136,11 +136,11 @@
       $output_type$mean
       $output_type$mean$output_type_id
       $output_type$mean$output_type_id$required
-      [1] NA
-      
-      $output_type$mean$output_type_id$optional
       NULL
       
+      
+      $output_type$mean$is_required
+      [1] TRUE
       
       $output_type$mean$value
       $output_type$mean$value$type
@@ -153,9 +153,6 @@
       
       $output_type$sample
       $output_type$sample$output_type_id_params
-      $output_type$sample$output_type_id_params$is_required
-      [1] FALSE
-      
       $output_type$sample$output_type_id_params$type
       [1] "character"
       
@@ -171,6 +168,9 @@
       $output_type$sample$output_type_id_params$compound_taskid_set
       [1] "horizon"     "origin_date"
       
+      
+      $output_type$sample$is_required
+      [1] FALSE
       
       $output_type$sample$value
       $output_type$sample$value$type
@@ -213,7 +213,7 @@
       attr(,"class")
       [1] "model_task" "list"      
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -228,8 +228,8 @@
       output_type = create_output_type(create_output_type_mean(is_required = TRUE,
         value_type = "double", value_minimum = 0L), create_output_type_median(
         is_required = FALSE, value_type = "double"), create_output_type_quantile(
-        required = c(0.25, 0.5, 0.75), optional = c(0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8,
-          0.9), value_type = "double", value_minimum = 0)), target_metadata = create_target_metadata(
+        required = c(0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9), is_required = TRUE,
+        value_type = "double", value_minimum = 0)), target_metadata = create_target_metadata(
         create_target_metadata_item(target_id = "inc hosp", target_name = "Weekly incident influenza hospitalizations",
           target_units = "rate per 100,000 population", target_keys = list(target = "inc hosp"),
           target_type = "discrete", is_step_ahead = TRUE, time_unit = "week"),
@@ -275,11 +275,11 @@
       $output_type$mean
       $output_type$mean$output_type_id
       $output_type$mean$output_type_id$required
-      [1] NA
-      
-      $output_type$mean$output_type_id$optional
       NULL
       
+      
+      $output_type$mean$is_required
+      [1] TRUE
       
       $output_type$mean$value
       $output_type$mean$value$type
@@ -295,9 +295,9 @@
       $output_type$median$output_type_id$required
       NULL
       
-      $output_type$median$output_type_id$optional
-      [1] NA
       
+      $output_type$median$is_required
+      [1] FALSE
       
       $output_type$median$value
       $output_type$median$value$type
@@ -308,11 +308,11 @@
       $output_type$quantile
       $output_type$quantile$output_type_id
       $output_type$quantile$output_type_id$required
-      [1] 0.25 0.50 0.75
-      
-      $output_type$quantile$output_type_id$optional
       [1] 0.1 0.2 0.3 0.4 0.6 0.7 0.8 0.9
       
+      
+      $output_type$quantile$is_required
+      [1] TRUE
       
       $output_type$quantile$value
       $output_type$quantile$value$type
@@ -379,7 +379,7 @@
       attr(,"class")
       [1] "model_task" "list"      
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -440,8 +440,8 @@
       x `schema_id` attributes are not consistent across all arguments.
       Argument `schema_id` attributes:
       * task_ids : invalid_schema_id
-      * output_type : https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json
-      * target_metadata : https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json
+      * output_type : https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json
+      * target_metadata : https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json
 
 ---
 

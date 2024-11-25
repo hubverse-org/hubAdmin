@@ -43,11 +43,11 @@
       $model_tasks[[1]]$output_type$mean
       $model_tasks[[1]]$output_type$mean$output_type_id
       $model_tasks[[1]]$output_type$mean$output_type_id$required
-      [1] NA
-      
-      $model_tasks[[1]]$output_type$mean$output_type_id$optional
       NULL
       
+      
+      $model_tasks[[1]]$output_type$mean$is_required
+      [1] TRUE
       
       $model_tasks[[1]]$output_type$mean$value
       $model_tasks[[1]]$output_type$mean$value$type
@@ -102,7 +102,7 @@
       attr(,"round_id")
       [1] "round_1"
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -151,11 +151,11 @@
       $model_tasks[[1]]$output_type$mean
       $model_tasks[[1]]$output_type$mean$output_type_id
       $model_tasks[[1]]$output_type$mean$output_type_id$required
-      [1] NA
-      
-      $model_tasks[[1]]$output_type$mean$output_type_id$optional
       NULL
       
+      
+      $model_tasks[[1]]$output_type$mean$is_required
+      [1] TRUE
       
       $model_tasks[[1]]$output_type$mean$value
       $model_tasks[[1]]$output_type$mean$value$type
@@ -213,7 +213,7 @@
       attr(,"round_id")
       [1] "origin_date"
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 

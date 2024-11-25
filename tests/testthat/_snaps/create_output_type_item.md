@@ -318,9 +318,10 @@
         0.1, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9), value_type = "double",
       value_minimum = 0)
     Condition
-      Error in `check_prop_dups()`:
-      x Values across arguments `required` and `optional` must be unique.
-      ! Provided value 0.6 is duplicated.
+      Warning:
+      The `optional` argument of `create_output_type_quantile()` is deprecated as of schema version "v4.0.0" and above. Ignored.
+      Error in `create_output_type_dist()`:
+      ! `is_required` is absent but must be supplied.
 
 # create_output_type_sample works
 
