@@ -66,7 +66,7 @@
       attr(,"n")
       [1] 2
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -125,5 +125,5 @@
       x `schema_id` attributes are not consistent across all items.
       Item `schema_id` attributes:
       * Item 1 : invalid_schema
-      * Item 2 : https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json
+      * Item 2 : https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json
 

@@ -14,7 +14,7 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -35,7 +35,7 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -56,7 +56,7 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -76,7 +76,7 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 
@@ -96,7 +96,7 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
       [1] "main"
 

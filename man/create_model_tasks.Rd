@@ -92,11 +92,11 @@ create_model_tasks(
         value_type = "double"
       ),
       create_output_type_quantile(
-        required = c(0.25, 0.5, 0.75),
-        optional = c(
+        required = c(
           0.1, 0.2, 0.3, 0.4, 0.6,
           0.7, 0.8, 0.9
         ),
+        is_required = TRUE,
         value_type = "double",
         value_minimum = 0
       )
@@ -154,7 +154,7 @@ create_model_tasks(
           "increase",
           "large_increase"
         ),
-        optional = NULL,
+        is_required = TRUE,
         value_type = "double"
       )
     ),

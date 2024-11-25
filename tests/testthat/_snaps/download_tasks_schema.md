@@ -5,11 +5,11 @@
     Output
       List of 8
        $ $schema             : chr "https://json-schema.org/draft/2020-12/schema"
-       $ $id                 : chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+       $ $id                 : chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
        $ title               : chr "Schema for Modeling Hub model task definitions"
        $ description         : chr "This is the schema of the tasks.json configuration file that defines the tasks within a modeling hub."
        $ type                : chr "object"
-       $ properties          :List of 3
+       $ properties          :List of 4
         ..$ schema_version         :List of 4
         .. ..$ description: chr "URL to a version of the Modeling Hub schema tasks-schema.json file (see https://github.com/hubverse-org/schemas"| __truncated__
         .. ..$ examples   : chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
@@ -21,7 +21,7 @@
         .. ..$ items      :List of 5
         .. .. ..$ type                : chr "object"
         .. .. ..$ description         : chr "Individual modeling round properties"
-        .. .. ..$ properties          :List of 7
+        .. .. ..$ properties          :List of 8
         .. .. ..$ required            : chr [1:4] "round_id_from_variable" "round_id" "model_tasks" "submissions_due"
         .. .. ..$ additionalProperties: logi TRUE
         ..$ output_type_id_datatype:List of 5
@@ -30,6 +30,13 @@
         .. ..$ examples   : chr "character"
         .. ..$ type       : chr "string"
         .. ..$ enum       : chr [1:6] "auto" "character" "double" "integer" ...
+        ..$ derived_task_ids       :List of 5
+        .. ..$ description: chr "Names of derived task IDs, i.e. task IDs whose values are derived from (and therefore dependent on) the values "| __truncated__
+        .. ..$ examples   : chr [1, 1] "target_end_date"
+        .. ..$ type       : chr [1:2] "array" "null"
+        .. ..$ uniqueItems: logi TRUE
+        .. ..$ items      :List of 1
+        .. .. ..$ type: chr "string"
        $ required            : chr [1:2] "rounds" "schema_version"
        $ additionalProperties: logi FALSE
 
@@ -40,7 +47,7 @@
     Output
       {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
-          "$id": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json",
+          "$id": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json",
           "title": "Schema for Modeling Hub model task definitions",
           "description": "This is the schema of the tasks.json configuration file that defines the tasks within a modeling hub.",
           "type": "object",
@@ -132,7 +139,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "forecast_date": {
                                                   "description": "An object containing arrays of required and optional unique forecast dates. Forecast date usually defines the date that a model is run to produce a forecast.",
@@ -176,7 +184,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "scenario_id": {
                                                   "description": "An object containing arrays of required and optional unique identifiers of each valid scenario.",
@@ -234,13 +243,16 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "location": {
                                                   "description": "An object containing arrays of required and optional unique identifiers for each valid location, e.g. country codes, FIPS state or county level code etc.",
                                                   "examples": [
                                                       {
-                                                          "required": "US",
+                                                          "required": [
+                                                              "US"
+                                                          ],
                                                           "optional": [
                                                               "01",
                                                               "02",
@@ -324,7 +336,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "target": {
                                                   "description": "An object containing arrays of required and optional unique identifiers for each valid target. Usually represents a single task ID target key variable.",
@@ -372,7 +385,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "target_variable": {
                                                   "description": "An object containing arrays of required and optional unique identifiers for each valid target variable. Usually forms part of a pair of task ID target key variables (along with target_outcome) which combine to define individual targets.",
@@ -422,7 +436,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "target_outcome": {
                                                   "description": "An object containing arrays of required and optional unique identifiers for each valid target outcome. Usually forms part of a pair of task ID target key variables (along with target_variable) which combine to define individual targets.",
@@ -470,7 +485,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "target_date": {
                                                   "description": "An object containing arrays of required and optional unique target dates. For short-term forecasts, the target_date specifies the date of occurrence of the outcome of interest. For instance, if models are requested to forecast the number of hospitalizations that will occur on 2022-07-15, the target_date is 2022-07-15",
@@ -514,7 +530,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "target_end_date": {
                                                   "description": "An object containing arrays of required and optional unique target end dates. For short-term forecasts, the target_end_date specifies the date of occurrence of the outcome of interest. For instance, if models are requested to forecast the number of hospitalizations that will occur on 2022-07-15, the target_end_date is 2022-07-15",
@@ -558,7 +575,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "horizon": {
                                                   "description": "An object containing arrays of required and optional unique horizons. Horizons define the difference between the target_date and the origin_date in time units specified by the hub (e.g., may be days, weeks, or months)",
@@ -607,7 +625,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "age_group": {
                                                   "type": "object",
@@ -651,7 +670,8 @@
                                                   "required": [
                                                       "required",
                                                       "optional"
-                                                  ]
+                                                  ],
+                                                  "additionalProperties": false
                                               }
                                           },
                                           "additionalProperties": {
@@ -678,7 +698,8 @@
                                               "required": [
                                                   "required",
                                                   "optional"
-                                              ]
+                                              ],
+                                              "additionalProperties": false
                                           }
                                       },
                                       "output_type": {
@@ -690,60 +711,23 @@
                                                   "description": "Object defining the mean of the predictive distribution output type.",
                                                   "properties": {
                                                       "output_type_id": {
-                                                          "description": "output_type_id is not meaningful for a mean output_type. The property is primarily used to determine whether mean is a required or optional output type through properties required and optional. If mean is a required output type, the required property must be an array containing the single string element 'NA' and the optional property must be set to null. If mean is an optional output type, the optional property must be an array containing the single string element 'NA' and the required property must be set to null",
+                                                          "description": "output_type_id is not meaningful for a point estimate output_type. Must have a single property named 'required' with the value null.",
                                                           "examples": [
                                                               {
-                                                                  "required": [
-                                                                      "NA"
-                                                                  ],
-                                                                  "optional": null
-                                                              },
-                                                              {
-                                                                  "required": null,
-                                                                  "optional": [
-                                                                      "NA"
-                                                                  ]
+                                                                  "required": null
                                                               }
                                                           ],
                                                           "type": "object",
-                                                          "oneOf": [
-                                                              {
-                                                                  "properties": {
-                                                                      "required": {
-                                                                          "description": "When mean is required, property set to single element 'NA' array",
-                                                                          "type": "array",
-                                                                          "items": {
-                                                                              "const": "NA",
-                                                                              "maxItems": 1
-                                                                          }
-                                                                      },
-                                                                      "optional": {
-                                                                          "description": "When mean is required, property set to null",
-                                                                          "type": "null"
-                                                                      }
-                                                                  }
-                                                              },
-                                                              {
-                                                                  "properties": {
-                                                                      "required": {
-                                                                          "description": "When mean is optional, property set to null",
-                                                                          "type": "null"
-                                                                      },
-                                                                      "optional": {
-                                                                          "description": "When mean is optional, property set to single element 'NA' array",
-                                                                          "type": "array",
-                                                                          "items": {
-                                                                              "const": "NA",
-                                                                              "maxItems": 1
-                                                                          }
-                                                                      }
-                                                                  }
+                                                          "properties": {
+                                                              "required": {
+                                                                  "description": "Not relevant for point estimate output types. Must be null.",
+                                                                  "type": "null"
                                                               }
-                                                          ],
+                                                          },
                                                           "required": [
-                                                              "required",
-                                                              "optional"
-                                                          ]
+                                                              "required"
+                                                          ],
+                                                          "additionalProperties": false
                                                       },
                                                       "value": {
                                                           "type": "object",
@@ -780,77 +764,55 @@
                                                           },
                                                           "required": [
                                                               "type"
-                                                          ]
+                                                          ],
+                                                          "additionalProperties": false
+                                                      },
+                                                      "is_required": {
+                                                          "description": "Is output type required? When required, property should be set to 'true'. If output type is optional, set to 'false'.",
+                                                          "examples": [
+                                                              {
+                                                                  "is_required": true
+                                                              },
+                                                              {
+                                                                  "is_required": false
+                                                              }
+                                                          ],
+                                                          "type": "boolean"
                                                       }
                                                   },
                                                   "required": [
                                                       "output_type_id",
-                                                      "value"
-                                                  ]
+                                                      "value",
+                                                      "is_required"
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "median": {
                                                   "type": "object",
                                                   "description": "Object defining the median of the predictive distribution output type",
                                                   "properties": {
                                                       "output_type_id": {
-                                                          "description": "output_type_id is not meaningful for a median output_type. The property is primarily used to determine whether median is a required or optional output type through properties required and optional. If median is a required output type, the required property must be an array containing the single string element 'NA' and the optional property must be set to null. If median is an optional output type, the optional property must be an array containing the single string element 'NA' and the required property must be set to null",
+                                                          "description": "output_type_id is not meaningful for a point estimate output_type. Must have a single property named 'required' with the value null.",
                                                           "examples": [
                                                               {
-                                                                  "required": [
-                                                                      "NA"
-                                                                  ],
-                                                                  "optional": null
-                                                              },
-                                                              {
-                                                                  "required": null,
-                                                                  "optional": [
-                                                                      "NA"
-                                                                  ]
+                                                                  "required": null
                                                               }
                                                           ],
                                                           "type": "object",
-                                                          "oneOf": [
-                                                              {
-                                                                  "properties": {
-                                                                      "required": {
-                                                                          "description": "When median is required, property set to single element 'NA' array",
-                                                                          "type": "array",
-                                                                          "items": {
-                                                                              "const": "NA",
-                                                                              "maxItems": 1
-                                                                          }
-                                                                      },
-                                                                      "optional": {
-                                                                          "description": "When median is required, property set to null",
-                                                                          "type": "null"
-                                                                      }
-                                                                  }
-                                                              },
-                                                              {
-                                                                  "properties": {
-                                                                      "required": {
-                                                                          "description": "When median is optional, property set to null",
-                                                                          "type": "null"
-                                                                      },
-                                                                      "optional": {
-                                                                          "description": "When median is optional, property set to single element 'NA' array",
-                                                                          "type": "array",
-                                                                          "items": {
-                                                                              "const": "NA",
-                                                                              "maxItems": 1
-                                                                          }
-                                                                      }
-                                                                  }
+                                                          "properties": {
+                                                              "required": {
+                                                                  "description": "Not relevant for point estimate output types. Must be null.",
+                                                                  "type": "null"
                                                               }
-                                                          ],
+                                                          },
                                                           "required": [
-                                                              "required",
-                                                              "optional"
-                                                          ]
+                                                              "required"
+                                                          ],
+                                                          "additionalProperties": false
                                                       },
                                                       "value": {
                                                           "type": "object",
-                                                          "description": "Object defining the characteristics of valid median values",
+                                                          "description": "Object defining the characteristics of valid median values.",
                                                           "examples": [
                                                               {
                                                                   "type": "double",
@@ -859,7 +821,7 @@
                                                           ],
                                                           "properties": {
                                                               "type": {
-                                                                  "description": "Data type of median values",
+                                                                  "description": "Data type of median values.",
                                                                   "type": "string",
                                                                   "enum": [
                                                                       "double",
@@ -883,34 +845,47 @@
                                                           },
                                                           "required": [
                                                               "type"
-                                                          ]
+                                                          ],
+                                                          "additionalProperties": false
+                                                      },
+                                                      "is_required": {
+                                                          "description": "Is output type required? When required, property should be set to 'true'. If output type is optional, set to 'false'.",
+                                                          "examples": [
+                                                              {
+                                                                  "is_required": true
+                                                              },
+                                                              {
+                                                                  "is_required": false
+                                                              }
+                                                          ],
+                                                          "type": "boolean"
                                                       }
                                                   },
                                                   "required": [
                                                       "output_type_id",
-                                                      "value"
-                                                  ]
+                                                      "value",
+                                                      "is_required"
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "quantile": {
                                                   "description": "Object defining the quantiles of the predictive distribution output type.",
                                                   "type": "object",
                                                   "properties": {
                                                       "output_type_id": {
-                                                          "description": "Object containing required and optional arrays defining the probability levels at which quantiles of the predictive distribution will be recorded.",
+                                                          "description": "Object containing arrays of required probability levels at which quantiles of the predictive distribution will be recorded.",
                                                           "examples": [
                                                               {
                                                                   "required": [
-                                                                      0.25,
-                                                                      0.5,
-                                                                      0.75
-                                                                  ],
-                                                                  "optional": [
                                                                       0.1,
                                                                       0.2,
+                                                                      0.25,
                                                                       0.3,
                                                                       0.4,
+                                                                      0.5,
                                                                       0.6,
                                                                       0.7,
+                                                                      0.75,
                                                                       0.8,
                                                                       0.9
                                                                   ]
@@ -919,24 +894,8 @@
                                                           "type": "object",
                                                           "properties": {
                                                               "required": {
-                                                                  "description": "Array of unique probability levels between 0 and 1 that must be present for submission to be valid. Can be null if no probability levels are required and all valid probability levels are specified in the optional property.",
-                                                                  "type": [
-                                                                      "array",
-                                                                      "null"
-                                                                  ],
-                                                                  "uniqueItems": true,
-                                                                  "items": {
-                                                                      "type": "number",
-                                                                      "minimum": 0,
-                                                                      "maximum": 1
-                                                                  }
-                                                              },
-                                                              "optional": {
-                                                                  "description": "Array of valid but not required unique probability levels. Can be null if all probability levels are required and are specified in the required property.",
-                                                                  "type": [
-                                                                      "array",
-                                                                      "null"
-                                                                  ],
+                                                                  "description": "Array of unique probability levels between 0 and 1 inclusive that must be present for submission to be valid.",
+                                                                  "type": "array",
                                                                   "uniqueItems": true,
                                                                   "items": {
                                                                       "type": "number",
@@ -946,9 +905,9 @@
                                                               }
                                                           },
                                                           "required": [
-                                                              "required",
-                                                              "optional"
-                                                          ]
+                                                              "required"
+                                                          ],
+                                                          "additionalProperties": false
                                                       },
                                                       "value": {
                                                           "type": "object",
@@ -985,27 +944,41 @@
                                                           },
                                                           "required": [
                                                               "type"
-                                                          ]
+                                                          ],
+                                                          "additionalProperties": false
+                                                      },
+                                                      "is_required": {
+                                                          "description": "Is output type required? When required, property should be set to 'true'. If output type is optional, set to 'false'.",
+                                                          "examples": [
+                                                              {
+                                                                  "is_required": true
+                                                              },
+                                                              {
+                                                                  "is_required": false
+                                                              }
+                                                          ],
+                                                          "type": "boolean"
                                                       }
                                                   },
                                                   "required": [
                                                       "output_type_id",
-                                                      "value"
-                                                  ]
+                                                      "value",
+                                                      "is_required"
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "cdf": {
                                                   "description": "Object defining the cumulative distribution function of the predictive distribution output type.",
                                                   "type": "object",
                                                   "properties": {
                                                       "output_type_id": {
-                                                          "description": "Object containing required and optional arrays defining possible values of the target variable at which values of the cumulative distribution function of the predictive distribution will be recorded. These should be listed in order from low to high.",
+                                                          "description": "Object containing required arrays defining possible values of the target variable at which values of the cumulative distribution function of the predictive distribution will be recorded. These should be listed in order from low to high.",
                                                           "examples": [
                                                               {
                                                                   "required": [
                                                                       10,
                                                                       20
-                                                                  ],
-                                                                  "optional": null
+                                                                  ]
                                                               },
                                                               {
                                                                   "required": [
@@ -1017,18 +990,14 @@
                                                                       "EW202245",
                                                                       "EW202246",
                                                                       "EW202247"
-                                                                  ],
-                                                                  "optional": null
+                                                                  ]
                                                               }
                                                           ],
                                                           "type": "object",
                                                           "properties": {
                                                               "required": {
-                                                                  "description": "Array of unique target values that must be present for submission to be valid. Can be null if no target values are required and all valid target values are specified in the optional property.",
-                                                                  "type": [
-                                                                      "array",
-                                                                      "null"
-                                                                  ],
+                                                                  "description": "Array of unique target values that must be present for submission to be valid.",
+                                                                  "type": "array",
                                                                   "uniqueItems": true,
                                                                   "items": {
                                                                       "oneOf": [
@@ -1036,30 +1005,7 @@
                                                                               "type": [
                                                                                   "number",
                                                                                   "integer"
-                                                                              ],
-                                                                              "minimum": 0
-                                                                          },
-                                                                          {
-                                                                              "type": "string"
-                                                                          }
-                                                                      ]
-                                                                  }
-                                                              },
-                                                              "optional": {
-                                                                  "description": "Array of valid but not required unique target values. Can be null if all target values are required and are specified in the required property.",
-                                                                  "type": [
-                                                                      "array",
-                                                                      "null"
-                                                                  ],
-                                                                  "uniqueItems": true,
-                                                                  "items": {
-                                                                      "oneOf": [
-                                                                          {
-                                                                              "type": [
-                                                                                  "number",
-                                                                                  "integer"
-                                                                              ],
-                                                                              "minimum": 0
+                                                                              ]
                                                                           },
                                                                           {
                                                                               "type": "string"
@@ -1069,9 +1015,9 @@
                                                               }
                                                           },
                                                           "required": [
-                                                              "required",
-                                                              "optional"
-                                                          ]
+                                                              "required"
+                                                          ],
+                                                          "additionalProperties": false
                                                       },
                                                       "value": {
                                                           "type": "object",
@@ -1097,24 +1043,38 @@
                                                               "type",
                                                               "minimum",
                                                               "maximum"
-                                                          ]
+                                                          ],
+                                                          "additionalProperties": false
+                                                      },
+                                                      "is_required": {
+                                                          "description": "Is output type required? When required, property should be set to 'true'. If output type is optional, set to 'false'.",
+                                                          "examples": [
+                                                              {
+                                                                  "is_required": true
+                                                              },
+                                                              {
+                                                                  "is_required": false
+                                                              }
+                                                          ],
+                                                          "type": "boolean"
                                                       }
                                                   },
                                                   "required": [
                                                       "output_type_id",
-                                                      "value"
-                                                  ]
+                                                      "value",
+                                                      "is_required"
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "pmf": {
                                                   "description": "Object defining a probability mass function for a discrete variable output type. Includes nominal, binary and ordinal variable types.",
                                                   "type": "object",
                                                   "properties": {
                                                       "output_type_id": {
-                                                          "description": "Object containing required and optional arrays specifying valid categories of a discrete variable. Note that for ordinal variables, the category levels should be listed in order from low to high.",
+                                                          "description": "Object containing arrays of required values specifying valid categories of a discrete variable. Note that for ordinal variables, the category levels should be listed in order from low to high.",
                                                           "examples": [
                                                               {
-                                                                  "required": null,
-                                                                  "optional": [
+                                                                  "required": [
                                                                       "low",
                                                                       "moderate",
                                                                       "high",
@@ -1125,22 +1085,8 @@
                                                           "type": "object",
                                                           "properties": {
                                                               "required": {
-                                                                  "description": "Array of unique categories of a discrete variable that must be present for submission to be valid. Can be null if no categories are required and all valid categories are specified in the optional property.",
-                                                                  "type": [
-                                                                      "array",
-                                                                      "null"
-                                                                  ],
-                                                                  "uniqueItems": true,
-                                                                  "items": {
-                                                                      "type": "string"
-                                                                  }
-                                                              },
-                                                              "optional": {
-                                                                  "description": "Array of valid but not required unique categories of a discrete variable. Can be null if all categories are required and are specified in the required property.",
-                                                                  "type": [
-                                                                      "array",
-                                                                      "null"
-                                                                  ],
+                                                                  "description": "Array of unique categories of a discrete variable that must be present for submission to be valid.",
+                                                                  "type": "array",
                                                                   "uniqueItems": true,
                                                                   "items": {
                                                                       "type": "string"
@@ -1148,9 +1094,9 @@
                                                               }
                                                           },
                                                           "required": [
-                                                              "required",
-                                                              "optional"
-                                                          ]
+                                                              "required"
+                                                          ],
+                                                          "additionalProperties": false
                                                       },
                                                       "value": {
                                                           "type": "object",
@@ -1180,13 +1126,28 @@
                                                               "type",
                                                               "minimum",
                                                               "maximum"
-                                                          ]
+                                                          ],
+                                                          "additionalProperties": false
+                                                      },
+                                                      "is_required": {
+                                                          "description": "Is output type required? When required, property should be set to 'true'. If output type is optional, set to 'false'.",
+                                                          "examples": [
+                                                              {
+                                                                  "is_required": true
+                                                              },
+                                                              {
+                                                                  "is_required": false
+                                                              }
+                                                          ],
+                                                          "type": "boolean"
                                                       }
                                                   },
                                                   "required": [
                                                       "output_type_id",
-                                                      "value"
-                                                  ]
+                                                      "value",
+                                                      "is_required"
+                                                  ],
+                                                  "additionalProperties": false
                                               },
                                               "sample": {
                                                   "description": "Object defining a sample output type.",
@@ -1197,7 +1158,6 @@
                                                           "examples": [
                                                               {
                                                                   "output_type_id_params": {
-                                                                      "is_required": true,
                                                                       "type": "integer",
                                                                       "min_samples_per_task": 100,
                                                                       "max_samples_per_task": 100
@@ -1205,7 +1165,6 @@
                                                               },
                                                               {
                                                                   "output_type_id_params": {
-                                                                      "is_required": false,
                                                                       "type": "character",
                                                                       "max_length": 6,
                                                                       "min_samples_per_task": 100,
@@ -1221,10 +1180,6 @@
                                                           ],
                                                           "type": "object",
                                                           "properties": {
-                                                              "is_required": {
-                                                                  "description": "Boolean. Whether inclusion of samples is required for the submission to be valid",
-                                                                  "type": "boolean"
-                                                              },
                                                               "type": {
                                                                   "description": "Data type of sample indices.",
                                                                   "type": "string",
@@ -1260,7 +1215,6 @@
                                                               }
                                                           },
                                                           "required": [
-                                                              "is_required",
                                                               "type",
                                                               "min_samples_per_task",
                                                               "max_samples_per_task"
@@ -1276,7 +1230,8 @@
                                                               "required": [
                                                                   "max_length"
                                                               ]
-                                                          }
+                                                          },
+                                                          "additionalProperties": false
                                                       },
                                                       "value": {
                                                           "type": "object",
@@ -1312,13 +1267,28 @@
                                                           },
                                                           "required": [
                                                               "type"
-                                                          ]
+                                                          ],
+                                                          "additionalProperties": false
+                                                      },
+                                                      "is_required": {
+                                                          "description": "Is output type required? When required, property should be set to 'true'. If output type is optional, set to 'false'.",
+                                                          "examples": [
+                                                              {
+                                                                  "is_required": true
+                                                              },
+                                                              {
+                                                                  "is_required": false
+                                                              }
+                                                          ],
+                                                          "type": "boolean"
                                                       }
                                                   },
                                                   "required": [
                                                       "output_type_id_params",
-                                                      "value"
-                                                  ]
+                                                      "value",
+                                                      "is_required"
+                                                  ],
+                                                  "additionalProperties": false
                                               }
                                           },
                                           "additionalProperties": false
@@ -1380,7 +1350,10 @@
                                                       "type": [
                                                           "object",
                                                           "null"
-                                                      ]
+                                                      ],
+                                                      "additionalProperties": {
+                                                          "type": "string"
+                                                      }
                                                   },
                                                   "description": {
                                                       "description": "a verbose description of the target that might include information such as the target_measure above, or definitions of a 'rate' or similar.",
@@ -1452,7 +1425,8 @@
                                       "task_ids",
                                       "output_type",
                                       "target_metadata"
-                                  ]
+                                  ],
+                                  "additionalProperties": false
                               }
                           },
                           "submissions_due": {
@@ -1489,7 +1463,8 @@
                                           "relative_to",
                                           "start",
                                           "end"
-                                      ]
+                                      ],
+                                      "additionalProperties": false
                                   },
                                   {
                                       "properties": {
@@ -1507,7 +1482,8 @@
                                       "required": [
                                           "start",
                                           "end"
-                                      ]
+                                      ],
+                                      "additionalProperties": false
                                   }
                               ],
                               "required": [
@@ -1543,6 +1519,22 @@
                                       "arrow"
                                   ]
                               }
+                          },
+                          "derived_task_ids": {
+                              "description": "Names of derived task IDs, i.e. task IDs whose values are derived from (and therefore dependent on) the values of other variables. Use this property to override the global setting for a specific round.",
+                              "examples": [
+                                  [
+                                      "target_end_date"
+                                  ]
+                              ],
+                              "type": [
+                                  "array",
+                                  "null"
+                              ],
+                              "uniqueItems": true,
+                              "items": {
+                                  "type": "string"
+                              }
                           }
                       },
                       "required": [
@@ -1569,6 +1561,22 @@
                       "logical",
                       "Date"
                   ]
+              },
+              "derived_task_ids": {
+                  "description": "Names of derived task IDs, i.e. task IDs whose values are derived from (and therefore dependent on) the values of other variables.",
+                  "examples": [
+                      [
+                          "target_end_date"
+                      ]
+                  ],
+                  "type": [
+                      "array",
+                      "null"
+                  ],
+                  "uniqueItems": true,
+                  "items": {
+                      "type": "string"
+                  }
               }
           },
           "required": [

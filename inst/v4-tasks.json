@@ -1,0 +1,55 @@
+{
+  "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json",
+  "rounds": [
+    {
+      "round_id_from_variable": true,
+      "round_id": "origin_date",
+      "model_tasks": [
+        {
+          "task_ids": {
+            "origin_date": {
+              "required": null,
+              "optional": ["2023-01-02", "2023-01-09", "2023-01-16"]
+            },
+            "location": {
+              "required": ["US"],
+              "optional": ["01", "02", "04", "05", "06"]
+            },
+            "horizon": {
+              "required": [1],
+              "optional": [2, 3, 4]
+            }
+          },
+          "output_type": {
+            "mean": {
+              "output_type_id": {
+                "required": null
+              },
+              "is_required": true,
+              "value": {
+                "type": "double",
+                "minimum": 0
+              }
+            }
+          },
+          "target_metadata": [
+            {
+              "target_id": "inc hosp",
+              "target_name": "Weekly incident influenza hospitalizations",
+              "target_units": "rate per 100,000 population",
+              "target_keys": null,
+              "target_type": "discrete",
+              "is_step_ahead": true,
+              "time_unit": "week"
+            }
+          ]
+        }
+      ],
+      "submissions_due": {
+        "relative_to": "origin_date",
+        "start": -4,
+        "end": 2
+      }
+    }
+  ]
+}

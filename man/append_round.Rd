@@ -128,7 +128,7 @@ new_round <- create_round(
 append_round(config, new_round)
 # Append in existing config file
 config <- hubUtils::read_config_file(
-  system.file("tasks.json", package = "hubAdmin")
+  system.file("v4-tasks.json", package = "hubAdmin")
 )
 append_round(config, new_round)
 }

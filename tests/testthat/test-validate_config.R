@@ -30,7 +30,7 @@ test_that("Config for samples handled succesfully", {
   config_path <- testthat::test_path("testdata", "tasks-samples-pass.json")
   out <- suppressMessages(validate_config(
     config_path = config_path,
-    schema_version = "latest"
+    schema_version = "v3.0.1"
   ))
   expect_snapshot(out)
   expect_true(out)
@@ -48,7 +48,7 @@ test_that("Config for samples fail correctly", {
   config_path <- testthat::test_path("testdata", "tasks-samples-error-range.json")
   out <- suppressWarnings(validate_config(
     config_path = config_path,
-    schema_version = "latest"
+    schema_version = "v3.0.1"
   ))
   expect_snapshot(out)
   expect_snapshot(attr(out, "errors"))
@@ -57,7 +57,7 @@ test_that("Config for samples fail correctly", {
   config_path <- testthat::test_path("testdata", "tasks-samples-error-task-ids.json")
   out <- suppressWarnings(validate_config(
     config_path = config_path,
-    schema_version = "latest"
+    schema_version = "v3.0.1"
   ))
   expect_snapshot(out)
   expect_snapshot(attr(out, "errors"))

@@ -1,6 +1,6 @@
 Package: hubAdmin
 Title: Utilities for Administering Hubverse Hubs
-Version: 1.3.0.9000
+Version: 1.4.0
 Authors@R: c(
     person("Anna", "Krystalli", , "annakrystalli@googlemail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2378-4915")),
@@ -26,7 +26,7 @@ Imports:
     fs,
     glue,
     gt (>= 0.11.1),
-    hubUtils (>= 0.1.7.9000),
+    hubUtils (>= 0.3.0),
     jsonlite,
     jsonvalidate,
     magrittr,
