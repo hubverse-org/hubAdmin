@@ -44,7 +44,6 @@ Suggests:
     hubData,
     knitr,
     withr,
-    mockery,
     rmarkdown,
     testthat (>= 3.2.0),
     waldo

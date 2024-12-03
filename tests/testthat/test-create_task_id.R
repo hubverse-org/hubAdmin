@@ -80,13 +80,16 @@ test_that("create_task_id name matching works correctly", {
     ),
     "scenario_id"
   )
-
-  mockery::stub(match_element_name, "utils::askYesNo", FALSE)
+  local_mocked_bindings(
+    askYesNo = function(...) FALSE
+  )
   expect_equal(
     match_element_name("scenario_ids", "scenario_id", "task_id"),
     "scenario_ids"
   )
 
-  mockery::stub(match_element_name, "utils::askYesNo", NA)
+  local_mocked_bindings(
+    askYesNo = function(...) NA
+  )
   expect_error(match_element_name("scenario_ids", "scenario_id", "task_id"))
 })
