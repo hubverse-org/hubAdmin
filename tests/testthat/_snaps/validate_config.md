@@ -924,7 +924,7 @@
     Message
       ! 1 schema errors: testdata/tasks-target-key-array-v4.json
         (<file://testdata/tasks-target-key-array-v4.json>) (via tasks-schema v4.0.0
-        (<https://raw.githubusercontent.com/hubverse-org/schemas/br-v4.0.0/v4.0.0/tasks-schema.json>))
+        (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json>))
       i use `view_config_val_errors()` to view table of error details.
 
 ---

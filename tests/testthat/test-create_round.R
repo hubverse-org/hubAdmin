@@ -185,7 +185,7 @@ test_that("create_round derived_task_ids argument", {
   # TODO: Remove branch specification when v4.0.0 released
   expect_snapshot(
     create_derived_task_ids_round(
-      version = "v4.0.0", branch = "br-v4.0.0",
+      version = "v4.0.0",
       derived_task_ids = "location"
     )
   )
@@ -193,11 +193,11 @@ test_that("create_round derived_task_ids argument", {
   expect_snapshot(
     waldo::compare(
       create_derived_task_ids_round(
-        version = "v4.0.0", branch = "br-v4.0.0",
+        version = "v4.0.0",
         derived_task_ids = "location"
       ),
       create_derived_task_ids_round(
-        version = "v4.0.0", branch = "br-v4.0.0",
+        version = "v4.0.0",
         derived_task_ids = NULL
       )
     )
@@ -219,7 +219,7 @@ test_that("create_round derived_task_ids argument", {
   )
   expect_snapshot(
     create_derived_task_ids_round(
-      version = "v4.0.0", branch = "br-v4.0.0",
+      version = "v4.0.0",
       derived_task_ids = c("random_task_id")
     ),
     error = TRUE

@@ -162,8 +162,7 @@ test_that("create_output_type_sample works", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v4.0.0"
+      value_maximum = 1L
     )
   )
   expect_snapshot(
@@ -203,8 +202,7 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v4.0.0"
+      value_maximum = 1L
     ),
     regexp = "Must be one of .*character.* and .*integer"
   )
@@ -216,8 +214,7 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v4.0.0"
+      value_maximum = 1L
     ),
     regexp =
       "Assertion on 'is_required' failed: Must be of type 'logical', not 'integer'"
@@ -313,8 +310,7 @@ test_that("create_output_type_item works with v4 schema", {
       is_required = TRUE,
       value_type = "double",
       value_minimum = 0L,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
   expect_snapshot(
@@ -322,16 +318,14 @@ test_that("create_output_type_item works with v4 schema", {
       is_required = FALSE,
       value_type = "integer",
       value_maximum = 0L,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
   expect_snapshot(
     create_output_type_median(
       is_required = FALSE,
       value_type = "double",
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
 })
@@ -347,8 +341,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       is_required = TRUE,
       value_type = "double",
       value_minimum = 0,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
   expect_snapshot(
@@ -360,8 +353,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       ),
       is_required = FALSE,
       value_type = "double",
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
 
@@ -377,8 +369,7 @@ test_that("create_output_type_dist fns support v4 schema", {
         is_required = TRUE,
         value_type = "double",
         value_minimum = 0,
-        schema_version = "v4.0.0",
-        branch = "br-v4.0.0"
+        schema_version = "v4.0.0"
       )$quantile$output_type_id$required
     ), c(0.25, 0.5, 0.75)
   )
@@ -396,8 +387,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       ),
       is_required = FALSE,
       value_type = "double",
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
   expect_warning(
@@ -410,8 +400,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       is_required = TRUE,
       value_type = "double",
       value_minimum = 0,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     ),
     regexp = "is deprecated as of schema version"
   )
@@ -426,8 +415,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       ),
       value_type = "double",
       value_minimum = 0,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     ),
     error = TRUE
   )
@@ -439,9 +427,9 @@ test_that("create_output_type_dist fns support v4 schema", {
       is_required = TRUE,
       value_type = "double",
       value_minimum = 0,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     ),
     error = TRUE
   )
 })
+

@@ -117,7 +117,6 @@ test_that("Error report throws no warnings (#79)", {
   suppressMessages(
     vals <- validate_config(
       config_path = config_path,
-      branch = "br-v4.0.0",
       config = "admin"
     )
   )

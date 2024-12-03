@@ -328,7 +328,7 @@
     Code
       create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
         min_samples_per_task = 70L, max_samples_per_task = 100L, value_type = "double",
-        value_minimum = 0L, value_maximum = 1L, branch = "br-v4.0.0")
+        value_minimum = 0L, value_maximum = 1L)
     Output
       $sample
       $sample$output_type_id_params
@@ -362,7 +362,7 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 ---
 
@@ -549,7 +549,7 @@
 
     Code
       create_output_type_mean(is_required = TRUE, value_type = "double",
-        value_minimum = 0L, schema_version = "v4.0.0", branch = "br-v4.0.0")
+        value_minimum = 0L, schema_version = "v4.0.0")
     Output
       $mean
       $mean$output_type_id
@@ -574,13 +574,13 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 ---
 
     Code
       create_output_type_mean(is_required = FALSE, value_type = "integer",
-        value_maximum = 0L, schema_version = "v4.0.0", branch = "br-v4.0.0")
+        value_maximum = 0L, schema_version = "v4.0.0")
     Output
       $mean
       $mean$output_type_id
@@ -605,13 +605,13 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 ---
 
     Code
       create_output_type_median(is_required = FALSE, value_type = "double",
-        schema_version = "v4.0.0", branch = "br-v4.0.0")
+        schema_version = "v4.0.0")
     Output
       $median
       $median$output_type_id
@@ -633,13 +633,13 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 # create_output_type_dist fns support v4 schema
 
     Code
       create_output_type_quantile(required = c(0.25, 0.5, 0.75), is_required = TRUE,
-      value_type = "double", value_minimum = 0, schema_version = "v4.0.0", branch = "br-v4.0.0")
+      value_type = "double", value_minimum = 0, schema_version = "v4.0.0")
     Output
       $quantile
       $quantile$output_type_id
@@ -664,13 +664,13 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 ---
 
     Code
       create_output_type_cdf(required = c("EW202240", "EW202241", "EW202242"),
-      is_required = FALSE, value_type = "double", schema_version = "v4.0.0", branch = "br-v4.0.0")
+      is_required = FALSE, value_type = "double", schema_version = "v4.0.0")
     Output
       $cdf
       $cdf$output_type_id
@@ -698,14 +698,14 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 ---
 
     Code
       create_output_type_cdf(required = c("EW202240", "EW202241", "EW202242"),
       optional = c("EW202240", "EW202241", "EW202242"), is_required = FALSE,
-      value_type = "double", schema_version = "v4.0.0", branch = "br-v4.0.0")
+      value_type = "double", schema_version = "v4.0.0")
     Condition
       Warning:
       The `optional` argument of `create_output_type_cdf()` is deprecated as of schema version "v4.0.0" and above. Ignored.
@@ -736,14 +736,14 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 ---
 
     Code
       create_output_type_quantile(required = c(0.25, 0.5, 0.75), optional = c(0.1,
         0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9), value_type = "double", value_minimum = 0,
-      schema_version = "v4.0.0", branch = "br-v4.0.0")
+      schema_version = "v4.0.0")
     Condition
       Warning:
       The `optional` argument of `create_output_type_quantile()` is deprecated as of schema version "v4.0.0" and above. Ignored.
@@ -754,7 +754,7 @@
 
     Code
       create_output_type_quantile(required = NULL, is_required = TRUE, value_type = "double",
-        value_minimum = 0, schema_version = "v4.0.0", branch = "br-v4.0.0")
+        value_minimum = 0, schema_version = "v4.0.0")
     Condition
       Error in `map()`:
       i In index: 1.

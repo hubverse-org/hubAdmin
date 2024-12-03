@@ -97,7 +97,7 @@ test_that("create_config derived_task_ids argument", {
     create_config(
       create_rounds(
         create_derived_task_ids_round(
-          version = "v4.0.0", branch = "br-v4.0.0"
+          version = "v4.0.0"
         )
       ),
       derived_task_ids = "location"
@@ -109,7 +109,7 @@ test_that("create_config derived_task_ids argument", {
       create_config(
         create_rounds(
           create_derived_task_ids_round(
-            version = "v4.0.0", branch = "br-v4.0.0"
+            version = "v4.0.0"
           )
         ),
         derived_task_ids = "location"
@@ -117,7 +117,7 @@ test_that("create_config derived_task_ids argument", {
       create_config(
         create_rounds(
           create_derived_task_ids_round(
-            version = "v4.0.0", branch = "br-v4.0.0"
+            version = "v4.0.0"
           )
         ),
         derived_task_ids = NULL
@@ -140,7 +140,7 @@ test_that("create_config derived_task_ids argument", {
     create_config(
       create_rounds(
         create_derived_task_ids_round(
-          version = "v4.0.0", branch = "br-v4.0.0"
+          version = "v4.0.0"
         )
       ),
       derived_task_ids = 1L
@@ -151,7 +151,7 @@ test_that("create_config derived_task_ids argument", {
     create_config(
       create_rounds(
         create_derived_task_ids_round(
-          version = "v4.0.0", branch = "br-v4.0.0"
+          version = "v4.0.0"
         )
       ),
       derived_task_ids = "random_task_id"

@@ -354,8 +354,8 @@
 # create_config derived_task_ids argument
 
     Code
-      create_config(create_rounds(create_derived_task_ids_round(version = "v4.0.0",
-        branch = "br-v4.0.0")), derived_task_ids = "location")
+      create_config(create_rounds(create_derived_task_ids_round(version = "v4.0.0")),
+      derived_task_ids = "location")
     Output
       $schema_version
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
@@ -466,15 +466,15 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 ---
 
     Code
       waldo::compare(create_config(create_rounds(create_derived_task_ids_round(
-        version = "v4.0.0", branch = "br-v4.0.0")), derived_task_ids = "location"),
-      create_config(create_rounds(create_derived_task_ids_round(version = "v4.0.0",
-        branch = "br-v4.0.0")), derived_task_ids = NULL))
+        version = "v4.0.0")), derived_task_ids = "location"), create_config(
+        create_rounds(create_derived_task_ids_round(version = "v4.0.0")),
+        derived_task_ids = NULL))
     Output
       `old` is length 3
       `new` is length 2
@@ -488,8 +488,8 @@
 ---
 
     Code
-      create_config(create_rounds(create_derived_task_ids_round(version = "v4.0.0",
-        branch = "br-v4.0.0")), derived_task_ids = 1L)
+      create_config(create_rounds(create_derived_task_ids_round(version = "v4.0.0")),
+      derived_task_ids = 1L)
     Condition
       Error in `create_config()`:
       x `derived_task_ids` value 1 is not valid `task_id` variable in the provided `rounds` object.
@@ -498,8 +498,8 @@
 ---
 
     Code
-      create_config(create_rounds(create_derived_task_ids_round(version = "v4.0.0",
-        branch = "br-v4.0.0")), derived_task_ids = "random_task_id")
+      create_config(create_rounds(create_derived_task_ids_round(version = "v4.0.0")),
+      derived_task_ids = "random_task_id")
     Condition
       Error in `create_config()`:
       x `derived_task_ids` value "random_task_id" is not valid `task_id` variable in the provided `rounds` object.
