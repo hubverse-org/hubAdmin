@@ -93,3 +93,29 @@ test_that("create_task_id name matching works correctly", {
   )
   expect_error(match_element_name("scenario_ids", "scenario_id", "task_id"))
 })
+
+test_that("schema version option works for create_task_id", {
+  skip_if_offline()
+  version_default <- create_task_id("horizon",
+    required = 1L,
+    optional = 2:4
+  )
+
+  arg_version <- create_task_id("horizon",
+    required = 1L,
+    optional = 2:4,
+    schema_version = "v3.0.1"
+  )
+
+  withr::with_options(
+    list(hubAdmin.schema_version = "v3.0.1"),
+    {
+      opt_version <- create_task_id("horizon",
+        required = 1L,
+        optional = 2:4
+      )
+    }
+  )
+  expect_equal(arg_version, opt_version)
+  expect_snapshot(waldo::compare(opt_version, version_default))
+})

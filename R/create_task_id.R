@@ -48,7 +48,10 @@
 #' @examples
 #' create_task_id("horizon", required = 1L, optional = 2:4)
 create_task_id <- function(name, required, optional,
-                           schema_version = "latest", branch = "main") {
+                           schema_version = getOption(
+                             "hubAdmin.schema_version",
+                             default = "latest"
+                           ), branch = "main") {
   checkmate::assert_character(name, len = 1L)
   rlang::check_required(required)
   rlang::check_required(optional)
@@ -111,12 +114,12 @@ get_schema_task_ids <- function(schema) {
   )
 }
 
-
+#' @importFrom utils askYesNo
 match_element_name <- function(name, element_names,
                                element = c("task_id", "output_type")) {
   matched_name <- utils::head(agrep(name, element_names, value = TRUE), 1)
   if (length(matched_name) == 1L && matched_name != name) {
-    ask <- utils::askYesNo(ask_msg(name, matched_name, element),
+    ask <- askYesNo(ask_msg(name, matched_name, element),
       prompts = "Y/N/C"
     )
 

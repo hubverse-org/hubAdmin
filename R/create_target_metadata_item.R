@@ -49,7 +49,10 @@
 create_target_metadata_item <- function(target_id, target_name, target_units,
                                         target_keys = NULL, description = NULL,
                                         target_type, is_step_ahead, time_unit = NULL,
-                                        schema_version = "latest", branch = "main") {
+                                        schema_version = getOption(
+                                          "hubAdmin.schema_version",
+                                          default = "latest"
+                                        ), branch = "main") {
   rlang::check_required(target_id)
   rlang::check_required(target_name)
   rlang::check_required(target_units)

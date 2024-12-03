@@ -10,7 +10,10 @@
 #' download_tasks_schema()
 #' download_tasks_schema(format = "json")
 #' download_tasks_schema(schema_version = "v2.0.1")
-download_tasks_schema <- function(schema_version = "latest", branch = "main",
+download_tasks_schema <- function(schema_version = getOption(
+                                    "hubAdmin.schema_version",
+                                    default = "latest"
+                                  ), branch = "main",
                                   format = c("list", "json")) { # nolint: indentation_linter
   format <- rlang::arg_match(format)
 

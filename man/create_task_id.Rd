@@ -8,7 +8,7 @@ create_task_id(
   name,
   required,
   optional,
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main"
 )
 }

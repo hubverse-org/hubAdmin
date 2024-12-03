@@ -1616,3 +1616,12 @@
        $ required            : chr [1:2] "rounds" "schema_version"
        $ additionalProperties: logi FALSE
 
+# schema version option works for download_tasks_schema
+
+    Code
+      waldo::compare(opt_version$`$id`, version_default$`$id`)
+    Output
+      old vs new
+      - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+

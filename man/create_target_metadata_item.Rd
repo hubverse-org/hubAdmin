@@ -13,7 +13,7 @@ create_target_metadata_item(
   target_type,
   is_step_ahead,
   time_unit = NULL,
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main"
 )
 }

@@ -28,3 +28,21 @@ test_that("download_tasks_schema schema version work", {
     regexp = "is not a valid schema version. Current valid schema version is"
   )
 })
+
+test_that("schema version option works for download_tasks_schema", {
+  skip_if_offline()
+  version_default <- download_tasks_schema()
+
+  arg_version <- download_tasks_schema(
+    schema_version = "v3.0.1"
+  )
+
+  withr::with_options(
+    list(hubAdmin.schema_version = "v3.0.1"),
+    {
+      opt_version <- download_tasks_schema()
+    }
+  )
+  expect_equal(arg_version, opt_version)
+  expect_snapshot(waldo::compare(opt_version$`$id`, version_default$`$id`))
+})

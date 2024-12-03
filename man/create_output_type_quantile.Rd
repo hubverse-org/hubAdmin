@@ -14,7 +14,7 @@ create_output_type_quantile(
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main"
 )
 
@@ -23,7 +23,7 @@ create_output_type_cdf(
   optional,
   is_required,
   value_type,
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main"
 )
 
@@ -32,7 +32,7 @@ create_output_type_pmf(
   optional,
   is_required,
   value_type,
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main"
 )
 
@@ -46,7 +46,7 @@ create_output_type_sample(
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main"
 )
 }

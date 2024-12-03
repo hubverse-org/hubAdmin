@@ -761,3 +761,53 @@
       Caused by error in `create_output_type_quantile()`:
       x `required` cannot be NULL.
 
+# schema version option works for create_output_type_mean
+
+    Code
+      waldo::compare(attr(opt_version, "schema_id"), attr(version_default,
+        "schema_id"))
+    Output
+      old vs new
+      - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+
+# schema version option works for create_output_type_quantile
+
+    Code
+      waldo::compare(attr(opt_version, "schema_id"), attr(version_default,
+        "schema_id"))
+    Output
+      old vs new
+      - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+
+# schema version option works for create_output_type_cdf
+
+    Code
+      waldo::compare(attr(opt_version, "schema_id"), attr(version_default,
+        "schema_id"))
+    Output
+      old vs new
+      - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+
+# schema version option works for create_output_type_pmf
+
+    Code
+      waldo::compare(attr(opt_version, "schema_id"), attr(version_default,
+        "schema_id"))
+    Output
+      old vs new
+      - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+
+# schema version option works for create_output_type_sample
+
+    Code
+      waldo::compare(attr(opt_version, "schema_id"), attr(version_default,
+        "schema_id"))
+    Output
+      old vs new
+      - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+

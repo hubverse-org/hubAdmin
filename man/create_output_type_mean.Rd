@@ -10,7 +10,7 @@ create_output_type_mean(
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main"
 )
 
@@ -19,7 +19,7 @@ create_output_type_median(
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main"
 )
 }

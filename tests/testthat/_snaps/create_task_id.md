@@ -132,3 +132,12 @@
       x `required` is of type <logical>.
       ! Must be one of <integer/character>.
 
+# schema version option works for create_task_id
+
+    Code
+      waldo::compare(opt_version, version_default)
+    Output
+      attr(old, 'schema_id') vs attr(new, 'schema_id')
+      - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+

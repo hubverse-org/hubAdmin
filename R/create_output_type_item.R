@@ -39,7 +39,11 @@
 #'   schema_version = "v3.0.1"
 #' )
 create_output_type_mean <- function(is_required, value_type, value_minimum = NULL,
-                                    value_maximum = NULL, schema_version = "latest",
+                                    value_maximum = NULL,
+                                    schema_version = getOption(
+                                      "hubAdmin.schema_version",
+                                      default = "latest"
+                                    ),
                                     branch = "main") {
   create_output_type_point(
     output_type = "mean", is_required = is_required,
@@ -55,7 +59,10 @@ create_output_type_mean <- function(is_required, value_type, value_minimum = NUL
 create_output_type_median <- function(is_required, value_type,
                                       value_minimum = NULL,
                                       value_maximum = NULL,
-                                      schema_version = "latest",
+                                      schema_version = getOption(
+                                        "hubAdmin.schema_version",
+                                        default = "latest"
+                                      ),
                                       branch = "main") {
   create_output_type_point(
     output_type = "median", is_required = is_required,
@@ -70,7 +77,10 @@ create_output_type_point <- function(output_type = c("mean", "median"),
                                      is_required, value_type,
                                      value_minimum = NULL,
                                      value_maximum = NULL,
-                                     schema_version = "latest",
+                                     schema_version = getOption(
+                                       "hubAdmin.schema_version",
+                                       default = "latest"
+                                     ),
                                      branch = "main",
                                      call = rlang::caller_env()) {
   rlang::check_required(value_type)
@@ -236,7 +246,10 @@ create_output_type_quantile <- function(required, optional,
                                         is_required, value_type,
                                         value_minimum = NULL,
                                         value_maximum = NULL,
-                                        schema_version = "latest",
+                                        schema_version = getOption(
+                                          "hubAdmin.schema_version",
+                                          default = "latest"
+                                        ),
                                         branch = "main") {
   create_output_type_dist(
     output_type = "quantile", required = required, optional = optional,
@@ -251,7 +264,10 @@ create_output_type_quantile <- function(required, optional,
 #' @export
 create_output_type_cdf <- function(required, optional, is_required,
                                    value_type,
-                                   schema_version = "latest",
+                                   schema_version = getOption(
+                                     "hubAdmin.schema_version",
+                                     default = "latest"
+                                   ),
                                    branch = "main") {
   create_output_type_dist(
     output_type = "cdf", required = required, optional = optional,
@@ -266,7 +282,10 @@ create_output_type_cdf <- function(required, optional, is_required,
 #' output type.
 #' @export
 create_output_type_pmf <- function(required, optional, is_required,
-                                   value_type, schema_version = "latest",
+                                   value_type, schema_version = getOption(
+                                     "hubAdmin.schema_version",
+                                     default = "latest"
+                                   ),
                                    branch = "main") {
   create_output_type_dist(
     output_type = "pmf", required = required, optional = optional,
@@ -300,7 +319,10 @@ create_output_type_sample <- function(is_required, output_type_id_type,
                                       value_type,
                                       value_minimum = NULL,
                                       value_maximum = NULL,
-                                      schema_version = "latest",
+                                      schema_version = getOption(
+                                        "hubAdmin.schema_version",
+                                        default = "latest"
+                                      ),
                                       branch = "main") {
   rlang::check_required(is_required)
   rlang::check_required(output_type_id_type)
@@ -411,7 +433,10 @@ create_output_type_dist <- function(
     output_type = c("quantile", "cdf", "pmf", "sample"),
     required, optional, is_required,
     value_type, value_minimum = NULL,
-    value_maximum = NULL, schema_version = "latest",
+    value_maximum = NULL, schema_version = getOption(
+      "hubAdmin.schema_version",
+      default = "latest"
+    ),
     branch = "main", call = rlang::caller_env()) {
   rlang::check_required(value_type)
   rlang::check_required(required)

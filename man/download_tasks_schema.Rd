@@ -5,7 +5,7 @@
 \title{Download hubverse tasks schema from the hubverse schema repository.}
 \usage{
 download_tasks_schema(
-  schema_version = "latest",
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
   branch = "main",
   format = c("list", "json")
 )
