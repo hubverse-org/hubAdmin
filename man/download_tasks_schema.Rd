@@ -6,14 +6,15 @@
 \usage{
 download_tasks_schema(
   schema_version = getOption("hubAdmin.schema_version", default = "latest"),
-  branch = "main",
+  branch = getOption("hubAdmin.branch", default = "main"),
   format = c("list", "json")
 )
 }
 \arguments{
-\item{schema_version}{the version required. Defaults to "latest".}
+\item{schema_version}{the version required. Defaults to "latest". Can be set through global option "hubAdmin.schema_version".}
 
-\item{branch}{the branch to download the schema from. Defaults to "main".}
+\item{branch}{the branch to download the schema from. Defaults to "main".
+Can be set through global option "hubAdmin.branch".}
 
 \item{format}{the format to return the schema in. Defaults to "list". Can be "list" or "json".}
 }
@@ -28,5 +29,8 @@ Download hubverse tasks schema from the hubverse schema repository.
 download_tasks_schema()
 download_tasks_schema(format = "json")
 download_tasks_schema(schema_version = "v2.0.1")
+options(hubAdmin.schema_version = "v3.0.1")
+download_tasks_schema()
+options(hubAdmin.schema_version = "latest")
 \dontshow{\}) # examplesIf}
 }

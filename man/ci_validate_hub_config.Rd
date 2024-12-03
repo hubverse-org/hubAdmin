@@ -35,7 +35,8 @@ Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
 specified.}
     \item{\code{branch}}{The branch of the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}
-from which to fetch schema. Defaults to \code{"main"}.}
+from which to fetch schema. Defaults to \code{"main"}. Can be set through global
+option "hubAdmin.branch".}
   }}
 }
 \value{

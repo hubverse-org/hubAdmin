@@ -9,7 +9,7 @@ create_task_id(
   required,
   optional,
   schema_version = getOption("hubAdmin.schema_version", default = "latest"),
-  branch = "main"
+  branch = getOption("hubAdmin.branch", default = "main")
 )
 }
 \arguments{
@@ -26,11 +26,12 @@ be used for validation. The default value \code{"latest"} will use the latest ve
 available in the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}.
 Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
-specified.}
+specified. Can be set through global option "hubAdmin.schema_version".}
 
 \item{branch}{The branch of the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}
-from which to fetch schema. Defaults to \code{"main"}.}
+from which to fetch schema. Defaults to \code{"main"}. Can be set through global
+option "hubAdmin.branch".}
 }
 \value{
 a named list of class \code{task_id} representing a task ID.
@@ -70,6 +71,11 @@ user is responsible for providing values of the correct data type.
 }
 \examples{
 create_task_id("horizon", required = 1L, optional = 2:4)
+# Set schema version to "v3.0.1" for all subsequent calls
+options(hubAdmin.schema_version = "v3.0.1")
+create_task_id("horizon", required = 1L, optional = 2:4)
+create_task_id("location", required = "US", optional = c("01", "02"))
+options(hubAdmin.schema_version = "latest")
 }
 \seealso{
 \code{\link[=create_task_ids]{create_task_ids()}}

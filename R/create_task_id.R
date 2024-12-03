@@ -16,7 +16,7 @@
 #'   available in the hubverse
 #'   [schemas repository](https://github.com/hubverse-org/schemas).
 #'   Alternatively, a specific version of a schema (e.g. `"v0.0.1"`)  can be
-#'   specified.
+#'   specified. Can be set through global option "hubAdmin.schema_version".
 #' @details `required` and `optional` vectors for standard task_ids defined in a Hub schema
 #' must match data types and formats specified in the schema. For more details consult
 #' the [documentation on `tasks.json` Hub config files](
@@ -47,6 +47,11 @@
 #'
 #' @examples
 #' create_task_id("horizon", required = 1L, optional = 2:4)
+#' # Set schema version to "v3.0.1" for all subsequent calls
+#' options(hubAdmin.schema_version = "v3.0.1")
+#' create_task_id("horizon", required = 1L, optional = 2:4)
+#' create_task_id("location", required = "US", optional = c("01", "02"))
+#' options(hubAdmin.schema_version = "latest")
 create_task_id <- function(name, required, optional,
                            schema_version = getOption(
                              "hubAdmin.schema_version",

@@ -14,7 +14,7 @@ create_target_metadata_item(
   is_step_ahead,
   time_unit = NULL,
   schema_version = getOption("hubAdmin.schema_version", default = "latest"),
-  branch = "main"
+  branch = getOption("hubAdmin.branch", default = "main")
 )
 }
 \arguments{
@@ -52,11 +52,12 @@ be used for validation. The default value \code{"latest"} will use the latest ve
 available in the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}.
 Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
-specified.}
+specified. Can be set through global option "hubAdmin.schema_version".}
 
 \item{branch}{The branch of the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}
-from which to fetch schema. Defaults to \code{"main"}.}
+from which to fetch schema. Defaults to \code{"main"}. Can be set through global
+option "hubAdmin.branch".}
 }
 \value{
 a named list of class \code{target_metadata_item}.
@@ -83,6 +84,17 @@ create_target_metadata_item(
   is_step_ahead = TRUE,
   time_unit = "week"
 )
+options(hubAdmin.schema_version = "v3.0.1")
+create_target_metadata_item(
+  target_id = "inc hosp",
+  target_name = "Weekly incident influenza hospitalizations",
+  target_units = "rate per 100,000 population",
+  target_keys = list(target = "inc hosp"),
+  target_type = "discrete",
+  is_step_ahead = TRUE,
+  time_unit = "week"
+)
+options(hubAdmin.schema_version = "latest")
 }
 \seealso{
 \code{\link[=create_target_metadata]{create_target_metadata()}}

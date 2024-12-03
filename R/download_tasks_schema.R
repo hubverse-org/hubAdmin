@@ -1,7 +1,8 @@
 #' Download hubverse tasks schema from the hubverse schema repository.
 #'
-#' @param schema_version the version required. Defaults to "latest".
+#' @param schema_version the version required. Defaults to "latest". Can be set through global option "hubAdmin.schema_version".
 #' @param branch the branch to download the schema from. Defaults to "main".
+#' Can be set through global option "hubAdmin.branch".
 #' @param format the format to return the schema in. Defaults to "list". Can be "list" or "json".
 #'
 #' @return The requested version of the tasks hubverse schema in the specified format.
@@ -10,6 +11,9 @@
 #' download_tasks_schema()
 #' download_tasks_schema(format = "json")
 #' download_tasks_schema(schema_version = "v2.0.1")
+#' options(hubAdmin.schema_version = "v3.0.1")
+#' download_tasks_schema()
+#' options(hubAdmin.schema_version = "latest")
 download_tasks_schema <- function(
     schema_version = getOption(
       "hubAdmin.schema_version",

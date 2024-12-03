@@ -46,6 +46,17 @@
 #'   is_step_ahead = TRUE,
 #'   time_unit = "week"
 #' )
+#' options(hubAdmin.schema_version = "v3.0.1")
+#' create_target_metadata_item(
+#'   target_id = "inc hosp",
+#'   target_name = "Weekly incident influenza hospitalizations",
+#'   target_units = "rate per 100,000 population",
+#'   target_keys = list(target = "inc hosp"),
+#'   target_type = "discrete",
+#'   is_step_ahead = TRUE,
+#'   time_unit = "week"
+#' )
+#' options(hubAdmin.schema_version = "latest")
 create_target_metadata_item <- function(target_id, target_name, target_units,
                                         target_keys = NULL, description = NULL,
                                         target_type, is_step_ahead, time_unit = NULL,

@@ -38,6 +38,15 @@
 #'   value_minimum = 0L,
 #'   schema_version = "v3.0.1"
 #' )
+#' # Set schema version for all subsequent calls
+#' options(hubAdmin.schema_version = "v3.0.1")
+#' create_output_type_mean(
+#'   is_required = TRUE,
+#'   value_type = "double",
+#'   value_minimum = 0L,
+#'   schema_version = "v3.0.1"
+#' )
+#' options(hubAdmin.schema_version = "latest")
 create_output_type_mean <- function(is_required, value_type, value_minimum = NULL,
                                     value_maximum = NULL,
                                     schema_version = getOption(
@@ -233,24 +242,33 @@ create_output_type_point <- function(output_type = c("mean", "median"),
 #'   value_minimum = 0,
 #'   schema_version = "v3.0.1"
 #' )
+#' # Set schema version for all subsequent calls
+#' options(hubAdmin.schema_version = "v3.0.1")
+#' create_output_type_quantile(
+#'   required = c(0.25, 0.5, 0.75),
+#'   optional = c(
+#'     0.1, 0.2, 0.3, 0.4, 0.6,
+#'     0.7, 0.8, 0.9
+#'   ),
+#'   value_type = "double",
+#'   value_minimum = 0
+#' )
 #' create_output_type_cdf(
 #'   required = c(10, 20),
 #'   optional = NULL,
-#'   value_type = "double",
-#'   schema_version = "v3.0.1"
+#'   value_type = "double"
 #' )
 #' create_output_type_cdf(
 #'   required = NULL,
 #'   optional = c("EW202240", "EW202241", "EW202242"),
-#'   value_type = "double",
-#'   schema_version = "v3.0.1"
+#'   value_type = "double"
 #' )
 #' create_output_type_pmf(
 #'   required = NULL,
 #'   optional = c("low", "moderate", "high", "extreme"),
-#'   value_type = "double",
-#'   schema_version = "v3.0.1"
+#'   value_type = "double"
 #' )
+#' options(hubAdmin.schema_version = "latest")
 create_output_type_quantile <- function(required, optional,
                                         is_required, value_type,
                                         value_minimum = NULL,
@@ -259,7 +277,10 @@ create_output_type_quantile <- function(required, optional,
                                           "hubAdmin.schema_version",
                                           default = "latest"
                                         ),
-                                        branch = "main") {
+                                        branch = getOption(
+                                          "hubAdmin.branch",
+                                          default = "main"
+                                        )) {
   create_output_type_dist(
     output_type = "quantile", required = required, optional = optional,
     is_required = is_required, value_type = value_type, value_minimum = value_minimum,
