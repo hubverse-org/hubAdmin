@@ -445,11 +445,15 @@ test_that("schema version option works for create_output_type_mean", {
     is_required = TRUE,
     value_type = "double",
     value_minimum = 0L,
-    schema_version = "v3.0.1"
+    schema_version = "v3.0.1",
+    branch = "main"
   )
 
   withr::with_options(
-    list(hubAdmin.schema_version = "v3.0.1"),
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
     {
       opt_version <- create_output_type_mean(
         is_required = TRUE,
@@ -482,11 +486,15 @@ test_that("schema version option works for create_output_type_quantile", {
     ),
     value_type = "double",
     value_minimum = 0,
-    schema_version = "v3.0.1"
+    schema_version = "v3.0.1",
+    branch = "main"
   )
 
   withr::with_options(
-    list(hubAdmin.schema_version = "v3.0.1"),
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
     {
       opt_version <- create_output_type_quantile(
         required = c(0.25, 0.5, 0.75),
@@ -528,11 +536,15 @@ test_that("schema version option works for create_output_type_cdf", {
         "EW202242"
       ),
       value_type = "double",
-      schema_version = "v3.0.1"
+      schema_version = "v3.0.1",
+      branch = "main"
     )
 
   withr::with_options(
-    list(hubAdmin.schema_version = "v3.0.1"),
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
     {
       opt_version <- create_output_type_cdf(
         required = NULL,
@@ -555,7 +567,7 @@ test_that("schema version option works for create_output_type_cdf", {
 
 test_that("schema version option works for create_output_type_pmf", {
   skip_if_offline()
-  version_default <-create_output_type_pmf(
+  version_default <- create_output_type_pmf(
     required = c(
       "low", "moderate",
       "high", "extreme"
@@ -571,11 +583,15 @@ test_that("schema version option works for create_output_type_pmf", {
       "high", "extreme"
     ),
     value_type = "double",
-    schema_version = "v3.0.1"
+    schema_version = "v3.0.1",
+    branch = "main"
   )
 
   withr::with_options(
-    list(hubAdmin.schema_version = "v3.0.1"),
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
     {
       opt_version <- create_output_type_pmf(
         required = NULL,
@@ -613,11 +629,15 @@ test_that("schema version option works for create_output_type_sample", {
     value_type = "double",
     value_minimum = 0L,
     value_maximum = 1L,
-    schema_version = "v3.0.1"
+    schema_version = "v3.0.1",
+    branch = "main"
   )
 
   withr::with_options(
-    list(hubAdmin.schema_version = "v3.0.1"),
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAdmin.branch = "main"
+    ),
     {
       opt_version <- create_output_type_sample(
         is_required = FALSE,

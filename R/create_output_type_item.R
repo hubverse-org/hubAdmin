@@ -44,7 +44,10 @@ create_output_type_mean <- function(is_required, value_type, value_minimum = NUL
                                       "hubAdmin.schema_version",
                                       default = "latest"
                                     ),
-                                    branch = "main") {
+                                    branch = getOption(
+                                      "hubAdmin.branch",
+                                      default = "main"
+                                    )) {
   create_output_type_point(
     output_type = "mean", is_required = is_required,
     value_type = value_type, value_minimum = value_minimum,
@@ -63,7 +66,10 @@ create_output_type_median <- function(is_required, value_type,
                                         "hubAdmin.schema_version",
                                         default = "latest"
                                       ),
-                                      branch = "main") {
+                                      branch = getOption(
+                                        "hubAdmin.branch",
+                                        default = "main"
+                                      )) {
   create_output_type_point(
     output_type = "median", is_required = is_required,
     value_type = value_type, value_minimum = value_minimum,
@@ -81,7 +87,10 @@ create_output_type_point <- function(output_type = c("mean", "median"),
                                        "hubAdmin.schema_version",
                                        default = "latest"
                                      ),
-                                     branch = "main",
+                                     branch = getOption(
+                                       "hubAdmin.branch",
+                                       default = "main"
+                                     ),
                                      call = rlang::caller_env()) {
   rlang::check_required(value_type)
   rlang::check_required(is_required)
@@ -268,7 +277,10 @@ create_output_type_cdf <- function(required, optional, is_required,
                                      "hubAdmin.schema_version",
                                      default = "latest"
                                    ),
-                                   branch = "main") {
+                                   branch = getOption(
+                                     "hubAdmin.branch",
+                                     default = "main"
+                                   )) {
   create_output_type_dist(
     output_type = "cdf", required = required, optional = optional,
     is_required = is_required,
@@ -286,7 +298,10 @@ create_output_type_pmf <- function(required, optional, is_required,
                                      "hubAdmin.schema_version",
                                      default = "latest"
                                    ),
-                                   branch = "main") {
+                                   branch = getOption(
+                                     "hubAdmin.branch",
+                                     default = "main"
+                                   )) {
   create_output_type_dist(
     output_type = "pmf", required = required, optional = optional,
     is_required = is_required,
@@ -323,7 +338,10 @@ create_output_type_sample <- function(is_required, output_type_id_type,
                                         "hubAdmin.schema_version",
                                         default = "latest"
                                       ),
-                                      branch = "main") {
+                                      branch = getOption(
+                                        "hubAdmin.branch",
+                                        default = "main"
+                                      )) {
   rlang::check_required(is_required)
   rlang::check_required(output_type_id_type)
   rlang::check_required(min_samples_per_task)
@@ -437,7 +455,11 @@ create_output_type_dist <- function(
       "hubAdmin.schema_version",
       default = "latest"
     ),
-    branch = "main", call = rlang::caller_env()) {
+    branch = getOption(
+      "hubAdmin.branch",
+      default = "main"
+    ),
+    call = rlang::caller_env()) {
   rlang::check_required(value_type)
   rlang::check_required(required)
   output_type <- rlang::arg_match(output_type)

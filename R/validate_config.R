@@ -56,7 +56,10 @@
 validate_config <- function(hub_path = ".",
                             config = c("tasks", "admin"),
                             config_path = NULL, schema_version = "from_config",
-                            branch = "main") {
+                            branch = getOption(
+                              "hubAdmin.branch",
+                              default = "main"
+                            )) {
   if (!(requireNamespace("jsonvalidate"))) {
     cli::cli_abort(
       "Package {.pkg jsonvalidate} must be installed to use {.fn validate_config}. Please install it to continue.

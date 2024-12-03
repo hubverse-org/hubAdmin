@@ -35,8 +35,12 @@
 #'     package = "hubUtils"
 #'   )
 #' )
-validate_hub_config <- function(hub_path = ".", schema_version = "from_config",
-                                branch = "main") {
+validate_hub_config <- function(hub_path = ".",
+                                schema_version = "from_config",
+                                branch = getOption(
+                                  "hubAdmin.branch",
+                                  default = "main"
+                                )) {
   configs <- c("tasks", "admin")
 
   # First only validate config files

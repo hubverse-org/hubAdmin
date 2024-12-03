@@ -51,7 +51,11 @@ create_task_id <- function(name, required, optional,
                            schema_version = getOption(
                              "hubAdmin.schema_version",
                              default = "latest"
-                           ), branch = "main") {
+                           ),
+                           branch = getOption(
+                             "hubAdmin.branch",
+                             default = "main"
+                           )) {
   checkmate::assert_character(name, len = 1L)
   rlang::check_required(required)
   rlang::check_required(optional)

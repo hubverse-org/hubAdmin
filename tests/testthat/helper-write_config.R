@@ -1,5 +1,13 @@
 # Setup fixtures for creating test objects
-create_test_rounds <- function(branch = "main", version = "v3.0.1") {
+create_test_rounds <- function(
+    branch = getOption(
+      "hubAdmin.branch",
+      default = "main"
+    ),
+    version = getOption(
+      "hubAdmin.schema_version",
+      default = "v3.0.1"
+    )) {
   create_rounds(
     create_round(
       round_id_from_variable = TRUE,

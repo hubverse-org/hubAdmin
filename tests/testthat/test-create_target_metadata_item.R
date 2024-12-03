@@ -124,11 +124,15 @@ test_that("schema version option works for create_target_metadata_item", {
     target_type = "discrete",
     is_step_ahead = TRUE,
     time_unit = "week",
-    schema_version = "v3.0.1"
+    schema_version = "v3.0.1",
+    branch = "main"
   )
 
   withr::with_options(
-    list(hubAdmin.schema_version = "v3.0.1"),
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
     {
       opt_version <- create_target_metadata_item(
         target_id = "inc hosp",

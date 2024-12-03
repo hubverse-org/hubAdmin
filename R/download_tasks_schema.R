@@ -10,11 +10,16 @@
 #' download_tasks_schema()
 #' download_tasks_schema(format = "json")
 #' download_tasks_schema(schema_version = "v2.0.1")
-download_tasks_schema <- function(schema_version = getOption(
-                                    "hubAdmin.schema_version",
-                                    default = "latest"
-                                  ), branch = "main",
-                                  format = c("list", "json")) { # nolint: indentation_linter
+download_tasks_schema <- function(
+    schema_version = getOption(
+      "hubAdmin.schema_version",
+      default = "latest"
+    ),
+    branch = getOption(
+      "hubAdmin.branch",
+      default = "main"
+    ),
+    format = c("list", "json")) { # nolint: indentation_linter
   format <- rlang::arg_match(format)
 
   # Get the latest version available in our GitHub schema repos
