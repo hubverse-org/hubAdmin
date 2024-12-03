@@ -1,6 +1,7 @@
 #' Download hubverse tasks schema from the hubverse schema repository.
 #'
-#' @param schema_version the version required. Defaults to "latest". Can be set through global option "hubAdmin.schema_version".
+#' @param schema_version the version required. Defaults to "latest". Can be set
+#'  through global option "hubAdmin.schema_version".
 #' @param branch the branch to download the schema from. Defaults to "main".
 #' Can be set through global option "hubAdmin.branch".
 #' @param format the format to return the schema in. Defaults to "list". Can be "list" or "json".

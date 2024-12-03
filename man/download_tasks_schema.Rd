@@ -11,7 +11,8 @@ download_tasks_schema(
 )
 }
 \arguments{
-\item{schema_version}{the version required. Defaults to "latest". Can be set through global option "hubAdmin.schema_version".}
+\item{schema_version}{the version required. Defaults to "latest". Can be set
+through global option "hubAdmin.schema_version".}
 
 \item{branch}{the branch to download the schema from. Defaults to "main".
 Can be set through global option "hubAdmin.branch".}
