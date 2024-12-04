@@ -66,6 +66,9 @@ test_that("create_task_id errors correctly", {
 
 test_that("create_task_id name matching works correctly", {
   skip_if_offline()
+  local_mocked_bindings(
+    askYesNo = function(...) TRUE
+  )
   expect_equal(
     names(
       suppressMessages(
