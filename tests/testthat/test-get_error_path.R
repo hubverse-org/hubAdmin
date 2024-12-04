@@ -111,9 +111,8 @@ test_that("Creating instance paths works correctly", {
 
 test_that("Paths with miltiple potential matches at different depths created correctly", {
   skip_if_offline()
-  # TODO: Remove `br-v4.0.0` branch in schema URL when v4.0.0 released.
   schema <- hubUtils::get_schema(
-    "https://raw.githubusercontent.com/hubverse-org/schemas/br-v4.0.0/v4.0.0/tasks-schema.json"
+    "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
   )
   # Top level match returned by default.
   expect_equal(

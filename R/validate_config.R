@@ -26,7 +26,8 @@
 #'  specified.
 #' @param branch The branch of the hubverse
 #'   [schemas repository](https://github.com/hubverse-org/schemas)
-#'   from which to fetch schema. Defaults to `"main"`.
+#'   from which to fetch schema. Defaults to `"main"`. Can be set through global
+#'   option "hubAdmin.branch".
 #' @return Returns the result of validation. If validation is successful, will
 #'   return `TRUE`. If any validation errors are detected, returns `FALSE` with
 #'   details of errors appended as a data.frame to an `errors` attribute.
@@ -56,7 +57,10 @@
 validate_config <- function(hub_path = ".",
                             config = c("tasks", "admin"),
                             config_path = NULL, schema_version = "from_config",
-                            branch = "main") {
+                            branch = getOption(
+                              "hubAdmin.branch",
+                              default = "main"
+                            )) {
   if (!(requireNamespace("jsonvalidate"))) {
     cli::cli_abort(
       "Package {.pkg jsonvalidate} must be installed to use {.fn validate_config}. Please install it to continue.

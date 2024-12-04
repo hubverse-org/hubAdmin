@@ -275,8 +275,7 @@
 # create_round derived_task_ids argument
 
     Code
-      create_derived_task_ids_round(version = "v4.0.0", branch = "br-v4.0.0",
-        derived_task_ids = "location")
+      create_derived_task_ids_round(version = "v4.0.0", derived_task_ids = "location")
     Output
       $round_id_from_variable
       [1] TRUE
@@ -380,14 +379,14 @@
       attr(,"schema_id")
       [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
       attr(,"branch")
-      [1] "br-v4.0.0"
+      [1] "main"
 
 ---
 
     Code
-      waldo::compare(create_derived_task_ids_round(version = "v4.0.0", branch = "br-v4.0.0",
+      waldo::compare(create_derived_task_ids_round(version = "v4.0.0",
         derived_task_ids = "location"), create_derived_task_ids_round(version = "v4.0.0",
-        branch = "br-v4.0.0", derived_task_ids = NULL))
+        derived_task_ids = NULL))
     Output
       `old` is length 5
       `new` is length 4
@@ -413,8 +412,8 @@
 ---
 
     Code
-      create_derived_task_ids_round(version = "v4.0.0", branch = "br-v4.0.0",
-        derived_task_ids = c("random_task_id"))
+      create_derived_task_ids_round(version = "v4.0.0", derived_task_ids = c(
+        "random_task_id"))
     Condition
       Error in `create_round()`:
       x `derived_task_ids` value "random_task_id" is not valid `task_id` variable in the provided `model_tasks` object.

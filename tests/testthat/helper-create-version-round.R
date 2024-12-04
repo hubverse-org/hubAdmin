@@ -1,4 +1,8 @@
-create_derived_task_ids_round <- function(version, branch = "main",
+create_derived_task_ids_round <- function(version,
+                                          branch = getOption(
+                                            "hubAdmin.branch",
+                                            default = "main"
+                                          ),
                                           derived_task_ids = NULL) {
   task_ids <- create_task_ids(
     create_task_id("origin_date",

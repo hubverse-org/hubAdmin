@@ -1,5 +1,7 @@
 # hubAdmin (development version)
 
+* Use options to set `schema_version` and `branch` arguments in `download_tasks_schema()` and the `create_*()` family of functions for creating config files programmatically. This allows for setting the schema version and branch globally for the session (#85).
+
 # hubAdmin 1.4.0
 
 * Support v4.0.0 schema configuration of output types and output type IDs when creating config files programmatically. Specifically, whether an output type is required or not is specified via the `is_required` logical property whereas the `output_type_id` values as provided through the `required` property only (#53). In addition, `output_type_id` `required` value is now encoded as `NULL` instead of `NA` (#72).

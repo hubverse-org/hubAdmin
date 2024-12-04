@@ -66,6 +66,9 @@ test_that("create_task_id errors correctly", {
 
 test_that("create_task_id name matching works correctly", {
   skip_if_offline()
+  local_mocked_bindings(
+    askYesNo = function(...) TRUE
+  )
   expect_equal(
     names(
       suppressMessages(
@@ -80,13 +83,46 @@ test_that("create_task_id name matching works correctly", {
     ),
     "scenario_id"
   )
-
-  mockery::stub(match_element_name, "utils::askYesNo", FALSE)
+  local_mocked_bindings(
+    askYesNo = function(...) FALSE
+  )
   expect_equal(
     match_element_name("scenario_ids", "scenario_id", "task_id"),
     "scenario_ids"
   )
 
-  mockery::stub(match_element_name, "utils::askYesNo", NA)
+  local_mocked_bindings(
+    askYesNo = function(...) NA
+  )
   expect_error(match_element_name("scenario_ids", "scenario_id", "task_id"))
+})
+
+test_that("schema version option works for create_task_id", {
+  skip_if_offline()
+  version_default <- create_task_id("horizon",
+    required = 1L,
+    optional = 2:4
+  )
+
+  arg_version <- create_task_id("horizon",
+    required = 1L,
+    optional = 2:4,
+    schema_version = "v3.0.1",
+    branch = "main"
+  )
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
+    {
+      opt_version <- create_task_id("horizon",
+        required = 1L,
+        optional = 2:4
+      )
+    }
+  )
+  expect_equal(arg_version, opt_version)
+  expect_snapshot(waldo::compare(opt_version, version_default))
 })

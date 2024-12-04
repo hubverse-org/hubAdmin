@@ -153,3 +153,12 @@
       Caused by error in `create_target_metadata_item()`:
       x `target_units` must be length 1, not 2.
 
+# schema version option works for create_target_metadata_item
+
+    Code
+      waldo::compare(opt_version, version_default)
+    Output
+      attr(old, 'schema_id') vs attr(new, 'schema_id')
+      - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
+      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+

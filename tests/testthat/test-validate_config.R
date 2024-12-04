@@ -189,8 +189,7 @@ test_that("target keys error if arrays passed", {
   # TODO: remove branch argument when v4.0.0 is released.
   out_v4 <- suppressMessages(validate_config(
     config_path = config_path,
-    schema_version = "v4.0.0",
-    branch = "br-v4.0.0"
+    schema_version = "v4.0.0"
   ))
   expect_snapshot(out_v4)
   # latest schema should throw error with respect to target key type.
@@ -216,15 +215,14 @@ test_that("v4 validation works", {
   expect_true(
     suppressMessages(
       validate_config(
-        config_path = config_path,
-        branch = "br-v4.0.0"
+        config_path = config_path
       )
     )
   )
   config_path <- testthat::test_path("testdata", "v4-tasks-fail.json")
   expect_false(
     suppressMessages(
-      v4_fail <- validate_config(config_path = config_path, branch = "br-v4.0.0")
+      v4_fail <- validate_config(config_path = config_path)
     )
   )
   expect_snapshot(extract_error_tbl_cols(v4_fail))
@@ -234,7 +232,7 @@ test_that("v4 validation works", {
   config_path <- testthat::test_path("testdata", "v4-tasks-fail-dynamic.json")
   expect_false(
     suppressMessages(
-      v4_fail_dynamic <- validate_config(config_path = config_path, branch = "br-v4.0.0")
+      v4_fail_dynamic <- validate_config(config_path = config_path)
     )
   )
   expect_snapshot(

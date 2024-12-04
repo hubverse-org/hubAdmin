@@ -10,8 +10,8 @@ create_output_type_mean(
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
-  schema_version = "latest",
-  branch = "main"
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
+  branch = getOption("hubAdmin.branch", default = "main")
 )
 
 create_output_type_median(
@@ -19,8 +19,8 @@ create_output_type_median(
   value_type,
   value_minimum = NULL,
   value_maximum = NULL,
-  schema_version = "latest",
-  branch = "main"
+  schema_version = getOption("hubAdmin.schema_version", default = "latest"),
+  branch = getOption("hubAdmin.branch", default = "main")
 )
 }
 \arguments{
@@ -37,11 +37,12 @@ be used for validation. The default value \code{"latest"} will use the latest ve
 available in the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}.
 Alternatively, a specific version of a schema (e.g. \code{"v0.0.1"})  can be
-specified.}
+specified. Can be set through global option "hubAdmin.schema_version".}
 
 \item{branch}{The branch of the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}
-from which to fetch schema. Defaults to \code{"main"}.}
+from which to fetch schema. Defaults to \code{"main"}. Can be set through global
+option "hubAdmin.branch".}
 }
 \value{
 a named list of class \code{output_type_item} representing a \code{mean} or
@@ -85,6 +86,15 @@ create_output_type_mean(
   value_minimum = 0L,
   schema_version = "v3.0.1"
 )
+# Set schema version for all subsequent calls
+options(hubAdmin.schema_version = "v3.0.1")
+create_output_type_mean(
+  is_required = TRUE,
+  value_type = "double",
+  value_minimum = 0L,
+  schema_version = "v3.0.1"
+)
+options(hubAdmin.schema_version = "latest")
 }
 \seealso{
 \code{\link[=create_output_type]{create_output_type()}}

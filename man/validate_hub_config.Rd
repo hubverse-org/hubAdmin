@@ -7,7 +7,7 @@
 validate_hub_config(
   hub_path = ".",
   schema_version = "from_config",
-  branch = "main"
+  branch = getOption("hubAdmin.branch", default = "main")
 )
 }
 \arguments{
@@ -23,7 +23,8 @@ specified.}
 
 \item{branch}{The branch of the hubverse
 \href{https://github.com/hubverse-org/schemas}{schemas repository}
-from which to fetch schema. Defaults to \code{"main"}.}
+from which to fetch schema. Defaults to \code{"main"}. Can be set through global
+option "hubAdmin.branch".}
 }
 \value{
 Returns a list of the results of validation, one for each \code{hub-config}

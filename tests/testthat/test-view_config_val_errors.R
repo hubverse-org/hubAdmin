@@ -22,7 +22,6 @@ test_that("Errors report launch successful", {
 test_that("length 1 paths and related type & enum errors handled correctly", {
   skip_if_offline()
   config_path <- testthat::test_path("testdata", "admin-errors2.json")
-  # TODO - change branch back to main branch when
   validation <- suppressWarnings(
     validate_config(
       config_path = config_path, config = "admin",
@@ -117,7 +116,6 @@ test_that("Error report throws no warnings (#79)", {
   suppressMessages(
     vals <- validate_config(
       config_path = config_path,
-      branch = "br-v4.0.0",
       config = "admin"
     )
   )

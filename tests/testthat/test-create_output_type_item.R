@@ -162,8 +162,7 @@ test_that("create_output_type_sample works", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v4.0.0"
+      value_maximum = 1L
     )
   )
   expect_snapshot(
@@ -203,8 +202,7 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v4.0.0"
+      value_maximum = 1L
     ),
     regexp = "Must be one of .*character.* and .*integer"
   )
@@ -216,8 +214,7 @@ test_that("create_output_type_sample errors correctly", {
       min_samples_per_task = 70L, max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
-      value_maximum = 1L,
-      branch = "br-v4.0.0"
+      value_maximum = 1L
     ),
     regexp =
       "Assertion on 'is_required' failed: Must be of type 'logical', not 'integer'"
@@ -313,8 +310,7 @@ test_that("create_output_type_item works with v4 schema", {
       is_required = TRUE,
       value_type = "double",
       value_minimum = 0L,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
   expect_snapshot(
@@ -322,16 +318,14 @@ test_that("create_output_type_item works with v4 schema", {
       is_required = FALSE,
       value_type = "integer",
       value_maximum = 0L,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
   expect_snapshot(
     create_output_type_median(
       is_required = FALSE,
       value_type = "double",
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
 })
@@ -347,8 +341,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       is_required = TRUE,
       value_type = "double",
       value_minimum = 0,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
   expect_snapshot(
@@ -360,8 +353,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       ),
       is_required = FALSE,
       value_type = "double",
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
 
@@ -377,8 +369,7 @@ test_that("create_output_type_dist fns support v4 schema", {
         is_required = TRUE,
         value_type = "double",
         value_minimum = 0,
-        schema_version = "v4.0.0",
-        branch = "br-v4.0.0"
+        schema_version = "v4.0.0"
       )$quantile$output_type_id$required
     ), c(0.25, 0.5, 0.75)
   )
@@ -396,8 +387,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       ),
       is_required = FALSE,
       value_type = "double",
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     )
   )
   expect_warning(
@@ -410,8 +400,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       is_required = TRUE,
       value_type = "double",
       value_minimum = 0,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     ),
     regexp = "is deprecated as of schema version"
   )
@@ -426,8 +415,7 @@ test_that("create_output_type_dist fns support v4 schema", {
       ),
       value_type = "double",
       value_minimum = 0,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     ),
     error = TRUE
   )
@@ -439,9 +427,232 @@ test_that("create_output_type_dist fns support v4 schema", {
       is_required = TRUE,
       value_type = "double",
       value_minimum = 0,
-      schema_version = "v4.0.0",
-      branch = "br-v4.0.0"
+      schema_version = "v4.0.0"
     ),
     error = TRUE
   )
+})
+
+test_that("schema version option works for create_output_type_mean", {
+  skip_if_offline()
+  version_default <- create_output_type_mean(
+    is_required = TRUE,
+    value_type = "double",
+    value_minimum = 0L
+  )
+
+  arg_version <- create_output_type_mean(
+    is_required = TRUE,
+    value_type = "double",
+    value_minimum = 0L,
+    schema_version = "v3.0.1",
+    branch = "main"
+  )
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
+    {
+      opt_version <- create_output_type_mean(
+        is_required = TRUE,
+        value_type = "double",
+        value_minimum = 0L
+      )
+    }
+  )
+  expect_equal(arg_version, opt_version)
+  expect_snapshot(waldo::compare(
+    attr(opt_version, "schema_id"),
+    attr(version_default, "schema_id")
+  ))
+})
+
+test_that("schema version option works for create_output_type_quantile", {
+  skip_if_offline()
+  version_default <- create_output_type_quantile(
+    required = c(0.25, 0.5, 0.75),
+    is_required = FALSE,
+    value_type = "double",
+    value_minimum = 0
+  )
+
+  arg_version <- create_output_type_quantile(
+    required = c(0.25, 0.5, 0.75),
+    optional = c(
+      0.1, 0.2, 0.3, 0.4, 0.6,
+      0.7, 0.8, 0.9
+    ),
+    value_type = "double",
+    value_minimum = 0,
+    schema_version = "v3.0.1",
+    branch = "main"
+  )
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
+    {
+      opt_version <- create_output_type_quantile(
+        required = c(0.25, 0.5, 0.75),
+        optional = c(
+          0.1, 0.2, 0.3, 0.4, 0.6,
+          0.7, 0.8, 0.9
+        ),
+        value_type = "double",
+        value_minimum = 0
+      )
+    }
+  )
+  expect_equal(arg_version, opt_version)
+  expect_snapshot(waldo::compare(
+    attr(opt_version, "schema_id"),
+    attr(version_default, "schema_id")
+  ))
+})
+
+test_that("schema version option works for create_output_type_cdf", {
+  skip_if_offline()
+  version_default <-
+    create_output_type_cdf(
+      required = c(
+        "EW202240",
+        "EW202241",
+        "EW202242"
+      ),
+      is_required = FALSE,
+      value_type = "double"
+    )
+
+  arg_version <-
+    create_output_type_cdf(
+      required = NULL,
+      optional = c(
+        "EW202240",
+        "EW202241",
+        "EW202242"
+      ),
+      value_type = "double",
+      schema_version = "v3.0.1",
+      branch = "main"
+    )
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
+    {
+      opt_version <- create_output_type_cdf(
+        required = NULL,
+        optional = c(
+          "EW202240",
+          "EW202241",
+          "EW202242"
+        ),
+        value_type = "double"
+      )
+    }
+  )
+  expect_equal(arg_version, opt_version)
+  expect_snapshot(waldo::compare(
+    attr(opt_version, "schema_id"),
+    attr(version_default, "schema_id")
+  ))
+})
+
+
+test_that("schema version option works for create_output_type_pmf", {
+  skip_if_offline()
+  version_default <- create_output_type_pmf(
+    required = c(
+      "low", "moderate",
+      "high", "extreme"
+    ),
+    is_required = FALSE,
+    value_type = "double"
+  )
+
+  arg_version <- create_output_type_pmf(
+    required = NULL,
+    optional = c(
+      "low", "moderate",
+      "high", "extreme"
+    ),
+    value_type = "double",
+    schema_version = "v3.0.1",
+    branch = "main"
+  )
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAmin.branch = "main"
+    ),
+    {
+      opt_version <- create_output_type_pmf(
+        required = NULL,
+        optional = c(
+          "low", "moderate",
+          "high", "extreme"
+        ),
+        value_type = "double"
+      )
+    }
+  )
+  expect_equal(arg_version, opt_version)
+  expect_snapshot(waldo::compare(
+    attr(opt_version, "schema_id"),
+    attr(version_default, "schema_id")
+  ))
+})
+
+test_that("schema version option works for create_output_type_sample", {
+  skip_if_offline()
+  version_default <- create_output_type_sample(
+    is_required = FALSE,
+    output_type_id_type = "character",
+    max_length = 5L,
+    min_samples_per_task = 70L, max_samples_per_task = 100L,
+    value_type = "double",
+    value_minimum = 0L,
+    value_maximum = 1L
+  )
+  arg_version <- create_output_type_sample(
+    is_required = FALSE,
+    output_type_id_type = "character",
+    max_length = 5L,
+    min_samples_per_task = 70L, max_samples_per_task = 100L,
+    value_type = "double",
+    value_minimum = 0L,
+    value_maximum = 1L,
+    schema_version = "v3.0.1",
+    branch = "main"
+  )
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAdmin.branch = "main"
+    ),
+    {
+      opt_version <- create_output_type_sample(
+        is_required = FALSE,
+        output_type_id_type = "character",
+        max_length = 5L,
+        min_samples_per_task = 70L, max_samples_per_task = 100L,
+        value_type = "double",
+        value_minimum = 0L,
+        value_maximum = 1L
+      )
+    }
+  )
+  expect_equal(arg_version, opt_version)
+  expect_snapshot(waldo::compare(
+    attr(opt_version, "schema_id"),
+    attr(version_default, "schema_id")
+  ))
 })
