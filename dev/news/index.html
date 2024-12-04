@@ -37,7 +37,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="hubadmin-development-version">hubAdmin (development version)<a class="anchor" aria-label="anchor" href="#hubadmin-development-version"></a></h2>
-</div>
+<ul><li>Use options to set <code>schema_version</code> and <code>branch</code> arguments in <code><a href="../reference/download_tasks_schema.html">download_tasks_schema()</a></code> and the <code>create_*()</code> family of functions for creating config files programmatically. This allows for setting the schema version and branch globally for the session (<a href="https://github.com/hubverse-org/hubAdmin/issues/85" class="external-link">#85</a>).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.4.0" id="hubadmin-140">hubAdmin 1.4.0<a class="anchor" aria-label="anchor" href="#hubadmin-140"></a></h2>
 <ul><li>Support v4.0.0 schema configuration of output types and output type IDs when creating config files programmatically. Specifically, whether an output type is required or not is specified via the <code>is_required</code> logical property whereas the <code>output_type_id</code> values as provided through the <code>required</code> property only (<a href="https://github.com/hubverse-org/hubAdmin/issues/53" class="external-link">#53</a>). In addition, <code>output_type_id</code> <code>required</code> value is now encoded as <code>NULL</code> instead of <code>NA</code> (<a href="https://github.com/hubverse-org/hubAdmin/issues/72" class="external-link">#72</a>).</li>
