@@ -46,20 +46,20 @@ diagram below:
 ```
 tasks.json
 ├─schema_version: "https://.../v4.0.0/tasks-schema.json"
-├─rounds: 
-│ └─model_tasks: 
-│   ├─target_metadata: 
+├─rounds:
+│ └─model_tasks:
+│   ├─target_metadata:
 │   │ └─[...]
-│   ├─task_ids: 
+│   ├─task_ids:
 │   │ └─[...]
-│   └─output_type: 
+│   └─output_type:
 │     └─[...]
 ├─round_id_from_variable: true
 ├─round_id: origin_date
-├─submissions_due: 
+├─submissions_due:
 │ └─[...]
-├─output_type_id_datatype: "auto" 
-└─derived_task_ids: 
+├─output_type_id_datatype: "auto"
+└─derived_task_ids:
   └─[...]
 ```
 
@@ -88,7 +88,7 @@ into two `round` objects, which will be inserted into a `config` object.
 
 The `target_metadata` provides both human-readable (`target_name` and
 `target_units`) and machine-readable (e.g. `target_type` and `is_step_ahead`)
-information about the targets. 
+information about the targets.
 
 ```{r create-target-metadata}
 # Load the hubAdmin package
@@ -121,7 +121,7 @@ target_metadata_example <- create_target_metadata(target_metadata_hosp, target_m
 
 If you inspect the `target_metadata_hosp` object, you will see that it appears
 as a class `target_metadata_item` with additional attributes about the schema
-that created it: 
+that created it:
 
 ```{r tmh}
 str(target_metadata_hosp)
