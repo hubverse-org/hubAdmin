@@ -8,54 +8,157 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+## Introduction
 
-## Step 1: Create an `src` folder
+The `tasks.json` configuration file is a the source of truth for validating a
+hub and is also one of the most complex aspects of a hub. This configuration
+file is a formal representation of an official collaborative forecasting
+challenge that allows direct and unambiguous evaluation and comparison of model
+outputs. It allows hub administrators to set a clear standard for model
+submissions.
 
-Open RStudio and ensure you are in your repo's main folder. Click on the "New Folder" icon to create a new folder called `src`.
+Creation of this configuration file is not easy, however---and it should not
+be easy because setting a hub up for success requires a lot of care in
+understanding what you are attempting to model. This includes knowledge of
+what factors are important as modeling parameters and what is the best
+representation of model outputs that allows for effective evaluation and
+summarization so decisions can be made quickly.
 
-```{r}
-#| results: asis
-#| echo: false
-#| alt: 'Screenshot for creating a new folder in RStudio called "src", as described in the text.'
-knitr::include_graphics('images/src-folder.png')
+While we provide [a hubTemplate](https://github.com/hubverse-org/hubTemplate/)
+for use to get started with setting up a hub, JSON files are easy for a computer
+to read, but not so easy for a human to read and less so to write. The hard part
+of creating a `tasks.json` file should be what model parameters to use, not
+constantly looking at JSON syntax or hunting down a missing comma.
+
+In this vignette, we will use the config creation functions in `hubAdmin` to
+create a `tasks.json` file that represents two rounds of a modeling effort to
+predict influenza hospitalizations and optionally deaths 1 to 4 weeks ahead
+with mean, median, and quantile predictions in the US, and optionally 5 states.
+
+Before getting to the scripting, it's important to get a general look at what
+a `tasks.json` file looks like structurally.
+
+## Structure of a `tasks.json` configuration file
+
+The structure of a `tasks.json` configuration file roughly looks like the
+diagram below:
+
+```
+tasks.json
+├─schema_version: "https://.../v4.0.0/tasks-schema.json"
+├─rounds: 
+│ └─model_tasks: 
+│   ├─target_metadata: 
+│   │ └─[...]
+│   ├─task_ids: 
+│   │ └─[...]
+│   └─output_type: 
+│     └─[...]
+├─round_id_from_variable: true
+├─round_id: origin_date
+├─submissions_due: 
+│ └─[...]
+├─output_type_id_datatype: "auto" 
+└─derived_task_ids: 
+  └─[...]
 ```
 
-## Step 2: Create a new R script within the `src` folder
+The first item in a `tasks.json` file is the `schema_version`, which provides
+a URL to a schema that validates the file is in the expected structure.
+It then defines the **rounds** that sets the cadence of the model submissions.
+These rounds contain one or more [**modeling
+tasks**](https://hubverse.io/en/latest/user-guide/tasks.html) that define the
+expected content of a model submission against one or more modeling targets.
+Each modeling task includes three elements:
 
-In the files pane, click on the `src` folder and ensure you are inside the folder by checking the path at the top of the pane. The path (circled below in green) should now show the `src` folder. Click on the "New Blank File" icon and select "R Script". Name the file "scripting-task-config".
+ - `target_metadata`: characteristics for each target (an example of a modeling
+   target is "Daily incident Flu Hospitalizations")
+ - `task_ids`: a collection of variables that can be used for modeling efforts.
+   **Each unique combination of task IDs represents a single modeling task**.
+ - `output_type`: the expected model output representation
 
-```{r}
-#| results: asis
-#| echo: false
-#| alt: 'Screenshot for creating a new R Script called "scripting-task-config" in the "src" folder, as described in the text.'
-knitr::include_graphics("images/new-scripting-task-config.png")
+## Creation of a `tasks.json` file
+
+To create the `tasks.json` file, we will start from the inside out. This means
+that we will create the `target_metadata`, `task_ids`, `output_type`s first.
+We will then use those to create two `model_task` objects and then bundle them
+into two `round` objects, which will be inserted into a `config` object.
+
+### Creating the `target_metadata` objects
+
+The `target_metadata` provides both human-readable (`target_name` and
+`target_units`) and machine-readable (e.g. `target_type` and `is_step_ahead`)
+information about the targets. 
+
+```{r create-target-metadata}
+# Load the hubAdmin package
+library(hubAdmin)
+# Create a representation of a `target_metadata` item as a list object of class `target_metadata_item`, the `target_metadata_hosp` that will hold the metadata for the target of incident influenza hospitalizations
+target_metadata_hosp <- create_target_metadata_item(
+  target_id = "inc hosp",
+  target_name = "Weekly incident influenza hospitalizations",
+  target_units = "rate per 100,000 population",
+  target_keys = list(target = "inc hosp"),
+  target_type = "discrete",
+  is_step_ahead = TRUE,
+  time_unit = "week"
+)
+
+# Create a representation of a `target_metadata` item as a list object of class `target_metadata_item`, the `target_metadata_death`, that will hold the metadata for the target of incident influenza deaths
+target_metadata_death <- create_target_metadata_item(
+  target_id = "inc death",
+  target_name = "Weekly incident influenza deaths",
+  target_units = "rate per 100,000 population",
+  target_keys = list(target = "inc death"),
+  target_type = "discrete",
+  is_step_ahead = TRUE,
+  time_unit = "week"
+)
+
+# Combine the `target_metadata_item` objects to create a `target_metadata` class object, the `target_metadata_example`
+target_metadata_example <- create_target_metadata(target_metadata_hosp, target_metadata_death)
 ```
-![](images/new-scripting-task-config.png)
 
-## Step 3: Install the `hubAdmin` package
+If you inspect the `target_metadata_hosp` object, you will see that it appears
+as a class `target_metadata_item` with additional attributes about the schema
+that created it: 
 
-In the Console of RSudio, install the [latest version of the `hubAdmin` package from the R-universe](https://hubverse-org.r-universe.dev/hubAdmin) by running the following command:
-
-```r
-install.packages("hubAdmin", repos = c("https://hubverse-org.r-universe.dev", "https://cloud.r-project.org"))
+```{r tmh}
+str(target_metadata_hosp)
 ```
 
-```{r, fig}
-#| results: asis
-#| echo: false
-#| alt: 'Screenshot showing command for installing hubAdmin package, as described in text.'
-knitr::include_graphics('images/install-hubAdmin.png')
+
+Likewise, `target_metadata_example` is a combination of `target_metadata_hosp`,
+and `target_metadata_death`:
+
+
+```{r, tme}
+str(target_metadata_example)
 ```
 
-## Step 4: Write the script to create and configure a `"tasks"` config file
+
+If this creates lists with metadata, then why bother creating a function at all?
+Ah, but you forget that people are fallible and it's easy to make mistakes. For
+example, some of the values are interdependent and if you accidentally leave one
+out, the function will provide a helpful error:
+
+```{r tmh-example}
+#| error: true
+create_target_metadata_item(
+  target_id = "inc hosp",
+  target_name = "Weekly incident influenza hospitalizations",
+  target_units = "rate per 100,000 population",
+  target_keys = list(target = "inc hosp"),
+  target_type = "discrete",
+  is_step_ahead = TRUE
+)
+```
+
+
 
 ### 4.1. Creating the `task_id` objects
 
-Write or copy the lines of code below into your `scripting-task-config.R` file. The explanation for the different components, such as `"task_ids"` and `"origin_date"` can be found in [Step 5 of the previous section on configuring tasks](#tasks-json-edits).
-
 ```{r set-task-ids}
-# Load the hubAdmin package
-library(hubAdmin)
 
 # Create a representation of a task ID item as a list object of `class task_id`, the `origin_date_id`
 origin_date_id <- create_task_id(
@@ -115,37 +218,6 @@ output_type_example1 <-  create_output_type(mean_example, median_example)
 
 # Combine the other `output_type_item` objects to create an `output_type` class object, the `output_type_example2`
 output_type_example2 <- create_output_type(mean_example, quantile_example)
-```
-
-### 4.3. Creating the `target_metadata` objects
-
-Write or copy the lines of code written below after the `output_type` objects in your `scripting-task-config.R` file.
-
-```{r create-target-metadata}
-# Create a representation of a `target_metadata` item as a list object of class `target_metadata_item`, the `target_metadata_hosp` that will hold the metadata for the target of incident influenza hospitalizations
-target_metadata_hosp <- create_target_metadata_item(
-  target_id = "inc hosp",
-  target_name = "Weekly incident influenza hospitalizations",
-  target_units = "rate per 100,000 population",
-  target_keys = list(target = "inc hosp"),
-  target_type = "discrete",
-  is_step_ahead = TRUE,
-  time_unit = "week"
-)
-
-# Create a representation of a `target_metadata` item as a list object of class `target_metadata_item`, the `target_metadata_death`, that will hold the metadata for the target of incident influenza deaths
-target_metadata_death <- create_target_metadata_item(
-  target_id = "inc death",
-  target_name = "Weekly incident influenza deaths",
-  target_units = "rate per 100,000 population",
-  target_keys = list(target = "inc death"),
-  target_type = "discrete",
-  is_step_ahead = TRUE,
-  time_unit = "week"
-)
-
-# Combine the `target_metadata_item` objects to create a `target_metadata` class object, the `target_metadata_example`
-target_metadata_example <- create_target_metadata(target_metadata_hosp, target_metadata_death)
 ```
 
 ### 4.4. Creating the `model_task` objects
