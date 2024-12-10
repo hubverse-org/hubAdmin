@@ -17,13 +17,6 @@ challenge that allows direct and unambiguous evaluation and comparison of model
 outputs. It allows hub administrators to set a clear standard for model
 submissions.
 
-Creation of this configuration file is not easy, however---and it should not
-be easy because setting a hub up for success requires a lot of care in
-understanding what you are attempting to model. This includes knowledge of
-what factors are important as modeling parameters and what is the best
-representation of model outputs that allows for effective evaluation and
-summarization so decisions can be made quickly.
-
 While we provide [a hubTemplate](https://github.com/hubverse-org/hubTemplate/)
 for use to get started with setting up a hub, JSON files are easy for a computer
 to read, but not so easy for a human to read and less so to write. The hard part
