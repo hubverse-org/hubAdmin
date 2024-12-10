@@ -300,6 +300,8 @@ rounds <- create_rounds(round1)
 And the penultimate step is to create a config file and write it out to your
 hub.
 
+TODO: link to hubdocs about maintaining output type id data types. 
+
 ```{r create-tasks, eval = FALSE}
 config <- create_config(rounds)
 
