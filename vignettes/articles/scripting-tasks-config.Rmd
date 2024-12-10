@@ -69,7 +69,7 @@ tasks.json
 ```
 
 The first property in a `tasks.json` file is the `schema_version`, which provides
-a URL to a schema that validates the file is in the expected structure.
+a URL to the [hubverse schema](https://github.com/hubverse-org/schemas) version the config file is built against. The schema is used to validate the structure and contents of the config file.
 The next property defined are the **rounds** which set the schedule and expected contents of model submissions
 These rounds contain one or more [**modeling
 tasks**](https://hubverse.io/en/latest/user-guide/tasks.html) that define the
