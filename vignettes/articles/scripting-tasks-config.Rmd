@@ -29,7 +29,18 @@ for use to get started with setting up a hub, JSON files are easy for a computer
 to read, but not so easy for a human to read and less so to write. The hard part
 of creating a `tasks.json` file should be what model parameters to use, not
 constantly looking at JSON syntax or hunting down a missing comma.
-To make this process easier, **we provide the `create_*()` family of functions for creating `tasks.json` files programmatically**.  These can be useful for creating your initial `task.json` file, amending an existing file's configurations or even appending new rounds programmatically. By making use of this functionality, hubs can even automate the process of updating their files through Github Actions.  For example, the [variant nowcast hub](https://github.com/reichlab/variant-nowcast-hub/tree/main) uses a [GitHub Action workflow](https://github.com/reichlab/variant-nowcast-hub/blob/29a9265d0b30f385fc47195d3d7f65ecda7a41d2/.github/workflows/create-modeling-round.yaml#L47) that [run a script](https://github.com/reichlab/variant-nowcast-hub/blob/main/src/make_round_config.R) to append a new round with updated variants to model on a weekly schedule!
+To make this process easier, **we provide the `create_*()` family of functions
+for creating `tasks.json` files programmatically**.  These can be useful for
+creating your initial `task.json` file, amending an existing file's
+configurations or even appending new rounds programmatically. By making use of
+this functionality, hubs can even automate the process of updating their files
+through Github Actions.  For example, the [variant nowcast
+hub](https://github.com/reichlab/variant-nowcast-hub/tree/main) uses a [GitHub
+Action
+workflow](https://github.com/reichlab/variant-nowcast-hub/blob/29a9265d0b30f385fc47195d3d7f65ecda7a41d2/.github/workflows/create-modeling-round.yaml#L47)
+that [runs a
+script](https://github.com/reichlab/variant-nowcast-hub/blob/main/src/make_round_config.R)
+to append a new round with updated variants to model on a weekly schedule!
 
 In this vignette, we will use the config creation functions in `hubAdmin` to
 create a `tasks.json` file that represents two rounds of a modeling effort to
@@ -48,17 +59,17 @@ diagram below:
 tasks.json
 ├─schema_version: "https://.../v4.0.0/tasks-schema.json"
 ├─rounds:
-│ └─model_tasks:
-│   ├─task_ids:
-│   │ └─[...]
-│   ├─output_type:
-│   │ └─[...]
-│   └─target_metadata:
-│     └─[...]
-├─round_id_from_variable: true
-├─round_id: origin_date
-├─submissions_due:
-│ └─[...]
+│ ├─model_tasks:
+│ │   ├─task_ids:
+│ │   │ └─[...]
+│ │   ├─output_type:
+│ │   │ └─[...]
+│ │   └─target_metadata:
+│ │     └─[...]
+│ ├─round_id_from_variable: true
+│ ├─round_id: origin_date
+│ └─submissions_due:
+│   └─[...]
 ├─output_type_id_datatype: "auto"
 └─derived_task_ids:
   └─[...]
@@ -73,7 +84,7 @@ expected content of a model submission against one or more modeling targets.
 Each modeling task includes three properties:
 
  - `task_ids`: a collection of variables that can be used for modeling efforts.
-   **Each unique combination of task IDs represents a single modeling task**.
+   **Each unique combination of task ID values represents a single modeling task**.
  - `output_type`: the expected model output representation
  - `target_metadata`: characteristics for each target (an example of a modeling
    target is "Daily incident Flu Hospitalizations")
@@ -121,7 +132,7 @@ target_metadata_death <- create_target_metadata_item(
 )
 
 # Combine the `target_metadata_item` objects to create a `target_metadata`
-# class object, the `target_metadata_example`
+# class object, the `target_metadata`
 target_metadata <- create_target_metadata(target_metadata_hosp, target_metadata_death)
 ```
 
@@ -160,7 +171,7 @@ create_target_metadata_item(
 )
 ```
 
-Now that we have defined the targets in `target_metadat_example`, we can move on
+Now that we have defined the targets in `target_metadata`, we can move on
 to defining the task ID objects, which will define what the modeling parameters
 will be.
 
@@ -204,7 +215,7 @@ task_ids_example <- create_task_ids(origin_date_id, location_id, horizon_id, tar
 
 ```
 
-Now that we've created the the task IDs defining the modeling tasks, we can define the outputs we
+Now that we've created the task IDs that specify the modeling tasks, we can define the outputs we
 expect from the models. 
 
 ### Creating the `output_type` objects
@@ -267,14 +278,14 @@ hosp` target.
 model_task_hosp <- create_model_task(
   task_ids = task_ids_example,
   output_type = output_type_mean_median,
-  target_metadata = target_metadata_example
+  target_metadata = target_metadata
 )
 
 #Create another object of class `model_task` representing a similar model task, the `model_task_death`
 model_task_death <- create_model_task(
   task_ids = task_ids_example,
   output_type = output_type_mean_quantile,
-  target_metadata = target_metadata_example
+  target_metadata = target_metadata
 )
 
 # Combine the `model_task` objects to create a `model_tasks` class object, the
