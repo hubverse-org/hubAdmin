@@ -29,6 +29,7 @@ for use to get started with setting up a hub, JSON files are easy for a computer
 to read, but not so easy for a human to read and less so to write. The hard part
 of creating a `tasks.json` file should be what model parameters to use, not
 constantly looking at JSON syntax or hunting down a missing comma.
+To make this process easier, **we provide the `create_*()` family of functions for creating `tasks.json` files programmatically**.  These can be useful for creating your initial `task.json` file, amending an existing file's configurations or even appending new rounds programmatically. By making use of this functionality, hubs can even automate the process of updating their files through Github Actions.  For example, the [variant nowcast hub](https://github.com/reichlab/variant-nowcast-hub/tree/main) uses a [GitHub Action workflow](https://github.com/reichlab/variant-nowcast-hub/blob/29a9265d0b30f385fc47195d3d7f65ecda7a41d2/.github/workflows/create-modeling-round.yaml#L47) that [run a script](https://github.com/reichlab/variant-nowcast-hub/blob/main/src/make_round_config.R) to append a new round with updated variants to model on a weekly schedule!
 
 In this vignette, we will use the config creation functions in `hubAdmin` to
 create a `tasks.json` file that represents two rounds of a modeling effort to
@@ -48,11 +49,11 @@ tasks.json
 ├─schema_version: "https://.../v4.0.0/tasks-schema.json"
 ├─rounds:
 │ └─model_tasks:
-│   ├─target_metadata:
-│   │ └─[...]
 │   ├─task_ids:
 │   │ └─[...]
-│   └─output_type:
+│   ├─output_type:
+│   │ └─[...]
+│   └─target_metadata:
 │     └─[...]
 ├─round_id_from_variable: true
 ├─round_id: origin_date
@@ -63,19 +64,19 @@ tasks.json
   └─[...]
 ```
 
-The first item in a `tasks.json` file is the `schema_version`, which provides
+The first property in a `tasks.json` file is the `schema_version`, which provides
 a URL to a schema that validates the file is in the expected structure.
-It then defines the **rounds** that sets the cadence of the model submissions.
+The next property defined are the **rounds** which set the schedule and expected contents of model submissions
 These rounds contain one or more [**modeling
 tasks**](https://hubverse.io/en/latest/user-guide/tasks.html) that define the
 expected content of a model submission against one or more modeling targets.
-Each modeling task includes three elements:
+Each modeling task includes three properties:
 
- - `target_metadata`: characteristics for each target (an example of a modeling
-   target is "Daily incident Flu Hospitalizations")
  - `task_ids`: a collection of variables that can be used for modeling efforts.
    **Each unique combination of task IDs represents a single modeling task**.
  - `output_type`: the expected model output representation
+ - `target_metadata`: characteristics for each target (an example of a modeling
+   target is "Daily incident Flu Hospitalizations")
 
 ## Creation of a `tasks.json` file
 
@@ -121,7 +122,7 @@ target_metadata_death <- create_target_metadata_item(
 
 # Combine the `target_metadata_item` objects to create a `target_metadata`
 # class object, the `target_metadata_example`
-target_metadata_example <- create_target_metadata(target_metadata_hosp, target_metadata_death)
+target_metadata <- create_target_metadata(target_metadata_hosp, target_metadata_death)
 ```
 
 If you inspect the `target_metadata_hosp` object, you will see that it appears
@@ -133,17 +134,17 @@ str(target_metadata_hosp)
 ```
 
 
-Likewise, `target_metadata_example` is a combination of `target_metadata_hosp`,
+Likewise, `target_metadata` is a combination of `target_metadata_hosp`,
 and `target_metadata_death`:
 
 
 ```{r, tme}
-str(target_metadata_example)
+str(target_metadata)
 ```
 
 
-If this creates lists with metadata, then why bother creating a function at all?
-Ah, but you forget that people are fallible and it's easy to make mistakes. For
+If this process just creates lists with metadata, then why bother using `hubAdmin` functions at all to create them?
+The benefit is that `hubAdmin` `create_*()` functions provide some basic validation of objects when creating them, helping you catch some potential mistakes sooner. For
 example, some of the values are interdependent and if you accidentally leave one
 out, the function will provide a helpful error:
 
@@ -203,18 +204,23 @@ task_ids_example <- create_task_ids(origin_date_id, location_id, horizon_id, tar
 
 ```
 
-Now that we've created the modeling parameters, we can define the outputs we
+Now that we've created the the task IDs defining the modeling tasks, we can define the outputs we
 expect from the models. 
 
 ### Creating the `output_type` objects
 
-For this example, we want to have three output type objects: a required "mean"
-and "quantile" outputs with an optional integer "median".
+For this example, we want to have three output type objects: 
+
+1. a required `"mean"` output type  
+2. a required `"quantile"` output type  
+3. an optional `"median"` output type 
+
+ Additionally, our two targets will accept a different combination of output types. Specifically, target `"inc hosp"` will only accept `"mean"` and `"median"` output types while `"inc death"` will only accept `"mean"` and `"quantile"` output types. 
 
 ```{r create-output-type-ids}
 # Create a representation of a `mean` output type as a list object of class
 # `output_type_item`
-mean_example <- create_output_type_mean(
+mean_out_type <- create_output_type_mean(
   is_required = TRUE,
   value_type = "double",
   value_minimum = 0
@@ -222,7 +228,7 @@ mean_example <- create_output_type_mean(
 
 # Create a representation of a `median` output type as a list object of class
 # `output_type_item`
-median_example <- create_output_type_median(
+median_out_type <- create_output_type_median(
   is_required = FALSE,
   value_type = "integer",
   value_minimum = 0L
@@ -230,7 +236,7 @@ median_example <- create_output_type_median(
 )
 
 # Create a representation of a `quantile` output type as a list object of class `output_type_item`
-quantile_example <- create_output_type_quantile(
+quantile_out_type <- create_output_type_quantile(
   required = c(0.25, 0.5, 0.75),
   is_required = TRUE,
   value_type = "double",
@@ -238,22 +244,21 @@ quantile_example <- create_output_type_quantile(
 )
 ```
 
-Now that we have our base output types, we can combine them to create output
-types that we want to use for each particular task. 
+Now that we have our base `output_type_item` class objects, we can combine them to create `output_type` class objects that we want to use for each particular target. 
 
 ```{r combine-output-types}
 # Combine the point estimate `output_type_item` objects to create an
 # `output_type` class object, the `output_type_mean_median`
-output_type_mean_median <- create_output_type(mean_example, median_example)
+output_type_mean_median <- create_output_type(mean_out_type, median_out_type)
 
 # Combine the other `output_type_item` objects to create an `output_type` class
 # object, the `output_type_mean_quantile`
-output_type_mean_quantile <- create_output_type(mean_example, quantile_example)
+output_type_mean_quantile <- create_output_type(mean_out_type, quantile_out_type)
 ```
 
 ### Creating the `model_task` objects
 
-For both tasks, we want to require a "mean" output, but we want a "quantile"
+As previously discussed, we want to require a "mean" output for both tasks, but we want a "quantile"
 output type for the `inc death` target and an optional "median" for the `inc
 hosp` target.
 
@@ -281,11 +286,11 @@ Now that we have a set of model tasks, we can create rounds for them.
 ### Creating the `round` objects
 
 While the model tasks define what a model output submission should look like,
-the round defines the cadence of submissions and the timeframe under which a
+the round additionally defines the schedule of submissions and the timeframe under which a
 submission is considered valid.
 
 The most common way to create rounds is to create a single `round` object that
-tracks a date variable, in this case `"origin_date"`. The submission window for a given round is a period of one week, where the beginning of the window is
+and specify a date task ID whose values will act as the round IDs for each round. These round IDs are used to calculate the submission window for each modeling round. In our example, we specify `"origin_date"` as the source variable for round IDs. We also specify that the submission window for a given round is a period of one week, where the beginning of the window is
 4 days before the origin date and the end of the submission window is 2 days
 after the origin date. This means if you have an origin date of 
 `r format(as.Date("2023-01-02"), "%A %Y-%m-%d")`, then valid submission dates
@@ -319,11 +324,11 @@ hub.
 ```{r create-tasks, eval = FALSE}
 # Create a representation of a complete `"tasks"` config file as a list object
 # of class `config`
-config <- create_config(rounds, output_type_id_datatype = "auto")
+config <- create_config(rounds)
 
 # Write the `config` object to a JSON file (note that this will overwrite any
 # existing file with the same name in the "hub-config" folder)
-write_config(config, overwrite = TRUE)
+write_config(config)
 ```
 ```{r really-write}
 #| echo: false
@@ -379,10 +384,10 @@ res
 Validating your config files is important because while we can validate simple
 relationships during the construction of the configuration file, it's not always
 possible to validate the relationships between the elements until the final
-configuration file is written and it can be validated against the schema.
+configuration file is written and can be validated against the schema.
 
 Take for example if we wanted to create two rounds to our current config that
-has a different submission window from 2023-01-09 to 2023-01-16 (note that this
+has a different submission window from `"2023-01-09"` to "`2023-01-16"` (note that this
 round contains an error which we will explain later):
 
 ```{r round2-fight}
@@ -435,7 +440,7 @@ The reason why this came up is because we were defining two rounds that shared
 identifiers because they both inherited identifiers from `"origin_date"`. Each
 round must have a separate and unique identifier. This is because we forgot to
 set `round_id_from_variable = FALSE` in our second round. If we change that,
-the the config becomes valid:
+the config becomes valid:
 
 ```{r round2-agree}
 round2 <- create_round(
