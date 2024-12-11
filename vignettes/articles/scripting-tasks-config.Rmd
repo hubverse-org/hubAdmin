@@ -106,8 +106,6 @@ The `target_metadata` provides both human-readable (`target_name` and
 information about the targets.
 
 ```{r create-target-metadata}
-library(hubAdmin)
-
 target_metadata_hosp <- create_target_metadata_item(
   target = "inc hosp",
   target_name = "Weekly incident influenza hospitalizations",
