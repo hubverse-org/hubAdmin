@@ -89,6 +89,16 @@ that we will create the `target_metadata`, `task_ids`, `output_type`s first.
 We will then use those to create two `model_task` objects and then bundle them
 into two `round` objects, which will be inserted into a `config` object.
 
+Before we start, the first thing we need to do is to set
+the correct version of [the hubverse schemas](https://github.com/hubverse-org/schemas). By default, scripting a tasks config will use the latest schema release.
+To make sure we can always reproduce the task, it's a good idea to explicitly
+set the schema version. We can do this by setting the `hubAdmin.schema_version` option. In this example, we will use the `v4.0.0` schema:
+
+```{r}
+library(hubAdmin)
+options(hubAdmin.schema_version = "v4.0.0")
+```
+
 ### Creating the `target_metadata` objects
 
 The `target_metadata` provides both human-readable (`target_name` and
@@ -194,11 +204,11 @@ expect from the models.
 
 ### Creating the `output_type` objects
 
-For this example, we want to have three output type objects: 
+For this example, we want to have three output type objects:
 
-1. a required `"mean"` output type  
-2. a required `"quantile"` output type  
-3. an optional `"median"` output type 
+1. a required `"mean"` output type with a "double" value
+2. a required `"quantile"` output type with a "double" value
+3. an optional `"median"` output type with an "integer" value
 
 Additionally, our two targets will accept a different combination of output
 types. Specifically, target `"inc hosp"` will only accept `"mean"` and
@@ -291,19 +301,30 @@ rounds <- create_rounds(round1)
 ### Creating and saving the `tasks` config file
 
 And the penultimate step is to create a config file and write it out to your
-hub.
+hub. At this point, you can specify the data type you expect the resulting
+column of a model submission output type id should be. This is important for
+downstream analysis and visualization of the data. This is automatically
+determined by default, but **it is [important to maintain a stable output type
+ID column data
+type](https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema)
+throughout the life of your hub.** The consequences of not doing so could lead
+to an inability to evaluate past submissions. For example, this hub has
+quantile values, so the default would set the value of the `output_type_id`
+column to be a "double." However, if we expect to include sample or PMF data
+submissions in the future, the default would likely change to "character." In
+this case, we do not plan to include sample or PMF outputs into our hub, so
+we will set the data type to "double"
 
-TODO: link to hubdocs about maintaining output type id data types. 
 
 ```{r create-tasks, eval = FALSE}
-config <- create_config(rounds)
+config <- create_config(rounds, output_type_id_datatype = "double")
 
 write_config(config)
 ```
 ```{r really-write}
 #| echo: false
 tmp <- tempfile(fileext = ".json")
-config <- create_config(rounds, output_type_id_datatype = "auto")
+config <- create_config(rounds, output_type_id_datatype = "double")
 write_config(config, config_path = tmp, overwrite = TRUE)
 ```
 
