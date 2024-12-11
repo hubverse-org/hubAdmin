@@ -41,7 +41,7 @@ test_that("Missing files returns an invalid config with an immediate message", {
   suppressMessages({
     expect_message(out <- validate_config(hub_path = tmp), "File does not exist")
   })
-  expect_false(out)
+  expect_false(unclass(out))
 })
 test_that("Config for samples fail correctly", {
   skip_if_offline()
