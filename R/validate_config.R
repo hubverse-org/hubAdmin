@@ -185,6 +185,8 @@ perform_dynamic_config_validations <- function(validation) {
 ## Dynamic schema validation utilities ----
 val_round <- function(round, round_i, schema) {
   model_task_grps <- round[["model_tasks"]]
+  round_id_from_variable <- round[["round_id_from_variable"]]
+  round_id_var <- round[["round_id"]]
 
   c(
     purrr::imap(
@@ -232,6 +234,18 @@ val_round <- function(round, round_i, schema) {
         round_i = round_i,
         schema = schema
       )
+    ),
+    purrr::imap(
+      model_task_grps,
+      \(.x, .y) {
+        validate_mt_round_id_pattern(
+          model_task_grp = .x, model_task_i = .y,
+          round_i = round_i,
+          schema = schema,
+          round_id_from_variable = round_id_from_variable,
+          round_id_var = round_id_var
+        )
+      }
     ),
     list(
       validate_round_ids_consistent(

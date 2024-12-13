@@ -80,9 +80,19 @@ clean_error_df <- function(errors_tbl) {
   if (is.null(errors_tbl)) {
     return(NULL)
   }
+
+  # Move any custom error messages to the message column
+  if (!is.null(errors_tbl$parentSchema$errorMessage)) {
+    error_msg <- !is.na(errors_tbl$parentSchema$errorMessage)
+    errors_tbl$message[error_msg] <- errors_tbl$parentSchema$errorMessage[error_msg]
+  }
+
   errors_tbl[c("dataPath", "parentSchema")] <- NULL
   errors_tbl <- errors_tbl[!grepl("oneOf.+", errors_tbl$schemaPath), ]
+  # remove superfluous if error. The "then" error is what we are interested in
+  errors_tbl <- errors_tbl[!errors_tbl$keyword == "if", ]
   errors_tbl <- remove_superfluous_enum_rows(errors_tbl)
+
 
   # Get rid of unnecessarily verbose data entry when a data column is a data.frame
   if (inherits(errors_tbl$data, "data.frame")) {
@@ -269,6 +279,16 @@ extract_params_to_data <- function(errors_tbl,
   errors_tbl
 }
 
+escape_pattern_dollar <- function(error_df) {
+  is_pattern <- grepl("pattern", error_df[["keyword"]])
+  error_df[["schema"]][is_pattern] <- gsub(
+    "$", "&#36;",
+    error_df[["schema"]][is_pattern],
+    fixed = TRUE
+  )
+  error_df
+}
+
 render_errors_df <- function(error_df) {
   schema_version <- attr(error_df, "schema_version")
   schema_url <- attr(error_df, "schema_url")
@@ -286,6 +306,9 @@ render_errors_df <- function(error_df) {
   error_df[["schemaPath"]] <- purrr::map_chr(error_df[["schemaPath"]], path_to_tree)
   error_df[["instancePath"]] <- purrr::map_chr(error_df[["instancePath"]], path_to_tree)
   error_df[["message"]] <- paste("\u274c", error_df[["message"]])
+  # Escape `$` characters to ensure regex pattern does not trigger equation
+  # formatting in markdown
+  error_df <- escape_pattern_dollar(error_df)
 
 
   # Create table ----
