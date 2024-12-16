@@ -182,7 +182,6 @@ test_that("create_round name matching works correctly", {
 
 test_that("create_round derived_task_ids argument", {
   skip_if_offline()
-  # TODO: Remove branch specification when v4.0.0 released
   expect_snapshot(
     create_derived_task_ids_round(
       version = "v4.0.0",
@@ -212,7 +211,7 @@ test_that("create_round derived_task_ids argument", {
 
   expect_snapshot(
     create_derived_task_ids_round(
-      version = "v4.0.0", branch = "br-v4.0.0",
+      version = "v4.0.0",
       derived_task_ids = 1L
     ),
     error = TRUE

@@ -400,8 +400,7 @@
 ---
 
     Code
-      create_derived_task_ids_round(version = "v4.0.0", branch = "br-v4.0.0",
-        derived_task_ids = 1L)
+      create_derived_task_ids_round(version = "v4.0.0", derived_task_ids = 1L)
     Condition
       Error in `map()`:
       i In index: 1.
