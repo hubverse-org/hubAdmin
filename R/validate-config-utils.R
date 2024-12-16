@@ -499,10 +499,7 @@ validate_mt_round_id_pattern <- function(model_task_grp,
       if (is.null(.x)) {
         return(NULL)
       }
-      valid <- stringr::str_detect(
-        .x,
-        "^(\\d{4}-\\d{2}-\\d{2})$|^[A-Za-z0-9_]+$"
-      )
+      valid <- validate_round_id_pattern(.x)
       invalid <- .x[!valid]
       if (length(invalid) == 0L) {
         return(NULL)
