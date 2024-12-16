@@ -5,6 +5,10 @@ validate_round_id_pattern <- function(x) {
   )
 }
 
+# This function expects a list representation of the task ID variable values
+# specified in `round_id` when `round_id_from_variable` is `true.`
+# Returns a list with `required` and `optional` elements containg either the
+# invalid values identified by the `validate_round_id_pattern` function or NULL.
 invalid_round_id_var_patterns <- function(round_id_var_vals) {
   purrr::map(
     round_id_var_vals,
