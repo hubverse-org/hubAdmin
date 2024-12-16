@@ -516,22 +516,22 @@ validate_mt_round_id_pattern <- function(model_task_grp,
       purrr::map_chr(
         ~ glue::glue_collapse(glue::glue("'{.x}'"), ", ", last = " and ")
       )
-    invalid_vals_msg <- glue::glue_collapse(
-      glue::glue("{names(invalid_vals_msg)}: {invalid_vals_msg}"),
-      sep = "; "
-    )
 
-    error_row <- data.frame(
-      instancePath = paste0(
+    error_row <- tibble::tibble(
+      instancePath = paste(
         glue::glue(
           get_error_path(schema, "/task_ids", "instance")
-        ), "/",
-        round_id_var
+        ),
+        round_id_var, names(invalid_vals_msg),
+        sep = "/"
       ),
-      schemaPath = get_error_path(
-        schema,
-        glue::glue("task_ids/{round_id_var}"),
-        "schema"
+      schemaPath = paste(
+        get_error_path(
+          schema,
+          glue::glue("task_ids/{round_id_var}"),
+          "schema"
+        ), names(invalid_vals_msg),
+        sep = "/"
       ),
       keyword = "round_id variable pattern",
       message = glue::glue(

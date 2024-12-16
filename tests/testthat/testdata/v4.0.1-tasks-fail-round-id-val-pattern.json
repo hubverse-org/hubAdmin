@@ -6,8 +6,8 @@
             "model_tasks": [{
                 "task_ids": {
                     "round_id_var": {
-                        "required": null,
-                        "optional": ["24_25_covid", "invalid-round-id-in-var"]
+                        "required": ["invalid-round-id-in-var-req"],
+                        "optional": ["24_25_covid", "invalid-round-id-in-var-opt1", "invalid-round-id-in-var-opt2"]
                     },
                     "forecast_date": {
                         "required": null,

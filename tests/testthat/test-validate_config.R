@@ -283,6 +283,7 @@ test_that("v4.0.1 round_id pattern validation works", {
     errors_id$schema[[1]],
     "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$"
   )
+  expect_equal(errors_id$data[[1]], "invalid-round-id")
 
   # Test that dynamic regex pattern matching for round_id variable values
   # identifies expected errors (when round_id_from_variable: true).
@@ -299,9 +300,9 @@ test_that("v4.0.1 round_id pattern validation works", {
   )
 
   errors_vals <- attr(res_round_id_val, "errors")
-  expect_equal(nrow(errors_vals), 1L)
+  expect_equal(nrow(errors_vals), 2L)
   expect_equal(
-    errors_vals$message,
+    unique(errors_vals$message),
     structure(
       "round_id variable 'round_id_var' values must be either ISO formatted\ndates or alphanumeric characters separated by '_'.", # nolint: line_length_linter
       class = c(
@@ -311,7 +312,14 @@ test_that("v4.0.1 round_id pattern validation works", {
     )
   )
   expect_equal(
-    errors_vals$schema,
+    unique(errors_vals$schema),
     "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$"
+  )
+  expect_equal(
+    errors_vals$data,
+    structure(c(
+      "invalid values: 'invalid-round-id-in-var-req'",
+      "invalid values: 'invalid-round-id-in-var-opt1' and 'invalid-round-id-in-var-opt2'"
+    ), class = c("glue", "character"))
   )
 })
