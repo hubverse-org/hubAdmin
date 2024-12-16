@@ -492,21 +492,8 @@ validate_mt_round_id_pattern <- function(model_task_grp,
   round_id_var_vals <- purrr::pluck(
     model_task_grp, "task_ids", round_id_var
   )
+  invalid_vals <- invalid_round_id_var_patterns(round_id_var_vals)
 
-  invalid_vals <- purrr::map(
-    round_id_var_vals,
-    \(.x) {
-      if (is.null(.x)) {
-        return(NULL)
-      }
-      valid <- validate_round_id_pattern(.x)
-      invalid <- .x[!valid]
-      if (length(invalid) == 0L) {
-        return(NULL)
-      }
-      invalid
-    }
-  )
   if (any(lengths(invalid_vals) > 0L)) {
     # Collapse invalid values into a single string
     invalid_vals_msg <- purrr::compact(invalid_vals) |>

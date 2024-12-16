@@ -418,3 +418,38 @@
       x `derived_task_ids` value "random_task_id" is not valid `task_id` variable in the provided `model_tasks` object.
       i Valid `task_id` variables are: "origin_date", "location", and "horizon"
 
+# validating round_id patterns when round_id_from_var = TRUE works
+
+    Code
+      create_round(round_id_from_variable = TRUE, round_id = "round_id_var",
+        model_tasks = model_tasks, submissions_due = list(start = "2023-01-12", end = "2023-01-18"),
+        last_data_date = "2023-01-02")
+    Condition
+      Error in `create_round()`:
+      ! Values in `round_id` var "round_id_var" must contain either ISO formatted dates or alphanumeric characters separated by underscores ('_').
+      x In `model_tasks[[1]]$round_id_var$required`: "invalid-round-id-req"
+      x In `model_tasks[[1]]$round_id_var$optional`: "invalid-round-id-opt1" and "invalid-round-id-opt2"
+
+---
+
+    Code
+      create_round(round_id_from_variable = TRUE, round_id = "round_id_var",
+        model_tasks = model_tasks, submissions_due = list(start = "2023-01-12", end = "2023-01-18"),
+        last_data_date = "2023-01-02")
+    Condition
+      Error in `create_round()`:
+      ! Values in `round_id` var "round_id_var" must contain either ISO formatted dates or alphanumeric characters separated by underscores ('_').
+      x In `model_tasks[[1]]$round_id_var$optional`: "invalid-round-id-opt1" and "invalid-round-id-opt2"
+      x In `model_tasks[[2]]$round_id_var$required`: "invalid-round-id-req1" and "invalid-round-id-req2"
+
+# validating round_id pattern when round_id_from_var = FALSE works
+
+    Code
+      create_round(round_id_from_variable = FALSE, round_id = "round-id-var",
+        model_tasks = model_tasks, submissions_due = list(start = "2023-01-12", end = "2023-01-18"),
+        last_data_date = "2023-01-02")
+    Condition
+      Error in `create_round()`:
+      ! `round_id` must contain either ISO formatted date or alphanumeric characters separated by underscores ('_').
+      x "round-id-var" does not match expected pattern
+
