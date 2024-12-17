@@ -82,7 +82,7 @@ clean_error_df <- function(errors_tbl) {
   }
 
   # Move any custom error messages to the message column
-  if (!is.null(errors_tbl$parentSchema$errorMessage)) {
+  if (!is.null(purrr::pluck(errors_tbl, "parentSchema", "errorMessage"))) {
     error_msg <- !is.na(errors_tbl$parentSchema$errorMessage)
     errors_tbl$message[error_msg] <- errors_tbl$parentSchema$errorMessage[error_msg]
   }
