@@ -180,7 +180,7 @@ test_that("Instance path index interpolation overriding works", {
   # Create interoplated instance path to the second modeling task,
   # overriding the `model_task_i` value in the caller environment
   glue::glue_data(
-  list(model_task_i = 2L),
-  get_error_path(schema, "origin_date", "instance")
+    list(model_task_i = 2L),
+    get_error_path(schema, "origin_date", "instance")
   )
 })
