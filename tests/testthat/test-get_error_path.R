@@ -157,7 +157,7 @@ test_that("Paths with miltiple potential matches at different depths created cor
 })
 
 
-test_that("Instance path interpolation overriding works", {
+test_that("Instance path index interpolation overriding works", {
   skip_if_offline()
   schema <- hubUtils::get_schema(
     "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
