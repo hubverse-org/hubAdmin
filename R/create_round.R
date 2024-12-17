@@ -301,11 +301,14 @@ check_round_id_pattern_vals <- function(model_tasks, round_id,
   if (length(unlist(invalid_round_id_vals)) > 0L) {
     invalid_vals_bullets <-
       purrr::compact(invalid_round_id_vals) |>
+      # iterate over any model tasks containing invalid values
       purrr::imap(~ {
         mt_idx <- .y
+        # iterate over invalid values in "required" and "optional" properties if present
         purrr::imap_chr(
           .x,
           ~ {
+            # Create a separate message for invalid values in each model task and property
             cli::format_inline("In {.arg model_tasks[[{mt_idx}]]${round_id}${.y}}: {.val {.x}}")
           }
         )

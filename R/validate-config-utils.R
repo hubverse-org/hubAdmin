@@ -506,6 +506,8 @@ validate_mt_round_id_pattern <- function(model_task_grp,
         glue::glue(
           get_error_path(schema, "/task_ids", "instance")
         ),
+        # using names(invalid_vals_msg) creates a row for each property
+        # ("required"/"optional") containing invalid round_id values
         round_id_var, names(invalid_vals_msg),
         sep = "/"
       ),
