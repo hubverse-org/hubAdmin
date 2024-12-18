@@ -166,8 +166,7 @@ test_that("Target_keys of length more than 1 are not allowed post v4.0.1", {
         target_keys = list(target = "inc hosp"),
         target_type = "discrete",
         is_step_ahead = TRUE,
-        time_unit = "week",
-        branch = "ak/v4.0.1/restrict-target-key-value-pair-n/117"
+        time_unit = "week"
       )
       expect_s3_class(target_keys_n1, "target_metadata_item")
       expect_length(target_keys_n1$target_keys, 1L)
