@@ -452,7 +452,7 @@ test_that("schema version option works for create_output_type_mean", {
   withr::with_options(
     list(
       hubAdmin.schema_version = "v3.0.1",
-      hubAmin.branch = "main"
+      hubAdmin.branch = "main"
     ),
     {
       opt_version <- create_output_type_mean(
@@ -493,7 +493,7 @@ test_that("schema version option works for create_output_type_quantile", {
   withr::with_options(
     list(
       hubAdmin.schema_version = "v3.0.1",
-      hubAmin.branch = "main"
+      hubAdmin.branch = "main"
     ),
     {
       opt_version <- create_output_type_quantile(
@@ -543,7 +543,7 @@ test_that("schema version option works for create_output_type_cdf", {
   withr::with_options(
     list(
       hubAdmin.schema_version = "v3.0.1",
-      hubAmin.branch = "main"
+      hubAdmin.branch = "main"
     ),
     {
       opt_version <- create_output_type_cdf(
@@ -590,7 +590,7 @@ test_that("schema version option works for create_output_type_pmf", {
   withr::with_options(
     list(
       hubAdmin.schema_version = "v3.0.1",
-      hubAmin.branch = "main"
+      hubAdmin.branch = "main"
     ),
     {
       opt_version <- create_output_type_pmf(
