@@ -284,7 +284,7 @@ test_that("v4.0.1 target keys with NULL properties passes", {
   )
   expect_true(out)
 })
-  
+
 test_that("v4.0.1 round_id pattern validation works", {
   skip_if_offline()
   # TODO: remove branch argument when v4.0.1 is released.
