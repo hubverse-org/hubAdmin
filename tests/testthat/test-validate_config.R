@@ -251,3 +251,22 @@ test_that("v4 validation works", {
     )
   )
 })
+
+test_that("target keys with 2 properties throws error", {
+  skip_if_offline()
+  config_path <- testthat::test_path("testdata", "v4.0.1-tasks-2-target_keys.json")
+  out <- suppressMessages(
+    validate_config(
+      config_path = config_path,
+      # TDOD: remove branch argument when v4.0.1 is released.
+      branch = "ak/v4.0.1/restrict-target-key-value-pair-n/117"
+    )
+  )
+  expect_false(out)
+
+  expect_equal(
+    unique(attr(out, "errors")$message),
+    "must NOT have more than 1 items"
+  )
+  expect_equal(nrow(attr(out, "errors")), 2L)
+})
