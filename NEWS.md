@@ -1,6 +1,7 @@
 # hubAdmin (development version)
 
 * Use options to set `schema_version` and `branch` arguments in `download_tasks_schema()` and the `create_*()` family of functions for creating config files programmatically. This allows for setting the schema version and branch globally for the session (#85).
+* Make validation of `round_id` patterns explicit. This ties in with schema version v4.0.1 where the pattern the `round_id` property must match if `round_id_from_variable` is `false` is now specified as a regular expression in the schema. This check is also now implemented dynamically on values of the `round_id` variable if `round_id_from_variable` is `true` when validating tasks.json config files. Checks on `round_id` patterns are also now implemented in `create_round()` when creating rounds programmatically.
 * As of schema version v4.0.1, only a single `target_keys` element is allowed when creating target metadata items programmatically (#89).
 
 # hubAdmin 1.4.0

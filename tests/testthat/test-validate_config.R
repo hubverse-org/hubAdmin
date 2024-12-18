@@ -252,6 +252,7 @@ test_that("v4 validation works", {
   )
 })
 
+
 test_that("v4.0.1 target keys with 2 properties throws error", {
   skip_if_offline()
   config_path <- testthat::test_path("testdata", "v4.0.1-tasks-2-target_keys.json")
@@ -282,4 +283,76 @@ test_that("v4.0.1 target keys with NULL properties passes", {
     )
   )
   expect_true(out)
+})
+  
+test_that("v4.0.1 round_id pattern validation works", {
+  skip_if_offline()
+  # TODO: remove branch argument when v4.0.1 is released.
+  schema <- download_tasks_schema("v4.0.1", branch = "br-v4.0.1")
+
+  # Test that regex pattern matching for round_id properties in jsonvalidate
+  # identifies expected errors (when round_id_from_variable: false).
+  expect_false(
+    res_round_id <- suppressMessages(
+      validate_config(
+        config_path = testthat::test_path(
+          "testdata",
+          "v4.0.1-tasks-fail-round-id-pattern.json"
+        ),
+        branch = "br-v4.0.1"
+      )
+    )
+  )
+  errors_id <- attr(res_round_id, "errors")
+  expect_equal(nrow(errors_id), 2L)
+  expect_equal(
+    errors_id$message,
+    c(
+      "must match pattern \"^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$\"",
+      "must match \"then\" schema"
+    )
+  )
+  expect_equal(
+    errors_id$schema[[1]],
+    "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$"
+  )
+  expect_equal(errors_id$data[[1]], "invalid-round-id")
+
+  # Test that dynamic regex pattern matching for round_id variable values
+  # identifies expected errors (when round_id_from_variable: true).
+  expect_false(
+    res_round_id_val <- suppressMessages(
+      validate_config(
+        config_path = testthat::test_path(
+          "testdata",
+          "v4.0.1-tasks-fail-round-id-val-pattern.json"
+        ),
+        branch = "br-v4.0.1"
+      )
+    )
+  )
+
+  errors_vals <- attr(res_round_id_val, "errors")
+  expect_equal(nrow(errors_vals), 2L)
+  expect_equal(
+    unique(errors_vals$message),
+    structure(
+      "round_id variable 'round_id_var' values must be either ISO formatted\ndates or alphanumeric characters separated by '_'.", # nolint: line_length_linter
+      class = c(
+        "glue",
+        "character"
+      )
+    )
+  )
+  expect_equal(
+    unique(errors_vals$schema),
+    "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$"
+  )
+  expect_equal(
+    errors_vals$data,
+    structure(c(
+      "invalid values: 'invalid-round-id-in-var-req'",
+      "invalid values: 'invalid-round-id-in-var-opt1' and 'invalid-round-id-in-var-opt2'"
+    ), class = c("glue", "character"))
+  )
 })
