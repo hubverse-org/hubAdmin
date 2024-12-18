@@ -114,7 +114,7 @@ test_that("schema version option works for create_task_id", {
   withr::with_options(
     list(
       hubAdmin.schema_version = "v3.0.1",
-      hubAmin.branch = "main"
+      hubAdmin.branch = "main"
     ),
     {
       opt_version <- create_task_id("horizon",
