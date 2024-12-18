@@ -155,3 +155,32 @@ test_that("Paths with miltiple potential matches at different depths created cor
     "/rounds/0/derived_task_ids"
   )
 })
+
+
+test_that("Instance path index interpolation overriding works", {
+  skip_if_offline()
+  schema <- hubUtils::get_schema(
+    "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+  )
+  model_task_i <- 1L
+  round_i <- 2L
+  # Return the instance path to the origin date task ID in the second modeling task
+  # Create a non-interpolated path
+  expect_equal(
+    get_error_path(schema, "origin_date", "instance"),
+    "/rounds/{round_i - 1}/model_tasks/{model_task_i - 1}/task_ids/origin_date"
+  )
+
+  # Create interpolated instance path using caller environment variables
+  expect_equal(
+    glue::glue(get_error_path(schema, "origin_date", "instance")),
+    "/rounds/1/model_tasks/0/task_ids/origin_date"
+  )
+
+  # Create interoplated instance path to the second modeling task,
+  # overriding the `model_task_i` value in the caller environment
+  glue::glue_data(
+    list(model_task_i = 2L),
+    get_error_path(schema, "origin_date", "instance")
+  )
+})

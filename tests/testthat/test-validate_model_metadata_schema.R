@@ -6,7 +6,7 @@ test_that("Missing files returns an invalid config with an immediate message", {
       "File does not exist"
     )
   })
-  expect_false(out)
+  expect_false(unclass(out))
 })
 
 test_that("validate_model_metadata_schema works", {
@@ -28,7 +28,7 @@ test_that("validate_model_metadata_schema works", {
       )
     )
   )
-  expect_false(out_error)
+  expect_false(unclass(out_error))
   expect_snapshot(out_error) # prints .Last.value
   expect_snapshot(print(out_error)) # prints out_error
   expect_snapshot(str(attr(out_error, "errors")))
@@ -51,6 +51,6 @@ test_that("validate_model_metadata_schema errors for imparsable json", {
       "SyntaxError"
     )
   })
-  expect_false(out)
+  expect_false(unclass(out))
 
 })
