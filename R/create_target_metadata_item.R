@@ -15,10 +15,10 @@
 #' single target.
 #' Should be `NULL`, in the case where the target is not specified as a task_id
 #' but is specified solely through the `target_id` argument.
-#' Otherwise, should be a named list containing a single character string element
+#' Otherwise, should be a named list containing a single character string element.
 #' The name of the element should match a `task_id`
-#' variable name within the same `model_tasks` object and the value match a
-#' single value of that variable.
+#' variable name within the same `model_tasks` object and the value should match
+#' a single value of that variable.
 #' @param description character string (optional). An optional verbose description
 #' of the target that might include information such as definitions of a 'rate' or similar.
 #' @param target_type character string. Target statistical data type. Consult the
