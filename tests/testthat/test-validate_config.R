@@ -269,4 +269,15 @@ test_that("target keys with 2 properties throws error", {
     "must NOT have more than 1 items"
   )
   expect_equal(nrow(attr(out, "errors")), 2L)
+
+  # Ensure NULL target keys are still allowed.
+  config_path <- testthat::test_path("testdata", "v4.0.1-tasks-null-target_keys.json")
+  out <- suppressMessages(
+    validate_config(
+      config_path = config_path,
+      # TDOD: remove branch argument when v4.0.1 is released.
+      branch = "ak/v4.0.1/restrict-target-key-value-pair-n/117"
+    )
+  )
+  expect_true(out)
 })
