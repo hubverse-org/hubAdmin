@@ -1,6 +1,7 @@
 # hubAdmin (development version)
 
 * Use options to set `schema_version` and `branch` arguments in `download_tasks_schema()` and the `create_*()` family of functions for creating config files programmatically. This allows for setting the schema version and branch globally for the session (#85).
+* As of schema version v4.0.1, only a single `target_keys` element is allowed when creating target metadata items programmatically (#89).
 
 # hubAdmin 1.4.0
 
