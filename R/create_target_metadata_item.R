@@ -118,7 +118,10 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
     }
   )
 
-  check_target_keys(target_keys, schema_version, call = call)
+  check_target_keys(target_keys,
+    schema_version = schema$`$id`,
+    call = call
+  )
 
   structure(mget(property_names),
     class = c("target_metadata_item", "list"),
