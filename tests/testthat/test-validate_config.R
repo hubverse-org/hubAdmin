@@ -252,7 +252,7 @@ test_that("v4 validation works", {
   )
 })
 
-test_that("target keys with 2 properties throws error", {
+test_that("v4.0.1 target keys with 2 properties throws error", {
   skip_if_offline()
   config_path <- testthat::test_path("testdata", "v4.0.1-tasks-2-target_keys.json")
   out <- suppressMessages(
@@ -269,7 +269,9 @@ test_that("target keys with 2 properties throws error", {
     "must NOT have more than 1 items"
   )
   expect_equal(nrow(attr(out, "errors")), 2L)
+})
 
+test_that("v4.0.1 target keys with NULL properties passes", {
   # Ensure NULL target keys are still allowed.
   config_path <- testthat::test_path("testdata", "v4.0.1-tasks-null-target_keys.json")
   out <- suppressMessages(
