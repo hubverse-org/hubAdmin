@@ -68,9 +68,26 @@ tasks.json
   └─[...]
 ```
 
-The first property in a `tasks.json` file is the `schema_version`, which provides
-a URL to the [hubverse schema](https://github.com/hubverse-org/schemas) version the config file is built against. The schema is used to validate the structure and contents of the config file.
-The next property defined are the **rounds** which set the schedule and expected contents of model submissions
+The first property in a `tasks.json` file is the `schema_version`, which
+provides a URL to the [hubverse
+schema](https://github.com/hubverse-org/schemas) version the config file is
+built against. The schema is used to validate the structure and contents of the
+config file. The next property defined is the list of **rounds** which sets the
+identifier (`round_id_from_variable`, `round_id`), expected contents of model
+submissions (`model_tasks`), and schedule (`submissions_due`) for each round.
+
+<div class="alert alert-info">
+
+There are two ways to define the number of rounds in a hub: 1) One round object
+that uses a date task ID variable (most common) or 2) Several round objects
+with unique round IDs (least common). In our example, we will be using the
+first method by using a variable called `origin_date` to define our rounds on a
+weekly basis. To make this work, we set `round_id_from_variable: true` so that
+the schema knows that `round_id` is actually a reference to the `origin_date`
+variable in `task_ids` so it can validate that the round IDs are unique.
+
+</div>
+
 These rounds contain one or more [**modeling
 tasks**](https://hubverse.io/en/latest/user-guide/tasks.html) that define the
 expected content of a model submission against one or more modeling targets.
