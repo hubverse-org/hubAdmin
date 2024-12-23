@@ -52,6 +52,8 @@ diagram below:
 tasks.json
 ├─schema_version: "https://.../v4.0.0/tasks-schema.json"
 ├─rounds:
+│ ├─round_id_from_variable: true
+│ ├─round_id: origin_date
 │ ├─model_tasks:
 │ │   ├─task_ids:
 │ │   │ └─[...]
@@ -59,8 +61,6 @@ tasks.json
 │ │   │ └─[...]
 │ │   └─target_metadata:
 │ │     └─[...]
-│ ├─round_id_from_variable: true
-│ ├─round_id: origin_date
 │ └─submissions_due:
 │   └─[...]
 ├─output_type_id_datatype: "auto"
@@ -90,8 +90,8 @@ We will then use those to create two `model_task` objects and then bundle them
 into two `round` objects, which will be inserted into a `config` object.
 
 Before we start, the first thing we need to do is to set
-the correct version of [the hubverse schemas](https://github.com/hubverse-org/schemas). By default, scripting a tasks config will use the latest schema release.
-To make sure we can always reproduce the task, it's a good idea to explicitly
+the correct version of [the hubverse schemas](https://github.com/hubverse-org/schemas). By default, the `create_*()` family of functions use the latest schema release.
+To make sure we can always reproduce the task or append new tasks at a later date, even if a new schema version is released in the meantime, it's a good idea to explicitly
 set the schema version. We can do this by setting the `hubAdmin.schema_version` option. In this example, we will use the `v4.0.0` schema:
 
 ```{r}
