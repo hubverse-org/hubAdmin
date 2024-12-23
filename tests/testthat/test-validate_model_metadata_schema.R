@@ -6,6 +6,8 @@ test_that("Missing files returns an invalid config with an immediate message", {
       "File does not exist"
     )
   })
+  # NOTE: this needs to be unclassed because otherwise testthat assumes it is
+  # an error: https://github.com/hubverse-org/hubAdmin/pull/86/files#r1882552109
   expect_false(unclass(out))
 })
 
@@ -28,6 +30,8 @@ test_that("validate_model_metadata_schema works", {
       )
     )
   )
+  # NOTE: this needs to be unclassed because otherwise testthat assumes it is
+  # an error: https://github.com/hubverse-org/hubAdmin/pull/86/files#r1882552109
   expect_false(unclass(out_error))
   expect_snapshot(out_error) # prints .Last.value
   expect_snapshot(print(out_error)) # prints out_error
@@ -51,6 +55,8 @@ test_that("validate_model_metadata_schema errors for imparsable json", {
       "SyntaxError"
     )
   })
+  # NOTE: this needs to be unclassed because otherwise testthat assumes it is
+  # an error: https://github.com/hubverse-org/hubAdmin/pull/86/files#r1882552109
   expect_false(unclass(out))
 
 })
