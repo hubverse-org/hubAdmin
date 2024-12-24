@@ -478,6 +478,58 @@ validate_mt_property_unique_vals <- function(model_task_grp,
   }
 }
 
+# Check that modeling task round ids match the expected round ID patterns when
+# round_id_from_variable = TRUE
+validate_mt_round_id_pattern <- function(model_task_grp,
+                                         model_task_i,
+                                         round_i,
+                                         schema,
+                                         round_id_from_variable,
+                                         round_id_var) {
+  if (!round_id_from_variable) {
+    return(NULL)
+  }
+  round_id_var_vals <- purrr::pluck(
+    model_task_grp, "task_ids", round_id_var
+  )
+  invalid_vals <- invalid_round_id_var_patterns(round_id_var_vals)
+
+  if (any(lengths(invalid_vals) > 0L)) {
+    # Collapse invalid values into a single string
+    invalid_vals_msg <- purrr::compact(invalid_vals) |>
+      purrr::map_chr(
+        ~ glue::glue_collapse(glue::glue("'{.x}'"), ", ", last = " and ")
+      )
+
+    error_row <- tibble::tibble(
+      instancePath = paste(
+        glue::glue(
+          get_error_path(schema, "/task_ids", "instance")
+        ),
+        # using names(invalid_vals_msg) creates a row for each property
+        # ("required"/"optional") containing invalid round_id values
+        round_id_var, names(invalid_vals_msg),
+        sep = "/"
+      ),
+      schemaPath = paste(
+        get_error_path(
+          schema,
+          glue::glue("task_ids/{round_id_var}"),
+          "schema"
+        ), names(invalid_vals_msg),
+        sep = "/"
+      ),
+      keyword = "round_id variable pattern",
+      message = glue::glue(
+        "round_id variable '{round_id_var}' values must be either ISO formatted
+        dates or alphanumeric characters separated by '_'."
+      ),
+      schema = "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$",
+      data = glue::glue("invalid values: {invalid_vals_msg}")
+    )
+    return(error_row)
+  }
+}
 ## ROUND LEVEL VALIDATIONS ----
 # Check that round id variables are consistent across modeling tasks
 validate_round_ids_consistent <- function(round, round_i,
@@ -595,7 +647,6 @@ validate_round_derived_task_ids <- function(round, round_i, schema) {
   }
   out
 }
-
 
 ## CONFIG LEVEL VALIDATIONS ----
 # Validate that round IDs are unique across all rounds in config file

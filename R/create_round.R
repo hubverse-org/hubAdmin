@@ -136,6 +136,9 @@ create_round <- function(round_id_from_variable,
   }
   if (round_id_from_variable) {
     check_round_id_variable(model_tasks, round_id)
+    check_round_id_pattern_vals(model_tasks, round_id)
+  } else {
+    check_round_id_pattern(round_id)
   }
 
   structure(
@@ -275,4 +278,65 @@ get_schema_round <- function(schema) {
     "properties", "rounds",
     "items", "properties"
   )
+}
+# Check round_id pattern in `round_id` var values when
+# round_id_from_variable = TRUE
+check_round_id_pattern_vals <- function(model_tasks, round_id,
+                                        call = rlang::caller_env()) {
+  invalid_round_id_vals <- purrr::map(
+    model_tasks$model_tasks,
+    ~ {
+      round_id_var_vals <- purrr::pluck(
+        .x, "task_ids", round_id
+      )
+      invalid_round_id_var_patterns(round_id_var_vals) |>
+        purrr::compact()
+    }
+  )
+  invalid_round_id_vals <- purrr::set_names(
+    invalid_round_id_vals,
+    seq_along(invalid_round_id_vals)
+  )
+
+  if (length(unlist(invalid_round_id_vals)) > 0L) {
+    invalid_vals_bullets <-
+      purrr::compact(invalid_round_id_vals) |>
+      # iterate over any model tasks containing invalid values
+      purrr::imap(~ {
+        mt_idx <- .y
+        # iterate over invalid values in "required" and "optional" properties if present
+        purrr::imap_chr(
+          .x,
+          ~ {
+            # Create a separate message for invalid values in each model task and property
+            cli::format_inline("In {.arg model_tasks[[{mt_idx}]]${round_id}${.y}}: {.val {.x}}")
+          }
+        )
+      }) |>
+      unlist() |>
+      purrr::set_names("x")
+
+    cli::cli_abort(
+      c(
+        "!" = "Values in {.var round_id} var {.val {round_id}} must contain either
+        ISO formatted dates or alphanumeric characters separated by underscores ('_').",
+        invalid_vals_bullets
+      ),
+      call = call
+    )
+  }
+}
+# Check round_id pattern when round_id_from_variable = FALSE
+check_round_id_pattern <- function(round_id,
+                                   call = rlang::caller_env()) {
+  if (!validate_round_id_pattern(round_id)) {
+    cli::cli_abort(
+      c(
+        "!" = "{.var round_id} must contain either ISO formatted date or
+      alphanumeric characters separated by underscores ('_').",
+        "x" = "{.val {round_id}} does not match expected pattern"
+      ),
+      call = call
+    )
+  }
 }
