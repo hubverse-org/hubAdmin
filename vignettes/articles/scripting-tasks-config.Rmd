@@ -55,12 +55,12 @@ tasks.json
 │ ├─round_id_from_variable: true
 │ ├─round_id: origin_date
 │ ├─model_tasks:
-│ │   ├─task_ids:
-│ │   │ └─[...]
-│ │   ├─output_type:
-│ │   │ └─[...]
-│ │   └─target_metadata:
-│ │     └─[...]
+│ │ ├─task_ids:
+│ │ │ └─[...]
+│ │ ├─output_type:
+│ │ │ └─[...]
+│ │ └─target_metadata:
+│ │   └─[...]
 │ └─submissions_due:
 │   └─[...]
 ├─output_type_id_datatype: "auto"
