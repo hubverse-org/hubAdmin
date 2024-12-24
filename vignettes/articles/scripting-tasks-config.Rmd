@@ -17,9 +17,7 @@ formatted. Configuration settings in the tasks configuration file also contain s
 information about modeling tasks that can be used for downstream applications like
 evaluations and visualizations of model outputs.
 
-While we provide [a hubTemplate](https://github.com/hubverse-org/hubTemplate/)
-for use to get started with setting up a hub, JSON files are easy for a computer
-to read, but not so easy for a human to read and less so to write. The hard part
+JSON files are easy for a computer to read, but not so easy for a human to read and write. The hard part
 of creating a `tasks.json` file should be what model parameters to use, not
 constantly looking at JSON syntax or hunting down a missing comma.
 To make this process easier, **we provide the `create_*()` family of functions
