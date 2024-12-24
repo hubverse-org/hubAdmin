@@ -10,12 +10,12 @@ knitr::opts_chunk$set(
 ```
 ## Introduction
 
-The `tasks.json` configuration file is a the source of truth for validating a
-hub and is also one of the most complex aspects of a hub. This configuration
-file is a formal representation of an official collaborative forecasting
-challenge that allows direct and unambiguous evaluation and comparison of model
-outputs. It allows hub administrators to set a clear standard for model
-submissions.
+The `tasks.json` configuration file is a formal representation of a collaborative forecasting
+challenge. This configuration file sets a clear standard for model outputs in a hub,
+which enables validations of model output submissions to ensure that they are correctly
+formatted. Configuration settings in the tasks configuration file also contain structured
+information about modeling tasks that can be used for downstream applications like
+evaluations and visualizations of model outputs.
 
 While we provide [a hubTemplate](https://github.com/hubverse-org/hubTemplate/)
 for use to get started with setting up a hub, JSON files are easy for a computer
@@ -94,6 +94,7 @@ expected content of a model submission against one or more modeling targets.
 Each modeling task includes three properties:
 
  - `task_ids`: a collection of variables that can be used for modeling efforts.
+   Examples of task ids include `location` and `origin_date`.
    **Each unique combination of task ID values represents a single modeling task**.
  - `output_type`: the expected model output representation
  - `target_metadata`: characteristics for each target (an example of a modeling
@@ -189,9 +190,9 @@ will be.
 
 In this modeling effort, we want to **require** modelers to provide week-ahead
 predictions for the "weekly incident influenza hospitalizations" target
-(`inc hosp`). Model submissions can optionally include five states, provide up
-to 4-week-ahead predictions, and also provide predictions for the "weekly
-incident influenza deaths" target (`inc death`).
+(`inc hosp`) at the national level (`location` = `"US"`). Model submissions can
+optionally include five states, provide up to 4-week-ahead predictions, and also
+provide predictions for the "weekly incident influenza deaths" target (`inc death`).
 
 ```{r set-task-ids}
 origin_date <- create_task_id(
