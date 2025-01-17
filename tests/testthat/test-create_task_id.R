@@ -1,37 +1,47 @@
 test_that("create_task_id works correctly", {
   skip_if_offline()
-  expect_snapshot(create_task_id("horizon",
-    required = 1L,
-    optional = 2:4
-  ))
+  expect_snapshot(
+    create_task_id("horizon",
+      required = 1L,
+      optional = 2:4
+    ) |> verify_latest_schema_version()
+  )
 
-  expect_snapshot(create_task_id("origin_date",
-    required = NULL,
-    optional = c(
-      "2023-01-02",
-      "2023-01-09",
-      "2023-01-16"
-    )
-  ))
-  expect_snapshot(create_task_id("scenario_id",
-    required = NULL,
-    optional = c(
-      "A-2021-03-28",
-      "B-2021-03-28"
-    )
-  ))
-  expect_snapshot(create_task_id("scenario_id",
-    required = NULL,
-    optional = c(
-      1L,
-      2L
-    )
-  ))
+  expect_snapshot(
+    create_task_id("origin_date",
+      required = NULL,
+      optional = c(
+        "2023-01-02",
+        "2023-01-09",
+        "2023-01-16"
+      )
+    ) |> verify_latest_schema_version()
+  )
+
+  expect_snapshot(
+    create_task_id("scenario_id",
+      required = NULL,
+      optional = c(
+        "A-2021-03-28",
+        "B-2021-03-28"
+      )
+    ) |> verify_latest_schema_version()
+  )
+
+  expect_snapshot(
+    create_task_id("scenario_id",
+      required = NULL,
+      optional = c(
+        1L,
+        2L
+      )
+    ) |> verify_latest_schema_version()
+  )
   expect_snapshot(
     create_task_id("horizon",
       required = NULL,
       optional = NULL
-    )
+    ) |> verify_latest_schema_version()
   )
 })
 
@@ -102,7 +112,7 @@ test_that("schema version option works for create_task_id", {
   version_default <- create_task_id("horizon",
     required = 1L,
     optional = 2:4
-  )
+  ) |> verify_latest_schema_version()
 
   arg_version <- create_task_id("horizon",
     required = 1L,

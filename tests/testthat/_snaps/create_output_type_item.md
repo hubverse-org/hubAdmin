@@ -326,9 +326,10 @@
 # create_output_type_sample works
 
     Code
-      create_output_type_sample(is_required = TRUE, output_type_id_type = "integer",
-        min_samples_per_task = 70L, max_samples_per_task = 100L, value_type = "double",
-        value_minimum = 0L, value_maximum = 1L)
+      verify_latest_schema_version(create_output_type_sample(is_required = TRUE,
+        output_type_id_type = "integer", min_samples_per_task = 70L,
+        max_samples_per_task = 100L, value_type = "double", value_minimum = 0L,
+        value_maximum = 1L))
     Output
       $sample
       $sample$output_type_id_params
@@ -360,7 +361,7 @@
       attr(,"class")
       [1] "output_type_item" "list"            
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
@@ -769,7 +770,7 @@
     Output
       old vs new
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
-      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      + "latest"
 
 # schema version option works for create_output_type_quantile
 
@@ -779,7 +780,7 @@
     Output
       old vs new
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
-      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      + "latest"
 
 # schema version option works for create_output_type_cdf
 
@@ -789,7 +790,7 @@
     Output
       old vs new
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
-      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      + "latest"
 
 # schema version option works for create_output_type_pmf
 
@@ -799,7 +800,7 @@
     Output
       old vs new
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
-      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      + "latest"
 
 # schema version option works for create_output_type_sample
 
@@ -809,5 +810,5 @@
     Output
       old vs new
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
-      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      + "latest"
 

@@ -1,14 +1,26 @@
 test_that("download_tasks_schema defaults work", {
   skip_if_offline()
-  expect_snapshot(
-    str(download_tasks_schema(), 4L)
+  latest_schema <- download_tasks_schema()
+  schema_id_version <- latest_schema$`$id` |>
+    hubUtils::extract_schema_version()
+  expect_equal(schema_id_version, hubUtils::get_schema_version_latest())
+
+  expect_equal(
+    names(latest_schema),
+    c(
+      "$schema", "$id", "title", "description", "type", "properties",
+      "required", "additionalProperties"
+    )
   )
 })
 
 test_that("download_tasks_schema json output work", {
   skip_if_offline()
   expect_snapshot(
-    download_tasks_schema(format = "json")
+    download_tasks_schema(
+      schema_version = "v4.0.0",
+      format = "json"
+    )
   )
 })
 
@@ -32,6 +44,7 @@ test_that("download_tasks_schema schema version work", {
 test_that("schema version option works for download_tasks_schema", {
   skip_if_offline()
   version_default <- download_tasks_schema()
+  version_default$`$id` <- "latest"
 
   arg_version <- download_tasks_schema(
     schema_version = "v3.0.1",
@@ -39,8 +52,10 @@ test_that("schema version option works for download_tasks_schema", {
   )
 
   withr::with_options(
-    list(hubAdmin.schema_version = "v3.0.1",
-         hubAdmin.branch = "main"),
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAdmin.branch = "main"
+    ),
     {
       opt_version <- download_tasks_schema()
     }

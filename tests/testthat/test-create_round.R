@@ -50,7 +50,7 @@ test_that("create_round functions work correctly", {
         end = "2023-01-18"
       ),
       last_data_date = "2023-01-02"
-    )
+    ) |> verify_latest_schema_version()
   )
   expect_snapshot(
     create_round(
@@ -63,7 +63,7 @@ test_that("create_round functions work correctly", {
         end = 2L
       ),
       last_data_date = "2023-01-02"
-    )
+    ) |> verify_latest_schema_version()
   )
 })
 
@@ -229,8 +229,7 @@ test_that("validating round_id patterns when round_id_from_var = TRUE works", {
   skip_if_offline()
   withr::with_options(
     list(
-      hubAdmin.schema_version = "v5.0.0",
-      hubAdmin.branch = "br-v5.0.0"
+      hubAdmin.schema_version = "v5.0.0"
     ),
     {
       output_types <- create_output_type(
@@ -372,8 +371,7 @@ test_that("validating round_id pattern when round_id_from_var = FALSE works", {
   skip_if_offline()
   withr::with_options(
     list(
-      hubAdmin.schema_version = "v5.0.0",
-      hubAdmin.branch = "br-v5.0.0"
+      hubAdmin.schema_version = "v5.0.0"
     ),
     {
       output_types <- create_output_type(

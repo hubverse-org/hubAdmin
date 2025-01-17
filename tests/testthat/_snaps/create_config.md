@@ -1,10 +1,10 @@
 # create_config functions work correctly
 
     Code
-      create_config(rounds)
+      verify_latest_schema_version(create_config(rounds))
     Output
       $schema_version
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       
       $rounds
       $rounds[[1]]
@@ -107,7 +107,7 @@
       attr(,"type")
       [1] "tasks"
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 

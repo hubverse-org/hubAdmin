@@ -9,7 +9,7 @@ test_that("create_target_metadata_item functions work correctly", {
       target_type = "discrete",
       is_step_ahead = TRUE,
       time_unit = "week"
-    )
+    ) |> verify_latest_schema_version()
   )
   expect_snapshot(
     create_target_metadata_item(
@@ -18,7 +18,7 @@ test_that("create_target_metadata_item functions work correctly", {
       target_units = "rate per 100,000 population",
       target_type = "discrete",
       is_step_ahead = FALSE
-    )
+    ) |> verify_latest_schema_version()
   )
 })
 
@@ -114,7 +114,7 @@ test_that("schema version option works for create_target_metadata_item", {
     target_type = "discrete",
     is_step_ahead = TRUE,
     time_unit = "week"
-  )
+  ) |> verify_latest_schema_version()
 
   arg_version <- create_target_metadata_item(
     target_id = "inc hosp",
@@ -153,9 +153,7 @@ test_that("Target_keys of length more than 1 are not allowed post v5.0.0", {
   skip_if_offline()
   withr::with_options(
     list(
-      hubAdmin.schema_version = "v5.0.0",
-      # TDOD: remove branch argument when v5.0.0 is released.
-      hubAdmin.branch = "br-v5.0.0"
+      hubAdmin.schema_version = "v5.0.0"
     ),
     {
       # One target_key is allowed in v5.0.0 and later versions.

@@ -163,7 +163,7 @@ test_that("create_output_type_sample works", {
       value_type = "double",
       value_minimum = 0L,
       value_maximum = 1L
-    )
+    ) |> verify_latest_schema_version()
   )
   expect_snapshot(
     create_output_type_sample(
@@ -193,7 +193,6 @@ test_that("create_output_type_sample works", {
 
 test_that("create_output_type_sample errors correctly", {
   skip_if_offline()
-  # TODO: Remove branches when v4.0.0 is released
   # v4 type fails correctly
   expect_error(
     create_output_type_sample(
@@ -304,7 +303,6 @@ test_that("create_output_type_item is back-compatible", {
 
 test_that("create_output_type_item works with v4 schema", {
   skip_if_offline()
-  # TODO: Remove branch argument when v4.0.0 is released
   expect_snapshot(
     create_output_type_mean(
       is_required = TRUE,
@@ -333,8 +331,6 @@ test_that("create_output_type_item works with v4 schema", {
 
 test_that("create_output_type_dist fns support v4 schema", {
   skip_if_offline()
-  # TODO: Remove branch argument when v4.0.0 is released
-
   expect_snapshot(
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.75),
@@ -439,7 +435,7 @@ test_that("schema version option works for create_output_type_mean", {
     is_required = TRUE,
     value_type = "double",
     value_minimum = 0L
-  )
+  ) |> verify_latest_schema_version()
 
   arg_version <- create_output_type_mean(
     is_required = TRUE,
@@ -476,7 +472,7 @@ test_that("schema version option works for create_output_type_quantile", {
     is_required = FALSE,
     value_type = "double",
     value_minimum = 0
-  )
+  ) |> verify_latest_schema_version()
 
   arg_version <- create_output_type_quantile(
     required = c(0.25, 0.5, 0.75),
@@ -525,7 +521,7 @@ test_that("schema version option works for create_output_type_cdf", {
       ),
       is_required = FALSE,
       value_type = "double"
-    )
+    ) |> verify_latest_schema_version()
 
   arg_version <-
     create_output_type_cdf(
@@ -574,7 +570,7 @@ test_that("schema version option works for create_output_type_pmf", {
     ),
     is_required = FALSE,
     value_type = "double"
-  )
+  ) |> verify_latest_schema_version()
 
   arg_version <- create_output_type_pmf(
     required = NULL,
@@ -620,7 +616,8 @@ test_that("schema version option works for create_output_type_sample", {
     value_type = "double",
     value_minimum = 0L,
     value_maximum = 1L
-  )
+  ) |> verify_latest_schema_version()
+
   arg_version <- create_output_type_sample(
     is_required = FALSE,
     output_type_id_type = "character",
