@@ -80,7 +80,7 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://json-schema.org/draft/2020-12/schema"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`$id`</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $title</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Schema for Modeling Hub model task definitions"</span>
@@ -134,7 +134,7 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Round identifier. If round_id_from_variable = true, round_id should be the name of a task id variable present in all sets of modeling task specifications"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$round_id$examples</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "round-1"     "2022-11-05"  "origin_date"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "round_1"     "2022-11-05"  "origin_date"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$round_id$type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "string"</span>
@@ -145,7 +145,7 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "An optional round name. This can be useful for internal referencing of rounds, for examples, when a date is used as round_id but hub maintainers and teams also refer to rounds as round-1, round-2 etc."</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$round_name$examples</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "round-1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "round 1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$round_name$type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "string"</span>
@@ -489,138 +489,6 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "required" "optional"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target$additionalProperties</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "An object containing arrays of required and optional unique identifiers for each valid target variable. Usually forms part of a pair of task ID target key variables (along with target_outcome) which combine to define individual targets."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "object"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$examples</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$examples[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$examples[[1]]$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$examples[[1]]$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "hosp"  "death" "case" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$examples[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$examples[[2]]$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "hosp"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$examples[[2]]$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "case"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$required$description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Array of target variable unique identifiers that must be present for submission to be valid. Can be null if no target variables are required and all valid target variables are specified in the optional property."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$required$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "array" "null" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$required$uniqueItems</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$required$items</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$required$items$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "string"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$optional$description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Array of valid but not required unique target variable identifiers. Can be null if all target variables are required and are specified in the required property."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$optional$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "array" "null" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$optional$uniqueItems</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$optional$items</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$properties$optional$items$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "string"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "required" "optional"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_variable$additionalProperties</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "An object containing arrays of required and optional unique identifiers for each valid target outcome. Usually forms part of a pair of task ID target key variables (along with target_variable) which combine to define individual targets."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "object"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$examples</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$examples[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$examples[[1]]$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$examples[[1]]$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$examples[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$examples[[2]]$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$examples[[2]]$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cum"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$required$description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Array of target outcome unique identifiers that must be present for submission to be valid. Can be null if no target outcomes are required and all valid target outcomes are specified in the optional property."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$required$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "array" "null" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$required$uniqueItems</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$required$items</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$required$items$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "string"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$optional$description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Array of valid but not required unique target outcome identifiers. Can be null if all target outcomes are required and are specified in the required property."</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$optional$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "array" "null" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$optional$uniqueItems</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$optional$items</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$properties$optional$items$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "string"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "required" "optional"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$task_ids$properties$target_outcome$additionalProperties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1837,27 +1705,17 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$examples[[3]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$examples[[3]]$target_variable</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "hosp"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$examples[[3]]$target_outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$examples[[4]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$examples[[4]]$target_variable</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "case"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$examples[[4]]$target_outcome</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "peak week"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$examples[[5]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "object" "null"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$minProperties</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$maxProperties</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$additionalProperties</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$properties$model_tasks$items$properties$target_metadata$items$properties$target_keys$additionalProperties$type</span>
@@ -2105,6 +1963,27 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$`if`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$`if`$properties</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$`if`$properties$round_id_from_variable</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$`if`$properties$round_id_from_variable$const</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$then</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$then$properties</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$then$properties$round_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$then$properties$round_id$pattern</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$then$properties$round_id$errorMessage</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The 'round_id' must match either an ISO date format (YYYY-MM-DD) or alphanumeric characters separated by underscores."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $properties$rounds$items$required</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "round_id_from_variable" "round_id"               "model_tasks"           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "submissions_due"       </span>
@@ -2161,7 +2040,7 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-in"><span><span class="fu">download_tasks_schema</span><span class="op">(</span>format <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     "$schema": "https://json-schema.org/draft/2020-12/schema",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     "$id": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json",</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     "$id": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     "title": "Schema for Modeling Hub model task definitions",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     "description": "This is the schema of the tasks.json configuration file that defines the tasks within a modeling hub.",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     "type": "object",</span>
@@ -2188,7 +2067,7 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     "round_id": {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         "description": "Round identifier. If round_id_from_variable = true, round_id should be the name of a task id variable present in all sets of modeling task specifications",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         "examples": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             "round-1",</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                             "round_1",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                             "2022-11-05",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                             "origin_date"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         ],</span>
@@ -2197,7 +2076,7 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     "round_name": {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         "description": "An optional round name. This can be useful for internal referencing of rounds, for examples, when a date is used as round_id but hub maintainers and teams also refer to rounds as round-1, round-2 etc.",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         "examples": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             "round-1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                             "round 1"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         ],</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         "type": "string"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     },</span>
@@ -2486,106 +2365,6 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 },</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "optional": {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "description": "Array of valid but not required unique target identifiers. Can be null if all targets are required and are specified in the required property.",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "type": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "array",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "null"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "uniqueItems": true,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "items": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "type": "string"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "required": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "required",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "optional"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "additionalProperties": false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                         },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                         "target_variable": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "description": "An object containing arrays of required and optional unique identifiers for each valid target variable. Usually forms part of a pair of task ID target key variables (along with target_outcome) which combine to define individual targets.",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "type": "object",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "examples": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "required": null,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "optional": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "hosp",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "death",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "case"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "required": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "hosp"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "optional": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "case"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "properties": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "required": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "description": "Array of target variable unique identifiers that must be present for submission to be valid. Can be null if no target variables are required and all valid target variables are specified in the optional property.",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "type": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "array",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "null"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "uniqueItems": true,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "items": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "type": "string"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "optional": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "description": "Array of valid but not required unique target variable identifiers. Can be null if all target variables are required and are specified in the required property.",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "type": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "array",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "null"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "uniqueItems": true,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "items": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "type": "string"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "required": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "required",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "optional"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "additionalProperties": false</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                         },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                         "target_outcome": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "description": "An object containing arrays of required and optional unique identifiers for each valid target outcome. Usually forms part of a pair of task ID target key variables (along with target_variable) which combine to define individual targets.",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "type": "object",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "examples": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "required": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "inc"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "optional": null</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "required": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "inc"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "optional": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "cum"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                             "properties": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "required": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "description": "Array of target outcome unique identifiers that must be present for submission to be valid. Can be null if no target outcomes are required and all valid target outcomes are specified in the optional property.",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "type": [</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "array",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "null"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     ],</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "uniqueItems": true,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "items": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "type": "string"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "optional": {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "description": "Array of valid but not required unique target outcome identifiers. Can be null if all target outcomes are required and are specified in the required property.",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "type": [</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "array",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "null"</span>
@@ -3451,20 +3230,14 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "target": "peak week hosp"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "target_variable": "hosp",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "target_outcome": "inc"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     },</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "target_variable": "case",</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                         "target_outcome": "peak week"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                     },</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     null</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 ],</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "type": [</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "object",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "null"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 ],</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "minProperties": 1,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "maxProperties": 1,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 "additionalProperties": {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                     "type": "string"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                                 }</span>
@@ -3648,6 +3421,21 @@ Can be set through global option "hubAdmin.branch".</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         "uniqueItems": true,</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         "items": {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                             "type": "string"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 },</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 "if": {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     "properties": {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         "round_id_from_variable": {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                             "const": false</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     }</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 },</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 "then": {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     "properties": {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         "round_id": {</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                             "pattern": "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$",</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                             "errorMessage": "The 'round_id' must match either an ISO date format (YYYY-MM-DD) or alphanumeric characters separated by underscores."</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                         }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     }</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 },</span>
