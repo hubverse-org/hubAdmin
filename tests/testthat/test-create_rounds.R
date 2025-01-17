@@ -52,7 +52,7 @@ test_that("create_rounds functions work correctly", {
           end = 2L
         )
       )
-    )
+    ) |> verify_latest_schema_version()
   )
   expect_snapshot(
     create_rounds(
@@ -152,7 +152,7 @@ test_that("create_rounds functions work correctly", {
         ),
         last_data_date = "2023-01-13"
       )
-    )
+    ) |> verify_latest_schema_version()
   )
 })
 

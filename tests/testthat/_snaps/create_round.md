@@ -1,9 +1,9 @@
 # create_round functions work correctly
 
     Code
-      create_round(round_id_from_variable = FALSE, round_id = "round_1", model_tasks = model_tasks,
-        submissions_due = list(start = "2023-01-12", end = "2023-01-18"),
-        last_data_date = "2023-01-02")
+      verify_latest_schema_version(create_round(round_id_from_variable = FALSE,
+        round_id = "round_1", model_tasks = model_tasks, submissions_due = list(
+          start = "2023-01-12", end = "2023-01-18"), last_data_date = "2023-01-02"))
     Output
       $round_id_from_variable
       [1] FALSE
@@ -102,16 +102,16 @@
       attr(,"round_id")
       [1] "round_1"
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
 ---
 
     Code
-      create_round(round_id_from_variable = TRUE, round_id = "origin_date",
-        model_tasks = model_tasks, submissions_due = list(relative_to = "origin_date",
-          start = -4L, end = 2L), last_data_date = "2023-01-02")
+      verify_latest_schema_version(create_round(round_id_from_variable = TRUE,
+        round_id = "origin_date", model_tasks = model_tasks, submissions_due = list(
+          relative_to = "origin_date", start = -4L, end = 2L), last_data_date = "2023-01-02"))
     Output
       $round_id_from_variable
       [1] TRUE
@@ -213,7 +213,7 @@
       attr(,"round_id")
       [1] "origin_date"
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 

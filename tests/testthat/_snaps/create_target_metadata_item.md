@@ -1,9 +1,10 @@
 # create_target_metadata_item functions work correctly
 
     Code
-      create_target_metadata_item(target_id = "inc hosp", target_name = "Weekly incident influenza hospitalizations",
-        target_units = "rate per 100,000 population", target_keys = list(target = "inc hosp"),
-        target_type = "discrete", is_step_ahead = TRUE, time_unit = "week")
+      verify_latest_schema_version(create_target_metadata_item(target_id = "inc hosp",
+        target_name = "Weekly incident influenza hospitalizations", target_units = "rate per 100,000 population",
+        target_keys = list(target = "inc hosp"), target_type = "discrete",
+        is_step_ahead = TRUE, time_unit = "week"))
     Output
       $target_id
       [1] "inc hosp"
@@ -31,16 +32,16 @@
       attr(,"class")
       [1] "target_metadata_item" "list"                
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
 ---
 
     Code
-      create_target_metadata_item(target_id = "inc hosp", target_name = "Weekly incident influenza hospitalizations",
-        target_units = "rate per 100,000 population", target_type = "discrete",
-        is_step_ahead = FALSE)
+      verify_latest_schema_version(create_target_metadata_item(target_id = "inc hosp",
+        target_name = "Weekly incident influenza hospitalizations", target_units = "rate per 100,000 population",
+        target_type = "discrete", is_step_ahead = FALSE))
     Output
       $target_id
       [1] "inc hosp"
@@ -63,7 +64,7 @@
       attr(,"class")
       [1] "target_metadata_item" "list"                
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
@@ -160,7 +161,7 @@
     Output
       attr(old, 'schema_id') vs attr(new, 'schema_id')
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
-      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      + "latest"
 
 # Target_keys of length more than 1 are not allowed post v5.0.0
 

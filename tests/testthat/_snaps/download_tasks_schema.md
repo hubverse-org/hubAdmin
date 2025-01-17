@@ -1,49 +1,7 @@
-# download_tasks_schema defaults work
-
-    Code
-      str(download_tasks_schema(), 4L)
-    Output
-      List of 8
-       $ $schema             : chr "https://json-schema.org/draft/2020-12/schema"
-       $ $id                 : chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
-       $ title               : chr "Schema for Modeling Hub model task definitions"
-       $ description         : chr "This is the schema of the tasks.json configuration file that defines the tasks within a modeling hub."
-       $ type                : chr "object"
-       $ properties          :List of 4
-        ..$ schema_version         :List of 4
-        .. ..$ description: chr "URL to a version of the Modeling Hub schema tasks-schema.json file (see https://github.com/hubverse-org/schemas"| __truncated__
-        .. ..$ examples   : chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.0/tasks-schema.json"
-        .. ..$ type       : chr "string"
-        .. ..$ format     : chr "uri"
-        ..$ rounds                 :List of 3
-        .. ..$ description: chr "Array of modeling round properties"
-        .. ..$ type       : chr "array"
-        .. ..$ items      :List of 5
-        .. .. ..$ type                : chr "object"
-        .. .. ..$ description         : chr "Individual modeling round properties"
-        .. .. ..$ properties          :List of 8
-        .. .. ..$ required            : chr [1:4] "round_id_from_variable" "round_id" "model_tasks" "submissions_due"
-        .. .. ..$ additionalProperties: logi TRUE
-        ..$ output_type_id_datatype:List of 5
-        .. ..$ description: chr "The hub level data type of the output_type_id column. This data type must be shared across all files in the hub"| __truncated__
-        .. ..$ default    : chr "auto"
-        .. ..$ examples   : chr "character"
-        .. ..$ type       : chr "string"
-        .. ..$ enum       : chr [1:6] "auto" "character" "double" "integer" ...
-        ..$ derived_task_ids       :List of 5
-        .. ..$ description: chr "Names of derived task IDs, i.e. task IDs whose values are derived from (and therefore dependent on) the values "| __truncated__
-        .. ..$ examples   : chr [1, 1] "target_end_date"
-        .. ..$ type       : chr [1:2] "array" "null"
-        .. ..$ uniqueItems: logi TRUE
-        .. ..$ items      :List of 1
-        .. .. ..$ type: chr "string"
-       $ required            : chr [1:2] "rounds" "schema_version"
-       $ additionalProperties: logi FALSE
-
 # download_tasks_schema json output work
 
     Code
-      download_tasks_schema(format = "json")
+      download_tasks_schema(schema_version = "v4.0.0", format = "json")
     Output
       {
           "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -1623,5 +1581,5 @@
     Output
       old vs new
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
-      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      + "latest"
 

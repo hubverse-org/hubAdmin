@@ -52,7 +52,7 @@ test_that("create_config functions work correctly", {
     )
   )
   expect_snapshot(
-    create_config(rounds)
+    create_config(rounds) |> verify_latest_schema_version()
   )
 })
 

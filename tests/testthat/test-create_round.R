@@ -50,7 +50,7 @@ test_that("create_round functions work correctly", {
         end = "2023-01-18"
       ),
       last_data_date = "2023-01-02"
-    )
+    ) |> verify_latest_schema_version()
   )
   expect_snapshot(
     create_round(
@@ -63,7 +63,7 @@ test_that("create_round functions work correctly", {
         end = 2L
       ),
       last_data_date = "2023-01-02"
-    )
+    ) |> verify_latest_schema_version()
   )
 })
 

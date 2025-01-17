@@ -29,7 +29,7 @@ test_that("create_task_ids functions work correctly", {
         required = 1L,
         optional = 2:4
       )
-    )
+    ) |> verify_latest_schema_version()
   )
 })
 
@@ -74,26 +74,34 @@ test_that("create_task_ids functions error correctly", {
     error = TRUE
   )
 
-  item_1 <- create_task_id("origin_date",
-    required = NULL,
-    optional = c(
-      "2023-01-02",
-      "2023-01-09",
-      "2023-01-16"
-    )
-  )
-  attr(item_1, "schema_id") <- "invalid_schema"
-  expect_snapshot(
-    create_task_ids(
-      item_1,
-      create_task_id("scenario_id",
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v4.0.0",
+      hubAdmin.branch = "main"
+    ),
+    {
+      item_1 <- create_task_id("origin_date",
         required = NULL,
         optional = c(
-          "A-2021-03-28",
-          "B-2021-03-28"
+          "2023-01-02",
+          "2023-01-09",
+          "2023-01-16"
         )
       )
-    ),
-    error = TRUE
+      attr(item_1, "schema_id") <- "invalid_schema"
+      expect_snapshot(
+        create_task_ids(
+          item_1,
+          create_task_id("scenario_id",
+            required = NULL,
+            optional = c(
+              "A-2021-03-28",
+              "B-2021-03-28"
+            )
+          )
+        ),
+        error = TRUE
+      )
+    }
   )
 })

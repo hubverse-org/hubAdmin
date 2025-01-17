@@ -20,7 +20,7 @@ test_that("create_output_type functions work correctly", {
         value_type = "double",
         value_minimum = 0
       )
-    )
+    ) |> verify_latest_schema_version()
   )
 })
 

@@ -1,7 +1,8 @@
 # create_task_id works correctly
 
     Code
-      create_task_id("horizon", required = 1L, optional = 2:4)
+      verify_latest_schema_version(create_task_id("horizon", required = 1L, optional = 2:
+        4))
     Output
       $horizon
       $horizon$required
@@ -14,15 +15,15 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
 ---
 
     Code
-      create_task_id("origin_date", required = NULL, optional = c("2023-01-02",
-        "2023-01-09", "2023-01-16"))
+      verify_latest_schema_version(create_task_id("origin_date", required = NULL,
+        optional = c("2023-01-02", "2023-01-09", "2023-01-16")))
     Output
       $origin_date
       $origin_date$required
@@ -35,15 +36,15 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
 ---
 
     Code
-      create_task_id("scenario_id", required = NULL, optional = c("A-2021-03-28",
-        "B-2021-03-28"))
+      verify_latest_schema_version(create_task_id("scenario_id", required = NULL,
+        optional = c("A-2021-03-28", "B-2021-03-28")))
     Output
       $scenario_id
       $scenario_id$required
@@ -56,14 +57,15 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
 ---
 
     Code
-      create_task_id("scenario_id", required = NULL, optional = c(1L, 2L))
+      verify_latest_schema_version(create_task_id("scenario_id", required = NULL,
+        optional = c(1L, 2L)))
     Output
       $scenario_id
       $scenario_id$required
@@ -76,14 +78,15 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
 ---
 
     Code
-      create_task_id("horizon", required = NULL, optional = NULL)
+      verify_latest_schema_version(create_task_id("horizon", required = NULL,
+        optional = NULL))
     Output
       $horizon
       $horizon$required
@@ -96,7 +99,7 @@
       attr(,"class")
       [1] "task_id" "list"   
       attr(,"schema_id")
-      [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      [1] "latest"
       attr(,"branch")
       [1] "main"
 
@@ -139,5 +142,5 @@
     Output
       attr(old, 'schema_id') vs attr(new, 'schema_id')
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
-      + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
+      + "latest"
 
