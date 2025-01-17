@@ -1,23 +1,14 @@
 {
-    "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.1/tasks-schema.json",
+    "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json",
     "rounds": [{
             "round_id_from_variable": true,
-            "round_id": "round_id_var",
+            "round_id": "forecast_date",
             "model_tasks": [{
                 "task_ids": {
-                    "round_id_var": {
-                        "required": ["invalid-round-id-in-var-req"],
-                        "optional": [
-                            "24_25_covid",
-                            "invalid-round-id-in-var-opt1",
-                            "invalid-round-id-in-var-opt2"
-                            ]
-                    },
                     "forecast_date": {
                         "required": null,
                         "optional": [
-                            "2022-12-19", "2022-12-26",
-                            "2023-01-02", "2023-01-09",
+                            "2022-12-12", "2022-12-19", "2022-12-26", "2023-01-02", "2023-01-09",
                             "2023-01-16", "2023-01-23", "2023-01-30", "2023-02-06", "2023-02-13",
                             "2023-02-20", "2023-02-27", "2023-03-06", "2023-03-13", "2023-03-20",
                             "2023-03-27", "2023-04-03", "2023-04-10", "2023-04-17", "2023-04-24",
@@ -26,7 +17,11 @@
                     },
                     "target": {
                         "required": null,
-                        "optional": ["wk ahead inc flu hosp"]
+                        "optional": ["wk ahead inc"]
+                    },
+                    "target_metric": {
+                        "required": null,
+                        "optional": ["flu hosp"]
                     },
                     "horizon": {
                         "required": [2],
@@ -80,35 +75,20 @@
                     "target_name": "weekly influenza hospitalization incidence",
                     "target_units": "rate per 100,000 population",
                     "target_keys": {
-                        "target": "wk ahead inc flu hosp"
+                        "target": "wk ahead inc",
+                        "target_metric": "flu hosp"
                     },
                     "target_type": "discrete",
                     "description": "This target represents the counts of new hospitalizations per horizon week.",
                     "is_step_ahead": true,
                     "time_unit": "week"
                 }]
-            }],
-            "submissions_due": {
-                "relative_to": "forecast_date",
-                "start": -6,
-                "end": 2
-            },
-            "derived_task_ids": ["target_date"]
-        },
-        {
-            "round_id_from_variable": false,
-            "round_id": "24_25_flu",
-            "model_tasks": [{
+            }, {
                 "task_ids": {
-                    "round_id_var": {
-                        "required": null,
-                        "optional": null
-                    },
                     "forecast_date": {
                         "required": null,
                         "optional": [
-                            "2022-12-19", "2022-12-26",
-                            "2023-01-02", "2023-01-09",
+                            "2022-12-12", "2022-12-19", "2022-12-26", "2023-01-02", "2023-01-09",
                             "2023-01-16", "2023-01-23", "2023-01-30", "2023-02-06", "2023-02-13",
                             "2023-02-20", "2023-02-27", "2023-03-06", "2023-03-13", "2023-03-20",
                             "2023-03-27", "2023-04-03", "2023-04-10", "2023-04-17", "2023-04-24",
@@ -117,7 +97,11 @@
                     },
                     "target": {
                         "required": null,
-                        "optional": ["wk ahead inc flu hosp"]
+                        "optional": ["wk flu hosp"]
+                    },
+                    "target_metric": {
+                        "required": null,
+                        "optional": ["rate change"]
                     },
                     "horizon": {
                         "required": [2],
@@ -142,39 +126,28 @@
                     }
                 },
                 "output_type": {
-                    "sample": {
-                        "output_type_id_params": {
-                            "type": "character",
-                            "min_samples_per_task": 50,
-                            "max_samples_per_task": 100,
-                            "max_length": 10
-                        },
-                        "is_required": true,
-                        "value": {
-                            "type": "integer",
-                            "minimum": 0
-                        }
-                    },
-                    "mean": {
+                    "pmf": {
                         "output_type_id": {
-                            "required": null
+                            "required": ["large_decrease", "decrease", "stable", "increase", "large_increase"]
                         },
-                        "is_required": true,
+                        "is_required": false,
                         "value": {
                             "type": "double",
-                            "minimum": 0
+                            "minimum": 0,
+                            "maximum": 1
                         }
                     }
                 },
                 "target_metadata": [{
-                    "target_id": "wk ahead inc flu hosp",
-                    "target_name": "weekly influenza hospitalization incidence",
+                    "target_id": "wk flu hosp rate change",
+                    "target_name": "weekly influenza hospitalization rate change",
                     "target_units": "rate per 100,000 population",
                     "target_keys": {
-                        "target": "wk ahead inc flu hosp"
+                        "target": "wk flu hosp",
+                        "target_metric": "rate change"
                     },
-                    "target_type": "discrete",
-                    "description": "This target represents the counts of new hospitalizations per horizon week.",
+                    "target_type": "nominal",
+                    "description": "This target represents the change in the rate of new hospitalizations per week comparing the week ending two days prior to the forecast_date to the week ending h weeks after the forecast_date.",
                     "is_step_ahead": true,
                     "time_unit": "week"
                 }]
@@ -186,5 +159,6 @@
             },
             "derived_task_ids": ["target_date"]
         }
+
     ]
 }

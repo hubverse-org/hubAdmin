@@ -40,7 +40,7 @@ test_that("schema version option works for download_tasks_schema", {
 
   withr::with_options(
     list(hubAdmin.schema_version = "v3.0.1",
-         hubAmin.branch = "main"),
+         hubAdmin.branch = "main"),
     {
       opt_version <- download_tasks_schema()
     }

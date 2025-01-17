@@ -162,3 +162,14 @@
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
       + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
 
+# Target_keys of length more than 1 are not allowed post v5.0.0
+
+    Code
+      create_target_metadata_item(target_id = "flu inc hosp", target_name = "Weekly incident influenza hospitalizations",
+        target_units = "rate per 100,000 population", target_keys = list(target = "flu",
+          target_metric = "inc hosp"), target_type = "discrete", is_step_ahead = TRUE,
+        time_unit = "week")
+    Condition
+      Error in `create_target_metadata_item()`:
+      ! `target_keys` must be a named <list> of length 1 not 2.
+

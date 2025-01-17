@@ -26,13 +26,15 @@ that could be used, for example, as a visualisation axis label.}
 
 \item{target_units}{character string. Unit of observation of the target.}
 
-\item{target_keys}{named list or \code{NULL}. Should be \code{NULL}, in the case
-where the target is not specified as a task_id but is specified solely through
-the \code{target_id} argument. Otherwise, should be a named list of one or more
-character strings. The name of each element should match a task_id variable
-within the same model_tasks object. Each element should be of length 1.
-Each value, or the combination of values if multiple keys are specified,
-define a single target value.}
+\item{target_keys}{named list or \code{NULL}. The \code{target_keys} value defines a
+single target.
+Should be a named list containing a single character string element.
+The name of the element should match a \code{task_id} variable name within the same
+\code{model_tasks} object and the value should match a single value of that variable
+as described in
+\href{https://hubverse.io/en/latest/user-guide/tasks.html#target-metadata}{target metadata section of the official hubverse documentation}. # nolint: line_length_linter
+Otherwise, \code{NULL} in the case where the target is not specified as a task_id
+but is specified solely through the \code{target_id} argument.}
 
 \item{description}{character string (optional). An optional verbose description
 of the target that might include information such as definitions of a 'rate' or similar.}

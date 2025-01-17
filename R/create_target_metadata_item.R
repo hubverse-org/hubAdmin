@@ -11,13 +11,15 @@
 #' @param target_name character string. A longer human readable target description
 #' that could be used, for example, as a visualisation axis label.
 #' @param target_units character string. Unit of observation of the target.
-#' @param target_keys named list or `NULL`. Should be `NULL`, in the case
-#' where the target is not specified as a task_id but is specified solely through
-#' the `target_id` argument. Otherwise, should be a named list of one or more
-#' character strings. The name of each element should match a task_id variable
-#' within the same model_tasks object. Each element should be of length 1.
-#' Each value, or the combination of values if multiple keys are specified,
-#' define a single target value.
+#' @param target_keys named list or `NULL`. The `target_keys` value defines a
+#' single target.
+#' Should be a named list containing a single character string element.
+#' The name of the element should match a `task_id` variable name within the same
+#' `model_tasks` object and the value should match a single value of that variable
+#' as described in
+#' [target metadata section of the official hubverse documentation](https://hubverse.io/en/latest/user-guide/tasks.html#target-metadata). # nolint: line_length_linter
+#' Otherwise, `NULL` in the case where the target is not specified as a task_id
+#' but is specified solely through the `target_id` argument.
 #' @param description character string (optional). An optional verbose description
 #' of the target that might include information such as definitions of a 'rate' or similar.
 #' @param target_type character string. Target statistical data type. Consult the
@@ -117,7 +119,10 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
     }
   )
 
-  check_target_keys(target_keys, call = call)
+  check_target_keys(target_keys,
+    schema_version = schema$`$id`,
+    call = call
+  )
 
   structure(mget(property_names),
     class = c("target_metadata_item", "list"),
@@ -127,7 +132,8 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
   )
 }
 
-check_target_keys <- function(target_keys, call = rlang::caller_env()) {
+check_target_keys <- function(target_keys, schema_version,
+                              call = rlang::caller_env()) {
   if (is.null(target_keys)) {
     return()
   }
@@ -145,6 +151,20 @@ check_target_keys <- function(target_keys, call = rlang::caller_env()) {
     cli::cli_abort(
       c(
         "!" = "{.arg target_keys} must be a named {.cls list}."
+      ),
+      call = call
+    )
+  }
+  is_gte_v5_0_0 <- hubUtils::version_gte(
+    "v5.0.0",
+    schema_version = schema_version
+  )
+  target_key_n <- length(target_keys)
+  if (is_gte_v5_0_0 && target_key_n > 1L) {
+    cli::cli_abort(
+      c(
+        "!" = "{.arg target_keys} must be a named {.cls list} of
+        length {.val {1L}} not {.val {target_key_n}}."
       ),
       call = call
     )
