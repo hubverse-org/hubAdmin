@@ -13,7 +13,7 @@
 #' @param target_units character string. Unit of observation of the target.
 #' @param target_keys named list or `NULL`. The `target_keys` value defines a
 #' single target.
-#' Should be `NULL`, in the case where the target is not specified as a task_id
+#' Should be `NULL` in the case where the target is not specified as a task_id
 #' but is specified solely through the `target_id` argument.
 #' Otherwise, should be a named list containing a single character string element.
 #' The name of the element should match a `task_id`
