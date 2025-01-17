@@ -162,7 +162,7 @@
       - "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"
       + "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"
 
-# Target_keys of length more than 1 are not allowed post v4.0.1
+# Target_keys of length more than 1 are not allowed post v5.0.0
 
     Code
       create_target_metadata_item(target_id = "flu inc hosp", target_name = "Weekly incident influenza hospitalizations",

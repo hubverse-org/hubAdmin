@@ -253,14 +253,14 @@ test_that("v4 validation works", {
 })
 
 
-test_that("v4.0.1 target keys with 2 properties throws error", {
+test_that("v5.0.0 target keys with 2 properties throws error", {
   skip_if_offline()
-  config_path <- testthat::test_path("testdata", "v4.0.1-tasks-2-target_keys.json")
+  config_path <- testthat::test_path("testdata", "v5.0.0-tasks-2-target_keys.json")
   out <- suppressMessages(
     validate_config(
       config_path = config_path,
-      # TDOD: remove branch argument when v4.0.1 is released.
-      branch = "ak/v4.0.1/restrict-target-key-value-pair-n/117"
+      # TDOD: remove branch argument when v5.0.0 is released.
+      branch = "br-v5.0.0"
     )
   )
   expect_false(out)
@@ -272,23 +272,23 @@ test_that("v4.0.1 target keys with 2 properties throws error", {
   expect_equal(nrow(attr(out, "errors")), 2L)
 })
 
-test_that("v4.0.1 target keys with NULL properties passes", {
+test_that("v5.0.0 target keys with NULL properties passes", {
   # Ensure NULL target keys are still allowed.
-  config_path <- testthat::test_path("testdata", "v4.0.1-tasks-null-target_keys.json")
+  config_path <- testthat::test_path("testdata", "v5.0.0-tasks-null-target_keys.json")
   out <- suppressMessages(
     validate_config(
       config_path = config_path,
-      # TDOD: remove branch argument when v4.0.1 is released.
-      branch = "ak/v4.0.1/restrict-target-key-value-pair-n/117"
+      # TDOD: remove branch argument when v5.0.0 is released.
+      branch = "br-v5.0.0"
     )
   )
   expect_true(out)
 })
 
-test_that("v4.0.1 round_id pattern validation works", {
+test_that("v5.0.0 round_id pattern validation works", {
   skip_if_offline()
-  # TODO: remove branch argument when v4.0.1 is released.
-  schema <- download_tasks_schema("v4.0.1", branch = "br-v4.0.1")
+  # TODO: remove branch argument when v5.0.0 is released.
+  schema <- download_tasks_schema("v5.0.0", branch = "br-v5.0.0")
 
   # Test that regex pattern matching for round_id properties in jsonvalidate
   # identifies expected errors (when round_id_from_variable: false).
@@ -297,9 +297,9 @@ test_that("v4.0.1 round_id pattern validation works", {
       validate_config(
         config_path = testthat::test_path(
           "testdata",
-          "v4.0.1-tasks-fail-round-id-pattern.json"
+          "v5.0.0-tasks-fail-round-id-pattern.json"
         ),
-        branch = "br-v4.0.1"
+        branch = "br-v5.0.0"
       )
     )
   )
@@ -325,9 +325,9 @@ test_that("v4.0.1 round_id pattern validation works", {
       validate_config(
         config_path = testthat::test_path(
           "testdata",
-          "v4.0.1-tasks-fail-round-id-val-pattern.json"
+          "v5.0.0-tasks-fail-round-id-val-pattern.json"
         ),
-        branch = "br-v4.0.1"
+        branch = "br-v5.0.0"
       )
     )
   )

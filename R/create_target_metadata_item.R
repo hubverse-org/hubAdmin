@@ -155,12 +155,12 @@ check_target_keys <- function(target_keys, schema_version,
       call = call
     )
   }
-  is_gte_v4_0_1 <- hubUtils::version_gte(
-    "v4.0.1",
+  is_gte_v5_0_0 <- hubUtils::version_gte(
+    "v5.0.0",
     schema_version = schema_version
   )
   target_key_n <- length(target_keys)
-  if (is_gte_v4_0_1 && target_key_n > 1L) {
+  if (is_gte_v5_0_0 && target_key_n > 1L) {
     cli::cli_abort(
       c(
         "!" = "{.arg target_keys} must be a named {.cls list} of
