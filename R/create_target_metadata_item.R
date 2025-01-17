@@ -13,12 +13,13 @@
 #' @param target_units character string. Unit of observation of the target.
 #' @param target_keys named list or `NULL`. The `target_keys` value defines a
 #' single target.
-#' Should be `NULL` in the case where the target is not specified as a task_id
+#' Should be a named list containing a single character string element.
+#' The name of the element should match a `task_id` variable name within the same
+#' `model_tasks` object and the value should match a single value of that variable
+#' as described in
+#' [target metadata section of the official hubverse documentation](https://hubverse.io/en/latest/user-guide/tasks.html#target-metadata). # nolint: line_length_linter
+#' Otherwise, `NULL` in the case where the target is not specified as a task_id
 #' but is specified solely through the `target_id` argument.
-#' Otherwise, should be a named list containing a single character string element.
-#' The name of the element should match a `task_id`
-#' variable name within the same `model_tasks` object and the value should match
-#' a single value of that variable as described in [target metadata section of the official hubverse documentation](https://hubverse.io/en/latest/user-guide/tasks.html#target-metadata).
 #' @param description character string (optional). An optional verbose description
 #' of the target that might include information such as definitions of a 'rate' or similar.
 #' @param target_type character string. Target statistical data type. Consult the
