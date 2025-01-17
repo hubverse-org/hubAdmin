@@ -149,16 +149,16 @@ test_that("schema version option works for create_target_metadata_item", {
   expect_snapshot(waldo::compare(opt_version, version_default))
 })
 
-test_that("Target_keys of length more than 1 are not allowed post v4.0.1", {
+test_that("Target_keys of length more than 1 are not allowed post v5.0.0", {
   skip_if_offline()
   withr::with_options(
     list(
-      hubAdmin.schema_version = "v4.0.1",
-      # TDOD: remove branch argument when v4.0.1 is released.
-      hubAdmin.branch = "ak/v4.0.1/restrict-target-key-value-pair-n/117"
+      hubAdmin.schema_version = "v5.0.0",
+      # TDOD: remove branch argument when v5.0.0 is released.
+      hubAdmin.branch = "br-v5.0.0"
     ),
     {
-      # One target_key is allowed in v4.0.1 and later versions.
+      # One target_key is allowed in v5.0.0 and later versions.
       target_keys_n1 <- create_target_metadata_item(
         target_id = "inc hosp",
         target_name = "Weekly incident influenza hospitalizations",
@@ -171,7 +171,7 @@ test_that("Target_keys of length more than 1 are not allowed post v4.0.1", {
       expect_s3_class(target_keys_n1, "target_metadata_item")
       expect_length(target_keys_n1$target_keys, 1L)
 
-      # More than one target_key is NOT allowed in v4.0.1 and later versions
+      # More than one target_key is NOT allowed in v5.0.0 and later versions
       # and throws error.
       expect_snapshot(
         create_target_metadata_item(
