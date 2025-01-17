@@ -229,8 +229,7 @@ test_that("validating round_id patterns when round_id_from_var = TRUE works", {
   skip_if_offline()
   withr::with_options(
     list(
-      hubAdmin.schema_version = "v5.0.0",
-      hubAdmin.branch = "br-v5.0.0"
+      hubAdmin.schema_version = "v5.0.0"
     ),
     {
       output_types <- create_output_type(
@@ -372,8 +371,7 @@ test_that("validating round_id pattern when round_id_from_var = FALSE works", {
   skip_if_offline()
   withr::with_options(
     list(
-      hubAdmin.schema_version = "v5.0.0",
-      hubAdmin.branch = "br-v5.0.0"
+      hubAdmin.schema_version = "v5.0.0"
     ),
     {
       output_types <- create_output_type(

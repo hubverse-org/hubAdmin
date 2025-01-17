@@ -22,7 +22,7 @@ test_that("Creating schema paths works correctly", {
   )
   # Test that custom_task_id returns task_ids/additionalProperties schema path with version >= v2.0.0
   schema <- hubUtils::get_schema(
-    "https://raw.githubusercontent.com/hubverse-org/schemas/br-v2.0.0/v2.0.0/tasks-schema.json"
+    "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
   )
   expect_equal(
     get_error_path(schema, "custom_task_id", "schema"),

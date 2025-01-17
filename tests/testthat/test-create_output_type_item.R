@@ -193,7 +193,6 @@ test_that("create_output_type_sample works", {
 
 test_that("create_output_type_sample errors correctly", {
   skip_if_offline()
-  # TODO: Remove branches when v4.0.0 is released
   # v4 type fails correctly
   expect_error(
     create_output_type_sample(
@@ -304,7 +303,6 @@ test_that("create_output_type_item is back-compatible", {
 
 test_that("create_output_type_item works with v4 schema", {
   skip_if_offline()
-  # TODO: Remove branch argument when v4.0.0 is released
   expect_snapshot(
     create_output_type_mean(
       is_required = TRUE,
@@ -333,8 +331,6 @@ test_that("create_output_type_item works with v4 schema", {
 
 test_that("create_output_type_dist fns support v4 schema", {
   skip_if_offline()
-  # TODO: Remove branch argument when v4.0.0 is released
-
   expect_snapshot(
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.75),

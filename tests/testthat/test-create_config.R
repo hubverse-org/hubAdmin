@@ -92,7 +92,6 @@ test_that("create_config handles output_type_id_datatype correctly ", {
 
 test_that("create_config derived_task_ids argument", {
   skip_if_offline()
-  # TODO: Remove branch specification when v4.0.0 released
   expect_snapshot(
     create_config(
       create_rounds(
