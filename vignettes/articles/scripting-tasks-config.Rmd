@@ -48,7 +48,7 @@ diagram below:
 
 ```
 tasks.json
-├─schema_version: "https://.../v4.0.0/tasks-schema.json"
+├─schema_version: "https://.../v5.0.0/tasks-schema.json"
 ├─rounds:
 │ ├─round_id_from_variable: true
 │ ├─round_id: origin_date
@@ -108,11 +108,11 @@ into two `round` objects, which will be inserted into a `config` object.
 Before we start, the first thing we need to do is to set
 the correct version of [the hubverse schemas](https://github.com/hubverse-org/schemas). By default, the `create_*()` family of functions use the latest schema release.
 To make sure we can always reproduce the task or append new tasks at a later date, even if a new schema version is released in the meantime, it's a good idea to explicitly
-set the schema version. We can do this by setting the `hubAdmin.schema_version` option. In this example, we will use the `v4.0.0` schema:
+set the schema version. We can do this by setting the `hubAdmin.schema_version` option. In this example, we will use the `v5.0.0` schema:
 
 ```{r}
 library(hubAdmin)
-options(hubAdmin.schema_version = "v4.0.0")
+options(hubAdmin.schema_version = "v5.0.0")
 ```
 
 ### Creating the `target_metadata` objects
@@ -123,7 +123,7 @@ information about the targets.
 
 ```{r create-target-metadata}
 target_metadata_hosp <- create_target_metadata_item(
-  target = "inc hosp",
+  target_id = "inc hosp",
   target_name = "Weekly incident influenza hospitalizations",
   target_units = "rate per 100,000 population",
   target_keys = list(target = "inc hosp"),
@@ -133,7 +133,7 @@ target_metadata_hosp <- create_target_metadata_item(
 )
 
 target_metadata_death <- create_target_metadata_item(
-  target = "inc death",
+  target_id = "inc death",
   target_name = "Weekly incident influenza deaths",
   target_units = "rate per 100,000 population",
   target_keys = list(target = "inc death"),
@@ -171,7 +171,7 @@ out, the function will provide a helpful error:
 ```{r tmh-example}
 #| error: true
 create_target_metadata_item(
-  target = "inc hosp",
+  target_id = "inc hosp",
   target_name = "Weekly incident influenza hospitalizations",
   target_units = "rate per 100,000 population",
   target_keys = list(target = "inc hosp"),
