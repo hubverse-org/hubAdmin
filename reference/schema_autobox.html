@@ -29,7 +29,7 @@ covered by additionalProperties in the schema (e.g. custom task IDs).'><meta pro
     <a href="https://hubdocs.readthedocs.io/en/latest/" class="external-link"><img src="https://raw.githubusercontent.com/hubverse-org/hubStyle/main/inst/hubverse.png" id="logo" height="30" alt="hubverse"></a>
     <a class="navbar-brand me-2" href="../index.html">hubAdmin</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,6 +43,7 @@ covered by additionalProperties in the schema (e.g. custom task IDs).'><meta pro
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/hub-setup.html">Setting up a Hub</a></li>
+    <li><a class="dropdown-item" href="../articles/scripting-tasks-config.html">Scripting task configuration files</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/hubverse-org/hubAdmin/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -156,7 +157,7 @@ especially the examples.</p></dd>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">schema_autobox</span><span class="op">(</span><span class="va">config</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $schema_version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $rounds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]</span>
@@ -263,16 +264,16 @@ especially the examples.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"type")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "tasks"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "main"</span>
 <span class="r-in"><span><span class="fu">schema_autobox</span><span class="op">(</span><span class="va">config</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html" class="external-link">toJSON</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://jeroen.r-universe.dev/jsonlite/reference/fromJSON.html" class="external-link">toJSON</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>    auto_unbox <span class="op">=</span> <span class="cn">TRUE</span>, na <span class="op">=</span> <span class="st">"string"</span>,</span></span>
 <span class="r-in"><span>    null <span class="op">=</span> <span class="st">"null"</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json",</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json",</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   "rounds": [</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     {</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       "round_id_from_variable": true,</span>

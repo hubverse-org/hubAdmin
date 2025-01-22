@@ -9,7 +9,7 @@ a &amp;lt;config&amp;gt; class object."><meta property="og:image" content="https
     <a href="https://hubdocs.readthedocs.io/en/latest/" class="external-link"><img src="https://raw.githubusercontent.com/hubverse-org/hubStyle/main/inst/hubverse.png" id="logo" height="30" alt="hubverse"></a>
     <a class="navbar-brand me-2" href="../index.html">hubAdmin</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,6 +23,7 @@ a &amp;lt;config&amp;gt; class object."><meta property="og:image" content="https
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/hub-setup.html">Setting up a Hub</a></li>
+    <li><a class="dropdown-item" href="../articles/scripting-tasks-config.html">Scripting task configuration files</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/hubverse-org/hubAdmin/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -122,6 +123,274 @@ the end of the <code>rounds</code> property.</p>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Add a new round with an age_group task_id</span></span></span>
+<span class="r-in"><span><span class="va">new_round</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_round.html">create_round</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  round_id_from_variable <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  round_id <span class="op">=</span> <span class="st">"origin_date"</span>,</span></span>
+<span class="r-in"><span>  model_tasks <span class="op">=</span> <span class="fu"><a href="create_model_tasks.html">create_model_tasks</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="create_model_task.html">create_model_task</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>      task_ids <span class="op">=</span> <span class="fu"><a href="create_task_ids.html">create_task_ids</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="create_task_id.html">create_task_id</a></span><span class="op">(</span><span class="st">"origin_date"</span>,</span></span>
+<span class="r-in"><span>          required <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>          optional <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>            <span class="st">"2023-01-23"</span></span></span>
+<span class="r-in"><span>          <span class="op">)</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="create_task_id.html">create_task_id</a></span><span class="op">(</span><span class="st">"location"</span>,</span></span>
+<span class="r-in"><span>          required <span class="op">=</span> <span class="st">"US"</span>,</span></span>
+<span class="r-in"><span>          optional <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01"</span>, <span class="st">"02"</span>, <span class="st">"04"</span>, <span class="st">"05"</span>, <span class="st">"06"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="create_task_id.html">create_task_id</a></span><span class="op">(</span><span class="st">"horizon"</span>,</span></span>
+<span class="r-in"><span>          required <span class="op">=</span> <span class="fl">1L</span>,</span></span>
+<span class="r-in"><span>          optional <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span>,</span></span>
+<span class="r-in"><span>        <span class="fu"><a href="create_task_id.html">create_task_id</a></span><span class="op">(</span><span class="st">"age_group"</span>,</span></span>
+<span class="r-in"><span>          required <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>          optional <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>, <span class="st">"2"</span>, <span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
+<span class="r-in"><span>      output_type <span class="op">=</span> <span class="fu"><a href="create_output_type.html">create_output_type</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="create_output_type_mean.html">create_output_type_mean</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>          is_required <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>          value_type <span class="op">=</span> <span class="st">"double"</span>,</span></span>
+<span class="r-in"><span>          value_minimum <span class="op">=</span> <span class="fl">0L</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span>,</span></span>
+<span class="r-in"><span>      target_metadata <span class="op">=</span> <span class="fu"><a href="create_target_metadata.html">create_target_metadata</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        <span class="fu"><a href="create_target_metadata_item.html">create_target_metadata_item</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>          target_id <span class="op">=</span> <span class="st">"inc hosp"</span>,</span></span>
+<span class="r-in"><span>          target_name <span class="op">=</span> <span class="st">"Weekly incident influenza hospitalizations"</span>,</span></span>
+<span class="r-in"><span>          target_units <span class="op">=</span> <span class="st">"rate per 100,000 population"</span>,</span></span>
+<span class="r-in"><span>          target_keys <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>          target_type <span class="op">=</span> <span class="st">"discrete"</span>,</span></span>
+<span class="r-in"><span>          is_step_ahead <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>          time_unit <span class="op">=</span> <span class="st">"week"</span></span></span>
+<span class="r-in"><span>        <span class="op">)</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  submissions_due <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    relative_to <span class="op">=</span> <span class="st">"origin_date"</span>,</span></span>
+<span class="r-in"><span>    start <span class="op">=</span> <span class="op">-</span><span class="fl">4L</span>,</span></span>
+<span class="r-in"><span>    end <span class="op">=</span> <span class="fl">2L</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">append_round</span><span class="op">(</span><span class="va">config</span>, <span class="va">new_round</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $schema_version</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$round_id_from_variable</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$round_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "origin_date"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$origin_date</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$origin_date$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$origin_date$optional</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-01-02" "2023-01-09" "2023-01-16"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$location</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$location$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "US"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$location$optional</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "01" "02" "04" "05" "06"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$horizon</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$horizon$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$horizon$optional</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 3 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$is_required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$value$type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$value$minimum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc hosp"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Weekly incident influenza hospitalizations"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_units</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "rate per 100,000 population"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_keys</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "discrete"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$is_step_ahead</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$time_unit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "week"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$submissions_due</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$submissions_due$relative_to</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "origin_date"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$submissions_due$start</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$submissions_due$end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$round_id_from_variable</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$round_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "origin_date"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$origin_date</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$origin_date$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$origin_date$optional</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-01-23"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$location</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$location$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "US"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$location$optional</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "01" "02" "04" "05" "06"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$horizon</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$horizon$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$horizon$optional</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 3 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$age_group</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$age_group$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$age_group$optional</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1" "2" "3" "4" "5"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$output_type_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$output_type_id$required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$is_required</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$value$type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$value$minimum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc hosp"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Weekly incident influenza hospitalizations"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_units</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "rate per 100,000 population"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_keys</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "discrete"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$is_step_ahead</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$time_unit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "week"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$submissions_due</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$submissions_due$relative_to</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "origin_date"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$submissions_due$start</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$submissions_due$end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "config" "list"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"type")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "tasks"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "main"</span>
+<span class="r-in"><span><span class="co"># Append in existing config file using an older schema version</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>hubAdmin.schema_version <span class="op">=</span> <span class="st">"v4.0.0"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">hubUtils</span><span class="fu">::</span><span class="fu"><a href="https://hubverse-org.github.io/hubUtils/reference/read_config_file.html" class="external-link">read_config_file</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"v4-tasks.json"</span>, package <span class="op">=</span> <span class="st">"hubAdmin"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Create new round using version defined through</span></span></span>
+<span class="r-in"><span><span class="co"># hubAdmin.schema_version option</span></span></span>
 <span class="r-in"><span><span class="va">new_round</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_round.html">create_round</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  round_id_from_variable <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  round_id <span class="op">=</span> <span class="st">"origin_date"</span>,</span></span>
@@ -375,226 +644,14 @@ the end of the <code>rounds</code> property.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "config" "list"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"type")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "tasks"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "main"</span>
-<span class="r-in"><span><span class="co"># Append in existing config file</span></span></span>
-<span class="r-in"><span><span class="va">config</span> <span class="op">&lt;-</span> <span class="fu">hubUtils</span><span class="fu">::</span><span class="fu"><a href="https://hubverse-org.github.io/hubUtils/reference/read_config_file.html" class="external-link">read_config_file</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"v4-tasks.json"</span>, package <span class="op">=</span> <span class="st">"hubAdmin"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">append_round</span><span class="op">(</span><span class="va">config</span>, <span class="va">new_round</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $schema_version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$round_id_from_variable</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$round_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "origin_date"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$origin_date</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$origin_date$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$origin_date$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-01-02" "2023-01-09" "2023-01-16"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$location</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$location$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "US"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$location$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "01" "02" "04" "05" "06"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$horizon</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$horizon$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$task_ids$horizon$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 3 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$output_type_id$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$is_required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$value$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$output_type$mean$value$minimum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc hosp"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Weekly incident influenza hospitalizations"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_units</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "rate per 100,000 population"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_keys</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$target_type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "discrete"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$is_step_ahead</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$model_tasks[[1]]$target_metadata[[1]]$time_unit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "week"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$submissions_due</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$submissions_due$relative_to</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "origin_date"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$submissions_due$start</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[1]]$submissions_due$end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$round_id_from_variable</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$round_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "origin_date"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$origin_date</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$origin_date$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$origin_date$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-01-23"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$location</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$location$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "US"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$location$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "01" "02" "04" "05" "06"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$horizon</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$horizon$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$horizon$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2 3 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$age_group</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$age_group$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$task_ids$age_group$optional</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "1" "2" "3" "4" "5"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$output_type_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$output_type_id$required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$is_required</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$value$type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "double"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$output_type$mean$value$minimum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc hosp"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Weekly incident influenza hospitalizations"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_units</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "rate per 100,000 population"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_keys</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$target_type</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "discrete"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$is_step_ahead</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$model_tasks[[1]]$target_metadata[[1]]$time_unit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "week"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$submissions_due</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$submissions_due$relative_to</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "origin_date"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$submissions_due$start</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $rounds[[2]]$submissions_due$end</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"type")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "tasks"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "config" "list"  </span>
+<span class="r-in"><span><span class="co"># Reset option to latest schema version</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>hubAdmin.schema_version <span class="op">=</span> <span class="st">"latest"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

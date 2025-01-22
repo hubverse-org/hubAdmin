@@ -17,7 +17,7 @@ appended to tasks.json Hub config files."><meta property="og:image" content="htt
     <a href="https://hubdocs.readthedocs.io/en/latest/" class="external-link"><img src="https://raw.githubusercontent.com/hubverse-org/hubStyle/main/inst/hubverse.png" id="logo" height="30" alt="hubverse"></a>
     <a class="navbar-brand me-2" href="../index.html">hubAdmin</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,7 @@ appended to tasks.json Hub config files."><meta property="og:image" content="htt
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/hub-setup.html">Setting up a Hub</a></li>
+    <li><a class="dropdown-item" href="../articles/scripting-tasks-config.html">Scripting task configuration files</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/hubverse-org/hubAdmin/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -66,8 +67,8 @@ appended to <code>tasks.json</code> Hub config files.</p>
 <span>  <span class="va">target_type</span>,</span>
 <span>  <span class="va">is_step_ahead</span>,</span>
 <span>  time_unit <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  schema_version <span class="op">=</span> <span class="st">"latest"</span>,</span>
-<span>  branch <span class="op">=</span> <span class="st">"main"</span></span>
+<span>  schema_version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"hubAdmin.schema_version"</span>, default <span class="op">=</span> <span class="st">"latest"</span><span class="op">)</span>,</span>
+<span>  branch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"hubAdmin.branch"</span>, default <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -90,13 +91,15 @@ that could be used, for example, as a visualisation axis label.</p></dd>
 
 
 <dt id="arg-target-keys">target_keys<a class="anchor" aria-label="anchor" href="#arg-target-keys"></a></dt>
-<dd><p>named list or <code>NULL</code>. Should be <code>NULL</code>, in the case
-where the target is not specified as a task_id but is specified solely through
-the <code>target_id</code> argument. Otherwise, should be a named list of one or more
-character strings. The name of each element should match a task_id variable
-within the same model_tasks object. Each element should be of length 1.
-Each value, or the combination of values if multiple keys are specified,
-define a single target value.</p></dd>
+<dd><p>named list or <code>NULL</code>. The <code>target_keys</code> value defines a
+single target.
+Should be a named list containing a single character string element.
+The name of the element should match a <code>task_id</code> variable name within the same
+<code>model_tasks</code> object and the value should match a single value of that variable
+as described in
+<a href="https://hubverse.io/en/latest/user-guide/tasks.html#target-metadata" class="external-link">target metadata section of the official hubverse documentation</a>. # nolint: line_length_linter
+Otherwise, <code>NULL</code> in the case where the target is not specified as a task_id
+but is specified solely through the <code>target_id</code> argument.</p></dd>
 
 
 <dt id="arg-description">description<a class="anchor" aria-label="anchor" href="#arg-description"></a></dt>
@@ -126,13 +129,14 @@ be used for validation. The default value <code>"latest"</code> will use the lat
 available in the hubverse
 <a href="https://github.com/hubverse-org/schemas" class="external-link">schemas repository</a>.
 Alternatively, a specific version of a schema (e.g. <code>"v0.0.1"</code>)  can be
-specified.</p></dd>
+specified. Can be set through global option "hubAdmin.schema_version".</p></dd>
 
 
 <dt id="arg-branch">branch<a class="anchor" aria-label="anchor" href="#arg-branch"></a></dt>
 <dd><p>The branch of the hubverse
 <a href="https://github.com/hubverse-org/schemas" class="external-link">schemas repository</a>
-from which to fetch schema. Defaults to <code>"main"</code>.</p></dd>
+from which to fetch schema. Defaults to <code>"main"</code>. Can be set through global
+option "hubAdmin.branch".</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -186,9 +190,49 @@ the <a href="https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.htm
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "target_metadata_item" "list"                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v4.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "main"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>hubAdmin.schema_version <span class="op">=</span> <span class="st">"v3.0.1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">create_target_metadata_item</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  target_id <span class="op">=</span> <span class="st">"inc hosp"</span>,</span></span>
+<span class="r-in"><span>  target_name <span class="op">=</span> <span class="st">"Weekly incident influenza hospitalizations"</span>,</span></span>
+<span class="r-in"><span>  target_units <span class="op">=</span> <span class="st">"rate per 100,000 population"</span>,</span></span>
+<span class="r-in"><span>  target_keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"inc hosp"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  target_type <span class="op">=</span> <span class="st">"discrete"</span>,</span></span>
+<span class="r-in"><span>  is_step_ahead <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  time_unit <span class="op">=</span> <span class="st">"week"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc hosp"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Weekly incident influenza hospitalizations"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_units</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "rate per 100,000 population"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_keys</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_keys$target</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc hosp"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "discrete"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $is_step_ahead</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $time_unit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "week"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "target_metadata_item" "list"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "main"</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>hubAdmin.schema_version <span class="op">=</span> <span class="st">"latest"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
