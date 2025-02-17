@@ -172,6 +172,9 @@
             },
             "derived_task_ids": [
                 "target_date"
+            ],
+            "derived_task_ids": [
+                "target_date"
             ]
         }
     ]

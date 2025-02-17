@@ -403,7 +403,8 @@ test_that("Duplicate property names are flagged during validation", {
     c(
       "duplicate names: target_id", "duplicate names: target_metadata",
       "duplicate names: horizon", "duplicate names: quantile",
-      "duplicate names: round_id", "duplicate names: schema_version"
+      "duplicate names: round_id, derived_task_ids",
+      "duplicate names: schema_version"
     )
   )
 })
