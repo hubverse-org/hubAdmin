@@ -348,3 +348,42 @@ test_that("v5.0.0 round_id pattern validation works", {
     ), class = c("glue", "character"))
   )
 })
+
+test_that("Duplicate property names are flagged during validation", {
+  val <- validate_config(config_path = test_path(
+    "testdata",
+    "v5.0.0-dup-prop-names.json"
+  ))
+  expect_false(val)
+  errors_vals <- attr(val, "errors")
+  expect_equal(nrow(errors_vals), 2L)
+  expect_equal(
+    unique(errors_vals$instancePath),
+    c(
+      "/rounds/0/model_tasks/0/task_ids",
+      "/rounds/0/model_tasks/0/output_type"
+    )
+  )
+  expect_equal(
+    unique(errors_vals$schemaPath),
+    c(
+      "#/properties/rounds/items/properties/model_tasks/items/properties/task_ids",
+      "#/properties/rounds/items/properties/model_tasks/items/properties/output_type"
+    )
+  )
+  expect_equal(
+    unique(errors_vals$keyword),
+    c("task_ids uniqueNames", "output_type uniqueNames")
+  )
+  expect_equal(
+    unique(errors_vals$message),
+    c(
+      "task_ids objects must NOT contain\nproperties with duplicate names",
+      "output_type objects must NOT contain\nproperties with duplicate names"
+    )
+  )
+  expect_equal(
+    unique(errors_vals$data),
+    c("duplicate names: horizon", "duplicate names: quantile")
+  )
+})

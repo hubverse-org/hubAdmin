@@ -1,0 +1,161 @@
+{
+    "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json",
+    "rounds": [
+        {
+            "round_id_from_variable": true,
+            "round_id": "forecast_date",
+            "model_tasks": [
+                {
+                    "task_ids": {
+                        "forecast_date": {
+                            "required": null,
+                            "optional": [
+                                "2022-12-12",
+                                "2022-12-19",
+                                "2022-12-26",
+                                "2023-01-02",
+                                "2023-01-09",
+                                "2023-01-16",
+                                "2023-01-23",
+                                "2023-01-30",
+                                "2023-02-06",
+                                "2023-02-13",
+                                "2023-02-20",
+                                "2023-02-27",
+                                "2023-03-06",
+                                "2023-03-13",
+                                "2023-03-20",
+                                "2023-03-27",
+                                "2023-04-03",
+                                "2023-04-10",
+                                "2023-04-17",
+                                "2023-04-24",
+                                "2023-05-01"
+                            ]
+                        },
+                        "target": {
+                            "required": null,
+                            "optional": [
+                                "wk ahead inc flu hosp"
+                            ]
+                        },
+                        "horizon": {
+                            "required": [
+                                2
+                            ],
+                            "optional": [
+                                1
+                            ]
+                        },
+                        "horizon": {
+                            "required": [
+                                2
+                            ],
+                            "optional": [
+                                1
+                            ]
+                        },
+                        "location": {
+                            "required": [
+                                "US"
+                            ],
+                            "optional": [
+                                "01",
+                                "02"
+                            ]
+                        },
+                        "target_date": {
+                            "required": null,
+                            "optional": [
+                                "2022-12-19",
+                                "2022-12-26",
+                                "2023-01-02",
+                                "2023-01-09",
+                                "2023-01-16",
+                                "2023-01-23",
+                                "2023-01-30",
+                                "2023-02-06",
+                                "2023-02-13",
+                                "2023-02-20",
+                                "2023-02-27",
+                                "2023-03-06",
+                                "2023-03-13",
+                                "2023-03-20",
+                                "2023-03-27",
+                                "2023-04-03",
+                                "2023-04-10",
+                                "2023-04-17",
+                                "2023-04-24",
+                                "2023-05-01",
+                                "2023-05-08",
+                                "2023-05-15"
+                            ]
+                        }
+                    },
+                    "output_type": {
+                        "quantile": {
+                            "output_type_id": {
+                                "required": [
+                                              0.01,0.025,0.05,0.1,0.15,0.2,0.25,
+                                              0.3,0.35,0.4,0.45,0.5,0.55, 0.6,
+                                              0.65,0.7,0.75,0.8,0.85,0.9,0.95,
+                                              0.975,0.99
+                                              ]
+                            },
+                            "value": {
+                                "type": "double",
+                                "minimum": 0
+                            },
+                            "is_required": true
+                        },
+                        "quantile": {
+                            "output_type_id": {
+                                "required": [
+                                    0,
+                                    1
+                                ]
+                            },
+                            "value": {
+                                "type": "double",
+                                "minimum": 0
+                            },
+                            "is_required": false
+                        },
+                        "mean": {
+                            "output_type_id": {
+                                "required": null
+                            },
+                            "is_required": true,
+                            "value": {
+                                "type": "double",
+                                "minimum": 0
+                            }
+                        }
+                    },
+                    "target_metadata": [
+                        {
+                            "target_id": "wk ahead inc flu hosp",
+                            "target_name": "weekly influenza hospitalization incidence",
+                            "target_units": "rate per 100,000 population",
+                            "target_keys": {
+                                "target": "wk ahead inc flu hosp"
+                            },
+                            "target_type": "discrete",
+                            "description": "This target represents the counts of new hospitalizations per horizon week.",
+                            "is_step_ahead": true,
+                            "time_unit": "week"
+                        }
+                    ]
+                }
+            ],
+            "submissions_due": {
+                "relative_to": "forecast_date",
+                "start": -6,
+                "end": 2
+            },
+            "derived_task_ids": [
+                "target_date"
+            ]
+        }
+    ]
+}

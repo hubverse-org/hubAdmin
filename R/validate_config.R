@@ -221,6 +221,22 @@ val_round <- function(round, round_i, schema) {
     ),
     purrr::imap(
       model_task_grps,
+      ~ validate_mt_property_unique_names(
+        model_task_grp = .x, model_task_i = .y,
+        round_i = round_i, property = "task_ids",
+        schema = schema
+      )
+    ),
+    purrr::imap(
+      model_task_grps,
+      ~ validate_mt_property_unique_names(
+        model_task_grp = .x, model_task_i = .y,
+        round_i = round_i, property = "output_type",
+        schema = schema
+      )
+    ),
+    purrr::imap(
+      model_task_grps,
       ~ validate_mt_sample_range(
         model_task_grp = .x, model_task_i = .y,
         round_i = round_i,
