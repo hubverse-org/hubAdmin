@@ -356,11 +356,12 @@ test_that("Duplicate property names are flagged during validation", {
   ))
   expect_false(val)
   errors_vals <- attr(val, "errors")
-  expect_equal(nrow(errors_vals), 5L)
+  expect_equal(nrow(errors_vals), 6L)
   expect_equal(
     unique(errors_vals$instancePath),
     c(
       "/rounds/0/model_tasks/0/target_metadata/0",
+      "/rounds/0/model_tasks/0",
       "/rounds/0/model_tasks/0/task_ids",
       "/rounds/0/model_tasks/0/output_type",
       "/rounds/0",
@@ -371,6 +372,7 @@ test_that("Duplicate property names are flagged during validation", {
     unique(errors_vals$schemaPath),
     c(
       "#/properties/rounds/items/properties/model_tasks/items/properties/target_metadata",
+      "#/properties/rounds/items/properties/model_tasks",
       "#/properties/rounds/items/properties/model_tasks/items/properties/task_ids",
       "#/properties/rounds/items/properties/model_tasks/items/properties/output_type",
       "#/properties/rounds",
@@ -380,7 +382,7 @@ test_that("Duplicate property names are flagged during validation", {
   expect_equal(
     unique(errors_vals$keyword),
     c(
-      "target_metadata uniqueNames", "task_ids uniqueNames",
+      "target_metadata uniqueNames", "model_task uniqueNames", "task_ids uniqueNames",
       "output_type uniqueNames", "round uniqueNames",
       "config uniqueNames"
     )
@@ -389,6 +391,7 @@ test_that("Duplicate property names are flagged during validation", {
     unique(errors_vals$message),
     c(
       "target_metadata objects must NOT contain\nproperties with duplicate names",
+      "model_task objects must NOT contain\nproperties with duplicate names",
       "task_ids objects must NOT contain\nproperties with duplicate names",
       "output_type objects must NOT contain\nproperties with duplicate names",
       "round objects must NOT contain\nproperties with duplicate names",
@@ -398,9 +401,9 @@ test_that("Duplicate property names are flagged during validation", {
   expect_equal(
     unique(errors_vals$data),
     c(
-      "duplicate names: target_id", "duplicate names: horizon",
-      "duplicate names: quantile", "duplicate names: round_id",
-      "duplicate names: schema_version"
+      "duplicate names: target_id", "duplicate names: target_metadata",
+      "duplicate names: horizon", "duplicate names: quantile",
+      "duplicate names: round_id", "duplicate names: schema_version"
     )
   )
 })

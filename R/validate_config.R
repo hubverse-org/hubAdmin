@@ -226,6 +226,14 @@ val_round <- function(round, round_i, schema) {
       model_task_grps,
       ~ validate_property_unique_names(
         object_config = .x, model_task_i = .y,
+        round_i = round_i, object_name = "model_task",
+        schema = schema
+      )
+    ),
+    purrr::imap(
+      model_task_grps,
+      ~ validate_property_unique_names(
+        object_config = .x, model_task_i = .y,
         round_i = round_i, object_name = "task_ids",
         schema = schema
       )

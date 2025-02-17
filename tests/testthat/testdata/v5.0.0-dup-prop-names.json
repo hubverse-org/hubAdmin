@@ -148,6 +148,20 @@
                             "is_step_ahead": true,
                             "time_unit": "week"
                         }
+                    ],
+                    "target_metadata": [
+                        {
+                            "target_id": "wk ahead inc flu hosp",
+                            "target_name": "weekly influenza hospitalization incidence",
+                            "target_units": "rate per 100,000 population",
+                            "target_keys": {
+                                "target": "wk ahead inc flu hosp"
+                            },
+                            "target_type": "discrete",
+                            "description": "This target represents the counts of new hospitalizations per horizon week.",
+                            "is_step_ahead": true,
+                            "time_unit": "week"
+                        }
                     ]
                 }
             ],

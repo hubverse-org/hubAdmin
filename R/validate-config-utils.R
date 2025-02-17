@@ -502,7 +502,8 @@ validate_property_unique_names <- function(object_config,
                                              "output_type",
                                              "config",
                                              "round",
-                                             "target_metadata"
+                                             "target_metadata",
+                                             "model_task"
                                            ),
                                            schema) {
   object_name <- rlang::arg_match(object_name)
@@ -518,9 +519,10 @@ validate_property_unique_names <- function(object_config,
   object_path_target <- switch(object_name,
     config = "",
     round = "rounds",
+    model_task = "model_tasks",
     object_name
   )
-  append_item_n <- object_name %in% c("round", "target_metadata")
+  append_item_n <- object_name %in% c("round", "target_metadata", "model_task")
 
   if (length(dup_names) == 0L) {
     return(NULL)
