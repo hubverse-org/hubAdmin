@@ -179,7 +179,7 @@ perform_dynamic_config_validations <- function(validation) {
     )
   }
 
-  return(validation)
+  validation
 }
 
 ## Dynamic schema validation utilities ----
