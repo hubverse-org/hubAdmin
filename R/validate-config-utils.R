@@ -33,7 +33,7 @@ val_task_id_names <- function(model_task_grp, model_task_i, round_i, schema) {
     return(error_row)
   }
 
-  return(NULL)
+  NULL
 }
 
 val_model_task_grp_target_metadata <- function(model_task_grp, model_task_i,
@@ -148,7 +148,7 @@ val_target_key_names_const <- function(grp_target_keys, model_task_grp,
     )
     return(error_row)
   }
-  return(NULL)
+  NULL
 }
 
 val_target_key_names <- function(target_keys, model_task_grp,
@@ -170,9 +170,9 @@ val_target_key_names <- function(target_keys, model_task_grp,
             target_key names: {glue::glue_collapse(names(target_keys), sep = ', ')}")
     )
 
-    return(error_row)
+    error_row
   } else {
-    return(NULL)
+    NULL
   }
 }
 
@@ -215,9 +215,9 @@ val_target_key_values <- function(target_keys, model_task_grp,
       )
     )
 
-    return(error_row)
+    error_row
   } else {
-    return(NULL)
+    NULL
   }
 }
 
@@ -287,8 +287,7 @@ val_target_key_task_id_values <- function(grp_target_keys,
     )
     return(error_row)
   }
-
-  return(NULL)
+  NULL
 }
 
 
@@ -372,7 +371,7 @@ validate_mt_sample_range <- function(model_task_grp,
     )
     return(error_row)
   }
-  return(NULL)
+  NULL
 }
 
 # Validate that compound_taskid_set values are valid task ids for a
@@ -429,7 +428,7 @@ validate_mt_sample_compound_taskids <- function(model_task_grp,
     )
     return(error_row)
   }
-  return(NULL)
+  NULL
 }
 
 validate_mt_property_unique_vals <- function(model_task_grp,
@@ -595,7 +594,7 @@ validate_mt_round_id_pattern <- function(model_task_grp,
       schema = "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$",
       data = glue::glue("invalid values: {invalid_vals_msg}")
     )
-    return(error_row)
+    error_row
   }
 }
 ## ROUND LEVEL VALIDATIONS ----
@@ -816,7 +815,7 @@ validate_task_ids_not_all_null <- function(config_tasks, schema) {
     return(error_row)
   }
 
-  return(data.frame())
+  data.frame()
 }
 
 # Check that config derived_task_ids match valid round task ID names
@@ -999,7 +998,7 @@ assert_config_exists <- function(path) {
   if (!isTRUE(validation)) {
     validation <- make_config_error(path, validation)
   }
-  return(validation)
+  validation
 }
 
 make_config_error <- function(path, msg) {
@@ -1011,5 +1010,5 @@ make_config_error <- function(path, msg) {
   class(validation) <- c("conval", "error")
   # so it doesn't print the actual value, just the message
   utils::capture.output(print(validation))
-  return(validation)
+  validation
 }

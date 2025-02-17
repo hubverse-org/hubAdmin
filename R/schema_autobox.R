@@ -204,7 +204,7 @@ expand_items <- function(x, config) {
   purrr::map(seq_len(item_n), \(.x, item_idx) {
     x <- as.list(x)
     x[[item_idx]] <- as.integer(.x)
-    return(x)
+    x
   }, item_idx = item_idx)
 }
 
@@ -220,5 +220,5 @@ expand_path_items <- function(path, config) {
     ) |>
       purrr::list_flatten()
   }
-  return(path)
+  path
 }

@@ -72,7 +72,7 @@ create_test_config <- function(rounds) {
 setup_test_hub <- function() {
   dir <- withr::local_tempdir()
   temp_hub <- fs::dir_create(fs::path(dir, "hub"))
-  return(temp_hub)
+  temp_hub
 }
 
 setup_test_hub_with_config_dir <- function(temp_hub) {
