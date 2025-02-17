@@ -481,10 +481,12 @@ validate_mt_property_unique_vals <- function(model_task_grp,
 validate_property_unique_names <- function(object_config,
                                            model_task_i = NULL,
                                            round_i = NULL,
+                                           target_key_i = NULL,
                                            object_name = c(
                                              "task_ids",
                                              "output_type",
-                                             "config"
+                                             "config",
+                                             "round",
                                            ),
                                            schema) {
   object_name <- rlang::arg_match(object_name)
@@ -492,21 +494,31 @@ validate_property_unique_names <- function(object_config,
   property_names <- switch(object_name,
     task_ids = object_config[["task_ids"]],
     output_type = object_config[["output_type"]],
-    config = object_config
+    object_config
   ) |> names()
 
   dup_names <- property_names[duplicated(property_names)]
 
-  object_path_target <- ifelse(object_name == "config", "", object_name)
+  object_path_target <- switch(object_name,
+    config = "",
+    round = "rounds",
+    object_name
+  )
+  append_item_n <- object_name %in% c("round", "target_metadata")
 
   if (length(dup_names) == 0L) {
     return(NULL)
   } else {
     data.frame(
       instancePath = glue::glue(
-        get_error_path(schema, paste0("/", object_path_target), "instance")
+        get_error_path(schema, paste0("/", object_path_target), "instance",
+          append_item_n = append_item_n
+        )
       ),
-      schemaPath = get_error_path(schema, paste0("/", object_path_target), "schema"),
+      schemaPath = get_error_path(
+        schema, paste0("/", object_path_target),
+        "schema"
+      ),
       keyword = glue::glue("{object_name} uniqueNames"),
       message = glue::glue("{object_name} objects must NOT contain
                            properties with duplicate names"),

@@ -276,6 +276,11 @@ val_round <- function(round, round_i, schema) {
         round = round,
         round_i = round_i,
         schema = schema
+      ),
+      validate_property_unique_names(
+        round, object_name = "round",
+        round_i = round_i,
+        schema = schema
       )
     )
   ) %>%

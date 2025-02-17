@@ -356,12 +356,13 @@ test_that("Duplicate property names are flagged during validation", {
   ))
   expect_false(val)
   errors_vals <- attr(val, "errors")
-  expect_equal(nrow(errors_vals), 3L)
+  expect_equal(nrow(errors_vals), 4L)
   expect_equal(
     unique(errors_vals$instancePath),
     c(
       "/rounds/0/model_tasks/0/task_ids",
       "/rounds/0/model_tasks/0/output_type",
+      "/rounds/0",
       "/"
     )
   )
@@ -370,18 +371,21 @@ test_that("Duplicate property names are flagged during validation", {
     c(
       "#/properties/rounds/items/properties/model_tasks/items/properties/task_ids",
       "#/properties/rounds/items/properties/model_tasks/items/properties/output_type",
+      "#/properties/rounds",
       "#/"
     )
   )
   expect_equal(
     unique(errors_vals$keyword),
-    c("task_ids uniqueNames", "output_type uniqueNames", "config uniqueNames")
+    c("task_ids uniqueNames", "output_type uniqueNames", "round uniqueNames",
+      "config uniqueNames")
   )
   expect_equal(
     unique(errors_vals$message),
     c(
       "task_ids objects must NOT contain\nproperties with duplicate names",
       "output_type objects must NOT contain\nproperties with duplicate names",
+      "round objects must NOT contain\nproperties with duplicate names",
       "config objects must NOT contain\nproperties with duplicate names"
     )
   )
@@ -389,7 +393,7 @@ test_that("Duplicate property names are flagged during validation", {
     unique(errors_vals$data),
     c(
       "duplicate names: horizon", "duplicate names: quantile",
-      "duplicate names: schema_version"
+      "duplicate names: round_id", "duplicate names: schema_version"
     )
   )
 })
