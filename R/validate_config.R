@@ -150,7 +150,6 @@ perform_dynamic_config_validations <- function(validation) {
   )
   schema <- hubUtils::get_schema(attr(validation, "schema_url"))
 
-
   errors_tbl <- c(
     # Map over Round level validations
     purrr::imap(
@@ -164,7 +163,11 @@ perform_dynamic_config_validations <- function(validation) {
     list(
       validate_round_ids_unique(config_json, schema),
       validate_task_ids_not_all_null(config_json, schema),
-      validate_config_derived_task_ids(config_json, schema)
+      validate_config_derived_task_ids(config_json, schema),
+      validate_property_unique_names(
+        config_json, object_name = "config",
+        schema = schema
+      )
     )
   ) %>%
     purrr::list_rbind()
@@ -221,17 +224,17 @@ val_round <- function(round, round_i, schema) {
     ),
     purrr::imap(
       model_task_grps,
-      ~ validate_mt_property_unique_names(
-        model_task_grp = .x, model_task_i = .y,
-        round_i = round_i, property = "task_ids",
+      ~ validate_property_unique_names(
+        object_config = .x, model_task_i = .y,
+        round_i = round_i, object_name = "task_ids",
         schema = schema
       )
     ),
     purrr::imap(
       model_task_grps,
-      ~ validate_mt_property_unique_names(
-        model_task_grp = .x, model_task_i = .y,
-        round_i = round_i, property = "output_type",
+      ~ validate_property_unique_names(
+        object_config = .x, model_task_i = .y,
+        round_i = round_i, object_name = "output_type",
         schema = schema
       )
     ),

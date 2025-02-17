@@ -478,32 +478,37 @@ validate_mt_property_unique_vals <- function(model_task_grp,
   }
 }
 
-validate_mt_property_unique_names <- function(model_task_grp,
-                                              model_task_i,
-                                              round_i,
-                                              property = c(
-                                                "task_ids",
-                                                "output_type"
-                                              ),
-                                              schema) {
-  property <- rlang::arg_match(property)
+validate_property_unique_names <- function(object_config,
+                                           model_task_i = NULL,
+                                           round_i = NULL,
+                                           object_name = c(
+                                             "task_ids",
+                                             "output_type",
+                                             "config"
+                                           ),
+                                           schema) {
+  object_name <- rlang::arg_match(object_name)
 
-  property_names <- switch(property,
-    task_ids = model_task_grp[["task_ids"]],
-    output_type = model_task_grp[["output_type"]]
+  property_names <- switch(object_name,
+    task_ids = object_config[["task_ids"]],
+    output_type = object_config[["output_type"]],
+    config = object_config
   ) |> names()
 
-    dup_names <- property_names[duplicated(property_names)]
+  dup_names <- property_names[duplicated(property_names)]
 
-  if(length(dup_names) == 0L) {
+  object_path_target <- ifelse(object_name == "config", "", object_name)
+
+  if (length(dup_names) == 0L) {
     return(NULL)
   } else {
     data.frame(
       instancePath = glue::glue(
-        get_error_path(schema, paste0("/", property), "instance")),
-      schemaPath = get_error_path(schema, paste0("/", property), "schema"),
-      keyword = glue::glue("{property} uniqueNames"),
-      message = glue::glue("{property} objects must NOT contain
+        get_error_path(schema, paste0("/", object_path_target), "instance")
+      ),
+      schemaPath = get_error_path(schema, paste0("/", object_path_target), "schema"),
+      keyword = glue::glue("{object_name} uniqueNames"),
+      message = glue::glue("{object_name} objects must NOT contain
                            properties with duplicate names"),
       schema = "",
       data = glue::glue("duplicate names: {paste(dup_names, collapse = ', ')}")

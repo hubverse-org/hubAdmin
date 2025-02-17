@@ -45,6 +45,13 @@ get_error_path <- function(schema, element = "target_metadata",
                            append_item_n = FALSE) {
   type <- rlang::arg_match(type)
 
+  # Return appropriate path early if element indicates root of config (i.e. is "/")
+  if (element == "/" && type == "schema") {
+    return(paste0("#", element))
+  }
+  if (element == "/") {
+    return(element)
+  }
   # Create a character vector of schema paths
   schema_paths <- schema %>%
     jsonlite::fromJSON(simplifyDataFrame = FALSE) %>%
