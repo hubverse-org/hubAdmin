@@ -492,59 +492,6 @@ validate_mt_property_unique_vals <- function(model_task_grp,
   }
 }
 
-validate_property_unique_names <- function(object_config,
-                                           model_task_i = NULL,
-                                           round_i = NULL,
-                                           target_key_i = NULL,
-                                           object_name = c(
-                                             "task_ids",
-                                             "output_type",
-                                             "config",
-                                             "round",
-                                             "target_metadata",
-                                             "model_task"
-                                           ),
-                                           schema) {
-  object_name <- rlang::arg_match(object_name)
-
-  property_names <- switch(object_name,
-    task_ids = object_config[["task_ids"]],
-    output_type = object_config[["output_type"]],
-    object_config
-  ) |> names()
-
-  dup_names <- property_names[duplicated(property_names)]
-
-  object_path_target <- switch(object_name,
-    config = "",
-    round = "rounds",
-    model_task = "model_tasks",
-    object_name
-  )
-  append_item_n <- object_name %in% c("round", "target_metadata", "model_task")
-
-  if (length(dup_names) == 0L) {
-    return(NULL)
-  } else {
-    data.frame(
-      instancePath = glue::glue(
-        get_error_path(schema, paste0("/", object_path_target), "instance",
-          append_item_n = append_item_n
-        )
-      ),
-      schemaPath = get_error_path(
-        schema, paste0("/", object_path_target),
-        "schema"
-      ),
-      keyword = glue::glue("{object_name} uniqueNames"),
-      message = glue::glue("{object_name} objects must NOT contain
-                           properties with duplicate names"),
-      schema = "",
-      data = glue::glue("duplicate names: {paste(dup_names, collapse = ', ')}")
-    )
-  }
-}
-
 # Check that modeling task round ids match the expected round ID patterns when
 # round_id_from_variable = TRUE
 validate_mt_round_id_pattern <- function(model_task_grp,
@@ -865,6 +812,82 @@ validate_config_derived_task_ids <- function(config_tasks, schema) {
       )
   }
   out
+}
+
+### MULTI-LEVEL VALIDATIONS ----
+#' Validate that property names of objects of a given type are unique.
+#'
+#' @param object_config list representation of config object to check. Object to
+#' be supplied is dependent on the `object_name` argument.
+#' - `task_ids`: single model_task object
+#' - `output_type`: single model_task object
+#' - `config`: full config object
+#' - `round`: single round object
+#' - `target_metadata`: single target_metadata object
+#' - `model_task`: single model_task object
+#' @param model_task_i Index of model_task object being validated. `NULL` if higher
+#' level object is being validated.
+#' @param round_i Index of round object being validated. `NULL` if higher level object
+#' is being validated.
+#' @param target_key_i Index of target_key object being validated. `NULL` if higher
+#' level object is being validated.
+#' @param object_name Name of object to validate. Must be one of the following:
+#' @param schema R representation of schema.
+#'
+#' @returns Data frame containing one row of error metadata if validation fails.
+#' `NULL` if validation passes.
+#' @noRd
+validate_property_unique_names <- function(object_config,
+                                           model_task_i = NULL,
+                                           round_i = NULL,
+                                           target_key_i = NULL,
+                                           object_name = c(
+                                             "task_ids",
+                                             "output_type",
+                                             "config",
+                                             "round",
+                                             "target_metadata",
+                                             "model_task"
+                                           ),
+                                           schema) {
+  object_name <- rlang::arg_match(object_name)
+
+  property_names <- switch(object_name,
+    task_ids = object_config[["task_ids"]],
+    output_type = object_config[["output_type"]],
+    object_config
+  ) |> names()
+
+  dup_names <- property_names[duplicated(property_names)]
+
+  object_path_target <- switch(object_name,
+    config = "",
+    round = "rounds",
+    model_task = "model_tasks",
+    object_name
+  )
+  append_item_n <- object_name %in% c("round", "target_metadata", "model_task")
+
+  if (length(dup_names) == 0L) {
+    return(NULL)
+  } else {
+    data.frame(
+      instancePath = glue::glue(
+        get_error_path(schema, paste0("/", object_path_target), "instance",
+          append_item_n = append_item_n
+        )
+      ),
+      schemaPath = get_error_path(
+        schema, paste0("/", object_path_target),
+        "schema"
+      ),
+      keyword = glue::glue("{object_name} uniqueNames"),
+      message = glue::glue("{object_name} objects must NOT contain
+                           properties with duplicate names"),
+      schema = "",
+      data = glue::glue("duplicate names: {paste(dup_names, collapse = ', ')}")
+    )
+  }
 }
 
 ### Utilities ----
