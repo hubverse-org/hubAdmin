@@ -137,6 +137,7 @@
                     "target_metadata": [
                         {
                             "target_id": "wk ahead inc flu hosp",
+                            "target_id": "wk ahead inc flu hosp",
                             "target_name": "weekly influenza hospitalization incidence",
                             "target_units": "rate per 100,000 population",
                             "target_keys": {

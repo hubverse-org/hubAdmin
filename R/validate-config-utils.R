@@ -107,11 +107,26 @@ val_model_task_grp_target_metadata <- function(model_task_grp, model_task_i,
     round_i = round_i,
     schema = schema
   )
+
+  # Check that metadata objects do not contain duplicate properties
+  error_check_5 <- purrr::imap(
+    model_task_grp[["target_metadata"]],
+    ~ validate_property_unique_names(
+      object_config = .x,
+      target_key_i = .y,
+      model_task_i = model_task_i,
+      round_i = round_i,
+      object_name = "target_metadata",
+      schema = schema
+    )
+  ) %>%
+    purrr::list_rbind()
   # Combine all error checks
   rbind(
     errors_check_2,
     errors_check_3,
-    errors_check_4
+    errors_check_4,
+    error_check_5
   )
 }
 
@@ -487,6 +502,7 @@ validate_property_unique_names <- function(object_config,
                                              "output_type",
                                              "config",
                                              "round",
+                                             "target_metadata"
                                            ),
                                            schema) {
   object_name <- rlang::arg_match(object_name)
