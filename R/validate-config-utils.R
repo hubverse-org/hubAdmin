@@ -1029,6 +1029,7 @@ parse_object_path <- function(object_path) {
     return(meta)
   }
 
+  # Identify integer indices in the path
   indices <- suppressWarnings(purrr::map(path_meta, as.integer))
   int_indices <- purrr::discard(indices, is.na)
   if (length(int_indices) > 0L) {
