@@ -1032,7 +1032,11 @@ parse_object_path <- function(object_path) {
   indices <- suppressWarnings(purrr::map(path_meta, as.integer))
   int_indices <- purrr::discard(indices, is.na)
   if (length(int_indices) > 0L) {
-    meta[seq_along(int_indices) + 2] <- int_indices
+    # Populate "round_i", "model_task_i", "target_key_i" with integer indices
+    # depending on the depth of the current path (i.e. the length of the vector of
+    # integer indices present in the path). The + 2 is used to skip populating
+    # the first two elements of `meta`.
+    meta[seq_along(int_indices) + 2L] <- int_indices
   }
   meta[["object_name"]] <- path_meta[utils::tail(which(is.na(indices)), 1L)]
   meta
