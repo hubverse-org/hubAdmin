@@ -815,7 +815,9 @@ validate_unique_names_recursive <- function(object, object_path = "", schema) {
   # Initialise objects to be assigned via env_bind to silence R CMD check note
   object_name <- NULL
   object_target_path <- NULL
-  # Assign elements required for error messages and path tracking to variables
+  # Assign elements required for error messages and path tracking to variables.
+  # This also creates variables `round_i`, `model_task_i` and `target_metadata_i`
+  # used to create instance error paths when glueing the output of get_error_path().
   rlang::env_bind(environment(), !!!parse_object_path(object_path))
 
   property_names <- names(object)
