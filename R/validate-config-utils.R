@@ -1031,6 +1031,7 @@ parse_object_path <- function(object_path) {
 
   # Identify integer indices in the path
   indices <- suppressWarnings(purrr::map(path_meta, as.integer))
+  # Remove non-integer indices
   int_indices <- purrr::discard(indices, is.na)
   if (length(int_indices) > 0L) {
     # Populate "round_i", "model_task_i", "target_key_i" with integer indices
