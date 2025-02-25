@@ -127,5 +127,5 @@ check_output_type_id_datatype <- function(schema_id, output_type_id_datatype) {
     )
     return(NULL)
   }
-  return(output_type_id_datatype)
+  output_type_id_datatype
 }

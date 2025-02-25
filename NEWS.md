@@ -1,5 +1,7 @@
 # hubAdmin (development version)
 
+* `validate_config()` now detects the presence of duplicate property names (#98).
+
 # hubAdmin 1.5.0
 
 * Use options to set `schema_version` and `branch` arguments in `download_tasks_schema()` and the `create_*()` family of functions for creating config files programmatically. This allows for setting the schema version and branch globally for the session (#85).

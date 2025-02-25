@@ -215,5 +215,5 @@ append_round <- function(config, ...) {
 
   config[["rounds"]] <- c(config[["rounds"]], rounds[["rounds"]])
 
-  return(config)
+  config
 }

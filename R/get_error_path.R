@@ -40,11 +40,18 @@
 #' get_error_path(schema, "derived_task_ids", "schema")
 #' # Target lower level properties by defining more of the path
 #' get_error_path(schema, "rounds/items/properties/derived_task_ids", "schema")
-get_error_path <- function(schema, element = "target_metadata",
+get_error_path <- function(schema, element = "target_metadata", # nolint: cyclocomp_linter
                            type = c("schema", "instance"),
                            append_item_n = FALSE) {
   type <- rlang::arg_match(type)
 
+  # Return appropriate path early if element indicates root of config (i.e. is "/")
+  if (element == "/" && type == "schema") {
+    return(paste0("#", element))
+  }
+  if (element == "/") {
+    return(element)
+  }
   # Create a character vector of schema paths
   schema_paths <- schema %>%
     jsonlite::fromJSON(simplifyDataFrame = FALSE) %>%

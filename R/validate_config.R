@@ -150,7 +150,6 @@ perform_dynamic_config_validations <- function(validation) {
   )
   schema <- hubUtils::get_schema(attr(validation, "schema_url"))
 
-
   errors_tbl <- c(
     # Map over Round level validations
     purrr::imap(
@@ -164,7 +163,8 @@ perform_dynamic_config_validations <- function(validation) {
     list(
       validate_round_ids_unique(config_json, schema),
       validate_task_ids_not_all_null(config_json, schema),
-      validate_config_derived_task_ids(config_json, schema)
+      validate_config_derived_task_ids(config_json, schema),
+      validate_unique_names_recursive(config_json, schema = schema)
     )
   ) %>%
     purrr::list_rbind()
@@ -179,7 +179,7 @@ perform_dynamic_config_validations <- function(validation) {
     )
   }
 
-  return(validation)
+  validation
 }
 
 ## Dynamic schema validation utilities ----

@@ -12,6 +12,5 @@ verify_latest_schema_version <- function(x) {
   if (!is.null(x$schema_version)) {
     x$schema_version <- "latest"
   }
-
-  return(x)
+  x
 }

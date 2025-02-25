@@ -33,7 +33,7 @@ val_task_id_names <- function(model_task_grp, model_task_i, round_i, schema) {
     return(error_row)
   }
 
-  return(NULL)
+  NULL
 }
 
 val_model_task_grp_target_metadata <- function(model_task_grp, model_task_i,
@@ -107,6 +107,7 @@ val_model_task_grp_target_metadata <- function(model_task_grp, model_task_i,
     round_i = round_i,
     schema = schema
   )
+
   # Combine all error checks
   rbind(
     errors_check_2,
@@ -133,7 +134,7 @@ val_target_key_names_const <- function(grp_target_keys, model_task_grp,
     )
     return(error_row)
   }
-  return(NULL)
+  NULL
 }
 
 val_target_key_names <- function(target_keys, model_task_grp,
@@ -155,9 +156,9 @@ val_target_key_names <- function(target_keys, model_task_grp,
             target_key names: {glue::glue_collapse(names(target_keys), sep = ', ')}")
     )
 
-    return(error_row)
+    error_row
   } else {
-    return(NULL)
+    NULL
   }
 }
 
@@ -200,9 +201,9 @@ val_target_key_values <- function(target_keys, model_task_grp,
       )
     )
 
-    return(error_row)
+    error_row
   } else {
-    return(NULL)
+    NULL
   }
 }
 
@@ -272,8 +273,7 @@ val_target_key_task_id_values <- function(grp_target_keys,
     )
     return(error_row)
   }
-
-  return(NULL)
+  NULL
 }
 
 
@@ -357,7 +357,7 @@ validate_mt_sample_range <- function(model_task_grp,
     )
     return(error_row)
   }
-  return(NULL)
+  NULL
 }
 
 # Validate that compound_taskid_set values are valid task ids for a
@@ -414,7 +414,7 @@ validate_mt_sample_compound_taskids <- function(model_task_grp,
     )
     return(error_row)
   }
-  return(NULL)
+  NULL
 }
 
 validate_mt_property_unique_vals <- function(model_task_grp,
@@ -527,7 +527,7 @@ validate_mt_round_id_pattern <- function(model_task_grp,
       schema = "^([0-9]{4}-[0-9]{2}-[0-9]{2})$|^[A-Za-z0-9_]+$",
       data = glue::glue("invalid values: {invalid_vals_msg}")
     )
-    return(error_row)
+    error_row
   }
 }
 ## ROUND LEVEL VALIDATIONS ----
@@ -748,7 +748,7 @@ validate_task_ids_not_all_null <- function(config_tasks, schema) {
     return(error_row)
   }
 
-  return(data.frame())
+  data.frame()
 }
 
 # Check that config derived_task_ids match valid round task ID names
@@ -799,6 +799,72 @@ validate_config_derived_task_ids <- function(config_tasks, schema) {
   }
   out
 }
+
+### MULTI-LEVEL VALIDATIONS ----
+#' Recursively validate that all property names of an object are unique.
+#'
+#' @param object A list representation of a config object to validate
+#' @param object_path A string representing the path to the object in the config.
+#' Defaults to `""` for the top level config.
+#' @param schema A json representation of the schema to validate against
+#'
+#' @returns A data frame of error rows for any duplicate property names within list
+#' elements at any depth of the object. Otherwise returns `NULL`.
+#' @noRd
+validate_unique_names_recursive <- function(object, object_path = "", schema) {
+  # Initialise objects to be assigned via env_bind to silence R CMD check note
+  object_name <- NULL
+  object_target_path <- NULL
+  # Assign elements required for error messages and path tracking to variables.
+  # This also creates variables `round_i`, `model_task_i` and `target_metadata_i`
+  # used to create instance error paths when glueing the output of get_error_path().
+  rlang::env_bind(environment(), !!!parse_object_path(object_path))
+
+  property_names <- names(object)
+  dup_names <- property_names[duplicated(property_names)]
+  if (length(dup_names) == 0L) {
+    object_errors <- NULL
+  } else {
+    append_item_n <- object_name %in% c("rounds", "target_metadata", "model_tasks")
+
+    object_errors <- data.frame(
+      instancePath = glue::glue(
+        get_error_path(schema, paste0("/", object_target_path), "instance",
+          append_item_n = append_item_n
+        )
+      ),
+      schemaPath = get_error_path(
+        schema, paste0("/", object_target_path),
+        "schema"
+      ),
+      keyword = glue::glue("{object_name} uniqueNames"),
+      message = glue::glue("{object_name} objects must NOT contain
+                           properties with duplicate names"),
+      schema = "",
+      data = glue::glue("duplicate names: {paste(dup_names, collapse = ', ')}")
+    )
+  }
+
+  # Recurse over object child ojects if any are lists. Otherwise return object_errors
+  child_objects <- purrr::keep(object, is.list)
+  if (length(child_objects) == 0L) {
+    return(object_errors)
+  }
+
+  child_errors <- purrr::imap(
+    child_objects,
+    \(.x, .y) {
+      validate_unique_names_recursive(
+        .x,
+        paste0(object_path, "/", .y),
+        schema = schema
+      )
+    }
+  ) |> purrr::list_rbind()
+
+  rbind(object_errors, child_errors)
+}
+
 
 ### Utilities ----
 derived_task_ids_with_required_vals <- function(x, derived_task_ids,
@@ -931,7 +997,7 @@ assert_config_exists <- function(path) {
   if (!isTRUE(validation)) {
     validation <- make_config_error(path, validation)
   }
-  return(validation)
+  validation
 }
 
 make_config_error <- function(path, msg) {
@@ -943,5 +1009,45 @@ make_config_error <- function(path, msg) {
   class(validation) <- c("conval", "error")
   # so it doesn't print the actual value, just the message
   utils::capture.output(print(validation))
-  return(validation)
+  validation
+}
+
+# Parse an object path collected recursively in validate_unique_names_recursive
+#  into its constituent parts. Used to generate error paths.
+parse_object_path <- function(object_path) {
+  meta <- vector(mode = "list", length = 5) |>
+    purrr::set_names(
+      c("object_name", "object_target_path", "round_i", "model_task_i", "target_key_i")
+    )
+
+  path_meta <- strsplit(object_path, "/")[[1]]
+
+  meta[["object_target_path"]] <- get_object_target_path(object_path)
+
+  if (length(path_meta) == 0L) {
+    meta[["object_name"]] <- "config"
+    return(meta)
+  }
+
+  # Identify integer indices in the path
+  indices <- suppressWarnings(purrr::map(path_meta, as.integer))
+  # Remove non-integer indices
+  int_indices <- purrr::discard(indices, is.na)
+  if (length(int_indices) > 0L) {
+    # Populate "round_i", "model_task_i", "target_key_i" with integer indices
+    # depending on the depth of the current path (i.e. the length of the vector of
+    # integer indices present in the path). The + 2 is used to skip populating
+    # the first two elements of `meta`.
+    meta[seq_along(int_indices) + 2L] <- int_indices
+  }
+  meta[["object_name"]] <- path_meta[utils::tail(which(is.na(indices)), 1L)]
+  meta
+}
+
+# Process paths to target objects collected recursively in validate_unique_names_recursive
+# This enables the paths to be passed successfully to get_error_path
+get_object_target_path <- function(object_path) {
+  object_path <- gsub("/\\d+$", "", object_path) # Remove trailing object indices
+  object_path <- gsub("^/", "", object_path) # Remove leading slash
+  gsub("/\\d+", "/.*", object_path) # Replace object indices with wildcard
 }

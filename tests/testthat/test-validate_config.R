@@ -348,3 +348,50 @@ test_that("v5.0.0 round_id pattern validation works", {
     ), class = c("glue", "character"))
   )
 })
+
+test_that("Duplicate property names are flagged during validation", {
+  val <- validate_config(config_path = test_path(
+    "testdata",
+    "v5.0.0-dup-prop-names.json"
+  ))
+  expect_false(val)
+  errors_vals <- attr(val, "errors")
+  expect_equal(nrow(errors_vals), 6L)
+  expect_equal(
+    unique(errors_vals$instancePath),
+    c(
+      "/", "/rounds/0", "/rounds/0/model_tasks/0", "/rounds/0/model_tasks/0/task_ids",
+      "/rounds/0/model_tasks/0/output_type", "/rounds/0/model_tasks/0/target_metadata/0"
+    )
+  )
+  expect_equal(
+    unique(errors_vals$schemaPath),
+    c("#/", "#/properties/rounds", "#/properties/rounds/items/properties/model_tasks",
+      "#/properties/rounds/items/properties/model_tasks/items/properties/task_ids",
+      "#/properties/rounds/items/properties/model_tasks/items/properties/output_type",
+      "#/properties/rounds/items/properties/model_tasks/items/properties/target_metadata"
+    )
+  )
+  expect_equal(
+    unique(errors_vals$keyword),
+    c("config uniqueNames", "rounds uniqueNames", "model_tasks uniqueNames",
+      "task_ids uniqueNames", "output_type uniqueNames", "target_metadata uniqueNames"
+    )
+  )
+  expect_equal(
+    unique(errors_vals$message),
+    c("config objects must NOT contain\nproperties with duplicate names",
+      "rounds objects must NOT contain\nproperties with duplicate names",
+      "model_tasks objects must NOT contain\nproperties with duplicate names",
+      "task_ids objects must NOT contain\nproperties with duplicate names",
+      "output_type objects must NOT contain\nproperties with duplicate names",
+      "target_metadata objects must NOT contain\nproperties with duplicate names"
+    )
+  )
+  expect_equal(
+    unique(errors_vals$data),
+    c("duplicate names: schema_version", "duplicate names: round_id, derived_task_ids",
+      "duplicate names: target_metadata", "duplicate names: horizon",
+      "duplicate names: quantile", "duplicate names: target_id")
+  )
+})

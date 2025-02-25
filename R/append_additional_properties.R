@@ -78,5 +78,5 @@ add_items <- function(config_path, schema_path) {
   non_items_idx <- which(schema_path != "items")
   out <- schema_path
   out[non_items_idx] <- config_path
-  return(out)
+  out
 }

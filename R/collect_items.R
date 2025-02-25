@@ -32,7 +32,7 @@ collect_items <- function(...,
       items,
       function(x) {
         attributes(x) <- list(names = names(x))
-        return(x)
+        x
       }
     )
   }
