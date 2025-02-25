@@ -164,10 +164,7 @@ perform_dynamic_config_validations <- function(validation) {
       validate_round_ids_unique(config_json, schema),
       validate_task_ids_not_all_null(config_json, schema),
       validate_config_derived_task_ids(config_json, schema),
-      validate_property_unique_names(
-        config_json, object_name = "config",
-        schema = schema
-      )
+      validate_unique_names_recursive(config_json, schema = schema)
     )
   ) %>%
     purrr::list_rbind()
@@ -224,30 +221,6 @@ val_round <- function(round, round_i, schema) {
     ),
     purrr::imap(
       model_task_grps,
-      ~ validate_property_unique_names(
-        object_config = .x, model_task_i = .y,
-        round_i = round_i, object_name = "model_task",
-        schema = schema
-      )
-    ),
-    purrr::imap(
-      model_task_grps,
-      ~ validate_property_unique_names(
-        object_config = .x, model_task_i = .y,
-        round_i = round_i, object_name = "task_ids",
-        schema = schema
-      )
-    ),
-    purrr::imap(
-      model_task_grps,
-      ~ validate_property_unique_names(
-        object_config = .x, model_task_i = .y,
-        round_i = round_i, object_name = "output_type",
-        schema = schema
-      )
-    ),
-    purrr::imap(
-      model_task_grps,
       ~ validate_mt_sample_range(
         model_task_grp = .x, model_task_i = .y,
         round_i = round_i,
@@ -282,11 +255,6 @@ val_round <- function(round, round_i, schema) {
       ),
       validate_round_derived_task_ids(
         round = round,
-        round_i = round_i,
-        schema = schema
-      ),
-      validate_property_unique_names(
-        round, object_name = "round",
         round_i = round_i,
         schema = schema
       )

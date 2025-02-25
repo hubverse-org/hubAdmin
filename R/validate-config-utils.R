@@ -108,25 +108,11 @@ val_model_task_grp_target_metadata <- function(model_task_grp, model_task_i,
     schema = schema
   )
 
-  # Check that metadata objects do not contain duplicate properties
-  error_check_5 <- purrr::imap(
-    model_task_grp[["target_metadata"]],
-    ~ validate_property_unique_names(
-      object_config = .x,
-      target_key_i = .y,
-      model_task_i = model_task_i,
-      round_i = round_i,
-      object_name = "target_metadata",
-      schema = schema
-    )
-  ) %>%
-    purrr::list_rbind()
   # Combine all error checks
   rbind(
     errors_check_2,
     errors_check_3,
-    errors_check_4,
-    error_check_5
+    errors_check_4
   )
 }
 
@@ -815,70 +801,38 @@ validate_config_derived_task_ids <- function(config_tasks, schema) {
 }
 
 ### MULTI-LEVEL VALIDATIONS ----
-#' Validate that property names of objects of a given type are unique.
+#' Recursively validate that all property names of an object are unique.
 #'
-#' @param object_config list representation of config object to check. Object to
-#' be supplied is dependent on the `object_name` argument.
-#' - `task_ids`: single model_task object
-#' - `output_type`: single model_task object
-#' - `config`: full config object
-#' - `round`: single round object
-#' - `target_metadata`: single target_metadata object
-#' - `model_task`: single model_task object
-#' @param model_task_i Index of model_task object being validated. `NULL` if higher
-#' level object is being validated.
-#' @param round_i Index of round object being validated. `NULL` if higher level object
-#' is being validated.
-#' @param target_key_i Index of target_key object being validated. `NULL` if higher
-#' level object is being validated.
-#' @param object_name Name of object to validate. Must be one of the following:
-#' @param schema R representation of schema.
+#' @param object A list representation of a config object to validate
+#' @param object_path A string representing the path to the object in the config.
+#' Defaults to `""` for the top level config.
+#' @param schema A json representation of the schema to validate against
 #'
-#' @returns Data frame containing one row of error metadata if validation fails.
-#' `NULL` if validation passes.
+#' @returns A data frame of error rows for any duplicate property names within list
+#' elements at any depth of the object. Otherwise returns `NULL`.
 #' @noRd
-validate_property_unique_names <- function(object_config,
-                                           model_task_i = NULL,
-                                           round_i = NULL,
-                                           target_key_i = NULL,
-                                           object_name = c(
-                                             "task_ids",
-                                             "output_type",
-                                             "config",
-                                             "round",
-                                             "target_metadata",
-                                             "model_task"
-                                           ),
-                                           schema) {
-  object_name <- rlang::arg_match(object_name)
+validate_unique_names_recursive <- function(object, object_path = "", schema) {
+  # Initialise objects to be assigned via env_bind to silence R CMD check note
+  object_name <- NULL
+  object_target_path <- NULL
+  # Assign elements required for error messages and path tracking to variables
+  rlang::env_bind(environment(), !!!parse_object_path(object_path))
 
-  property_names <- switch(object_name,
-    task_ids = object_config[["task_ids"]],
-    output_type = object_config[["output_type"]],
-    object_config
-  ) |> names()
-
+  property_names <- names(object)
   dup_names <- property_names[duplicated(property_names)]
-
-  object_path_target <- switch(object_name,
-    config = "",
-    round = "rounds",
-    model_task = "model_tasks",
-    object_name
-  )
-  append_item_n <- object_name %in% c("round", "target_metadata", "model_task")
-
   if (length(dup_names) == 0L) {
-    return(NULL)
+    object_errors <- NULL
   } else {
-    data.frame(
+    append_item_n <- object_name %in% c("rounds", "target_metadata", "model_tasks")
+
+    object_errors <- data.frame(
       instancePath = glue::glue(
-        get_error_path(schema, paste0("/", object_path_target), "instance",
+        get_error_path(schema, paste0("/", object_target_path), "instance",
           append_item_n = append_item_n
         )
       ),
       schemaPath = get_error_path(
-        schema, paste0("/", object_path_target),
+        schema, paste0("/", object_target_path),
         "schema"
       ),
       keyword = glue::glue("{object_name} uniqueNames"),
@@ -888,7 +842,27 @@ validate_property_unique_names <- function(object_config,
       data = glue::glue("duplicate names: {paste(dup_names, collapse = ', ')}")
     )
   }
+
+  # Recurse over object child ojects if any are lists. Otherwise return object_errors
+  child_objects <- purrr::keep(object, is.list)
+  if (length(child_objects) == 0L) {
+    return(object_errors)
+  }
+
+  child_errors <- purrr::imap(
+    child_objects,
+    \(.x, .y) {
+      validate_unique_names_recursive(
+        .x,
+        paste0(object_path, "/", .y),
+        schema = schema
+      )
+    }
+  ) |> purrr::list_rbind()
+
+  rbind(object_errors, child_errors)
 }
+
 
 ### Utilities ----
 derived_task_ids_with_required_vals <- function(x, derived_task_ids,
@@ -1034,4 +1008,38 @@ make_config_error <- function(path, msg) {
   # so it doesn't print the actual value, just the message
   utils::capture.output(print(validation))
   validation
+}
+
+# Parse an object path collected recursively in validate_unique_names_recursive
+#  into its constituent parts. Used to generate error paths.
+parse_object_path <- function(object_path) {
+  meta <- vector(mode = "list", length = 5) |>
+    purrr::set_names(
+      c("object_name", "object_target_path", "round_i", "model_task_i", "target_key_i")
+    )
+
+  path_meta <- strsplit(object_path, "/")[[1]]
+
+  meta[["object_target_path"]] <- get_object_target_path(object_path)
+
+  if (length(path_meta) == 0L) {
+    meta[["object_name"]] <- "config"
+    return(meta)
+  }
+
+  indices <- suppressWarnings(purrr::map(path_meta, as.integer))
+  int_indices <- purrr::discard(indices, is.na)
+  if (length(int_indices) > 0L) {
+    meta[seq_along(int_indices) + 2] <- int_indices
+  }
+  meta[["object_name"]] <- path_meta[utils::tail(which(is.na(indices)), 1L)]
+  meta
+}
+
+# Process paths to target objects collected recursively in validate_unique_names_recursive
+# This enables the paths to be passed successfully to get_error_path
+get_object_target_path <- function(object_path) {
+  object_path <- gsub("/\\d+$", "", object_path) # Remove trailing object indices
+  object_path <- gsub("^/", "", object_path) # Remove leading slash
+  gsub("/\\d+", "/.*", object_path) # Replace object indices with wildcard
 }
