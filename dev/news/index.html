@@ -40,6 +40,8 @@
 <h2 class="pkg-version" data-toc-text="development version" id="hubadmin-development-version">hubAdmin (development version)<a class="anchor" aria-label="anchor" href="#hubadmin-development-version"></a></h2>
 <ul><li>
 <code><a href="../reference/validate_config.html">validate_config()</a></code> now detects the presence of duplicate property names (<a href="https://github.com/hubverse-org/hubAdmin/issues/98" class="external-link">#98</a>).</li>
+<li>
+<code><a href="../reference/validate_config.html">validate_config()</a></code> now checks that the <code>target_id</code> property in each <code>target_metadata</code> item matches the value specified in <code>target_keys</code> (<a href="https://github.com/hubverse-org/hubAdmin/issues/102" class="external-link">#102</a>). Note this check is only performed if <code>target_keys</code> is not <code>NULL</code> and is does not contain more than one element itself.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.5.0" id="hubadmin-150">hubAdmin 1.5.0<a class="anchor" aria-label="anchor" href="#hubadmin-150"></a></h2>
