@@ -7,7 +7,7 @@
     <a href="https://hubdocs.readthedocs.io/en/latest/" class="external-link"><img src="https://raw.githubusercontent.com/hubverse-org/hubStyle/main/inst/hubverse.png" id="logo" height="30" alt="hubverse"></a>
     <a class="navbar-brand me-2" href="../index.html">hubAdmin</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +36,13 @@
       <small>Source: <a href="https://github.com/hubverse-org/hubAdmin/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.6.0" id="hubadmin-160">hubAdmin 1.6.0<a class="anchor" aria-label="anchor" href="#hubadmin-160"></a></h2>
+<ul><li>
+<code><a href="../reference/validate_config.html">validate_config()</a></code> now detects the presence of duplicate property names (<a href="https://github.com/hubverse-org/hubAdmin/issues/98" class="external-link">#98</a>).</li>
+<li>
+<code><a href="../reference/validate_config.html">validate_config()</a></code> now checks that the <code>target_id</code> property in each <code>target_metadata</code> item matches the value specified in <code>target_keys</code> (<a href="https://github.com/hubverse-org/hubAdmin/issues/102" class="external-link">#102</a>). Note this check is only performed if <code>target_keys</code> is not <code>NULL</code> and is does not contain more than one element itself.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.5.0" id="hubadmin-150">hubAdmin 1.5.0<a class="anchor" aria-label="anchor" href="#hubadmin-150"></a></h2>
 <ul><li>Use options to set <code>schema_version</code> and <code>branch</code> arguments in <code><a href="../reference/download_tasks_schema.html">download_tasks_schema()</a></code> and the <code>create_*()</code> family of functions for creating config files programmatically. This allows for setting the schema version and branch globally for the session (<a href="https://github.com/hubverse-org/hubAdmin/issues/85" class="external-link">#85</a>).</li>
