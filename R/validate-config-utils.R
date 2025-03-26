@@ -160,22 +160,9 @@ val_target_ids_match_target_key_values <- function(grp_target_keys,
   )
   # Check for mismatches between target_id and target_key values. Returns
   # TRUE if there is a mismatch.
-  mismatch <- purrr::map2_lgl(
+  mismatch <- !purrr::map2_lgl(
     target_ids, target_key_values,
-    ~ {
-      # Check not possible if target_key is NULL as target_id value
-      # represents the target value.
-      if (is.null(.x)) {
-        return(FALSE)
-      }
-      # skip if target_key length is greater than 1L (i.e. in schema
-      # < v5.0.0). Too messy to perform for older schema but will caught
-      # as error for schema => v5.0.0 by other checks
-      if (length(.x) != length(.y)) {
-        return(FALSE)
-      }
-      .x != .y
-    }
+    ~ check_target_id(target_id = .x, target_keys = .y)
   )
 
   if (any(mismatch)) {

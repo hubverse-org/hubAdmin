@@ -205,3 +205,19 @@ get_schema_target_metadata <- function(schema) {
     "items", "properties"
   )
 }
+
+check_target_id <- function(target_id, target_keys) {
+  target_key_values <- unlist(target_keys)
+  # Check not possible if target_key is NULL as target_id value
+  # represents the target value.
+  if (is.null(target_key_values)) {
+    return(TRUE)
+  }
+  # skip if target_key length is greater than 1L (i.e. in schema
+  # < v5.0.0). Too messy to perform for older schema but will caught
+  # as error for schema => v5.0.0 by other checks
+  if (length(target_id) != length(target_key_values)) {
+    return(TRUE)
+  }
+  target_id == target_key_values
+}
