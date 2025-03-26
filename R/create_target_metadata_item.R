@@ -124,6 +124,18 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
     call = call
   )
 
+  if (!check_target_id(target_id, target_keys)) {
+    cli::cli_abort(
+      c(
+        "!" = "{.arg target_id} value {.val {target_id}} does not match
+        corresponding {.arg target_keys} value
+        {.val {names(target_keys)}.{unlist(target_keys,
+        use.names = FALSE)}}."
+      ),
+      call = call
+    )
+  }
+
   structure(mget(property_names),
     class = c("target_metadata_item", "list"),
     names = property_names,
