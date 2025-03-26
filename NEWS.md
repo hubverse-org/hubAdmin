@@ -1,4 +1,4 @@
-# hubAdmin (development version)
+# hubAdmin 1.6.0
 
 * `validate_config()` now detects the presence of duplicate property names (#98).
 * `validate_config()` now checks that the `target_id` property in each `target_metadata` item matches the value specified in `target_keys` (#102). Note this check is only performed if `target_keys` is not `NULL` and is does not contain more than one element itself.
