@@ -108,14 +108,22 @@ val_model_task_grp_target_metadata <- function(model_task_grp, model_task_i,
     schema = schema
   )
 
+  # Check that target_ids match corresponding target key values
+  errors_check_5 <- val_target_ids_match_target_key_values(
+    grp_target_keys,
+    model_task_i = model_task_i,
+    round_i = round_i,
+    schema = schema
+  )
   # Combine all error checks
   rbind(
     errors_check_2,
     errors_check_3,
-    errors_check_4
+    errors_check_4,
+    errors_check_5
   )
 }
-
+## GROUP TARGET KEY LEVEL VALIDATIONS ----
 val_target_key_names_const <- function(grp_target_keys, model_task_grp,
                                        model_task_i, round_i, schema) {
   target_key_names <- purrr::map(grp_target_keys, ~ names(.x)) %>%
@@ -136,7 +144,59 @@ val_target_key_names_const <- function(grp_target_keys, model_task_grp,
   }
   NULL
 }
+# Validate that target_ids match corresponding target key values
+val_target_ids_match_target_key_values <- function(grp_target_keys,
+                                                   model_task_i,
+                                                   round_i,
+                                                   schema) {
+  target_key_values <- purrr::map(
+    grp_target_keys,
+    ~ .x$target_keys |> unlist()
+  )
 
+  target_ids <- purrr::map(
+    grp_target_keys,
+    ~ .x$target_id
+  )
+  # Check for mismatches between target_id and target_key values. Returns
+  # TRUE if there is a mismatch.
+  mismatch <- !purrr::map2_lgl(
+    target_ids, target_key_values,
+    ~ check_target_id(target_id = .x, target_keys = .y)
+  )
+
+  if (any(mismatch)) {
+    invalid_target_key_values <- target_key_values[mismatch] |>
+      unlist()
+    invalid_target_ids <- target_ids[mismatch] |>
+      unlist()
+    invalid_target_key_idxs <- seq_along(grp_target_keys)[mismatch]
+    error_row <- data.frame(
+      instancePath = glue::glue_data(
+        list(
+          round_i = round_i,
+          model_task_i = model_task_i,
+          target_key_i = invalid_target_key_idxs
+        ),
+        get_error_path(schema, "target_id", "instance",
+          append_item_n = TRUE
+        )
+      ),
+      schemaPath = get_error_path(schema, "target_id", "schema"),
+      keyword = "target_id value",
+      message = "target_id value does not match corresponding target key value",
+      schema = "",
+      data = glue::glue(
+        "target_id value: '{invalid_target_ids}';
+            target_key.{names(invalid_target_key_values)} value: '{invalid_target_key_values}'"
+      )
+    )
+    error_row
+  } else {
+    NULL
+  }
+}
+## TARGET KEY LEVEL VALIDATIONS ----
 val_target_key_names <- function(target_keys, model_task_grp,
                                  target_key_i, model_task_i,
                                  round_i, schema) {

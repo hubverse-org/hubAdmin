@@ -1,0 +1,40 @@
+{
+                        "target_metadata": [
+                        {
+                            "target_id": "ili-ed-deaths",
+                            "target_name": "ED ili-ed-deaths due to ILI",
+                            "target_units": "count",
+                            "target_keys": {
+                                "target": "ili-ed-deaths"
+                            },
+                            "target_type": "continuous",
+                            "description": "This target represents the count of ED deaths due to ILI in the week ending on the date [horizon] weeks after the reference_date, on the target_end_date.",
+                            "is_step_ahead": true,
+                            "time_unit": "week"
+                        },
+                        {
+                            "target_id": "ili-ed-hosp",
+                            "target_name": "ED hospitalisations due to ILI",
+                            "target_units": "count",
+                            "target_keys": {
+                                "target": "ILI ED hospitalisation"
+                            },
+                            "target_type": "continuous",
+                            "description": "This target represents the count of ED hospitalisations due to ILI in the week ending on the date [horizon] weeks after the reference_date, on the target_end_date.",
+                            "is_step_ahead": true,
+                            "time_unit": "week"
+                        },
+                        {
+                            "target_id": "ili-ed-visits",
+                            "target_name": "ED visits due to ILI",
+                            "target_units": "count",
+                            "target_keys": {
+                                "target": "ILI ED visits"
+                            },
+                            "target_type": "continuous",
+                            "description": "This target represents the count of ED visits due to ILI in the week ending on the date [horizon] weeks after the reference_date, on the target_end_date.",
+                            "is_step_ahead": true,
+                            "time_unit": "week"
+                        }
+                    ]
+}

@@ -212,3 +212,53 @@ test_that("Target_keys of length more than 1 are not allowed post v5.0.0", {
     }
   )
 })
+
+test_that("target_ids and target_key values mismatches detected correctly", {
+  skip_if_offline()
+  expect_error(
+    create_target_metadata_item(
+      target_id = "inc hosp",
+      target_name = "Weekly incident influenza hospitalizations",
+      target_units = "rate per 100,000 population",
+      target_keys = list(target = "inc hospitalizations"),
+      target_type = "discrete",
+      is_step_ahead = TRUE,
+      time_unit = "week"
+    ),
+    regexp = ".*target_id.* value .* does not match corresponding .*target_keys.* value"
+  )
+
+  expect_s3_class(
+    create_target_metadata_item(
+      target_id = "inc hosp",
+      target_name = "Weekly incident influenza hospitalizations",
+      target_units = "rate per 100,000 population",
+      target_keys = NULL,
+      target_type = "discrete",
+      is_step_ahead = TRUE,
+      time_unit = "week"
+    ),
+    "target_metadata_item"
+  )
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v4.0.0"
+    ),
+    {
+      target_metadata <- create_target_metadata_item(
+        target_id = "inc hosp",
+        target_name = "Weekly incident influenza hospitalizations",
+        target_units = "rate per 100,000 population",
+        target_keys = list(
+          target_variable = "inc",
+          target_outcome = " hospitalizations"
+        ),
+        target_type = "discrete",
+        is_step_ahead = TRUE,
+        time_unit = "week"
+      )
+      expect_s3_class(target_metadata, "target_metadata_item")
+    }
+  )
+})
