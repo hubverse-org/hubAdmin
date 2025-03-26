@@ -1,3 +1,5 @@
+# hubAdmin (development version)
+
 # hubAdmin 1.6.0
 
 * `validate_config()` now detects the presence of duplicate property names (#98).
