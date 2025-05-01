@@ -382,6 +382,6 @@ render_errors_df <- function(error_df) {
     ) %>%
     gt::tab_source_note(
       source_note = gt::md("For more information, please consult the
-                                 [**`hubDocs` documentation**.](https://hubverse.io/en/latest/)")
+                                 [**`hubDocs` documentation**.](https://docs.hubverse.io/en/latest/)")
     )
 }
