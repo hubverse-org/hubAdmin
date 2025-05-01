@@ -8,7 +8,7 @@
 #' @seealso [create_target_metadata_item()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #'
 #' @examples
 #' create_target_metadata(
