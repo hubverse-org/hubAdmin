@@ -20,7 +20,7 @@
 #' @details `required` and `optional` vectors for standard task_ids defined in a Hub schema
 #' must match data types and formats specified in the schema. For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html)
+#' https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html)
 #'
 #' JSON schema data type names differ to those in R. Use the following mappings to
 #' create vectors of appropriate data types which will correspond to correct JSON
