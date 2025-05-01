@@ -10,7 +10,7 @@
 #' [create_output_type_pmf()], [create_output_type_sample()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #' @examples
 #' create_output_type(
 #'   create_output_type_mean(
