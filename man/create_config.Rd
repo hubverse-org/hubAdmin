@@ -17,7 +17,7 @@ schema version used for the config is <= v3.0.1.
 This property is used to set the data type of the \code{output_type_id} column in
 model outputs and can take values of \code{"auto"}, \code{"character"}, \code{"double"},
 \code{"integer"}, \code{"logical"}, or \code{"Date"}.
-For more details consult the \href{https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema}{hubDocs documentation on model output datatypes}}
+For more details consult the \href{https://docs.hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema}{hubDocs documentation on model output datatypes}}
 
 \item{derived_task_ids}{character vector of derived task id names (i.e. task IDs
 whose values are depended on the values of other task IDs). Only available for
@@ -32,7 +32,7 @@ class \code{config}. This can be written out to a \code{tasks.json} file.
 }
 \details{
 For more details consult
-the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
+the \href{https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
 }
 \examples{
 rounds <- create_rounds(

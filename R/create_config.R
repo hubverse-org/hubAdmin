@@ -14,7 +14,7 @@
 #' model outputs and can take values of `"auto"`, `"character"`, `"double"`,
 #' `"integer"`, `"logical"`, or `"Date"`.
 #' For more details consult the [hubDocs documentation on model output datatypes](
-#' https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema)
+#' https://docs.hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema)
 #' @param derived_task_ids character vector of derived task id names (i.e. task IDs
 #' whose values are depended on the values of other task IDs). Only available for
 #' schema version v4.0.0 and later.
@@ -24,7 +24,7 @@
 #' @seealso [create_rounds()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #'
 #' @examples
 #' rounds <- create_rounds(

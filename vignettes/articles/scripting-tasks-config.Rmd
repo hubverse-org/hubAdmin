@@ -87,7 +87,7 @@ variable in `task_ids` so it can validate that the round IDs are unique.
 </div>
 
 These rounds contain one or more [**modeling
-tasks**](https://hubverse.io/en/latest/user-guide/tasks.html) that define the
+tasks**](https://docs.hubverse.io/en/latest/user-guide/tasks.html) that define the
 expected content of a model submission against one or more modeling targets.
 Each modeling task includes three properties:
 
@@ -320,7 +320,7 @@ column of a model submission output type id should be. This is important for
 downstream analysis and visualization of the data. This is automatically
 determined by default, but **it is [important to maintain a stable output type
 ID column data
-type](https://hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema)
+type](https://docs.hubverse.io/en/latest/user-guide/model-output.html#the-importance-of-a-stable-model-output-file-schema)
 throughout the life of your hub.** The consequences of not doing so could lead
 to an inability to evaluate past submissions. For example, this hub has
 quantile values, so the default would set the value of the `output_type_id`
