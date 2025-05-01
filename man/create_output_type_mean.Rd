@@ -58,7 +58,7 @@ or appended to \code{tasks.json} Hub config files.
 }
 \details{
 For more details consult
-the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
+the \href{https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
 }
 \section{Functions}{
 \itemize{
