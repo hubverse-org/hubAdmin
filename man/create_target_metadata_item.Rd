@@ -32,7 +32,7 @@ Should be a named list containing a single character string element.
 The name of the element should match a \code{task_id} variable name within the same
 \code{model_tasks} object and the value should match a single value of that variable
 as described in
-\href{https://hubverse.io/en/latest/user-guide/tasks.html#target-metadata}{target metadata section of the official hubverse documentation}. # nolint: line_length_linter
+\href{https://docs.hubverse.io/en/latest/user-guide/tasks.html#target-metadata}{target metadata section of the official hubverse documentation}. # nolint: line_length_linter
 Otherwise, \code{NULL} in the case where the target is not specified as a task_id
 but is specified solely through the \code{target_id} argument.}
 
@@ -40,7 +40,7 @@ but is specified solely through the \code{target_id} argument.}
 of the target that might include information such as definitions of a 'rate' or similar.}
 
 \item{target_type}{character string. Target statistical data type. Consult the
-\href{https://hubverse.io/en/latest/format/hub-metadata.html#model-tasks-tasks-json-interactive-schema}{appropriate version of the hub schema}
+\href{https://docs.hubverse.io/en/latest/format/hub-metadata.html#model-tasks-tasks-json-interactive-schema}{appropriate version of the hub schema}
 for potential values.}
 
 \item{is_step_ahead}{logical. Whether the target is part of a sequence of values}
@@ -74,7 +74,7 @@ appended to \code{tasks.json} Hub config files.
 }
 \details{
 For more details consult
-the \href{https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
+the \href{https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html}{documentation on \code{tasks.json} Hub config files}.
 }
 \examples{
 create_target_metadata_item(
