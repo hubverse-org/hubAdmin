@@ -17,14 +17,14 @@
 #' The name of the element should match a `task_id` variable name within the same
 #' `model_tasks` object and the value should match a single value of that variable
 #' as described in
-#' [target metadata section of the official hubverse documentation](https://hubverse.io/en/latest/user-guide/tasks.html#target-metadata). # nolint: line_length_linter
+#' [target metadata section of the official hubverse documentation](https://docs.hubverse.io/en/latest/user-guide/tasks.html#target-metadata). # nolint: line_length_linter
 #' Otherwise, `NULL` in the case where the target is not specified as a task_id
 #' but is specified solely through the `target_id` argument.
 #' @param description character string (optional). An optional verbose description
 #' of the target that might include information such as definitions of a 'rate' or similar.
 #' @param target_type character string. Target statistical data type. Consult the
 #' [appropriate version of the hub schema](
-#' https://hubverse.io/en/latest/format/hub-metadata.html#model-tasks-tasks-json-interactive-schema)
+#' https://docs.hubverse.io/en/latest/format/hub-metadata.html#model-tasks-tasks-json-interactive-schema)
 #' for potential values.
 #' @param is_step_ahead logical. Whether the target is part of a sequence of values
 #' @param time_unit character string. If `is_step_ahead` is `TRUE`, then this
@@ -34,7 +34,7 @@
 #' @seealso [create_target_metadata()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
-#' https://hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
 #' @return a named list of class `target_metadata_item`.
 #' @export
 #'
