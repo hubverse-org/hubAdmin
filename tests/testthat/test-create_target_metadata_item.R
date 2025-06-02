@@ -262,3 +262,58 @@ test_that("target_ids and target_key values mismatches detected correctly", {
     }
   )
 })
+
+test_that("possibility to add optional properties starting v5.1.0", {
+  skip_if_offline()
+  no_opt <- create_target_metadata_item(
+    target_id = "inc hosp",
+    target_name = "Weekly incident influenza hospitalizations",
+    target_units = "rate per 100,000 population",
+    target_keys = list(target = "inc hosp"),
+    target_type = "discrete",
+    is_step_ahead = TRUE,
+    time_unit = "week"
+  )
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v5.1.0",
+      hubAdmin.branch = "lc/br-v5.1.0"
+    ),
+    {
+      opt_version <- create_target_metadata_item(
+        target_id = "inc hosp",
+        target_name = "Weekly incident influenza hospitalizations",
+        target_units = "rate per 100,000 population",
+        target_keys = list(target = "inc hosp"),
+        target_type = "discrete",
+        is_step_ahead = TRUE,
+        time_unit = "week",
+        uri = "https://ontobee.org/",
+        alternative_name = "Incident Hospitalization"
+      )
+    }
+  )
+  expect_equal(c(names(no_opt), "uri", "alternative_name"), names(opt_version))
+
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v3.0.1",
+      hubAdmin.branch = "main"
+    ),
+    {
+      opt_version <- create_target_metadata_item(
+        target_id = "inc hosp",
+        target_name = "Weekly incident influenza hospitalizations",
+        target_units = "rate per 100,000 population",
+        target_keys = list(target = "inc hosp"),
+        target_type = "discrete",
+        is_step_ahead = TRUE,
+        time_unit = "week",
+        uri = "https://ontobee.org/",
+        alternative_name = "Incident Hospitalization"
+      )
+    }
+  )
+  expect_equal(names(no_opt), names(opt_version))
+})
