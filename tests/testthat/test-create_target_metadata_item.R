@@ -302,16 +302,18 @@ test_that("possibility to add optional properties starting v5.1.0", {
       hubAdmin.branch = "main"
     ),
     {
-      opt_version <- create_target_metadata_item(
-        target_id = "inc hosp",
-        target_name = "Weekly incident influenza hospitalizations",
-        target_units = "rate per 100,000 population",
-        target_keys = list(target = "inc hosp"),
-        target_type = "discrete",
-        is_step_ahead = TRUE,
-        time_unit = "week",
-        uri = "https://ontobee.org/",
-        alternative_name = "Incident Hospitalization"
+      expect_message(
+        opt_version <- create_target_metadata_item(
+          target_id = "inc hosp",
+          target_name = "Weekly incident influenza hospitalizations",
+          target_units = "rate per 100,000 population",
+          target_keys = list(target = "inc hosp"),
+          target_type = "discrete",
+          is_step_ahead = TRUE,
+          time_unit = "week",
+          uri = "https://ontobee.org/",
+          alternative_name = "Incident Hospitalization"
+        )
       )
     }
   )
