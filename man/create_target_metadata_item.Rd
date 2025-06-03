@@ -14,7 +14,8 @@ create_target_metadata_item(
   is_step_ahead,
   time_unit = NULL,
   schema_version = getOption("hubAdmin.schema_version", default = "latest"),
-  branch = getOption("hubAdmin.branch", default = "main")
+  branch = getOption("hubAdmin.branch", default = "main"),
+  ...
 )
 }
 \arguments{
@@ -60,6 +61,10 @@ specified. Can be set through global option "hubAdmin.schema_version".}
 \href{https://github.com/hubverse-org/schemas}{schemas repository}
 from which to fetch schema. Defaults to \code{"main"}. Can be set through global
 option "hubAdmin.branch".}
+
+\item{...}{additional optional properties to add in the target metadata list
+output. Only available for schema version equal or greater than v5.1.0,
+ignore for past version.}
 }
 \value{
 a named list of class \code{target_metadata_item}.
@@ -85,6 +90,17 @@ create_target_metadata_item(
   target_type = "discrete",
   is_step_ahead = TRUE,
   time_unit = "week"
+)
+# For schema version >= v.5.1.0, example with an additional optional property
+create_target_metadata_item(
+  target_id = "inc hosp",
+  target_name = "Weekly incident influenza hospitalizations",
+  target_units = "rate per 100,000 population",
+  target_keys = list(target = "inc hosp"),
+  target_type = "discrete",
+  is_step_ahead = TRUE,
+  time_unit = "week",
+  uri = "https://ontobee.org/"
 )
 options(hubAdmin.schema_version = "v3.0.1")
 create_target_metadata_item(
