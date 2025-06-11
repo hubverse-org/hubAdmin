@@ -395,3 +395,42 @@ test_that("Duplicate property names are flagged during validation", {
       "duplicate names: quantile", "duplicate names: target_id")
   )
 })
+
+test_that("Version 5.1 validated accordingly", {
+  config_path <- testthat::test_path("testdata", "v5.1.0-tasks.json")
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v5.1.0",
+      hubAdmin.branch = "lc/br-v5.1.0"
+    ),
+    {
+      out <- suppressMessages(validate_config(config_path = config_path))
+    }
+  )
+  expect_true(out)
+
+  config_path <- testthat::test_path("testdata", "v5.1.0-tasks-add_metadata.json")
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v5.1.0",
+      hubAdmin.branch = "lc/br-v5.1.0"
+    ),
+    {
+      out <- suppressMessages(validate_config(config_path = config_path))
+    }
+  )
+  expect_true(out)
+
+  config_path <- testthat::test_path("testdata", "v4-tasks_additional_metadata.json")
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v5.1.0",
+      hubAdmin.branch = "lc/br-v5.1.0"
+    ),
+    {
+      out <- suppressMessages(validate_config(config_path = config_path))
+    }
+  )
+  expect_false(out)
+  expect_equal(attributes(out)$errors$message, "must NOT have additional properties")
+})
