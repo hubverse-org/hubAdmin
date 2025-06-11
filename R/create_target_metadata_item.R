@@ -155,7 +155,7 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
     schema$`$id`, "v[0-9]+\\.[0-9]+\\.[0-9]+(\\.9([0-9]+)?)?"
   )
   opt_property <- list(...)
-  if (length(opt_property) > 0) {
+  if (length(opt_properties) > 0L) {
     if (hubUtils::version_gte("v5.1.0", schema_version = vers)) {
       obj <- c(obj, opt_property)
       names <- c(names, names(opt_property))
