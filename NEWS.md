@@ -1,5 +1,7 @@
 # hubAdmin (development version)
 
+* update `create_target_metadata_item()`function to add optional additional properties, to match schema version 5.1.0. (#108)
+
 # hubAdmin 1.6.0
 
 * `validate_config()` now detects the presence of duplicate property names (#98).
