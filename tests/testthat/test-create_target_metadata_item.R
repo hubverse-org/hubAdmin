@@ -277,8 +277,7 @@ test_that("possibility to add optional properties starting v5.1.0", {
 
   withr::with_options(
     list(
-      hubAdmin.schema_version = "v5.1.0",
-      hubAdmin.branch = "lc/br-v5.1.0"
+      hubAdmin.schema_version = "v5.1.0"
     ),
     {
       opt_version <- create_target_metadata_item(
@@ -298,8 +297,7 @@ test_that("possibility to add optional properties starting v5.1.0", {
 
   withr::with_options(
     list(
-      hubAdmin.schema_version = "v3.0.1",
-      hubAdmin.branch = "main"
+      hubAdmin.schema_version = "v3.0.1"
     ),
     {
       expect_message(
