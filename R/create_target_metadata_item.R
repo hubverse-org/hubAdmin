@@ -31,6 +31,9 @@
 #' argument is required and defines the unit of time steps. if `is_step_ahead` is
 #' `FALSE`, then this argument is not required and will be ignored if given.
 #' @inheritParams create_task_id
+#' @param ... additional optional properties to add to the target metadata list
+#' output. Only available for schema version equal or greater than v5.1.0,
+#' ignored for past version.
 #' @seealso [create_target_metadata()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
@@ -47,6 +50,17 @@
 #'   target_type = "discrete",
 #'   is_step_ahead = TRUE,
 #'   time_unit = "week"
+#' )
+#' # For schema version >= v.5.1.0, example with an additional optional property
+#' create_target_metadata_item(
+#'   target_id = "inc hosp",
+#'   target_name = "Weekly incident influenza hospitalizations",
+#'   target_units = "rate per 100,000 population",
+#'   target_keys = list(target = "inc hosp"),
+#'   target_type = "discrete",
+#'   is_step_ahead = TRUE,
+#'   time_unit = "week",
+#'   uri = "https://ontobee.org/"
 #' )
 #' options(hubAdmin.schema_version = "v3.0.1")
 #' create_target_metadata_item(
@@ -69,7 +83,7 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
                                         branch = getOption(
                                           "hubAdmin.branch",
                                           default = "main"
-                                        )) {
+                                        ), ...) {
   rlang::check_required(target_id)
   rlang::check_required(target_name)
   rlang::check_required(target_units)
@@ -80,7 +94,6 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
 
   schema <- download_tasks_schema(schema_version, branch)
   target_metadata_schema <- get_schema_target_metadata(schema)
-
 
   if (is.null(description)) {
     property_names <- c(
@@ -136,12 +149,27 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
     )
   }
 
-  structure(mget(property_names),
-    class = c("target_metadata_item", "list"),
-    names = property_names,
-    schema_id = schema$`$id`,
-    branch = branch
+  obj <- mget(property_names)
+  vers <- stringr::str_extract(
+    schema$`$id`, "v[0-9]+\\.[0-9]+\\.[0-9]+(\\.9([0-9]+)?)?"
   )
+  opt_properties <- list(...)
+  if (length(opt_properties) > 0L) {
+    if (hubUtils::version_gte("v5.1.0", schema_version = vers)) {
+      obj <- c(obj, opt_properties)
+      property_names <- c(property_names, names(opt_properties))
+    } else {
+      cli::cli_inform(
+        c(
+          "!" = "Only schema version equal or greater than {.val v.5.1.0} accept
+          additional properties, {.arg ...} ignored"
+        )
+      )
+    }
+  }
+
+  structure(obj, class = c("target_metadata_item", "list"), names = property_names,
+            schema_id = schema$`$id`, branch = branch)
 }
 
 check_target_keys <- function(target_keys, schema_version,
