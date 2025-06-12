@@ -68,7 +68,8 @@ appended to <code>tasks.json</code> Hub config files.</p>
 <span>  <span class="va">is_step_ahead</span>,</span>
 <span>  time_unit <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  schema_version <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"hubAdmin.schema_version"</span>, default <span class="op">=</span> <span class="st">"latest"</span><span class="op">)</span>,</span>
-<span>  branch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"hubAdmin.branch"</span>, default <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span></span>
+<span>  branch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"hubAdmin.branch"</span>, default <span class="op">=</span> <span class="st">"main"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -138,6 +139,12 @@ specified. Can be set through global option "hubAdmin.schema_version".</p></dd>
 from which to fetch schema. Defaults to <code>"main"</code>. Can be set through global
 option "hubAdmin.branch".</p></dd>
 
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>additional optional properties to add to the target metadata list
+output. Only available for schema version equal or greater than v5.1.0,
+ignored for past version.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -190,7 +197,50 @@ the <a href="https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-confi
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "target_metadata_item" "list"                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.1.0/tasks-schema.json"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "main"</span>
+<span class="r-in"><span><span class="co"># For schema version &gt;= v.5.1.0, example with an additional optional property</span></span></span>
+<span class="r-in"><span><span class="fu">create_target_metadata_item</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  target_id <span class="op">=</span> <span class="st">"inc hosp"</span>,</span></span>
+<span class="r-in"><span>  target_name <span class="op">=</span> <span class="st">"Weekly incident influenza hospitalizations"</span>,</span></span>
+<span class="r-in"><span>  target_units <span class="op">=</span> <span class="st">"rate per 100,000 population"</span>,</span></span>
+<span class="r-in"><span>  target_keys <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>target <span class="op">=</span> <span class="st">"inc hosp"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  target_type <span class="op">=</span> <span class="st">"discrete"</span>,</span></span>
+<span class="r-in"><span>  is_step_ahead <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  time_unit <span class="op">=</span> <span class="st">"week"</span>,</span></span>
+<span class="r-in"><span>  uri <span class="op">=</span> <span class="st">"https://ontobee.org/"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc hosp"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Weekly incident influenza hospitalizations"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_units</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "rate per 100,000 population"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_keys</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_keys$target</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "inc hosp"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $target_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "discrete"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $is_step_ahead</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $time_unit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "week"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $uri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://ontobee.org/"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "target_metadata_item" "list"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"schema_id")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.1.0/tasks-schema.json"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"branch")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "main"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>hubAdmin.schema_version <span class="op">=</span> <span class="st">"v3.0.1"</span><span class="op">)</span></span></span>
@@ -244,7 +294,7 @@ the <a href="https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-confi
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2. PR Previews built by <a href="https://www.netlify.com" class="external-link">Netlify</a>. Provided without <strong>any warranty</strong>.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3. PR Previews built by <a href="https://www.netlify.com" class="external-link">Netlify</a>. Provided without <strong>any warranty</strong>.</p>
 </div>
 
     </footer></div>
