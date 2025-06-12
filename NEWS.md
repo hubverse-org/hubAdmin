@@ -1,4 +1,4 @@
-# hubAdmin (development version)
+# hubAdmin 1.7.0
 
 * update `create_target_metadata_item()`function to add optional additional properties, to match schema version 5.1.0. (#108)
 
