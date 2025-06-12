@@ -62,9 +62,9 @@ specified. Can be set through global option "hubAdmin.schema_version".}
 from which to fetch schema. Defaults to \code{"main"}. Can be set through global
 option "hubAdmin.branch".}
 
-\item{...}{additional optional properties to add in the target metadata list
+\item{...}{additional optional properties to add to the target metadata list
 output. Only available for schema version equal or greater than v5.1.0,
-ignore for past version.}
+ignored for past version.}
 }
 \value{
 a named list of class \code{target_metadata_item}.
