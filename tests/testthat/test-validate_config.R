@@ -396,41 +396,22 @@ test_that("Duplicate property names are flagged during validation", {
   )
 })
 
-test_that("Version 5.1 validated accordingly", {
-  config_path <- testthat::test_path("testdata", "v5.1.0-tasks.json")
-  withr::with_options(
-    list(
-      hubAdmin.schema_version = "v5.1.0",
-      hubAdmin.branch = "lc/br-v5.1.0"
-    ),
-    {
-      out <- suppressMessages(validate_config(config_path = config_path))
-    }
-  )
-  expect_true(out)
-
+test_that("Additional properties in target_metadata (post v5.1.0) validated correctly", {
+  # Check that config with additional properties pass with versions 5.1.0 and later
   config_path <- testthat::test_path("testdata", "v5.1.0-tasks-add_metadata.json")
-  withr::with_options(
-    list(
-      hubAdmin.schema_version = "v5.1.0",
-      hubAdmin.branch = "lc/br-v5.1.0"
-    ),
-    {
-      out <- suppressMessages(validate_config(config_path = config_path))
-    }
-  )
+  out <- suppressMessages(validate_config(config_path = config_path))
   expect_true(out)
 
-  config_path <- testthat::test_path("testdata", "v4-tasks_additional_metadata.json")
-  withr::with_options(
-    list(
-      hubAdmin.schema_version = "v5.1.0",
-      hubAdmin.branch = "lc/br-v5.1.0"
-    ),
-    {
-      out <- suppressMessages(validate_config(config_path = config_path))
-    }
-  )
+  # Check that additional properties fail with versions earlier than 5.1.0
+  out <- suppressMessages(validate_config(config_path = config_path,
+                                          schema_version = "v5.0.0"))
   expect_false(out)
   expect_equal(attributes(out)$errors$message, "must NOT have additional properties")
+
+  # Check that configs without additional properties pass validation
+  # with v5.0.1. Here we use a forward-compatible v4 config
+  config_path <- testthat::test_path("testdata", "v4-tasks.json")
+  out <- suppressMessages(validate_config(config_path = config_path,
+                                          schema_version = "v5.1.0"))
+  expect_true(out)
 })
