@@ -498,3 +498,21 @@ test_that("model_output_dir property throws error in v6 (#127)", {
     )
   )
 })
+
+test_that("additional properties throw errors in v6 (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-additional-properties.json"
+  )
+  out <- validate_config(config_path = config_path, config = "admin")
+
+  expect_false(out)
+  expect_equal(
+    unique(attributes(out)$errors$message),
+    "must NOT have additional properties"
+  )
+  expect_equal(
+    attributes(out)$errors$params$additionalProperty,
+    c("unexpected_root", "phone", "url", "profile", "region")
+  )
+})
