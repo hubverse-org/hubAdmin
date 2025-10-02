@@ -1,0 +1,19 @@
+{
+  "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/admin-schema.json",
+  "name": "Fictional Global Disease Forecast Hub",
+  "maintainer": "Department of Theoretical Epidemiology, Imaginary University",
+  "contact": {
+    "name": "Dr. Ada Lovelace",
+    "email": "ada@fghub.org"
+  },
+  "repository": {
+    "host": "github",
+    "owner": "fictional-hub-org",
+    "name": "global-disease-forecast-hub"
+  },
+  "model_output_dir": "model-forecasts",
+  "zoltar_project_id": 999,
+  "citation": "Lovelace, A. et al. The Fictional Global Disease Forecast Hub dataset. Imaginary Data 1, 1–10 (2025). https://doi.org/10.1234/fghub.2025",
+  "file_format": ["csv", "parquet"],
+  "timezone": "Europe/Berlin"
+}

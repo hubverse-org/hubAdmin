@@ -471,3 +471,30 @@ test_that("Additional properties in target_metadata (post v5.1.0) validated corr
   ))
   expect_true(out)
 })
+
+test_that("model_output_dir property throws error in v6 (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-model_output_dir.json"
+  )
+  out <- validate_config(config_path = config_path, config = "admin")
+
+  expect_false(out)
+  expect_equal(
+    attributes(out)$errors$message,
+    "must NOT have additional properties"
+  )
+  expect_equal(
+    attributes(out)$errors$params$additionalProperty,
+    "model_output_dir"
+  )
+
+  # model_output_dir property is valid with earlier schema
+  expect_true(
+    validate_config(
+      config_path = config_path,
+      config = "admin",
+      schema_version = "v5.1.0"
+    )
+  )
+})
