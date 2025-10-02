@@ -516,3 +516,21 @@ test_that("additional properties throw errors in v6 (#127)", {
     c("unexpected_root", "phone", "url", "profile", "region")
   )
 })
+
+test_that("Missing repository property throw errors in v6 (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-missing-repository-prop.json"
+  )
+  out <- validate_config(config_path = config_path, config = "admin")
+
+  expect_false(out)
+  expect_equal(
+    attributes(out)$errors$message,
+    "must have required property 'owner'"
+  )
+  expect_equal(
+    attributes(out)$errors$dataPath,
+    "/repository"
+  )
+})

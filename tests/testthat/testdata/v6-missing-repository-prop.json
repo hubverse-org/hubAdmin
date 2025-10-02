@@ -1,0 +1,15 @@
+{
+  "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/admin-schema.json",
+  "name": "Fictional Disease Modeling Hub",
+  "maintainer": "Imaginary Modeling Consortium",
+  "contact": {
+    "name": "Dr. Ada Lovelace",
+    "email": "ada@fghub.org"
+  },
+  "repository": {
+    "host": "github",
+    "name": "fictional-hub"
+  },
+  "file_format": ["csv"],
+  "timezone": "Europe/Berlin"
+}
