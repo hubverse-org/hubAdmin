@@ -1,5 +1,8 @@
 # hubAdmin (development version)
 
+* Added basic tests for v6.0.0 schema (#127).
+* Added support for `target-data.json` config validation.
+
 # hubAdmin 1.7.0
 
 * update `create_target_metadata_item()`function to add optional additional properties, to match schema version 5.1.0. (#108)

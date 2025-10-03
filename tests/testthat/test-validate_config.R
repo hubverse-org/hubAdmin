@@ -534,6 +534,52 @@ test_that("Missing repository property throw errors in v6 (#127)", {
     "/repository"
   )
 })
+
+test_that("Basic v6 target data validation works (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-target-data-valid.json"
+  )
+  valid <- validate_config(config_path = config_path, config = "target-data")
+  expect_true(valid)
+
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-target-data-invalid.json"
+  )
+  invalid <- validate_config(config_path = config_path, config = "target-data")
+
+  expect_false(invalid)
+  expect_equal(
+    unique(attributes(invalid)$errors$message),
+    c(
+      "must have required property 'date_col'",
+      "must NOT have additional properties",
+      "must be array",
+      "must be equal to one of the allowed values",
+      "must be boolean",
+      "must be string"
+    )
+  )
+  expect_equal(
+    unique(attributes(invalid)$errors$params$additionalProperty),
+    c(NA, "extra_top_level", "unexpected_property", "notes")
+  )
+  expect_equal(
+    unique(attributes(invalid)$errors$dataPath),
+    c(
+      "/target_data_metadata",
+      "/target_data_metadata/observable_unit",
+      "/target_data_metadata/time-series",
+      "/target_data_metadata/time-series/non_task_id_schema/location_name",
+      "/target_data_metadata/time-series/versioned",
+      "/target_data_metadata/oracle-output",
+      "/target_data_metadata/oracle-output/has_output_type_ids",
+      "/target_data_metadata/oracle-output/observable_unit/1"
+    )
+  )
+})
+
 test_that("Target data config validation errors with schema versions earlier than v6 (#127)", {
   config_path <- testthat::test_path(
     "testdata",
