@@ -6,6 +6,15 @@ get_config_file_schema_version <- function(config_path, config) {
       "x" = "Property {.code schema_version} not found in config file."
     ))
   }
+  if (
+    config == "target-data" &&
+      hubUtils::version_lt("v6.0.0", schema_version = config_schema_version)
+  ) {
+    cli::cli_abort(
+      "Cannot validate {.code target-data.json} files using schema {.val {config_schema_version}}.
+      {.var schema_version} must be {.val v6.0.0} or greater."
+    )
+  }
 
   check_config_schema_version(config_schema_version, config = config)
 

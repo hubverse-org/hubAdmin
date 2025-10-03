@@ -1,0 +1,19 @@
+{
+  "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/target-data-schema.json",
+  "target_data_metadata": {
+    "observable_unit": ["target_end_date", "location"],
+    "date_col": "target_end_date",
+    "time-series": {
+      "non_task_id_schema": {
+        "location_name": "character",
+        "target_end_date": "Date"
+      },
+      "versioned": true
+    },
+    "oracle-output": {
+      "has_output_type_ids": true,
+      "observable_unit": ["target_end_date", "location", "horizon"],
+      "versioned": false
+    }
+  }
+}

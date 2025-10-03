@@ -581,6 +581,20 @@ test_that("Basic v6 target data validation works (#127)", {
 })
 
 test_that("Target data config validation errors with schema versions earlier than v6 (#127)", {
+  # Earlier (v5.0.0) schema version in config
+  config_path <- testthat::test_path(
+    "testdata",
+    "v5-target-data-valid.json"
+  )
+  expect_error(
+    validate_config(
+      config_path = config_path,
+      config = "target-data"
+    ),
+    regexp = 'Cannot validate `target-data.json` files using schema .*"v5.0.0"'
+  )
+
+  # Earlier config when overriding file version
   config_path <- testthat::test_path(
     "testdata",
     "v6-target-data-valid.json"
