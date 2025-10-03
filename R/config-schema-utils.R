@@ -11,7 +11,8 @@ get_config_file_schema_version <- function(config_path, config) {
       hubUtils::version_lt("v6.0.0", schema_version = config_schema_version)
   ) {
     cli::cli_abort(
-      "Cannot validate {.code target-data.json} files using schema {.val {config_schema_version}}.
+      "Cannot validate {.code target-data.json} files using schema
+      {.val {hubUtils::extract_schema_version(config_schema_version)}}.
       {.var schema_version} must be {.val v6.0.0} or greater."
     )
   }
