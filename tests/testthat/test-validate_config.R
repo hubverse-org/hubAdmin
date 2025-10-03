@@ -534,3 +534,17 @@ test_that("Missing repository property throw errors in v6 (#127)", {
     "/repository"
   )
 })
+test_that("Target data config validation errors with schema versions earlier than v6 (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-target-data-valid.json"
+  )
+  expect_error(
+    validate_config(
+      config_path = config_path,
+      config = "target-data",
+      schema_version = "v5.0.0"
+    ),
+    regexp = 'Cannot validate `target-data.json` files using schema .*"v5.0.0"'
+  )
+})
