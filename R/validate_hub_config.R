@@ -35,13 +35,21 @@
 #'     package = "hubUtils"
 #'   )
 #' )
-validate_hub_config <- function(hub_path = ".",
-                                schema_version = "from_config",
-                                branch = getOption(
-                                  "hubAdmin.branch",
-                                  default = "main"
-                                )) {
+validate_hub_config <- function(
+  hub_path = ".",
+  schema_version = "from_config",
+  branch = getOption(
+    "hubAdmin.branch",
+    default = "main"
+  )
+) {
   configs <- c("tasks", "admin")
+  target_data_config_exists <- fs::file_exists(
+    fs::path(hub_path, "hub-config", "target-data.json")
+  )
+  if (target_data_config_exists) {
+    configs <- c(configs, "target-data")
+  }
 
   # First only validate config files
   validations <- purrr::map(
