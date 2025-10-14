@@ -568,14 +568,14 @@ test_that("Basic v6 target data validation works (#127)", {
   expect_equal(
     unique(attributes(invalid)$errors$dataPath),
     c(
-      "/target_data_metadata",
-      "/target_data_metadata/observable_unit",
-      "/target_data_metadata/time-series",
-      "/target_data_metadata/time-series/non_task_id_schema/location_name",
-      "/target_data_metadata/time-series/versioned",
-      "/target_data_metadata/oracle-output",
-      "/target_data_metadata/oracle-output/has_output_type_ids",
-      "/target_data_metadata/oracle-output/observable_unit/1"
+      "",
+      "/observable_unit",
+      "/time-series",
+      "/time-series/non_task_id_schema/location_name",
+      "/time-series/versioned",
+      "/oracle-output",
+      "/oracle-output/has_output_type_ids",
+      "/oracle-output/observable_unit/1"
     )
   )
 })
