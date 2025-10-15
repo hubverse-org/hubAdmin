@@ -12,7 +12,7 @@
 #'  This means that only after the initial validation passes, will any dynamic
 #'  validation errors be detected.
 #' @param hub_path Path to a local hub directory.
-#' @param config Name of config file to validate. One of `"tasks"` or `"admin"`.
+#' @param config Name of config file to validate. One of `"tasks"`, `"admin"` or `"target-data"`.
 #' @param config_path Defaults to `NULL` which assumes all config files are in
 #'   the `hub-config` directory in the root of hub directory. Argument
 #'   `config_path` can be used to override default by providing a path to the
@@ -54,13 +54,16 @@
 #'   package = "hubUtils"
 #' )
 #' validate_config(config_path = config_path, config = "tasks")
-validate_config <- function(hub_path = ".",
-                            config = c("tasks", "admin"),
-                            config_path = NULL, schema_version = "from_config",
-                            branch = getOption(
-                              "hubAdmin.branch",
-                              default = "main"
-                            )) {
+validate_config <- function(
+  hub_path = ".",
+  config = c("tasks", "admin", "target-data"),
+  config_path = NULL,
+  schema_version = "from_config",
+  branch = getOption(
+    "hubAdmin.branch",
+    default = "main"
+  )
+) {
   if (!(requireNamespace("jsonvalidate"))) {
     cli::cli_abort(
       "Package {.pkg jsonvalidate} must be installed to use {.fn validate_config}. Please install it to continue.
@@ -93,6 +96,16 @@ validate_config <- function(hub_path = ".",
       utils::tail(1)
   }
 
+  if (
+    config == "target-data" &&
+      hubUtils::version_lt("v6.0.0", schema_version = schema_version)
+  ) {
+    cli::cli_abort(
+      "Cannot validate {.code target-data.json} files using schema {.val {schema_version}}.
+      {.var schema_version} must be {.val v6.0.0} or greater."
+    )
+  }
+
   # TODO: Remove notification when back-compatibility retired
   hubUtils::check_deprecated_schema(
     config_version = get_config_file_schema_version(config_path, config),
@@ -107,7 +120,6 @@ validate_config <- function(hub_path = ".",
 
   schema_json <- hubUtils::get_schema(schema_url)
 
-
   validation <- jsonvalidate::json_validate(
     json = config_path,
     schema = schema_json,
@@ -118,7 +130,6 @@ validate_config <- function(hub_path = ".",
   attr(validation, "config_path") <- config_path
   attr(validation, "schema_version") <- schema_version
   attr(validation, "schema_url") <- schema_url
-
 
   if (validation) {
     validation <- validate_schema_version_property(validation, config)
@@ -132,7 +143,6 @@ validate_config <- function(hub_path = ".",
 }
 
 
-
 #' Perform dynamic validation of target keys and schema_ids for internal consistency against
 #'  task ids. Check only performed once basic jsonvalidate checks pass against
 #'  schema.
@@ -144,7 +154,8 @@ validate_config <- function(hub_path = ".",
 #'  table is appended to attribute "errors".
 #' @noRd
 perform_dynamic_config_validations <- function(validation) {
-  config_json <- jsonlite::read_json(attr(validation, "config_path"),
+  config_json <- jsonlite::read_json(
+    attr(validation, "config_path"),
     simplifyVector = TRUE,
     simplifyDataFrame = FALSE
   )
@@ -155,7 +166,8 @@ perform_dynamic_config_validations <- function(validation) {
     purrr::imap(
       config_json[["rounds"]],
       ~ val_round(
-        round = .x, round_i = .y,
+        round = .x,
+        round_i = .y,
         schema = schema
       )
     ),
@@ -168,7 +180,6 @@ perform_dynamic_config_validations <- function(validation) {
     )
   ) %>%
     purrr::list_rbind()
-
 
   if (nrow(errors_tbl) > 0) {
     # assign FALSE without loosing attributes
@@ -192,37 +203,46 @@ val_round <- function(round, round_i, schema) {
     purrr::imap(
       model_task_grps,
       ~ val_model_task_grp_target_metadata(
-        model_task_grp = .x, model_task_i = .y,
-        round_i = round_i, schema = schema
+        model_task_grp = .x,
+        model_task_i = .y,
+        round_i = round_i,
+        schema = schema
       )
     ),
     purrr::imap(
       model_task_grps,
       ~ val_task_id_names(
-        model_task_grp = .x, model_task_i = .y,
-        round_i = round_i, schema = schema
-      )
-    ),
-    purrr::imap(
-      model_task_grps,
-      ~ validate_mt_property_unique_vals(
-        model_task_grp = .x, model_task_i = .y,
-        round_i = round_i, property = "task_ids",
+        model_task_grp = .x,
+        model_task_i = .y,
+        round_i = round_i,
         schema = schema
       )
     ),
     purrr::imap(
       model_task_grps,
       ~ validate_mt_property_unique_vals(
-        model_task_grp = .x, model_task_i = .y,
-        round_i = round_i, property = "output_type",
+        model_task_grp = .x,
+        model_task_i = .y,
+        round_i = round_i,
+        property = "task_ids",
+        schema = schema
+      )
+    ),
+    purrr::imap(
+      model_task_grps,
+      ~ validate_mt_property_unique_vals(
+        model_task_grp = .x,
+        model_task_i = .y,
+        round_i = round_i,
+        property = "output_type",
         schema = schema
       )
     ),
     purrr::imap(
       model_task_grps,
       ~ validate_mt_sample_range(
-        model_task_grp = .x, model_task_i = .y,
+        model_task_grp = .x,
+        model_task_i = .y,
         round_i = round_i,
         schema = schema
       )
@@ -230,7 +250,8 @@ val_round <- function(round, round_i, schema) {
     purrr::imap(
       model_task_grps,
       ~ validate_mt_sample_compound_taskids(
-        model_task_grp = .x, model_task_i = .y,
+        model_task_grp = .x,
+        model_task_i = .y,
         round_i = round_i,
         schema = schema
       )
@@ -239,7 +260,8 @@ val_round <- function(round, round_i, schema) {
       model_task_grps,
       \(.x, .y) {
         validate_mt_round_id_pattern(
-          model_task_grp = .x, model_task_i = .y,
+          model_task_grp = .x,
+          model_task_i = .y,
           round_i = round_i,
           schema = schema,
           round_id_from_variable = round_id_from_variable,

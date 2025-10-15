@@ -1,0 +1,23 @@
+{
+  "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/target-data-schema.json",
+  "observable_unit": "location",
+  "time-series": {
+    "non_task_id_schema": {
+      "location_name": "text",
+      "date": "Date",
+      "extra_column": "character"
+    },
+    "versioned": "true",
+    "unexpected_property": "should not be here"
+  },
+  "oracle-output": {
+    "has_output_type_ids": "false",
+    "observable_unit": [
+      "location",
+      123
+    ],
+    "versioned": false,
+    "notes": "extra info"
+  },
+  "extra_top_level": "not allowed"
+}

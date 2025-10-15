@@ -39,13 +39,19 @@ test_that("Missing files returns an invalid config with an immediate message", {
   skip_if_offline()
   tmp <- withr::local_tempdir()
   suppressMessages({
-    expect_message(out <- validate_config(hub_path = tmp), "File does not exist")
+    expect_message(
+      out <- validate_config(hub_path = tmp),
+      "File does not exist"
+    )
   })
   expect_false(unclass(out))
 })
 test_that("Config for samples fail correctly", {
   skip_if_offline()
-  config_path <- testthat::test_path("testdata", "tasks-samples-error-range.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "tasks-samples-error-range.json"
+  )
   out <- suppressWarnings(validate_config(
     config_path = config_path,
     schema_version = "v3.0.1"
@@ -54,7 +60,10 @@ test_that("Config for samples fail correctly", {
   expect_snapshot(attr(out, "errors"))
   expect_false(out)
 
-  config_path <- testthat::test_path("testdata", "tasks-samples-error-task-ids.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "tasks-samples-error-task-ids.json"
+  )
   out <- suppressWarnings(validate_config(
     config_path = config_path,
     schema_version = "v3.0.1"
@@ -63,7 +72,6 @@ test_that("Config for samples fail correctly", {
   expect_snapshot(attr(out, "errors"))
   expect_false(out)
 })
-
 
 
 test_that("Config errors detected successfully", {
@@ -87,7 +95,10 @@ test_that("Dynamic config errors detected successfully by custom R validation", 
 
 test_that("Reserved hub variable task id name detected correctly", {
   skip_if_offline()
-  config_path <- testthat::test_path("testdata", "tasks-errors-rval-reserved.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "tasks-errors-rval-reserved.json"
+  )
   out <- suppressWarnings(validate_config(config_path = config_path))
   expect_snapshot(out)
   expect_snapshot(attr(out, "errors"))
@@ -235,16 +246,22 @@ test_that("v4 validation works", {
     )
   )
   expect_snapshot(
-    extract_error_tbl_cols(v4_fail_dynamic, c(
-      "message", "data"
-    ))
+    extract_error_tbl_cols(
+      v4_fail_dynamic,
+      c(
+        "message",
+        "data"
+      )
+    )
   )
   expect_equal(
     extract_error_tbl_cols(v4_fail_dynamic, c("instancePath"))$instancePath,
     structure(
       c(
-        "/rounds/0/derived_task_ids", "/rounds/0/derived_task_ids",
-        "/derived_task_ids", "/derived_task_ids"
+        "/rounds/0/derived_task_ids",
+        "/rounds/0/derived_task_ids",
+        "/derived_task_ids",
+        "/derived_task_ids"
       ),
       class = c("glue", "character")
     )
@@ -254,7 +271,10 @@ test_that("v4 validation works", {
 
 test_that("v5.0.0 target keys with 2 properties throws error", {
   skip_if_offline()
-  config_path <- testthat::test_path("testdata", "v5.0.0-tasks-2-target_keys.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "v5.0.0-tasks-2-target_keys.json"
+  )
   out <- suppressMessages(
     validate_config(
       config_path = config_path
@@ -271,7 +291,10 @@ test_that("v5.0.0 target keys with 2 properties throws error", {
 
 test_that("v5.0.0 target keys with NULL properties passes", {
   # Ensure NULL target keys are still allowed.
-  config_path <- testthat::test_path("testdata", "v5.0.0-tasks-null-target_keys.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "v5.0.0-tasks-null-target_keys.json"
+  )
   out <- suppressMessages(
     validate_config(
       config_path = config_path
@@ -342,31 +365,43 @@ test_that("v5.0.0 round_id pattern validation works", {
   )
   expect_equal(
     errors_vals$data,
-    structure(c(
-      "invalid values: 'invalid-round-id-in-var-req'",
-      "invalid values: 'invalid-round-id-in-var-opt1' and 'invalid-round-id-in-var-opt2'"
-    ), class = c("glue", "character"))
+    structure(
+      c(
+        "invalid values: 'invalid-round-id-in-var-req'",
+        "invalid values: 'invalid-round-id-in-var-opt1' and 'invalid-round-id-in-var-opt2'"
+      ),
+      class = c("glue", "character")
+    )
   )
 })
 
 test_that("Duplicate property names are flagged during validation", {
-  val <- validate_config(config_path = test_path(
-    "testdata",
-    "v5.0.0-dup-prop-names.json"
-  ))
+  val <- validate_config(
+    config_path = test_path(
+      "testdata",
+      "v5.0.0-dup-prop-names.json"
+    )
+  )
   expect_false(val)
   errors_vals <- attr(val, "errors")
   expect_equal(nrow(errors_vals), 6L)
   expect_equal(
     unique(errors_vals$instancePath),
     c(
-      "/", "/rounds/0", "/rounds/0/model_tasks/0", "/rounds/0/model_tasks/0/task_ids",
-      "/rounds/0/model_tasks/0/output_type", "/rounds/0/model_tasks/0/target_metadata/0"
+      "/",
+      "/rounds/0",
+      "/rounds/0/model_tasks/0",
+      "/rounds/0/model_tasks/0/task_ids",
+      "/rounds/0/model_tasks/0/output_type",
+      "/rounds/0/model_tasks/0/target_metadata/0"
     )
   )
   expect_equal(
     unique(errors_vals$schemaPath),
-    c("#/", "#/properties/rounds", "#/properties/rounds/items/properties/model_tasks",
+    c(
+      "#/",
+      "#/properties/rounds",
+      "#/properties/rounds/items/properties/model_tasks",
       "#/properties/rounds/items/properties/model_tasks/items/properties/task_ids",
       "#/properties/rounds/items/properties/model_tasks/items/properties/output_type",
       "#/properties/rounds/items/properties/model_tasks/items/properties/target_metadata"
@@ -374,13 +409,19 @@ test_that("Duplicate property names are flagged during validation", {
   )
   expect_equal(
     unique(errors_vals$keyword),
-    c("config uniqueNames", "rounds uniqueNames", "model_tasks uniqueNames",
-      "task_ids uniqueNames", "output_type uniqueNames", "target_metadata uniqueNames"
+    c(
+      "config uniqueNames",
+      "rounds uniqueNames",
+      "model_tasks uniqueNames",
+      "task_ids uniqueNames",
+      "output_type uniqueNames",
+      "target_metadata uniqueNames"
     )
   )
   expect_equal(
     unique(errors_vals$message),
-    c("config objects must NOT contain\nproperties with duplicate names",
+    c(
+      "config objects must NOT contain\nproperties with duplicate names",
       "rounds objects must NOT contain\nproperties with duplicate names",
       "model_tasks objects must NOT contain\nproperties with duplicate names",
       "task_ids objects must NOT contain\nproperties with duplicate names",
@@ -390,28 +431,180 @@ test_that("Duplicate property names are flagged during validation", {
   )
   expect_equal(
     unique(errors_vals$data),
-    c("duplicate names: schema_version", "duplicate names: round_id, derived_task_ids",
-      "duplicate names: target_metadata", "duplicate names: horizon",
-      "duplicate names: quantile", "duplicate names: target_id")
+    c(
+      "duplicate names: schema_version",
+      "duplicate names: round_id, derived_task_ids",
+      "duplicate names: target_metadata",
+      "duplicate names: horizon",
+      "duplicate names: quantile",
+      "duplicate names: target_id"
+    )
   )
 })
 
 test_that("Additional properties in target_metadata (post v5.1.0) validated correctly", {
   # Check that config with additional properties pass with versions 5.1.0 and later
-  config_path <- testthat::test_path("testdata", "v5.1.0-tasks-add_metadata.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "v5.1.0-tasks-add_metadata.json"
+  )
   out <- suppressMessages(validate_config(config_path = config_path))
   expect_true(out)
 
   # Check that additional properties fail with versions earlier than 5.1.0
-  out <- suppressMessages(validate_config(config_path = config_path,
-                                          schema_version = "v5.0.0"))
+  out <- suppressMessages(validate_config(
+    config_path = config_path,
+    schema_version = "v5.0.0"
+  ))
   expect_false(out)
-  expect_equal(attributes(out)$errors$message, "must NOT have additional properties")
+  expect_equal(
+    attributes(out)$errors$message,
+    "must NOT have additional properties"
+  )
 
   # Check that configs without additional properties pass validation
   # with v5.0.1. Here we use a forward-compatible v4 config
   config_path <- testthat::test_path("testdata", "v4-tasks.json")
-  out <- suppressMessages(validate_config(config_path = config_path,
-                                          schema_version = "v5.1.0"))
+  out <- suppressMessages(validate_config(
+    config_path = config_path,
+    schema_version = "v5.1.0"
+  ))
   expect_true(out)
+})
+
+test_that("model_output_dir property throws error in v6 (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-model_output_dir.json"
+  )
+  out <- validate_config(config_path = config_path, config = "admin")
+
+  expect_false(out)
+  expect_equal(
+    attributes(out)$errors$message,
+    "must NOT have additional properties"
+  )
+  expect_equal(
+    attributes(out)$errors$params$additionalProperty,
+    "model_output_dir"
+  )
+
+  # model_output_dir property is valid with earlier schema
+  expect_true(
+    validate_config(
+      config_path = config_path,
+      config = "admin",
+      schema_version = "v5.1.0"
+    )
+  )
+})
+
+test_that("additional properties throw errors in v6 (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-additional-properties.json"
+  )
+  out <- validate_config(config_path = config_path, config = "admin")
+
+  expect_false(out)
+  expect_equal(
+    unique(attributes(out)$errors$message),
+    "must NOT have additional properties"
+  )
+  expect_equal(
+    attributes(out)$errors$params$additionalProperty,
+    c("unexpected_root", "phone", "url", "profile", "region")
+  )
+})
+
+test_that("Missing repository property throw errors in v6 (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-missing-repository-prop.json"
+  )
+  out <- validate_config(config_path = config_path, config = "admin")
+
+  expect_false(out)
+  expect_equal(
+    attributes(out)$errors$message,
+    "must have required property 'owner'"
+  )
+  expect_equal(
+    attributes(out)$errors$dataPath,
+    "/repository"
+  )
+})
+
+test_that("Basic v6 target data validation works (#127)", {
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-target-data-valid.json"
+  )
+  valid <- validate_config(config_path = config_path, config = "target-data")
+  expect_true(valid)
+
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-target-data-invalid.json"
+  )
+  invalid <- validate_config(config_path = config_path, config = "target-data")
+
+  expect_false(invalid)
+  expect_equal(
+    unique(attributes(invalid)$errors$message),
+    c(
+      "must have required property 'date_col'",
+      "must NOT have additional properties",
+      "must be array",
+      "must be equal to one of the allowed values",
+      "must be boolean",
+      "must be string"
+    )
+  )
+  expect_equal(
+    unique(attributes(invalid)$errors$params$additionalProperty),
+    c(NA, "extra_top_level", "unexpected_property", "notes")
+  )
+  expect_equal(
+    unique(attributes(invalid)$errors$dataPath),
+    c(
+      "",
+      "/observable_unit",
+      "/time-series",
+      "/time-series/non_task_id_schema/location_name",
+      "/time-series/versioned",
+      "/oracle-output",
+      "/oracle-output/has_output_type_ids",
+      "/oracle-output/observable_unit/1"
+    )
+  )
+})
+
+test_that("Target data config validation errors with schema versions earlier than v6 (#127)", {
+  # Earlier (v5.0.0) schema version in config
+  config_path <- testthat::test_path(
+    "testdata",
+    "v5-target-data-valid.json"
+  )
+  expect_error(
+    validate_config(
+      config_path = config_path,
+      config = "target-data"
+    ),
+    regexp = 'Cannot validate `target-data.json` files using schema .*"v5.0.0"'
+  )
+
+  # Earlier config when overriding file version
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-target-data-valid.json"
+  )
+  expect_error(
+    validate_config(
+      config_path = config_path,
+      config = "target-data",
+      schema_version = "v5.0.0"
+    ),
+    regexp = 'Cannot validate `target-data.json` files using schema .*"v5.0.0"'
+  )
 })

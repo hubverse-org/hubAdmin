@@ -1,0 +1,28 @@
+{
+  "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/target-data-schema.json",
+  "observable_unit": [
+    "target_end_date",
+    "location"
+  ],
+  "date_col": "target_end_date",
+  "time-series": {
+    "non_task_id_schema": {
+      "location_name": "character",
+      "target_end_date": "Date"
+    },
+    "versioned": true
+  },
+  "oracle-output": {
+    "has_output_type_ids": true,
+    "observable_unit": [
+      "target_end_date",
+      "location",
+      "horizon"
+    ],
+    "versioned": false
+  },
+  "additional_metadata": {
+    "DOI": "https://doi.org/10.5281/zenodo.17297552",
+    "random_array": [1, 2, 3, 4, 5]
+  }
+}

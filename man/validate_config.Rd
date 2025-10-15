@@ -6,7 +6,7 @@
 \usage{
 validate_config(
   hub_path = ".",
-  config = c("tasks", "admin"),
+  config = c("tasks", "admin", "target-data"),
   config_path = NULL,
   schema_version = "from_config",
   branch = getOption("hubAdmin.branch", default = "main")
@@ -15,7 +15,7 @@ validate_config(
 \arguments{
 \item{hub_path}{Path to a local hub directory.}
 
-\item{config}{Name of config file to validate. One of \code{"tasks"} or \code{"admin"}.}
+\item{config}{Name of config file to validate. One of \code{"tasks"}, \code{"admin"} or \code{"target-data"}.}
 
 \item{config_path}{Defaults to \code{NULL} which assumes all config files are in
 the \code{hub-config} directory in the root of hub directory. Argument

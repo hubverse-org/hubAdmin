@@ -2,12 +2,22 @@ get_config_file_schema_version <- function(config_path, config) {
   config_schema_version <- jsonlite::read_json(config_path)$schema_version
 
   if (is.null(config_schema_version)) {
-    cli::cli_abort(c("x" = "Property {.code schema_version} not found in config file."))
+    cli::cli_abort(c(
+      "x" = "Property {.code schema_version} not found in config file."
+    ))
+  }
+  if (
+    config == "target-data" &&
+      hubUtils::version_lt("v6.0.0", schema_version = config_schema_version)
+  ) {
+    cli::cli_abort(
+      "Cannot validate {.code target-data.json} files using schema
+      {.val {hubUtils::extract_schema_version(config_schema_version)}}.
+      {.var schema_version} must be {.val v6.0.0} or greater."
+    )
   }
 
-  check_config_schema_version(config_schema_version,
-    config = config
-  )
+  check_config_schema_version(config_schema_version, config = config)
 
   version <- hubUtils::extract_schema_version(config_schema_version)
 
@@ -25,7 +35,10 @@ get_config_file_schema_version <- function(config_path, config) {
 }
 
 
-check_config_schema_version <- function(schema_version, config = c("tasks", "admin")) {
+check_config_schema_version <- function(
+  schema_version,
+  config = c("tasks", "admin", "target-data")
+) {
   config <- rlang::arg_match(config)
 
   check_filename <- grepl(
@@ -58,14 +71,17 @@ check_config_schema_version <- function(schema_version, config = c("tasks", "adm
 }
 
 
-validate_schema_version_property <- function(validation, config = c("tasks", "admin")) {
+validate_schema_version_property <- function(
+  validation,
+  config = c("tasks", "admin", "target-data")
+) {
   config <- rlang::arg_match(config)
-  schema_version <- jsonlite::read_json(attr(validation, "config_path"),
+  schema_version <- jsonlite::read_json(
+    attr(validation, "config_path"),
     simplifyVector = TRUE,
     simplifyDataFrame = FALSE
   )$schema_version
   schema <- hubUtils::get_schema(attr(validation, "schema_url"))
-
 
   errors_tbl <- NULL
   check_filename <- grepl(
