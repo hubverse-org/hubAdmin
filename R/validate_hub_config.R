@@ -70,7 +70,7 @@ validate_hub_config <- function(
     validations,
     ~ dirname(attr(.x, "schema_url"))
   )
-  if (!do.call(`==`, as.list(schema_url_dirnames))) {
+  if (length(unique(schema_url_dirnames)) > 1L) {
     msg <- paste0(
       "{.field ",
       names(schema_url_dirnames),
