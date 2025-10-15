@@ -24,8 +24,10 @@ test_that("length 1 paths and related type & enum errors handled correctly", {
   config_path <- testthat::test_path("testdata", "admin-errors2.json")
   validation <- suppressWarnings(
     validate_config(
-      config_path = config_path, config = "admin",
-      branch = "main", schema_version = "v1.0.0"
+      config_path = config_path,
+      config = "admin",
+      branch = "main",
+      schema_version = "v1.0.0"
     )
   )
   set.seed(1)
@@ -44,7 +46,10 @@ test_that("Data column handled correctly when required property missing", {
   expect_snapshot(str(tbl$`_data`))
 
   # Only a single property missing
-  config_path <- testthat::test_path("testdata", "tasks_required_missing_only.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "tasks_required_missing_only.json"
+  )
   tbl <- view_config_val_errors(suppressWarnings(
     validate_config(config_path = config_path)
   ))
@@ -52,14 +57,20 @@ test_that("Data column handled correctly when required property missing", {
   expect_snapshot(str(tbl$`_data`))
 
   # Two properties missing, only one nested
-  config_path <- testthat::test_path("testdata", "tasks_required_missing_only2.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "tasks_required_missing_only2.json"
+  )
   tbl <- view_config_val_errors(suppressWarnings(
     validate_config(config_path = config_path)
   ))
   expect_snapshot(str(tbl$`_data`))
 
   # Two properties missing, both nested
-  config_path <- testthat::test_path("testdata", "tasks_required_missing_only2b.json")
+  config_path <- testthat::test_path(
+    "testdata",
+    "tasks_required_missing_only2b.json"
+  )
   tbl <- view_config_val_errors(suppressWarnings(
     validate_config(config_path = config_path)
   ))
@@ -92,9 +103,9 @@ test_that("Report works corectly on validate_hub_config output", {
   )
   expect_null(tbl)
 
-
   config_dir <- testthat::test_path(
-    "testdata", "error_hub"
+    "testdata",
+    "error_hub"
   )
   tbl <- suppressWarnings(
     view_config_val_errors(
@@ -103,6 +114,46 @@ test_that("Report works corectly on validate_hub_config output", {
   )
 
   expect_snapshot(str(tbl$`_data`))
+})
+
+test_that("Report works correctly with invalid target-data.json", {
+  # Copy v6 test hub to temp directory
+  hub_path <- system.file("testhubs/v6/target_file/", package = "hubUtils")
+  temp_hub <- withr::local_tempdir()
+  fs::dir_copy(hub_path, temp_hub, overwrite = TRUE)
+
+  # Overwrite valid target-data.json with invalid one
+  invalid_target_data <- testthat::test_path(
+    "testdata",
+    "v6-target-data-invalid.json"
+  )
+  fs::file_copy(
+    invalid_target_data,
+    fs::path(temp_hub, "hub-config", "target-data.json"),
+    overwrite = TRUE
+  )
+
+  # Run validation
+  val <- suppressWarnings(
+    validate_hub_config(
+      hub_path = temp_hub
+    )
+  )
+
+  # View errors - should create a table
+  set.seed(1)
+  tbl <- view_config_val_errors(val)
+
+  # Verify the table is created correctly
+  expect_s3_class(tbl, "gt_tbl")
+
+  # Normalize the path attribute to avoid snapshot issues with random temp dirs
+  attr(tbl$`_data`, "path") <- fs::path("<temp_dir>", "hub-config")
+
+  expect_snapshot(str(tbl$`_data`))
+
+  # Verify the table contains information about target-data.json errors
+  expect_true(any(grepl("target-data", tbl$`_data`$fileName)))
 })
 
 
