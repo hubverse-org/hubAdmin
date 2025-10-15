@@ -23,7 +23,8 @@ For more details consult the
 in the \code{arrow} package.}
 }
 \value{
-Logical. \code{TRUE} if the target-data.json file exists in the \code{hub-config} directory of the hub, \code{FALSE} otherwise.
+Logical. \code{TRUE} if the target-data.json file exists in the \code{hub-config}
+directory of the hub, \code{FALSE} otherwise.
 }
 \description{
 Check if target data config file exists in hub

@@ -2,7 +2,8 @@
 #'
 #' @inheritParams hubUtils::read_config
 #'
-#' @return Logical. `TRUE` if the target-data.json file exists in the `hub-config` directory of the hub, `FALSE` otherwise.
+#' @return Logical. `TRUE` if the target-data.json file exists in the `hub-config`
+#' directory of the hub, `FALSE` otherwise.
 #' @export
 #'
 #' @examples
