@@ -120,8 +120,8 @@ validate_hub_config <- function(
     cli::cli_alert_success(
       c(
         "Hub correctly configured! \n",
-        "{.path admin.json}, {.path tasks.json} and {.path model-metadata-schema.json} ",
-        "all valid."
+        "{.path {fs::path_ext_set(names(validations), 'json')}}",
+        " all valid."
       )
     )
   }
