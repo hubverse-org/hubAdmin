@@ -38,7 +38,8 @@ You can print a more concise and easier to view version of an errors table with
 \code{\link[=view_config_val_errors]{view_config_val_errors()}}.
 }
 \description{
-Validate the \code{admin.json}, \code{tasks.json} and \code{model-metadata-schema.json} Hub
+Validate the \code{admin.json}, \code{tasks.json}, \code{target-data.json}
+(if present) and \code{model-metadata-schema.json} Hub
 config files in a single call.
 Note that, for \code{tasks.json} and \code{model-metadata-schema.json} config files,
 validation is performed in two stages:

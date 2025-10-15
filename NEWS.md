@@ -1,7 +1,8 @@
 # hubAdmin (development version)
 
 * Added basic tests for v6.0.0 schema (#127).
-* Added support for `target-data.json` config validation.
+* Added support for `target-data.json` config validations (#132).
+* Added `has_target_data_config()` function to check for presence of `target-data.json` config file (#132).
 
 # hubAdmin 1.7.0
 

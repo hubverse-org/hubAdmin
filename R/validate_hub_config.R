@@ -1,6 +1,7 @@
 #' Validate Hub config files against hubverse schema.
 #'
-#' Validate the `admin.json`, `tasks.json` and `model-metadata-schema.json` Hub
+#' Validate the `admin.json`, `tasks.json`, `target-data.json`
+#' (if present) and `model-metadata-schema.json` Hub
 #' config files in a single call.
 #'  Note that, for `tasks.json` and `model-metadata-schema.json` config files,
 #'  validation is performed in two stages:
@@ -44,9 +45,7 @@ validate_hub_config <- function(
   )
 ) {
   configs <- c("tasks", "admin")
-  target_data_config_exists <- fs::file_exists(
-    fs::path(hub_path, "hub-config", "target-data.json")
-  )
+  target_data_config_exists <- has_target_data_config(hub_path)
   if (target_data_config_exists) {
     configs <- c(configs, "target-data")
   }
@@ -72,7 +71,7 @@ validate_hub_config <- function(
     validations,
     ~ dirname(attr(.x, "schema_url"))
   )
-  if (!do.call(`==`, as.list(schema_url_dirnames))) {
+  if (length(unique(schema_url_dirnames)) > 1L) {
     msg <- paste0(
       "{.field ",
       names(schema_url_dirnames),
@@ -122,8 +121,8 @@ validate_hub_config <- function(
     cli::cli_alert_success(
       c(
         "Hub correctly configured! \n",
-        "{.path admin.json}, {.path tasks.json} and {.path model-metadata-schema.json} ",
-        "all valid."
+        "{.path {fs::path_ext_set(names(validations), 'json')}}",
+        " all valid."
       )
     )
   }
