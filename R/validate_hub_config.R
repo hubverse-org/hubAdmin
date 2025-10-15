@@ -44,9 +44,7 @@ validate_hub_config <- function(
   )
 ) {
   configs <- c("tasks", "admin")
-  target_data_config_exists <- fs::file_exists(
-    fs::path(hub_path, "hub-config", "target-data.json")
-  )
+  target_data_config_exists <- has_target_data_config(hub_path)
   if (target_data_config_exists) {
     configs <- c(configs, "target-data")
   }
