@@ -1,6 +1,6 @@
 #' Validate Hub config files against hubverse schema.
 #'
-#' Validate the #' Validate the `admin.json`, `tasks.json`, `target-data.json`
+#' Validate the `admin.json`, `tasks.json`, `target-data.json`
 #' (if present) and `model-metadata-schema.json` Hub
 #' config files in a single call.
 #'  Note that, for `tasks.json` and `model-metadata-schema.json` config files,
