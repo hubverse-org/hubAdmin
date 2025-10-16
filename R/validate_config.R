@@ -283,11 +283,7 @@ perform_target_data_dynamic_validations <- function(validation) {
 #'  table is appended to attribute "errors".
 #' @noRd
 perform_tasks_dynamic_validations <- function(validation) {
-  config_json <- jsonlite::read_json(
-    attr(validation, "config_path"),
-    simplifyVector = TRUE,
-    simplifyDataFrame = FALSE
-  )
+  config_json <- hubUtils::read_config_file(attr(validation, "config_path"))
   schema <- hubUtils::get_schema(attr(validation, "schema_url"))
 
   errors_tbl <- c(
