@@ -23,22 +23,13 @@ validate_global_observable_unit <- function(config_json, schema, config_tasks) {
     return(NULL)
   }
 
-  # Get task ID columns
+  # Get task ID and target from config tasks
   task_id_cols <- hubUtils::get_task_id_names(config_tasks)
 
-  # Get date_col and target_col
+  # Get date_col from target data config
   date_col <- get_date_col(config_json)
-  target_col <- get_target_task_id(config_json)
 
-  # Build list of allowed columns
-  allowed_cols <- task_id_cols
-  if (!is.null(date_col)) {
-    allowed_cols <- c(allowed_cols, date_col)
-  }
-  if (!is.null(target_col)) {
-    allowed_cols <- c(allowed_cols, target_col)
-  }
-  allowed_cols <- unique(allowed_cols)
+  allowed_cols <- unique(task_id_cols, date_col)
 
   # Check for invalid columns
   invalid_cols <- setdiff(observable_unit, allowed_cols)
@@ -92,7 +83,10 @@ validate_time_series_config <- function(config_json, schema, config_tasks) {
 
   # Validate dataset-level observable_unit if present
   dataset_ou_error <- validate_dataset_observable_unit(
-    config_json, schema, config_tasks, dataset_type = "time-series"
+    config_json,
+    schema,
+    config_tasks,
+    dataset_type = "time-series"
   )
   if (!is.null(dataset_ou_error)) {
     errors <- c(errors, list(dataset_ou_error))
@@ -102,7 +96,10 @@ validate_time_series_config <- function(config_json, schema, config_tasks) {
   non_task_id_schema <- time_series[["non_task_id_schema"]]
   if (!is.null(non_task_id_schema)) {
     non_task_schema_error <- validate_non_task_id_schema(
-      config_json, schema, config_tasks, non_task_id_schema
+      config_json,
+      schema,
+      config_tasks,
+      non_task_id_schema
     )
     if (!is.null(non_task_schema_error)) {
       errors <- c(errors, list(non_task_schema_error))
@@ -137,7 +134,10 @@ validate_oracle_output_config <- function(config_json, schema, config_tasks) {
 
   # Validate dataset-level observable_unit if present
   validate_dataset_observable_unit(
-    config_json, schema, config_tasks, dataset_type = "oracle-output"
+    config_json,
+    schema,
+    config_tasks,
+    dataset_type = "oracle-output"
   )
 }
 
@@ -151,7 +151,12 @@ validate_oracle_output_config <- function(config_json, schema, config_tasks) {
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
-validate_dataset_observable_unit <- function(config_json, schema, config_tasks, dataset_type) {
+validate_dataset_observable_unit <- function(
+  config_json,
+  schema,
+  config_tasks,
+  dataset_type
+) {
   dataset <- config_json[[dataset_type]]
   observable_unit <- dataset[["observable_unit"]]
 
@@ -183,10 +188,14 @@ validate_dataset_observable_unit <- function(config_json, schema, config_tasks, 
   if (length(invalid_cols) > 0) {
     error_row <- data.frame(
       instancePath = get_error_path(
-        schema, glue::glue("{dataset_type}/observable_unit"), "instance"
+        schema,
+        glue::glue("{dataset_type}/observable_unit"),
+        "instance"
       ),
       schemaPath = get_error_path(
-        schema, glue::glue("{dataset_type}/observable_unit"), "schema"
+        schema,
+        glue::glue("{dataset_type}/observable_unit"),
+        "schema"
       ),
       keyword = glue::glue("{dataset_type} observable_unit values"),
       message = glue::glue(
@@ -221,7 +230,12 @@ validate_dataset_observable_unit <- function(config_json, schema, config_tasks, 
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
-validate_non_task_id_schema <- function(config_json, schema, config_tasks, non_task_id_schema) {
+validate_non_task_id_schema <- function(
+  config_json,
+  schema,
+  config_tasks,
+  non_task_id_schema
+) {
   schema_cols <- names(non_task_id_schema)
 
   if (is.null(schema_cols) || length(schema_cols) == 0) {
@@ -249,22 +263,30 @@ validate_non_task_id_schema <- function(config_json, schema, config_tasks, non_t
     if (length(invalid_task_ids) > 0) {
       error_details <- c(
         error_details,
-        glue::glue("task ID column(s): {glue::glue_collapse(invalid_task_ids, ', ')}")
+        glue::glue(
+          "task ID column(s): {glue::glue_collapse(invalid_task_ids, ', ')}"
+        )
       )
     }
     if (length(invalid_reserved) > 0) {
       error_details <- c(
         error_details,
-        glue::glue("reserved column(s): {glue::glue_collapse(invalid_reserved, ', ')}")
+        glue::glue(
+          "reserved column(s): {glue::glue_collapse(invalid_reserved, ', ')}"
+        )
       )
     }
 
     error_row <- data.frame(
       instancePath = get_error_path(
-        schema, "time-series/non_task_id_schema", "instance"
+        schema,
+        "time-series/non_task_id_schema",
+        "instance"
       ),
       schemaPath = get_error_path(
-        schema, "time-series/non_task_id_schema", "schema"
+        schema,
+        "time-series/non_task_id_schema",
+        "schema"
       ),
       keyword = "non_task_id_schema column names",
       message = glue::glue(
@@ -313,32 +335,14 @@ get_reserved_columns <- function() {
 }
 
 
-#' Get target_col value from config
-#'
-#' Extract target_col value from config (can be NULL)
-#' NULL indicates single global target (no target column in data)
-#'
-#' @param config_json Parsed target-data.json as list
-#'
-#' @return Character value of target_col, or NULL if not specified
-#' @noRd
-#' @details
-#' This is a duplicate of hubValidations:::get_target_task_id().
-#' TODO: Delete this function and re-export from hubUtils once utility
-#' consolidation is complete.
-get_target_task_id <- function(config_json) {
-  config_json[["target_col"]]
-}
-
-
 #' Get date_col value from config
 #'
 #' Extract date_col value from config (required property)
 #'
-#' @param config_json Parsed target-data.json as list
+#' @param config_target_data Parsed target-data.json as list
 #'
 #' @return Character value of date_col
 #' @noRd
-get_date_col <- function(config_json) {
-  config_json[["date_col"]]
+get_date_col <- function(config_target_data) {
+  config_target_data[["date_col"]]
 }
