@@ -1,47 +1,62 @@
 # Target Data Validation Utilities
 
-## GLOBAL LEVEL VALIDATIONS ----
+## OBSERVABLE UNIT VALIDATION ----
 
-#' Validate global observable_unit contains only valid columns
+#' Validate observable_unit contains only valid columns
 #'
-#' Checks that the global observable_unit array only contains:
+#' Checks that the observable_unit array only contains:
 #' - Task ID columns (from tasks.json)
 #' - date_col value
-#' - target_col value (if present and not NULL)
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
-#' @param config_tasks Parsed tasks.json as list
+#' @param task_id_names Character vector of task ID names
+#' @param level Character, one of "global", "time-series", or "oracle-output"
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
-validate_global_observable_unit <- function(config_json, schema, config_tasks) {
-  observable_unit <- config_json[["observable_unit"]]
+validate_observable_unit <- function(
+  config_json,
+  schema,
+  task_id_names,
+  level = c("global", "time-series", "oracle-ouput")
+) {
+  level <- rlang::arg_match(level)
+  # Extract observable_unit based on level
+  if (level == "global") {
+    observable_unit <- config_json[["observable_unit"]]
+    path <- "observable_unit"
+  } else {
+    observable_unit <- config_json[[level]][["observable_unit"]]
+    path <- glue::glue("{level}/observable_unit")
+  }
 
   # If no observable_unit defined, skip validation
   if (is.null(observable_unit) || length(observable_unit) == 0) {
     return(NULL)
   }
 
-  # Get task ID and target from config tasks
-  task_id_cols <- hubUtils::get_task_id_names(config_tasks)
-
   # Get date_col from target data config
   date_col <- get_date_col(config_json)
 
-  allowed_cols <- unique(task_id_cols, date_col)
+  # Build allowed columns
+  allowed_cols <- unique(c(task_id_names, date_col))
 
   # Check for invalid columns
   invalid_cols <- setdiff(observable_unit, allowed_cols)
 
   if (length(invalid_cols) > 0) {
+    # Format level for error message
+    level_label <- if (level == "global") "" else paste0(level, " ")
+
     error_row <- data.frame(
-      instancePath = get_error_path(schema, "observable_unit", "instance"),
-      schemaPath = get_error_path(schema, "observable_unit", "schema"),
-      keyword = "observable_unit values",
+      instancePath = get_error_path(schema, path, "instance"),
+      schemaPath = get_error_path(schema, path, "schema"),
+      keyword = paste0(level_label, "observable_unit values"),
       message = glue::glue(
-        "observable_unit column(s) '{glue::glue_collapse(invalid_cols, \", \", last = \" & \")}' ",
-        "not valid. Must be task ID column(s), date_col, or target_col (if specified)."
+        "{level_label}observable_unit column(s) ",
+        "'{glue::glue_collapse(invalid_cols, \", \", last = \" & \")}' ",
+        "not valid. Must be task ID column(s) or date_col."
       ),
       schema = "",
       data = glue::glue(
@@ -67,11 +82,11 @@ validate_global_observable_unit <- function(config_json, schema, config_tasks) {
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
-#' @param config_tasks Parsed tasks.json as list
+#' @param task_id_names Character vector of task ID names
 #'
 #' @return NULL if validation passes, or data.frame with error rows if validation fails
 #' @noRd
-validate_time_series_config <- function(config_json, schema, config_tasks) {
+validate_time_series_config <- function(config_json, schema, task_id_names) {
   time_series <- config_json[["time-series"]]
 
   # Skip if time-series not present
@@ -82,11 +97,11 @@ validate_time_series_config <- function(config_json, schema, config_tasks) {
   errors <- list()
 
   # Validate dataset-level observable_unit if present
-  dataset_ou_error <- validate_dataset_observable_unit(
+  dataset_ou_error <- validate_observable_unit(
     config_json,
     schema,
-    config_tasks,
-    dataset_type = "time-series"
+    task_id_names,
+    level = "time-series"
   )
   if (!is.null(dataset_ou_error)) {
     errors <- c(errors, list(dataset_ou_error))
@@ -98,7 +113,7 @@ validate_time_series_config <- function(config_json, schema, config_tasks) {
     non_task_schema_error <- validate_non_task_id_schema(
       config_json,
       schema,
-      config_tasks,
+      task_id_names,
       non_task_id_schema
     )
     if (!is.null(non_task_schema_error)) {
@@ -120,11 +135,11 @@ validate_time_series_config <- function(config_json, schema, config_tasks) {
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
-#' @param config_tasks Parsed tasks.json as list
+#' @param task_id_names Character vector of task ID names
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
-validate_oracle_output_config <- function(config_json, schema, config_tasks) {
+validate_oracle_output_config <- function(config_json, schema, task_id_names) {
   oracle_output <- config_json[["oracle-output"]]
 
   # Skip if oracle-output not present
@@ -133,87 +148,12 @@ validate_oracle_output_config <- function(config_json, schema, config_tasks) {
   }
 
   # Validate dataset-level observable_unit if present
-  validate_dataset_observable_unit(
+  validate_observable_unit(
     config_json,
     schema,
-    config_tasks,
-    dataset_type = "oracle-output"
+    task_id_names,
+    level = "oracle-output"
   )
-}
-
-
-#' Validate dataset-level observable_unit contains only valid columns
-#'
-#' @param config_json Parsed target-data.json as list
-#' @param schema JSON schema for target-data
-#' @param config_tasks Parsed tasks.json as list
-#' @param dataset_type Character, either "time-series" or "oracle-output"
-#'
-#' @return NULL if validation passes, or data.frame with error row if validation fails
-#' @noRd
-validate_dataset_observable_unit <- function(
-  config_json,
-  schema,
-  config_tasks,
-  dataset_type
-) {
-  dataset <- config_json[[dataset_type]]
-  observable_unit <- dataset[["observable_unit"]]
-
-  # Skip if no dataset-level observable_unit (inherits from global)
-  if (is.null(observable_unit) || length(observable_unit) == 0) {
-    return(NULL)
-  }
-
-  # Get task ID columns
-  task_id_cols <- hubUtils::get_task_id_names(config_tasks)
-
-  # Get date_col and target_col
-  date_col <- get_date_col(config_json)
-  target_col <- get_target_task_id(config_json)
-
-  # Build list of allowed columns
-  allowed_cols <- task_id_cols
-  if (!is.null(date_col)) {
-    allowed_cols <- c(allowed_cols, date_col)
-  }
-  if (!is.null(target_col)) {
-    allowed_cols <- c(allowed_cols, target_col)
-  }
-  allowed_cols <- unique(allowed_cols)
-
-  # Check for invalid columns
-  invalid_cols <- setdiff(observable_unit, allowed_cols)
-
-  if (length(invalid_cols) > 0) {
-    error_row <- data.frame(
-      instancePath = get_error_path(
-        schema,
-        glue::glue("{dataset_type}/observable_unit"),
-        "instance"
-      ),
-      schemaPath = get_error_path(
-        schema,
-        glue::glue("{dataset_type}/observable_unit"),
-        "schema"
-      ),
-      keyword = glue::glue("{dataset_type} observable_unit values"),
-      message = glue::glue(
-        "{dataset_type} observable_unit column(s) ",
-        "'{glue::glue_collapse(invalid_cols, \", \", last = \" & \")}' ",
-        "not valid. Must be task ID column(s), date_col, or target_col (if specified)."
-      ),
-      schema = "",
-      data = glue::glue(
-        "observable_unit values: {glue::glue_collapse(observable_unit, ', ')}; ",
-        "allowed values: {glue::glue_collapse(allowed_cols, ', ')}"
-      ),
-      stringsAsFactors = FALSE
-    )
-    return(error_row)
-  }
-
-  NULL
 }
 
 
@@ -225,7 +165,7 @@ validate_dataset_observable_unit <- function(
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
-#' @param config_tasks Parsed tasks.json as list
+#' @param task_id_names Character vector of task ID names
 #' @param non_task_id_schema The non_task_id_schema object to validate
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
@@ -233,7 +173,7 @@ validate_dataset_observable_unit <- function(
 validate_non_task_id_schema <- function(
   config_json,
   schema,
-  config_tasks,
+  task_id_names,
   non_task_id_schema
 ) {
   schema_cols <- names(non_task_id_schema)
@@ -243,7 +183,7 @@ validate_non_task_id_schema <- function(
   }
 
   # Get task ID columns
-  task_id_cols <- hubUtils::get_task_id_names(config_tasks)
+  task_id_cols <- task_id_names
 
   # Get reserved columns
   reserved_cols <- get_reserved_columns()
@@ -305,24 +245,6 @@ validate_non_task_id_schema <- function(
 
 
 ## HELPER FUNCTIONS ----
-
-#' Get effective observable_unit for a dataset
-#'
-#' Returns dataset-level observable_unit if specified, otherwise global
-#'
-#' @param config_json Parsed target-data.json as list
-#' @param dataset_type Character, either "time-series" or "oracle-output"
-#'
-#' @return Character vector of observable_unit columns
-#' @noRd
-get_effective_observable_unit <- function(config_json, dataset_type) {
-  dataset_ou <- config_json[[dataset_type]][["observable_unit"]]
-  if (is.null(dataset_ou)) {
-    return(config_json[["observable_unit"]])
-  }
-  dataset_ou
-}
-
 
 #' Get reserved column names
 #'
