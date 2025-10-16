@@ -178,13 +178,39 @@ perform_dynamic_validations <- function(validation, config) {
 #' @noRd
 perform_target_data_dynamic_validations <- function(validation) {
   config_json <- hubUtils::read_config_file(attr(validation, "config_path"))
-  config_tasks <- hubUtils::read_config_file(
-    fs::path(
-      dirname(attr(validation, "config_path")),
-      "tasks",
-      ext = "json"
-    )
+
+  # Check if tasks.json exists
+  tasks_path <- fs::path(
+    dirname(attr(validation, "config_path")),
+    "tasks",
+    ext = "json"
   )
+
+  if (!fs::file_exists(tasks_path)) {
+    cli::cli_abort(
+      c(
+        "Cannot validate target-data.json: tasks.json not found.",
+        "x" = "Expected path: {.file {tasks_path}}",
+        "i" = "target-data.json validation requires tasks.json to be present."
+      )
+    )
+  }
+
+  config_tasks <- tryCatch(
+    {
+      hubUtils::read_config_file(tasks_path)
+    },
+    error = function(e) {
+      cli::cli_abort(
+        c(
+          "Cannot validate target-data.json: Failed to read tasks.json.",
+          "x" = "Error: {e$message}",
+          "i" = "Ensure tasks.json is valid JSON with proper structure."
+        )
+      )
+    }
+  )
+
   schema <- hubUtils::get_schema(attr(validation, "schema_url"))
 
   # Collect all errors
