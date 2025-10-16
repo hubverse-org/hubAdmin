@@ -11,10 +11,11 @@
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
+#' @param config_tasks Parsed tasks.json as list
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
-validate_global_observable_unit <- function(config_json, schema) {
+validate_global_observable_unit <- function(config_json, schema, config_tasks) {
   observable_unit <- config_json[["observable_unit"]]
 
   # If no observable_unit defined, skip validation
@@ -23,8 +24,7 @@ validate_global_observable_unit <- function(config_json, schema) {
   }
 
   # Get task ID columns
-  hub_path <- get_hub_path_from_config(attr(schema, "config_path"))
-  task_id_cols <- get_task_id_columns(hub_path)
+  task_id_cols <- hubUtils::get_task_id_names(config_tasks)
 
   # Get date_col and target_col
   date_col <- get_date_col(config_json)
@@ -76,10 +76,11 @@ validate_global_observable_unit <- function(config_json, schema) {
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
+#' @param config_tasks Parsed tasks.json as list
 #'
 #' @return NULL if validation passes, or data.frame with error rows if validation fails
 #' @noRd
-validate_time_series_config <- function(config_json, schema) {
+validate_time_series_config <- function(config_json, schema, config_tasks) {
   time_series <- config_json[["time-series"]]
 
   # Skip if time-series not present
@@ -91,7 +92,7 @@ validate_time_series_config <- function(config_json, schema) {
 
   # Validate dataset-level observable_unit if present
   dataset_ou_error <- validate_dataset_observable_unit(
-    config_json, schema, dataset_type = "time-series"
+    config_json, schema, config_tasks, dataset_type = "time-series"
   )
   if (!is.null(dataset_ou_error)) {
     errors <- c(errors, list(dataset_ou_error))
@@ -101,7 +102,7 @@ validate_time_series_config <- function(config_json, schema) {
   non_task_id_schema <- time_series[["non_task_id_schema"]]
   if (!is.null(non_task_id_schema)) {
     non_task_schema_error <- validate_non_task_id_schema(
-      config_json, schema, non_task_id_schema
+      config_json, schema, config_tasks, non_task_id_schema
     )
     if (!is.null(non_task_schema_error)) {
       errors <- c(errors, list(non_task_schema_error))
@@ -122,10 +123,11 @@ validate_time_series_config <- function(config_json, schema) {
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
+#' @param config_tasks Parsed tasks.json as list
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
-validate_oracle_output_config <- function(config_json, schema) {
+validate_oracle_output_config <- function(config_json, schema, config_tasks) {
   oracle_output <- config_json[["oracle-output"]]
 
   # Skip if oracle-output not present
@@ -135,7 +137,7 @@ validate_oracle_output_config <- function(config_json, schema) {
 
   # Validate dataset-level observable_unit if present
   validate_dataset_observable_unit(
-    config_json, schema, dataset_type = "oracle-output"
+    config_json, schema, config_tasks, dataset_type = "oracle-output"
   )
 }
 
@@ -144,11 +146,12 @@ validate_oracle_output_config <- function(config_json, schema) {
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
+#' @param config_tasks Parsed tasks.json as list
 #' @param dataset_type Character, either "time-series" or "oracle-output"
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
-validate_dataset_observable_unit <- function(config_json, schema, dataset_type) {
+validate_dataset_observable_unit <- function(config_json, schema, config_tasks, dataset_type) {
   dataset <- config_json[[dataset_type]]
   observable_unit <- dataset[["observable_unit"]]
 
@@ -158,8 +161,7 @@ validate_dataset_observable_unit <- function(config_json, schema, dataset_type) 
   }
 
   # Get task ID columns
-  hub_path <- get_hub_path_from_config(attr(schema, "config_path"))
-  task_id_cols <- get_task_id_columns(hub_path)
+  task_id_cols <- hubUtils::get_task_id_names(config_tasks)
 
   # Get date_col and target_col
   date_col <- get_date_col(config_json)
@@ -214,11 +216,12 @@ validate_dataset_observable_unit <- function(config_json, schema, dataset_type) 
 #'
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
+#' @param config_tasks Parsed tasks.json as list
 #' @param non_task_id_schema The non_task_id_schema object to validate
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
-validate_non_task_id_schema <- function(config_json, schema, non_task_id_schema) {
+validate_non_task_id_schema <- function(config_json, schema, config_tasks, non_task_id_schema) {
   schema_cols <- names(non_task_id_schema)
 
   if (is.null(schema_cols) || length(schema_cols) == 0) {
@@ -226,8 +229,7 @@ validate_non_task_id_schema <- function(config_json, schema, non_task_id_schema)
   }
 
   # Get task ID columns
-  hub_path <- get_hub_path_from_config(attr(schema, "config_path"))
-  task_id_cols <- get_task_id_columns(hub_path)
+  task_id_cols <- hubUtils::get_task_id_names(config_tasks)
 
   # Get reserved columns
   reserved_cols <- get_reserved_columns()
@@ -300,50 +302,6 @@ get_effective_observable_unit <- function(config_json, dataset_type) {
 }
 
 
-#' Get task ID column names from tasks.json
-#'
-#' Reads tasks.json to extract task ID column names
-#'
-#' @param hub_path Path to hub directory
-#'
-#' @return Character vector of task ID names
-#' @noRd
-get_task_id_columns <- function(hub_path) {
-  tasks_path <- fs::path(hub_path, "hub-config", "tasks.json")
-
-  if (!fs::file_exists(tasks_path)) {
-    cli::cli_abort(
-      c(
-        "Cannot validate target-data.json: tasks.json not found.",
-        "x" = "Expected path: {.file {tasks_path}}",
-        "i" = "target-data.json validation requires tasks.json to be present."
-      )
-    )
-  }
-
-  tryCatch(
-    {
-      tasks_config <- jsonlite::read_json(
-        tasks_path,
-        simplifyVector = TRUE,
-        simplifyDataFrame = FALSE
-      )
-      task_id_names <- hubUtils::get_task_id_names(tasks_config)
-      return(task_id_names)
-    },
-    error = function(e) {
-      cli::cli_abort(
-        c(
-          "Cannot validate target-data.json: Failed to read tasks.json.",
-          "x" = "Error: {e$message}",
-          "i" = "Ensure tasks.json is valid JSON with proper structure."
-        )
-      )
-    }
-  )
-}
-
-
 #' Get reserved column names
 #'
 #' Returns list of reserved column names that cannot be used in non_task_id_schema
@@ -383,18 +341,4 @@ get_target_task_id <- function(config_json) {
 #' @noRd
 get_date_col <- function(config_json) {
   config_json[["date_col"]]
-}
-
-
-#' Extract hub_path from config_path
-#'
-#' Extracts the hub directory path from a config file path
-#'
-#' @param config_path Path to config file
-#'
-#' @return Character path to hub directory
-#' @noRd
-get_hub_path_from_config <- function(config_path) {
-  # Config files are in hub-config directory, so go up two levels
-  dirname(dirname(config_path))
 }

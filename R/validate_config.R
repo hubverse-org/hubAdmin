@@ -154,11 +154,12 @@ validate_config <- function(
 #'  table is appended to attribute "errors".
 #' @noRd
 perform_dynamic_validations <- function(validation, config) {
-  switch(config,
+  switch(
+    config,
     "tasks" = perform_tasks_dynamic_validations(validation),
     "target-data" = perform_target_data_dynamic_validations(validation),
-    "admin" = validation,  # No dynamic validation yet
-    validation  # default: return unchanged
+    "admin" = validation, # No dynamic validation yet
+    validation # default: return unchanged
   )
 }
 
@@ -176,23 +177,23 @@ perform_dynamic_validations <- function(validation, config) {
 #'  table is appended to attribute "errors".
 #' @noRd
 perform_target_data_dynamic_validations <- function(validation) {
-  config_json <- jsonlite::read_json(
-    attr(validation, "config_path"),
-    simplifyVector = TRUE,
-    simplifyDataFrame = FALSE
+  config_json <- hubUtils::read_config_file(attr(validation, "config_path"))
+  config_tasks <- hubUtils::read_config_file(
+    fs::path(
+      dirname(attr(validation, "config_path")),
+      "tasks",
+      ext = "json"
+    )
   )
   schema <- hubUtils::get_schema(attr(validation, "schema_url"))
-
-  # Add config_path as attribute to schema so helper functions can extract hub_path
-  attr(schema, "config_path") <- attr(validation, "config_path")
 
   # Collect all errors
   errors_tbl <- c(
     # Global level validations
     list(
-      validate_global_observable_unit(config_json, schema),
-      validate_time_series_config(config_json, schema),
-      validate_oracle_output_config(config_json, schema),
+      validate_global_observable_unit(config_json, schema, config_tasks),
+      validate_time_series_config(config_json, schema, config_tasks),
+      validate_oracle_output_config(config_json, schema, config_tasks),
       # Apply duplicate property name checking
       validate_unique_names_recursive(config_json, schema = schema)
     )
