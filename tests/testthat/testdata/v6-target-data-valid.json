@@ -5,12 +5,12 @@
     "location"
   ],
   "date_col": "target_end_date",
+  "versioned": true,
   "time-series": {
     "non_task_id_schema": {
       "location_name": "character",
       "target_end_date": "Date"
-    },
-    "versioned": true
+    }
   },
   "oracle-output": {
     "has_output_type_ids": true,
