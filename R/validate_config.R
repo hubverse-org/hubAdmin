@@ -217,32 +217,35 @@ perform_target_data_dynamic_validations <- function(validation) {
   task_id_names <- hubUtils::get_task_id_names(config_tasks)
 
   # Collect all errors
-  errors_tbl <- c(
-    # Global level validations
-    list(
-      validate_observable_unit(
-        config_json,
-        schema,
-        task_id_names,
-        level = "global"
-      ),
-      validate_observable_unit(
-        config_json,
-        schema,
-        task_id_names,
-        level = "time-series"
-      ),
-      validate_observable_unit(
-        config_json,
-        schema,
-        task_id_names,
-        level = "oracle-output"
-      ),
-      validate_oracle_output_config(config_json, schema, task_id_names),
-      # Apply duplicate property name checking
-      validate_unique_names_recursive(config_json, schema = schema)
-    )
-  ) %>%
+  errors_tbl <- list(
+    # Observable unit validations at all levels
+    validate_observable_unit(
+      config_json,
+      schema,
+      task_id_names,
+      level = "global"
+    ),
+    validate_observable_unit(
+      config_json,
+      schema,
+      task_id_names,
+      level = "time-series"
+    ),
+    validate_observable_unit(
+      config_json,
+      schema,
+      task_id_names,
+      level = "oracle-output"
+    ),
+    # Time-series specific validation
+    validate_non_task_id_schema(
+      config_json,
+      schema,
+      task_id_names
+    ),
+    # Config-wide validations
+    validate_unique_names_recursive(config_json, schema = schema)
+  ) |>
     purrr::list_rbind()
 
   # Append errors if any were found

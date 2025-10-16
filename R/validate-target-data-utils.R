@@ -19,7 +19,7 @@ validate_observable_unit <- function(
   config_json,
   schema,
   task_id_names,
-  level = c("global", "time-series", "oracle-ouput")
+  level = c("global", "time-series", "oracle-output")
 ) {
   level <- rlang::arg_match(level)
   # Extract observable_unit based on level
@@ -72,90 +72,7 @@ validate_observable_unit <- function(
 }
 
 
-## DATASET LEVEL VALIDATIONS ----
-
-#' Validate time-series config for internal consistency
-#'
-#' Validates:
-#' - Dataset-level observable_unit (if specified)
-#' - non_task_id_schema doesn't contain task ID columns or reserved columns
-#'
-#' @param config_json Parsed target-data.json as list
-#' @param schema JSON schema for target-data
-#' @param task_id_names Character vector of task ID names
-#'
-#' @return NULL if validation passes, or data.frame with error rows if validation fails
-#' @noRd
-validate_time_series_config <- function(config_json, schema, task_id_names) {
-  time_series <- config_json[["time-series"]]
-
-  # Skip if time-series not present
-  if (is.null(time_series)) {
-    return(NULL)
-  }
-
-  errors <- list()
-
-  # Validate dataset-level observable_unit if present
-  dataset_ou_error <- validate_observable_unit(
-    config_json,
-    schema,
-    task_id_names,
-    level = "time-series"
-  )
-  if (!is.null(dataset_ou_error)) {
-    errors <- c(errors, list(dataset_ou_error))
-  }
-
-  # Validate non_task_id_schema
-  non_task_id_schema <- time_series[["non_task_id_schema"]]
-  if (!is.null(non_task_id_schema)) {
-    non_task_schema_error <- validate_non_task_id_schema(
-      config_json,
-      schema,
-      task_id_names,
-      non_task_id_schema
-    )
-    if (!is.null(non_task_schema_error)) {
-      errors <- c(errors, list(non_task_schema_error))
-    }
-  }
-
-  if (length(errors) == 0) {
-    return(NULL)
-  }
-
-  purrr::list_rbind(errors)
-}
-
-
-#' Validate oracle-output config for internal consistency
-#'
-#' Validates dataset-level observable_unit (if specified)
-#'
-#' @param config_json Parsed target-data.json as list
-#' @param schema JSON schema for target-data
-#' @param task_id_names Character vector of task ID names
-#'
-#' @return NULL if validation passes, or data.frame with error row if validation fails
-#' @noRd
-validate_oracle_output_config <- function(config_json, schema, task_id_names) {
-  oracle_output <- config_json[["oracle-output"]]
-
-  # Skip if oracle-output not present
-  if (is.null(oracle_output)) {
-    return(NULL)
-  }
-
-  # Validate dataset-level observable_unit if present
-  validate_observable_unit(
-    config_json,
-    schema,
-    task_id_names,
-    level = "oracle-output"
-  )
-}
-
+## TIME-SERIES SPECIFIC VALIDATIONS ----
 
 #' Validate non_task_id_schema doesn't contain invalid columns
 #'
@@ -166,37 +83,33 @@ validate_oracle_output_config <- function(config_json, schema, task_id_names) {
 #' @param config_json Parsed target-data.json as list
 #' @param schema JSON schema for target-data
 #' @param task_id_names Character vector of task ID names
-#' @param non_task_id_schema The non_task_id_schema object to validate
 #'
 #' @return NULL if validation passes, or data.frame with error row if validation fails
 #' @noRd
 validate_non_task_id_schema <- function(
   config_json,
   schema,
-  task_id_names,
-  non_task_id_schema
+  task_id_names
 ) {
-  schema_cols <- names(non_task_id_schema)
+  non_task_id_schema <- config_json[["time-series"]][["non_task_id_schema"]]
 
-  if (is.null(schema_cols) || length(schema_cols) == 0) {
+  if (is.null(non_task_id_schema) || length(non_task_id_schema) == 0) {
     return(NULL)
   }
-
-  # Get task ID columns
-  task_id_cols <- task_id_names
+  schema_cols <- names(non_task_id_schema)
 
   # Get reserved columns
   reserved_cols <- get_reserved_columns()
 
   # Combine forbidden columns
-  forbidden_cols <- c(task_id_cols, reserved_cols)
+  forbidden_cols <- c(task_id_names, reserved_cols)
 
   # Check for invalid columns
   invalid_cols <- intersect(schema_cols, forbidden_cols)
 
   if (length(invalid_cols) > 0) {
     # Separate task ID columns from reserved columns for clearer error message
-    invalid_task_ids <- intersect(schema_cols, task_id_cols)
+    invalid_task_ids <- intersect(schema_cols, task_id_names)
     invalid_reserved <- intersect(schema_cols, reserved_cols)
 
     error_details <- character()
