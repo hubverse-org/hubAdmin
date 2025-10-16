@@ -176,8 +176,38 @@ perform_dynamic_validations <- function(validation, config) {
 #'  table is appended to attribute "errors".
 #' @noRd
 perform_target_data_dynamic_validations <- function(validation) {
-  # Stub implementation - will be implemented in Step 2
-  # For now, just return validation unchanged to maintain backward compatibility
+  config_json <- jsonlite::read_json(
+    attr(validation, "config_path"),
+    simplifyVector = TRUE,
+    simplifyDataFrame = FALSE
+  )
+  schema <- hubUtils::get_schema(attr(validation, "schema_url"))
+
+  # Add config_path as attribute to schema so helper functions can extract hub_path
+  attr(schema, "config_path") <- attr(validation, "config_path")
+
+  # Collect all errors
+  errors_tbl <- c(
+    # Global level validations
+    list(
+      validate_global_observable_unit(config_json, schema),
+      validate_time_series_config(config_json, schema),
+      validate_oracle_output_config(config_json, schema),
+      # Apply duplicate property name checking
+      validate_unique_names_recursive(config_json, schema = schema)
+    )
+  ) %>%
+    purrr::list_rbind()
+
+  # Append errors if any were found
+  if (nrow(errors_tbl) > 0) {
+    validation[] <- FALSE
+    attr(validation, "errors") <- rbind(
+      attr(validation, "errors"),
+      errors_tbl
+    )
+  }
+
   validation
 }
 
