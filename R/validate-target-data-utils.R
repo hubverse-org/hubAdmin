@@ -78,6 +78,7 @@ validate_observable_unit <- function(
 #'
 #' Checks that non_task_id_schema doesn't contain:
 #' - Task ID columns
+#' - date_col (whether or not it's a task ID)
 #' - Reserved columns: as_of, output_type, output_type_id
 #'
 #' @param config_json Parsed target-data.json as list
@@ -98,18 +99,22 @@ validate_non_task_id_schema <- function(
   }
   schema_cols <- names(non_task_id_schema)
 
+  # Get date_col (special column that should not appear in non_task_id_schema)
+  date_col <- get_date_col(config_json)
+
   # Get reserved columns
   reserved_cols <- get_reserved_columns()
 
-  # Combine forbidden columns
-  forbidden_cols <- c(task_id_names, reserved_cols)
+  # Combine forbidden columns: task IDs, date_col, and reserved columns
+  forbidden_cols <- unique(c(task_id_names, date_col, reserved_cols))
 
   # Check for invalid columns
   invalid_cols <- intersect(schema_cols, forbidden_cols)
 
   if (length(invalid_cols) > 0) {
-    # Separate task ID columns from reserved columns for clearer error message
+    # Separate different types of invalid columns for clearer error message
     invalid_task_ids <- intersect(schema_cols, task_id_names)
+    invalid_date_col <- intersect(schema_cols, date_col)
     invalid_reserved <- intersect(schema_cols, reserved_cols)
 
     error_details <- character()
@@ -119,6 +124,12 @@ validate_non_task_id_schema <- function(
         glue::glue(
           "task ID column(s): {glue::glue_collapse(invalid_task_ids, ', ')}"
         )
+      )
+    }
+    if (length(invalid_date_col) > 0) {
+      error_details <- c(
+        error_details,
+        glue::glue("date_col: {date_col}")
       )
     }
     if (length(invalid_reserved) > 0) {
@@ -143,7 +154,7 @@ validate_non_task_id_schema <- function(
       ),
       keyword = "non_task_id_schema column names",
       message = glue::glue(
-        "non_task_id_schema must NOT contain task ID columns or reserved columns. ",
+        "non_task_id_schema must NOT contain task ID columns, date_col, or reserved columns. ",
         "Invalid: {glue::glue_collapse(invalid_cols, ', ', last = ' & ')}"
       ),
       schema = "",

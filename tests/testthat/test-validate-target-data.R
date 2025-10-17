@@ -78,7 +78,7 @@ test_that("Reserved columns in non_task_id_schema are detected", {
   expect_match(errors$keyword, "non_task_id_schema column names")
   expect_match(
     errors$message,
-    "non_task_id_schema must NOT contain task ID columns or reserved columns"
+    "non_task_id_schema must NOT contain task ID columns, date_col, or reserved columns"
   )
   expect_match(errors$message, "as_of")
   expect_match(errors$message, "output_type")
@@ -186,6 +186,42 @@ test_that("Task ID columns in non_task_id_schema are detected", {
   expect_match(errors$message, "location")
 })
 
+test_that("date_col in non_task_id_schema is detected", {
+  # Config with date_col in non_task_id_schema (whether or not it's a task ID)
+  target_data_config <- list(
+    schema_version = "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/target-data-schema.json",
+    observable_unit = c(
+      "target_end_date",
+      "target",
+      "location"
+    ),
+    date_col = "target_end_date",
+    versioned = TRUE,
+    `time-series` = list(
+      non_task_id_schema = list(
+        target_end_date = "Date", # This is the date_col
+        extra_col = "integer"
+      )
+    )
+  )
+
+  hub_path <- create_test_hub_with_target_data(target_data_config)
+
+  out <- suppressMessages(validate_config(
+    hub_path = hub_path,
+    config = "target-data"
+  ))
+  expect_false(out)
+
+  errors <- attr(out, "errors")
+  expect_match(
+    errors$message,
+    "non_task_id_schema must NOT contain task ID columns, date_col, or reserved columns"
+  )
+  expect_match(errors$message, "target_end_date")
+  expect_match(errors$data, "date_col: target_end_date")
+})
+
 test_that("Duplicate property names are detected in target-data config", {
   hub_path <- create_test_hub_with_target_data(NULL)
 
@@ -264,7 +300,7 @@ test_that("Multiple validation errors are collected correctly", {
     c(
       "observable_unit column(s) 'invalid_global' not valid. Must be task ID column(s) or date_col.",
       "oracle-output observable_unit column(s) 'invalid_dataset' not valid. Must be task ID column(s) or date_col.",
-      "non_task_id_schema must NOT contain task ID columns or reserved columns. Invalid: location & as_of"
+      "non_task_id_schema must NOT contain task ID columns, date_col, or reserved columns. Invalid: location & as_of"
     )
   )
 
