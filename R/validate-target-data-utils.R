@@ -178,7 +178,7 @@ validate_non_task_id_schema <- function(
 #' @return Character vector of reserved column names
 #' @noRd
 get_reserved_columns <- function() {
-  c("as_of", "output_type", "output_type_id")
+  c("as_of", "output_type", "output_type_id", "observation", "oracle_value")
 }
 
 
