@@ -3,7 +3,7 @@
 #' Create a test hub with custom target-data.json config
 #'
 #' @param target_data_config List representing the target-data.json config
-#' @param base_hub Character name of base hub from hubUtils to use (default: "simple")
+#' @param base_hub Character name of base hub from hubUtils to use (default: "v6/target_file")
 #' @param envir Environment for withr scoping (default: parent.frame())
 #'
 #' @return Path to the temporary hub directory
