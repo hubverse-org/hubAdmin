@@ -133,9 +133,7 @@ validate_config <- function(
 
   if (validation) {
     validation <- validate_schema_version_property(validation, config)
-    if (config == "tasks") {
-      validation <- perform_dynamic_config_validations(validation)
-    }
+    validation <- perform_dynamic_validations(validation, config)
   }
 
   class(validation) <- "conval"
@@ -143,9 +141,34 @@ validate_config <- function(
 }
 
 
-#' Perform dynamic validation of target keys and schema_ids for internal consistency against
-#'  task ids. Check only performed once basic jsonvalidate checks pass against
-#'  schema.
+#' Dispatch dynamic validations based on config type
+#'
+#' Routes to config-specific dynamic validation functions. Currently supports
+#' tasks.json and target-data.json. Other config types return unchanged.
+#'
+#' @param validation validation object returned by jsonvalidate::json_validate().
+#' @param config Character string indicating config type ("tasks", "admin", "target-data").
+#'
+#' @return If validation successful, returns original validation object. If
+#'  validation fails, value of validation object is set to FALSE and the error
+#'  table is appended to attribute "errors".
+#' @noRd
+perform_dynamic_validations <- function(validation, config) {
+  switch(
+    config,
+    "tasks" = perform_tasks_dynamic_validations(validation),
+    "target-data" = perform_target_data_dynamic_validations(validation),
+    "admin" = validation, # No dynamic validation yet
+    validation # default: return unchanged
+  )
+}
+
+
+#' Perform dynamic validation of target-data config for internal consistency
+#'
+#' Validates observable_unit and non_task_id_schema properties for consistency
+#' with task IDs and reserved column names. Check only performed once basic
+#' jsonvalidate checks pass against schema.
 #'
 #' @param validation validation object returned by jsonvalidate::json_validate().
 #'
@@ -153,12 +176,114 @@ validate_config <- function(
 #'  validation fails, value of validation object is set to FALSE and the error
 #'  table is appended to attribute "errors".
 #' @noRd
-perform_dynamic_config_validations <- function(validation) {
-  config_json <- jsonlite::read_json(
-    attr(validation, "config_path"),
-    simplifyVector = TRUE,
-    simplifyDataFrame = FALSE
+perform_target_data_dynamic_validations <- function(validation) {
+  config_json <- hubUtils::read_config_file(attr(validation, "config_path"))
+
+  # Check if tasks.json exists
+  tasks_path <- fs::path(
+    dirname(attr(validation, "config_path")),
+    "tasks",
+    ext = "json"
   )
+
+  if (!fs::file_exists(tasks_path)) {
+    cli::cli_abort(
+      c(
+        "Cannot validate target-data.json: tasks.json not found.",
+        "x" = "Expected path: {.file {tasks_path}}",
+        "i" = "target-data.json validation requires tasks.json to be present."
+      )
+    )
+  }
+
+  config_tasks <- tryCatch(
+    {
+      hubUtils::read_config_file(tasks_path)
+    },
+    error = function(e) {
+      cli::cli_abort(
+        c(
+          "Cannot validate target-data.json: Failed to read tasks.json.",
+          "x" = "Error: {e$message}",
+          "i" = "Ensure tasks.json is valid JSON with proper structure."
+        )
+      )
+    }
+  )
+
+  schema <- hubUtils::get_schema(attr(validation, "schema_url"))
+
+  # Extract task ID names once for all validations
+  task_id_names <- hubUtils::get_task_id_names(config_tasks)
+
+  # Collect all errors
+  errors_tbl <- list(
+    # Observable unit validations at all levels
+    validate_observable_unit(
+      config_json,
+      schema,
+      task_id_names,
+      level = "global"
+    ),
+    validate_observable_unit(
+      config_json,
+      schema,
+      task_id_names,
+      level = "time-series"
+    ),
+    validate_observable_unit(
+      config_json,
+      schema,
+      task_id_names,
+      level = "oracle-output"
+    ),
+    # Time-series specific validation
+    validate_non_task_id_schema(
+      config_json,
+      schema,
+      task_id_names
+    ),
+    # Config-wide validations
+    validate_unique_names_recursive(config_json, schema = schema)
+  ) |>
+    purrr::list_rbind()
+
+  # Append errors if any were found
+  if (nrow(errors_tbl) > 0) {
+    validation[] <- FALSE
+    attr(validation, "errors") <- rbind(
+      attr(validation, "errors"),
+      errors_tbl
+    )
+  }
+
+  validation
+}
+
+
+#' Perform dynamic validation of tasks config for internal consistency
+#'
+#' Performs additional validation checks on tasks.json config files beyond what
+#' JSON schema validation can enforce. These checks are only performed after
+#' initial schema validation passes successfully.
+#'
+#' Dynamic checks include:
+#' - Round ID uniqueness and pattern consistency across rounds
+#' - Task ID consistency and completeness across model tasks
+#' - Target key validation against task IDs
+#' - Target ID matching with target key values
+#' - Sample output type parameter validation (range, compound task IDs)
+#' - Derived task ID validation
+#' - Duplicate property name detection at all config levels
+#'
+#' @param validation validation object returned by jsonvalidate::json_validate().
+#'
+#' @return If validation successful, returns original validation object. If
+#'  validation fails, value of validation object is set to FALSE and the error
+#'  table is appended to attribute "errors".
+#' @noRd
+perform_tasks_dynamic_validations <- function(validation) {
+  config_json <- hubUtils::read_config_file(attr(validation, "config_path"))
   schema <- hubUtils::get_schema(attr(validation, "schema_url"))
 
   errors_tbl <- c(
