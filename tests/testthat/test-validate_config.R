@@ -536,6 +536,17 @@ test_that("Missing repository property throw errors in v6 (#127)", {
 })
 
 test_that("Basic v6 target data validation works (#127)", {
+  # Mock perform_dynamic_validations to skip dynamic checks and focus solely on
+  # JSON schema validation. The mocked function simply returns the validation
+  # object unchanged, bypassing context-dependent checks like observable_unit
+  # validation against task IDs. This isolates the test to only verify basic
+  # jsonvalidate behavior against the v6 target-data schema.
+  local_mocked_bindings(
+    perform_dynamic_validations = function(validation, config) {
+      validation
+    }
+  )
+
   config_path <- testthat::test_path(
     "testdata",
     "v6-target-data-valid.json"
