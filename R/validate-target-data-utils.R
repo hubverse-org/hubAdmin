@@ -9,7 +9,8 @@
 #' - date_col value
 #'
 #' @param config_json Parsed target-data.json as list
-#' @param schema JSON schema for target-data
+#' @param schema JSON schema for target-data (i.e. the contents of
+#' `target-data-schema.json` in the schemas repo)
 #' @param task_id_names Character vector of task ID names
 #' @param level Character, one of "global", "time-series", or "oracle-output"
 #'
