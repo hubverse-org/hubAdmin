@@ -85,6 +85,45 @@ test_that("Reserved columns in non_task_id_schema are detected", {
   expect_match(errors$instancePath, "/time-series/non_task_id_schema")
 })
 
+test_that("observation column in non_task_id_schema is detected", {
+  # Config with 'observation' column in non_task_id_schema
+  target_data_config <- list(
+    schema_version = "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/target-data-schema.json",
+    observable_unit = c(
+      "target_end_date",
+      "target",
+      "location"
+    ),
+    date_col = "target_end_date",
+    versioned = TRUE,
+    `time-series` = list(
+      non_task_id_schema = list(
+        location_name = "character",
+        observation = "double"
+      )
+    )
+  )
+
+  hub_path <- create_test_hub_with_target_data(target_data_config)
+
+  out <- suppressMessages(validate_config(
+    hub_path = hub_path,
+    config = "target-data"
+  ))
+  expect_false(out)
+
+  errors <- attr(out, "errors")
+  expect_equal(nrow(errors), 1L)
+  expect_match(errors$keyword, "non_task_id_schema column names")
+  expect_match(
+    errors$message,
+    "non_task_id_schema must NOT contain task ID columns, date_col, or reserved columns"
+  )
+  expect_match(errors$message, "observation")
+  expect_match(errors$data, "reserved column\\(s\\): observation")
+  expect_match(errors$instancePath, "/time-series/non_task_id_schema")
+})
+
 test_that("Invalid dataset-level observable_unit is detected", {
   # Config with invalid column in dataset-level observable_unit
   target_data_config <- list(
