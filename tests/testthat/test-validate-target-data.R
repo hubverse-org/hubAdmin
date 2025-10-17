@@ -1,4 +1,8 @@
 # Tests for target-data.json dynamic validation
+#
+# Helper functions used in this file:
+# - create_test_hub_with_target_data() from helper-target-data.R
+
 test_that("Valid target-data config passes all dynamic checks", {
   hub_path <- system.file("testhubs/v6/target_file", package = "hubUtils")
 
