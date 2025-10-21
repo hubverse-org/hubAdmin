@@ -1,4 +1,4 @@
-# hubAdmin (development version)
+# hubAdmin 1.8.0
 
 * Added basic tests for v6.0.0 schema (#127).
 * Added support for `target-data.json` config validations (#132).
