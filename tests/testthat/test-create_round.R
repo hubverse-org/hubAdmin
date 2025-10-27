@@ -3,7 +3,8 @@ test_that("create_round functions work correctly", {
   model_tasks <- create_model_tasks(
     create_model_task(
       task_ids = create_task_ids(
-        create_task_id("origin_date",
+        create_task_id(
+          "origin_date",
           required = NULL,
           optional = c(
             "2023-01-02",
@@ -11,14 +12,12 @@ test_that("create_round functions work correctly", {
             "2023-01-16"
           )
         ),
-        create_task_id("location",
+        create_task_id(
+          "location",
           required = "US",
           optional = c("01", "02", "04", "05", "06")
         ),
-        create_task_id("horizon",
-          required = 1L,
-          optional = 2:4
-        )
+        create_task_id("horizon", required = 1L, optional = 2:4)
       ),
       output_type = create_output_type(
         create_output_type_mean(
@@ -50,7 +49,8 @@ test_that("create_round functions work correctly", {
         end = "2023-01-18"
       ),
       last_data_date = "2023-01-02"
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
   expect_snapshot(
     create_round(
@@ -63,7 +63,8 @@ test_that("create_round functions work correctly", {
         end = 2L
       ),
       last_data_date = "2023-01-02"
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
 })
 
@@ -73,7 +74,8 @@ test_that("create_round name matching works correctly", {
   model_tasks <- create_model_tasks(
     create_model_task(
       task_ids = create_task_ids(
-        create_task_id("origin_date",
+        create_task_id(
+          "origin_date",
           required = NULL,
           optional = c(
             "2023-01-02",
@@ -81,14 +83,12 @@ test_that("create_round name matching works correctly", {
             "2023-01-16"
           )
         ),
-        create_task_id("location",
+        create_task_id(
+          "location",
           required = "US",
           optional = c("01", "02", "04", "05", "06")
         ),
-        create_task_id("horizon",
-          required = 1L,
-          optional = 2:4
-        )
+        create_task_id("horizon", required = 1L, optional = 2:4)
       ),
       output_type = create_output_type(
         create_output_type_mean(
@@ -252,7 +252,8 @@ test_that("validating round_id patterns when round_id_from_var = TRUE works", {
       )
       # Check that valid round_id values are accepted
       task_ids <- create_task_ids(
-        create_task_id("round_id_var",
+        create_task_id(
+          "round_id_var",
           required = "2023-01-09",
           optional = c(
             "2023-01-02",
@@ -283,7 +284,8 @@ test_that("validating round_id patterns when round_id_from_var = TRUE works", {
       # Check that multiple invalid values in both required and optional values
       # reported correctly
       task_ids <- create_task_ids(
-        create_task_id("round_id_var",
+        create_task_id(
+          "round_id_var",
           required = "invalid-round-id-req",
           optional = c(
             "2023-01-02",
@@ -317,7 +319,8 @@ test_that("validating round_id patterns when round_id_from_var = TRUE works", {
       # Check that multiple invalid values in required or optional values
       # across multiple modeling tasks reported correctly
       task_ids_1 <- create_task_ids(
-        create_task_id("round_id_var",
+        create_task_id(
+          "round_id_var",
           required = NULL,
           optional = c(
             "2023-01-02",
@@ -328,7 +331,8 @@ test_that("validating round_id patterns when round_id_from_var = TRUE works", {
         )
       )
       task_ids_2 <- create_task_ids(
-        create_task_id("round_id_var",
+        create_task_id(
+          "round_id_var",
           required = c(
             "2023-01-02",
             "24_25_covid",
@@ -395,7 +399,8 @@ test_that("validating round_id pattern when round_id_from_var = FALSE works", {
       # Check that valid round_id value is accepted while round_id_var invalid
       # values are ignored
       task_ids <- create_task_ids(
-        create_task_id("round_id_var",
+        create_task_id(
+          "round_id_var",
           required = "2023-01-09",
           optional = c(
             "2023-01-02",
@@ -437,7 +442,8 @@ test_that("validating round_id pattern when round_id_from_var = FALSE works", {
 
       # Check that invalid `round_id` reported correctly
       task_ids <- create_task_ids(
-        create_task_id("round_id_var",
+        create_task_id(
+          "round_id_var",
           required = "invalid-round-id-req",
           optional = c(
             "2023-01-02",
@@ -467,6 +473,187 @@ test_that("validating round_id pattern when round_id_from_var = FALSE works", {
         ),
         error = TRUE
       )
+    }
+  )
+})
+
+test_that("additional_metadata field for optional properties in v6.0.0+", {
+  # Create shared model_tasks for tests
+  model_tasks <- create_model_tasks(
+    create_model_task(
+      task_ids = create_task_ids(
+        create_task_id(
+          "origin_date",
+          required = NULL,
+          optional = c(
+            "2023-01-02",
+            "2023-01-09",
+            "2023-01-16"
+          )
+        ),
+        create_task_id(
+          "location",
+          required = "US",
+          optional = c("01", "02", "04", "05", "06")
+        ),
+        create_task_id("horizon", required = 1L, optional = 2:4)
+      ),
+      output_type = create_output_type(
+        create_output_type_mean(
+          is_required = TRUE,
+          value_type = "double",
+          value_minimum = 0L
+        )
+      ),
+      target_metadata = create_target_metadata(
+        create_target_metadata_item(
+          target_id = "inc hosp",
+          target_name = "Weekly incident influenza hospitalizations",
+          target_units = "rate per 100,000 population",
+          target_keys = NULL,
+          target_type = "discrete",
+          is_step_ahead = TRUE,
+          time_unit = "week"
+        )
+      )
+    )
+  )
+
+  # Test v6.0.0+ wraps additional properties in additional_metadata field
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v6.0.0"
+    ),
+    {
+      v6_with_additional <- create_round(
+        round_id_from_variable = TRUE,
+        round_id = "origin_date",
+        model_tasks = model_tasks,
+        submissions_due = list(
+          relative_to = "origin_date",
+          start = -4L,
+          end = 2L
+        ),
+        last_data_date = "2023-01-02",
+        round_label = "Round 1",
+        data_source = "https://example.com/data",
+        custom_field = "custom_value"
+      )
+
+      # Check that additional_metadata field exists
+      expect_true("additional_metadata" %in% names(v6_with_additional))
+
+      # Check that additional properties are nested within additional_metadata
+      expect_equal(
+        v6_with_additional$additional_metadata,
+        list(
+          round_label = "Round 1",
+          data_source = "https://example.com/data",
+          custom_field = "custom_value"
+        )
+      )
+
+      # Check that individual properties are NOT directly in the object
+      expect_false("round_label" %in% names(v6_with_additional))
+      expect_false("data_source" %in% names(v6_with_additional))
+      expect_false("custom_field" %in% names(v6_with_additional))
+
+      # Check the names attribute includes additional_metadata
+      expect_true("additional_metadata" %in% attr(v6_with_additional, "names"))
+    }
+  )
+
+  # Test v6.0.0+ without additional properties
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v6.0.0"
+    ),
+    {
+      v6_no_additional <- create_round(
+        round_id_from_variable = TRUE,
+        round_id = "origin_date",
+        model_tasks = model_tasks,
+        submissions_due = list(
+          relative_to = "origin_date",
+          start = -4L,
+          end = 2L
+        ),
+        last_data_date = "2023-01-02"
+      )
+
+      # Should not have additional_metadata field when no additional properties
+      expect_false("additional_metadata" %in% names(v6_no_additional))
+    }
+  )
+})
+
+test_that("additional properties pre-v6.0.0 are stored at tope level of object", {
+  # Pre-v6.0.0 - properties added directly
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v3.0.1"
+    ),
+    {
+      model_tasks_v3 <- create_model_tasks(
+        create_model_task(
+          task_ids = create_task_ids(
+            create_task_id(
+              "origin_date",
+              required = NULL,
+              optional = c(
+                "2023-01-02",
+                "2023-01-09",
+                "2023-01-16"
+              )
+            ),
+            create_task_id(
+              "location",
+              required = "US",
+              optional = c("01", "02", "04", "05", "06")
+            ),
+            create_task_id("horizon", required = 1L, optional = 2:4)
+          ),
+          output_type = create_output_type(
+            create_output_type_mean(
+              is_required = TRUE,
+              value_type = "double",
+              value_minimum = 0L
+            )
+          ),
+          target_metadata = create_target_metadata(
+            create_target_metadata_item(
+              target_id = "inc hosp",
+              target_name = "Weekly incident influenza hospitalizations",
+              target_units = "rate per 100,000 population",
+              target_keys = NULL,
+              target_type = "discrete",
+              is_step_ahead = TRUE,
+              time_unit = "week"
+            )
+          )
+        )
+      )
+
+      pre_v6_round <- create_round(
+        round_id_from_variable = TRUE,
+        round_id = "origin_date",
+        model_tasks = model_tasks_v3,
+        submissions_due = list(
+          relative_to = "origin_date",
+          start = -4L,
+          end = 2L
+        ),
+        last_data_date = "2023-01-02",
+        round_label = "Round 1",
+        custom_field = "custom_value"
+      )
+
+      # In pre-v6.0.0, properties are directly in the object
+      expect_true("round_label" %in% names(pre_v6_round))
+      expect_true("custom_field" %in% names(pre_v6_round))
+      expect_false("additional_metadata" %in% names(pre_v6_round))
+      expect_equal(pre_v6_round$round_label, "Round 1")
+      expect_equal(pre_v6_round$custom_field, "custom_value")
     }
   )
 })

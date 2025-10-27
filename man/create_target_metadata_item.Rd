@@ -64,7 +64,8 @@ option "hubAdmin.branch".}
 
 \item{...}{additional optional properties to add to the target metadata list
 output. Only available for schema version equal or greater than v5.1.0,
-ignored for past version.}
+ignored for past version. In schema versions greater or equal to v6.0.0,
+these properties are placed in the \code{additional_properties} field.}
 }
 \value{
 a named list of class \code{target_metadata_item}.
@@ -100,7 +101,7 @@ create_target_metadata_item(
   target_type = "discrete",
   is_step_ahead = TRUE,
   time_unit = "week",
-  uri = "https://ontobee.org/"
+  uri = "http://purl.obolibrary.org/obo/IDO_0000463"
 )
 options(hubAdmin.schema_version = "v3.0.1")
 create_target_metadata_item(

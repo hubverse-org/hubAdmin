@@ -619,3 +619,165 @@ test_that("Target data config validation errors with schema versions earlier tha
     regexp = 'Cannot validate `target-data.json` files using schema .*"v5.0.0"'
   )
 })
+
+test_that("Config with additional properties in v5.1.0 validates successfully", {
+  # Create a complete config with additional properties in both round and target_metadata
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v5.1.0"
+    ),
+    {
+      config <- create_config(
+        rounds = create_rounds(
+          create_round(
+            round_id_from_variable = FALSE,
+            round_id = "2023-01-02",
+            model_tasks = create_model_tasks(
+              create_model_task(
+                task_ids = create_task_ids(
+                  create_task_id(
+                    "origin_date",
+                    required = NULL,
+                    optional = c(
+                      "2023-01-02",
+                      "2023-01-09",
+                      "2023-01-16"
+                    )
+                  ),
+                  create_task_id(
+                    "location",
+                    required = "US",
+                    optional = c("01", "02", "04", "05", "06")
+                  ),
+                  create_task_id("horizon", required = 1L, optional = 2:4)
+                ),
+                output_type = create_output_type(
+                  create_output_type_mean(
+                    is_required = TRUE,
+                    value_type = "double",
+                    value_minimum = 0L
+                  )
+                ),
+                target_metadata = create_target_metadata(
+                  create_target_metadata_item(
+                    target_id = "inc hosp",
+                    target_name = "Weekly incident influenza hospitalizations",
+                    target_units = "rate per 100,000 population",
+                    target_keys = NULL,
+                    target_type = "discrete",
+                    is_step_ahead = TRUE,
+                    time_unit = "week",
+                    uri = "http://purl.obolibrary.org/obo/IDO_0000463",
+                    description_url = "https://example.com/target-description"
+                  )
+                )
+              )
+            ),
+            submissions_due = list(
+              start = "2023-01-05",
+              end = "2023-01-07"
+            ),
+            round_label = "Round 1",
+            data_source_url = "https://example.com/data"
+          )
+        )
+      )
+
+      # Write to temporary directory
+      tmp_hub <- withr::local_tempdir()
+      fs::dir_create(file.path(tmp_hub, "hub-config"))
+      write_config(config, tmp_hub)
+
+      # Validate the written config (using version from config file)
+      result <- suppressMessages(validate_config(
+        hub_path = tmp_hub,
+        config = "tasks"
+      ))
+
+      expect_true(result)
+    }
+  )
+})
+
+test_that("Config with additional_metadata in v6.0.0 validates successfully", {
+  skip_if_offline()
+
+  # Create a complete config with additional properties in both round and target_metadata
+  withr::with_options(
+    list(
+      hubAdmin.schema_version = "v6.0.0"
+    ),
+    {
+      config <- create_config(
+        rounds = create_rounds(
+          create_round(
+            round_id_from_variable = FALSE,
+            round_id = "2023-01-02",
+            model_tasks = create_model_tasks(
+              create_model_task(
+                task_ids = create_task_ids(
+                  create_task_id(
+                    "origin_date",
+                    required = NULL,
+                    optional = c(
+                      "2023-01-02",
+                      "2023-01-09",
+                      "2023-01-16"
+                    )
+                  ),
+                  create_task_id(
+                    "location",
+                    required = "US",
+                    optional = c("01", "02", "04", "05", "06")
+                  ),
+                  create_task_id("horizon", required = 1L, optional = 2:4)
+                ),
+                output_type = create_output_type(
+                  create_output_type_mean(
+                    is_required = TRUE,
+                    value_type = "double",
+                    value_minimum = 0L
+                  )
+                ),
+                target_metadata = create_target_metadata(
+                  create_target_metadata_item(
+                    target_id = "inc hosp",
+                    target_name = "Weekly incident influenza hospitalizations",
+                    target_units = "rate per 100,000 population",
+                    target_keys = NULL,
+                    target_type = "discrete",
+                    is_step_ahead = TRUE,
+                    time_unit = "week",
+                    uri = "http://purl.obolibrary.org/obo/IDO_0000463",
+                    description_url = "https://example.com/target-description",
+                    custom_field = "custom_value"
+                  )
+                )
+              )
+            ),
+            submissions_due = list(
+              start = "2023-01-05",
+              end = "2023-01-07"
+            ),
+            round_label = "Round 1",
+            data_source_url = "https://example.com/data",
+            custom_round_field = "custom_round_value"
+          )
+        )
+      )
+
+      # Write to temporary directory
+      tmp_hub <- withr::local_tempdir()
+      fs::dir_create(file.path(tmp_hub, "hub-config"))
+      write_config(config, tmp_hub)
+
+      # Validate the written config (using version from config file)
+      result <- suppressMessages(validate_config(
+        hub_path = tmp_hub,
+        config = "tasks"
+      ))
+
+      expect_true(result)
+    }
+  )
+})

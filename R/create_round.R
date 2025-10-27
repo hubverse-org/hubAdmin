@@ -34,6 +34,9 @@
 #'  be used as well as available formats, please consult
 #' the [documentation on `tasks.json` Hub config files](
 #' https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.html).
+#' @param ... additional optional properties to add to the round list output.
+#' In schema versions greater or equal to v6.0.0, these properties are placed in
+#' the `additional_metadata` field.
 #' @inheritParams create_config
 #' @return a named list of class `round`.
 #' @export
@@ -93,12 +96,31 @@
 #'   ),
 #'   last_data_date = "2023-01-02"
 #' )
-create_round <- function(round_id_from_variable,
-                         round_id, round_name = NULL,
-                         model_tasks,
-                         submissions_due, last_data_date = NULL,
-                         file_format = NULL,
-                         derived_task_ids = NULL) {
+#' # For schema version >= v6.0.0, example with an additional optional property
+#' create_round(
+#'   round_id_from_variable = TRUE,
+#'   round_id = "origin_date",
+#'   model_tasks = model_tasks,
+#'   submissions_due = list(
+#'     relative_to = "origin_date",
+#'     start = -4L,
+#'     end = 2L
+#'   ),
+#'   last_data_date = "2023-01-02",
+#'   round_label = "Round 1",
+#'   data_source = "https://example.com/data"
+#' )
+create_round <- function(
+  round_id_from_variable,
+  round_id,
+  round_name = NULL,
+  model_tasks,
+  submissions_due,
+  last_data_date = NULL,
+  file_format = NULL,
+  derived_task_ids = NULL,
+  ...
+) {
   rlang::check_required(round_id_from_variable)
   rlang::check_required(round_id)
   rlang::check_required(model_tasks)
@@ -116,8 +138,11 @@ create_round <- function(round_id_from_variable,
   round_schema <- get_schema_round(schema)
 
   property_names <- c(
-    "round_id_from_variable", "round_id",
-    "round_name", "model_tasks", "submissions_due",
+    "round_id_from_variable",
+    "round_id",
+    "round_name",
+    "model_tasks",
+    "submissions_due",
     "last_data_date",
     "file_format",
     "derived_task_ids"
@@ -141,17 +166,34 @@ create_round <- function(round_id_from_variable,
     check_round_id_pattern(round_id)
   }
 
+  # Handle additional properties
+  vers <- hubUtils::extract_schema_version(schema$`$id`)
+  opt_properties <- list(...)
+  if (length(opt_properties) > 0L) {
+    if (hubUtils::version_gte("v6.0.0", schema_version = vers)) {
+      properties <- c(properties, list(opt_properties))
+      property_names <- c(property_names, "additional_metadata")
+    } else {
+      properties <- c(properties, opt_properties)
+      property_names <- c(property_names, names(opt_properties))
+    }
+  }
+
   structure(
     properties,
     class = c("round", "list"),
+    names = property_names,
     round_id = round_id,
     schema_id = schema$`$id`,
     branch = branch
   )
 }
 
-check_round_id_variable <- function(model_tasks, round_id,
-                                    call = rlang::caller_env()) {
+check_round_id_variable <- function(
+  model_tasks,
+  round_id,
+  call = rlang::caller_env()
+) {
   invalid_round_id <- purrr::map_lgl(
     model_tasks$model_tasks,
     ~ !round_id %in% names(.x$task_ids)
@@ -172,9 +214,15 @@ check_round_id_variable <- function(model_tasks, round_id,
   }
 }
 
-check_submission_due <- function(submissions_due, round_schema, model_tasks,
-                                 call = rlang::caller_env()) {
-  if (!rlang::is_list(submissions_due) || inherits(submissions_due, "data.frame")) {
+check_submission_due <- function(
+  submissions_due,
+  round_schema,
+  model_tasks,
+  call = rlang::caller_env()
+) {
+  if (
+    !rlang::is_list(submissions_due) || inherits(submissions_due, "data.frame")
+  ) {
     cli::cli_abort(
       c(
         "!" = "{.arg submissions_due} must be a {.cls list} not a
@@ -191,7 +239,6 @@ check_submission_due <- function(submissions_due, round_schema, model_tasks,
     unlist() %>%
     unique()
   invalid_properties <- !names(submissions_due) %in% schema_valid_names
-
 
   if (any(invalid_properties)) {
     invalid_property_names <- names(submissions_due)[invalid_properties] # nolint: object_usage_linter
@@ -219,7 +266,9 @@ check_submission_due <- function(submissions_due, round_schema, model_tasks,
       which(is_relative_to_schema),
       "properties"
     )
-    check_relative_to_variable(submissions_due, model_tasks$model_tasks,
+    check_relative_to_variable(
+      submissions_due,
+      model_tasks$model_tasks,
       call = call
     )
   } else {
@@ -245,8 +294,11 @@ check_submission_due <- function(submissions_due, round_schema, model_tasks,
   )
 }
 
-check_relative_to_variable <- function(submissions_due, model_tasks,
-                                       call = rlang::caller_env()) {
+check_relative_to_variable <- function(
+  submissions_due,
+  model_tasks,
+  call = rlang::caller_env()
+) {
   relative_to_value <- submissions_due$relative_to
   invalid_relative_to <- purrr::map_lgl(
     model_tasks,
@@ -275,19 +327,26 @@ check_relative_to_variable <- function(submissions_due, model_tasks,
 get_schema_round <- function(schema) {
   purrr::pluck(
     schema,
-    "properties", "rounds",
-    "items", "properties"
+    "properties",
+    "rounds",
+    "items",
+    "properties"
   )
 }
 # Check round_id pattern in `round_id` var values when
 # round_id_from_variable = TRUE
-check_round_id_pattern_vals <- function(model_tasks, round_id,
-                                        call = rlang::caller_env()) {
+check_round_id_pattern_vals <- function(
+  model_tasks,
+  round_id,
+  call = rlang::caller_env()
+) {
   invalid_round_id_vals <- purrr::map(
     model_tasks$model_tasks,
     ~ {
       round_id_var_vals <- purrr::pluck(
-        .x, "task_ids", round_id
+        .x,
+        "task_ids",
+        round_id
       )
       invalid_round_id_var_patterns(round_id_var_vals) |>
         purrr::compact()
@@ -302,17 +361,21 @@ check_round_id_pattern_vals <- function(model_tasks, round_id,
     invalid_vals_bullets <-
       purrr::compact(invalid_round_id_vals) |>
       # iterate over any model tasks containing invalid values
-      purrr::imap(~ {
-        mt_idx <- .y
-        # iterate over invalid values in "required" and "optional" properties if present
-        purrr::imap_chr(
-          .x,
-          ~ {
-            # Create a separate message for invalid values in each model task and property
-            cli::format_inline("In {.arg model_tasks[[{mt_idx}]]${round_id}${.y}}: {.val {.x}}")
-          }
-        )
-      }) |>
+      purrr::imap(
+        ~ {
+          mt_idx <- .y
+          # iterate over invalid values in "required" and "optional" properties if present
+          purrr::imap_chr(
+            .x,
+            ~ {
+              # Create a separate message for invalid values in each model task and property
+              cli::format_inline(
+                "In {.arg model_tasks[[{mt_idx}]]${round_id}${.y}}: {.val {.x}}"
+              )
+            }
+          )
+        }
+      ) |>
       unlist() |>
       purrr::set_names("x")
 
@@ -327,8 +390,7 @@ check_round_id_pattern_vals <- function(model_tasks, round_id,
   }
 }
 # Check round_id pattern when round_id_from_variable = FALSE
-check_round_id_pattern <- function(round_id,
-                                   call = rlang::caller_env()) {
+check_round_id_pattern <- function(round_id, call = rlang::caller_env()) {
   if (!validate_round_id_pattern(round_id)) {
     cli::cli_abort(
       c(
