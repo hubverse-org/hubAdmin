@@ -38,7 +38,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="hubadmin-development-version">hubAdmin (development version)<a class="anchor" aria-label="anchor" href="#hubadmin-development-version"></a></h2>
-</div>
+<ul><li>Added support for additional properties via <code>...</code> argument in <code><a href="../reference/create_round.html">create_round()</a></code> and updated both <code><a href="../reference/create_round.html">create_round()</a></code> and <code><a href="../reference/create_target_metadata_item.html">create_target_metadata_item()</a></code> to support schema v6.0.0 <code>additional_metadata</code> field. In v6.0.0+, additional properties are wrapped in an <code>additional_metadata</code> field. For earlier versions: <code><a href="../reference/create_round.html">create_round()</a></code> adds properties directly to the round object (note: while the schema has always allowed additional properties in rounds, the programmatic functionality was previously missing); <code><a href="../reference/create_target_metadata_item.html">create_target_metadata_item()</a></code> adds properties directly for v5.1.0+ or ignores them with a message for earlier versions.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.8.0" id="hubadmin-180">hubAdmin 1.8.0<a class="anchor" aria-label="anchor" href="#hubadmin-180"></a></h2>
 <ul><li>Added basic tests for v6.0.0 schema (<a href="https://github.com/hubverse-org/hubAdmin/issues/127" class="external-link">#127</a>).</li>
