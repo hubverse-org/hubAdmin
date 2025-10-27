@@ -12,7 +12,8 @@ create_round(
   submissions_due,
   last_data_date = NULL,
   file_format = NULL,
-  derived_task_ids = NULL
+  derived_task_ids = NULL,
+  ...
 )
 }
 \arguments{
@@ -60,6 +61,10 @@ the \href{https://docs.hubverse.io/en/latest/quickstart-hub-admin/tasks-config.h
 \item{derived_task_ids}{character vector of derived task id names (i.e. task IDs
 whose values are depended on the values of other task IDs). Only available for
 schema version v4.0.0 and later.}
+
+\item{...}{additional optional properties to add to the round list output.
+In schema versions greater or equal to v6.0.0, these properties are placed in
+the \code{additional_metadata} field.}
 }
 \value{
 a named list of class \code{round}.
@@ -126,6 +131,20 @@ create_round(
     end = 2L
   ),
   last_data_date = "2023-01-02"
+)
+# For schema version >= v6.0.0, example with an additional optional property
+create_round(
+  round_id_from_variable = TRUE,
+  round_id = "origin_date",
+  model_tasks = model_tasks,
+  submissions_due = list(
+    relative_to = "origin_date",
+    start = -4L,
+    end = 2L
+  ),
+  last_data_date = "2023-01-02",
+  round_label = "Round 1",
+  data_source = "https://example.com/data"
 )
 }
 \seealso{

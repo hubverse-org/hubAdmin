@@ -33,7 +33,8 @@
 #' @inheritParams create_task_id
 #' @param ... additional optional properties to add to the target metadata list
 #' output. Only available for schema version equal or greater than v5.1.0,
-#' ignored for past version.
+#' ignored for past version. In schema versions greater or equal to v6.0.0,
+#' these properties are placed in the `additional_properties` field.
 #' @seealso [create_target_metadata()]
 #' @details For more details consult
 #' the [documentation on `tasks.json` Hub config files](
@@ -60,7 +61,7 @@
 #'   target_type = "discrete",
 #'   is_step_ahead = TRUE,
 #'   time_unit = "week",
-#'   uri = "https://ontobee.org/"
+#'   uri = "http://purl.obolibrary.org/obo/IDO_0000463"
 #' )
 #' options(hubAdmin.schema_version = "v3.0.1")
 #' create_target_metadata_item(
@@ -73,17 +74,25 @@
 #'   time_unit = "week"
 #' )
 #' options(hubAdmin.schema_version = "latest")
-create_target_metadata_item <- function(target_id, target_name, target_units,
-                                        target_keys = NULL, description = NULL,
-                                        target_type, is_step_ahead, time_unit = NULL,
-                                        schema_version = getOption(
-                                          "hubAdmin.schema_version",
-                                          default = "latest"
-                                        ),
-                                        branch = getOption(
-                                          "hubAdmin.branch",
-                                          default = "main"
-                                        ), ...) {
+create_target_metadata_item <- function(
+  target_id,
+  target_name,
+  target_units,
+  target_keys = NULL,
+  description = NULL,
+  target_type,
+  is_step_ahead,
+  time_unit = NULL,
+  schema_version = getOption(
+    "hubAdmin.schema_version",
+    default = "latest"
+  ),
+  branch = getOption(
+    "hubAdmin.branch",
+    default = "main"
+  ),
+  ...
+) {
   rlang::check_required(target_id)
   rlang::check_required(target_name)
   rlang::check_required(target_units)
@@ -97,13 +106,21 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
 
   if (is.null(description)) {
     property_names <- c(
-      "target_id", "target_name", "target_units",
-      "target_keys", "target_type", "is_step_ahead"
+      "target_id",
+      "target_name",
+      "target_units",
+      "target_keys",
+      "target_type",
+      "is_step_ahead"
     )
   } else {
     property_names <- c(
-      "target_id", "target_name", "target_units",
-      "target_keys", "description", "target_type",
+      "target_id",
+      "target_name",
+      "target_units",
+      "target_keys",
+      "description",
+      "target_type",
       "is_step_ahead"
     )
   }
@@ -132,10 +149,7 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
     }
   )
 
-  check_target_keys(target_keys,
-    schema_version = schema$`$id`,
-    call = call
-  )
+  check_target_keys(target_keys, schema_version = schema$`$id`, call = call)
 
   if (!check_target_id(target_id, target_keys)) {
     cli::cli_abort(
@@ -150,12 +164,13 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
   }
 
   obj <- mget(property_names)
-  vers <- stringr::str_extract(
-    schema$`$id`, "v[0-9]+\\.[0-9]+\\.[0-9]+(\\.9([0-9]+)?)?"
-  )
+  vers <- hubUtils::extract_schema_version(schema$`$id`)
   opt_properties <- list(...)
   if (length(opt_properties) > 0L) {
-    if (hubUtils::version_gte("v5.1.0", schema_version = vers)) {
+    if (hubUtils::version_gte("v6.0.0", schema_version = vers)) {
+      obj <- c(obj, list(opt_properties))
+      property_names <- c(property_names, "additional_metadata")
+    } else if (hubUtils::version_gte("v5.1.0", schema_version = vers)) {
       obj <- c(obj, opt_properties)
       property_names <- c(property_names, names(opt_properties))
     } else {
@@ -168,12 +183,20 @@ create_target_metadata_item <- function(target_id, target_name, target_units,
     }
   }
 
-  structure(obj, class = c("target_metadata_item", "list"), names = property_names,
-            schema_id = schema$`$id`, branch = branch)
+  structure(
+    obj,
+    class = c("target_metadata_item", "list"),
+    names = property_names,
+    schema_id = schema$`$id`,
+    branch = branch
+  )
 }
 
-check_target_keys <- function(target_keys, schema_version,
-                              call = rlang::caller_env()) {
+check_target_keys <- function(
+  target_keys,
+  schema_version,
+  call = rlang::caller_env()
+) {
   if (is.null(target_keys)) {
     return()
   }
@@ -214,15 +237,19 @@ check_target_keys <- function(target_keys, schema_version,
     target_keys,
     names(target_keys),
     ~ check_target_key_value(
-      .x, .y,
+      .x,
+      .y,
       call = call
     )
   )
 }
 
 
-check_target_key_value <- function(target_key, target_key_name,
-                                   call = rlang::caller_env()) {
+check_target_key_value <- function(
+  target_key,
+  target_key_name,
+  call = rlang::caller_env()
+) {
   if (!rlang::is_character(target_key, n = 1)) {
     cli::cli_abort(
       c(
@@ -239,10 +266,16 @@ check_target_key_value <- function(target_key, target_key_name,
 get_schema_target_metadata <- function(schema) {
   purrr::pluck(
     schema,
-    "properties", "rounds",
-    "items", "properties", "model_tasks",
-    "items", "properties", "target_metadata",
-    "items", "properties"
+    "properties",
+    "rounds",
+    "items",
+    "properties",
+    "model_tasks",
+    "items",
+    "properties",
+    "target_metadata",
+    "items",
+    "properties"
   )
 }
 
