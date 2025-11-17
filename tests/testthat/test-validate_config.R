@@ -164,6 +164,35 @@ test_that("Inconsistent round ID variables across model tasks error successfully
 })
 
 
+test_that("Inconsistent custom task ID round variables in v6 error successfully", {
+  # This test validates that the bug fix in get_error_path() correctly handles
+  # custom task IDs (like reference_date) when validating round_id consistency.
+  # The bug caused the regex pattern to match both /task_ids/ and /derived_task_ids/
+  # paths, leading to validation errors. With the fix, it should correctly return
+  # a proper error data.frame showing the inconsistency.
+  config_path <- testthat::test_path(
+    "testdata",
+    "v6-round-id-inconsistent-custom-task-id.json"
+  )
+  out <- suppressWarnings(validate_config(config_path = config_path))
+  expect_false(out)
+
+  # Verify the error data.frame structure is correct
+  errors <- attr(out, "errors")
+  expect_true(is.data.frame(errors))
+  expect_true(nrow(errors) == 2L)
+
+  # Verify the error is about reference_date and points to the correct paths
+  expect_equal(
+    unique(errors$instancePath),
+    "/rounds/0/model_tasks/1/task_ids/reference_date"
+  )
+  expect_equal(
+    unique(errors$schemaPath),
+    "#/properties/rounds/items/properties/model_tasks/items/properties/task_ids/additionalProperties"
+  )
+})
+
 test_that("Duplicate round ID values across rounds error successfully", {
   skip_if_offline()
   config_path <- testthat::test_path("testdata", "dup-in-round-id.json")

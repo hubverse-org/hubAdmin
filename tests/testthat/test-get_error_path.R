@@ -58,7 +58,10 @@ test_that("Creating instance paths works correctly", {
     "/rounds/0/model_tasks/1/task_ids/origin_date"
   )
   expect_equal(
-    glue::glue(get_error_path(schema, "origin_date", "instance",
+    glue::glue(get_error_path(
+      schema,
+      "origin_date",
+      "instance",
       append_item_n = TRUE
     )),
     "/rounds/0/model_tasks/1/task_ids/origin_date"
@@ -70,19 +73,28 @@ test_that("Creating instance paths works correctly", {
     "/rounds"
   )
   expect_equal(
-    glue::glue(get_error_path(schema, "rounds", "instance",
+    glue::glue(get_error_path(
+      schema,
+      "rounds",
+      "instance",
       append_item_n = TRUE
     )),
     "/rounds/0"
   )
   expect_equal(
-    glue::glue(get_error_path(schema, "model_tasks", "instance",
+    glue::glue(get_error_path(
+      schema,
+      "model_tasks",
+      "instance",
       append_item_n = TRUE
     )),
     "/rounds/0/model_tasks/1"
   )
   expect_equal(
-    glue::glue(get_error_path(schema, "target_metadata", "instance",
+    glue::glue(get_error_path(
+      schema,
+      "target_metadata",
+      "instance",
       append_item_n = TRUE
     )),
     "/rounds/0/model_tasks/1/target_metadata/0"
@@ -95,7 +107,10 @@ test_that("Creating instance paths works correctly", {
     "/rounds/0/model_tasks/1/task_ids/custom_task_id"
   )
   expect_equal(
-    glue::glue(get_error_path(schema, "custom_task_id", "instance",
+    glue::glue(get_error_path(
+      schema,
+      "custom_task_id",
+      "instance",
       append_item_n = TRUE
     )),
     "/rounds/0/model_tasks/1/task_ids/custom_task_id"
@@ -117,7 +132,8 @@ test_that("Paths with miltiple potential matches at different depths created cor
   # Top level match returned by default.
   expect_equal(
     get_error_path(
-      schema, "rounds/items/properties/derived_task_ids",
+      schema,
+      "rounds/items/properties/derived_task_ids",
       "schema"
     ),
     "#/properties/rounds/items/properties/derived_task_ids"
@@ -125,7 +141,8 @@ test_that("Paths with miltiple potential matches at different depths created cor
   # Lower level match returned when fuller path provided.
   expect_equal(
     get_error_path(
-      schema, "derived_task_ids",
+      schema,
+      "derived_task_ids",
       "schema"
     ),
     "#/properties/derived_task_ids"
@@ -182,5 +199,47 @@ test_that("Instance path index interpolation overriding works", {
   glue::glue_data(
     list(model_task_i = 2L),
     get_error_path(schema, "origin_date", "instance")
+  )
+})
+
+test_that("Custom task IDs don't incorrectly match derived_task_ids paths", {
+  # This test validates the bug fix where the regex pattern for matching task_ids
+  # was incorrectly matching "derived_task_ids" paths when searching for custom
+  # task ID instance paths. The bug occurred because the pattern was
+  # ".*task_ids/type" instead of ".*\/task_ids/type" (missing leading slash).
+  # This test uses v4.0.0+ schema which has both custom task IDs and derived_task_ids.
+  schema <- hubUtils::get_schema(
+    "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/tasks-schema.json"
+  )
+  round_i <- 1L
+  model_task_i <- 1L
+
+  # Test custom task ID "reference_date" - should return task_ids path, not derived_task_ids
+  expect_equal(
+    glue::glue(get_error_path(schema, "reference_date", "instance")),
+    "/rounds/0/model_tasks/0/task_ids/reference_date"
+  )
+
+  # Test another custom task ID to ensure consistency
+  expect_equal(
+    glue::glue(get_error_path(schema, "custom_id", "instance")),
+    "/rounds/0/model_tasks/0/task_ids/custom_id"
+  )
+
+  # Verify that derived_task_ids itself still works correctly
+  expect_equal(
+    glue::glue(get_error_path(schema, "derived_task_ids", "instance")),
+    "/derived_task_ids"
+  )
+
+  # Test with append_item_n (should add an index as child is not an array)
+  expect_equal(
+    glue::glue(get_error_path(
+      schema,
+      "reference_date",
+      "instance",
+      append_item_n = TRUE
+    )),
+    "/rounds/0/model_tasks/0/task_ids/reference_date"
   )
 })
