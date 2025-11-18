@@ -92,10 +92,12 @@ get_error_path <- function(
     if (length(task_ids_paths) > 1L) {
       cli::cli_abort(
         c(
-          "Multiple task_ids base paths found in schema for custom task ID {.val {element}}.",
-          "i" = "Found {length(task_ids_paths)} paths: {.val {task_ids_paths}}",
-          "!" = "This indicates a bug in the path matching logic. Please report this issue."
-        )
+          "x" = "Internal error occurred when validating property {.val {element}}.",
+          "!" = "This indicates a bug in the hubAdmin package.",
+          ">" = "Please report this issue at {.url https://github.com/hubverse-org/hubAdmin/issues}",
+          "i" = "Debug info: Found {length(task_ids_paths)} task_ids paths instead of 1"
+        ),
+        .internal = TRUE
       )
     }
 
