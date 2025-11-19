@@ -1,4 +1,4 @@
-# hubAdmin (development version)
+# hubAdmin 1.9.0
 
 * Fixed bug that caused unhelpful validation errors when using custom task IDs (e.g., `reference_date`) as round ID variables with inconsistent values across model tasks in schema versions v4.0.0+.
 * Added support for additional properties via `...` argument in `create_round()` and updated both `create_round()` and `create_target_metadata_item()` to support schema v6.0.0 `additional_metadata` field. In v6.0.0+, additional properties are wrapped in an `additional_metadata` field. For earlier versions: `create_round()` adds properties directly to the round object (note: while the schema has always allowed additional properties in rounds, the programmatic functionality was previously missing); `create_target_metadata_item()` adds properties directly for v5.1.0+ or ignores them with a message for earlier versions.
