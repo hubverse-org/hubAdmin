@@ -38,7 +38,7 @@ validate_observable_unit <- function(
   }
 
   # Get date_col from target data config
-  date_col <- get_date_col(config_json)
+  date_col <- hubUtils::get_date_col(config_json)
 
   # Build allowed columns
   allowed_cols <- unique(c(task_id_names, date_col))
@@ -101,7 +101,7 @@ validate_non_task_id_schema <- function(
   schema_cols <- names(non_task_id_schema)
 
   # Get date_col (special column that should not appear in non_task_id_schema)
-  date_col <- get_date_col(config_json)
+  date_col <- hubUtils::get_date_col(config_json)
 
   # Get reserved columns
   reserved_cols <- get_reserved_columns()
@@ -169,6 +169,57 @@ validate_non_task_id_schema <- function(
 }
 
 
+## DATE_COL VALIDATION ----
+
+#' Validate date_col references a Date type task ID
+#'
+#' Checks that if date_col references a task ID name, that task ID must be
+#' a Date type task ID (i.e., contains date values in ISO 8601 format).
+#'
+#' @param config_json Parsed target-data.json as list
+#' @param config_tasks Parsed tasks.json as list
+#' @param schema JSON schema for target-data
+#'
+#' @return NULL if validation passes, or data.frame with error row if validation fails
+#' @noRd
+validate_date_col_is_date_type <- function(
+  config_json,
+  config_tasks,
+  schema
+) {
+  date_col <- hubUtils::get_date_col(config_json)
+  task_id_names <- hubUtils::get_task_id_names(config_tasks)
+
+  # If date_col is not a task ID, validation passes. It will be cast as date
+  # when creating target dataset schema
+  if (!date_col %in% task_id_names) {
+    return(NULL)
+  }
+
+  # Get the data type of the date_col task ID
+  task_id_type <- get_task_id_type(config_tasks, date_col)
+
+  # If it's not a Date type, return error
+  if (task_id_type != "Date") {
+    error_row <- data.frame(
+      instancePath = get_error_path(schema, "date_col", "instance"),
+      schemaPath = get_error_path(schema, "date_col", "schema"),
+      keyword = "date_col task ID type",
+      message = glue::glue(
+        "date_col references task ID '{date_col}' which is of type '{task_id_type}' ",
+        "but must be of type 'Date'."
+      ),
+      schema = "",
+      data = glue::glue("date_col: {date_col}; task ID type: {task_id_type}"),
+      stringsAsFactors = FALSE
+    )
+    return(error_row)
+  }
+
+  NULL
+}
+
+
 ## HELPER FUNCTIONS ----
 
 #' Get reserved column names
@@ -182,14 +233,96 @@ get_reserved_columns <- function() {
 }
 
 
-#' Get date_col value from config
+#' Get task ID data type from config
 #'
-#' Extract date_col value from config (required property)
+#' Determines the R data type of a task ID by examining all values across all rounds.
 #'
-#' @param config_target_data Parsed target-data.json as list
+#' @details
+#' This function is adapted from `hubData::get_task_id_type()`.
+#' It is temporarily duplicated here pending migration to hubUtils.
 #'
-#' @return Character value of date_col
+#' @param config_tasks Parsed tasks.json as list
+#' @param task_id_name Character, name of the task ID
+#'
+#' @return Character, one of "character", "double", "integer", "logical", or "Date"
 #' @noRd
-get_date_col <- function(config_target_data) {
-  config_target_data[["date_col"]]
+get_task_id_type <- function(config_tasks, task_id_name) {
+  values <- get_task_id_values(config_tasks, task_id_name)
+  get_data_type(values)
+}
+
+
+#' Get all task ID values from config
+#'
+#' Extracts all values for a specific task ID across all rounds and model tasks.
+#'
+#' @details
+#' This function is adapted from `hubData::get_task_id_values()`.
+#' It is temporarily duplicated here pending migration to hubUtils.
+#'
+#' @param config_tasks Parsed tasks.json as list
+#' @param task_id_name Character, name of the task ID
+#'
+#' @return Vector of all task ID values
+#' @noRd
+get_task_id_values <- function(config_tasks, task_id_name) {
+  model_tasks <- purrr::map(
+    config_tasks[["rounds"]],
+    ~ .x[["model_tasks"]]
+  )
+
+  model_tasks %>%
+    purrr::map(
+      ~ .x %>%
+        purrr::map(~ .x[["task_ids"]][[task_id_name]])
+    ) %>%
+    unlist(recursive = FALSE) %>%
+    unlist()
+}
+
+
+#' Determine data type from values
+#'
+#' Determines R data type, checking if character values are ISO 8601 dates.
+#'
+#' @details
+#' This function is adapted from `hubData::get_data_type()`.
+#' It is temporarily duplicated here pending migration to hubUtils.
+#'
+#' @param x Vector of values
+#'
+#' @return Character, one of "character", "double", "integer", "logical", or "Date"
+#' @noRd
+get_data_type <- function(x) {
+  type <- typeof(x)
+
+  if (type == "character" && test_iso_date(x)) {
+    type <- "Date"
+  }
+  type
+}
+
+
+#' Test if character values are valid ISO 8601 dates
+#'
+#' Checks if all non-NA character values can be parsed as dates in ISO 8601 format (YYYY-MM-DD).
+#'
+#' @details
+#' This function is adapted from `hubData::test_iso_date()`.
+#' It is temporarily duplicated here pending migration to hubUtils.
+#'
+#' @param x Character vector
+#'
+#' @return Logical, TRUE if all values are valid dates, FALSE otherwise
+#' @noRd
+test_iso_date <- function(x) {
+  to_date <- try(as.Date(x), silent = TRUE)
+  isFALSE(inherits(to_date, "try-error")) &&
+    # Check that coercion to Date does not introduce NA values
+    isTRUE(
+      all.equal(
+        which(is.na(x)),
+        which(is.na(to_date))
+      )
+    )
 }

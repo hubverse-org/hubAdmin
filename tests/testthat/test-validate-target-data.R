@@ -352,3 +352,107 @@ test_that("Multiple validation errors are collected correctly", {
     )
   )
 })
+
+# date_col task ID type validation ----
+
+test_that("Valid date_col references Date type task ID passes", {
+  # Config where date_col references a Date type task ID (target_end_date)
+  # This should pass validation
+  hub_path <- system.file("testhubs/v6/target_file", package = "hubUtils")
+
+  out <- suppressMessages(validate_config(
+    hub_path = hub_path,
+    config = "target-data"
+  ))
+  expect_true(out)
+})
+
+test_that("Valid date_col as non-task-ID column passes", {
+  target_data_config <- list(
+    schema_version = "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/target-data-schema.json",
+    observable_unit = c(
+      "date",
+      "location"
+    ),
+    date_col = "date",
+    versioned = TRUE
+  )
+  # Test that validation passes when date_col does NOT reference a task ID.
+  # The test hub (v6/target_file) has task IDs: reference_date, target, horizon,
+  # location, target_end_date. We intentionally set date_col = "date" which does
+  # not match any of these task IDs, to verify the validation correctly passes.
+  #
+  # Note: This validation only considers the contents of target-data.json and
+  # tasks.json - actual target data files and other hub components are not relevant.
+  hub_path <- create_test_hub_with_target_data(target_data_config)
+
+  out <- suppressMessages(validate_config(
+    hub_path = hub_path,
+    config = "target-data"
+  ))
+  expect_true(out)
+})
+
+test_that("Invalid date_col references character task ID fails", {
+  # Config where date_col references a character-type task ID (location)
+  # This should fail validation
+  target_data_config <- list(
+    schema_version = "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/target-data-schema.json",
+    observable_unit = c(
+      "location",
+      "target"
+    ),
+    date_col = "location",
+    versioned = TRUE
+  )
+
+  hub_path <- create_test_hub_with_target_data(target_data_config)
+
+  out <- suppressMessages(validate_config(
+    hub_path = hub_path,
+    config = "target-data"
+  ))
+  expect_false(out)
+
+  errors <- attr(out, "errors")
+  expect_equal(nrow(errors), 1L)
+  expect_match(errors$keyword, "date_col task ID type")
+  expect_match(
+    errors$message,
+    "date_col references task ID 'location' which is of type 'character'"
+  )
+  expect_match(errors$message, "must be of type 'Date'")
+  expect_match(errors$instancePath, "/date_col")
+})
+
+test_that("Invalid date_col references integer task ID fails", {
+  # Config where date_col references an integer-type task ID (horizon)
+  # This should fail validation
+  target_data_config <- list(
+    schema_version = "https://raw.githubusercontent.com/hubverse-org/schemas/main/v6.0.0/target-data-schema.json",
+    observable_unit = c(
+      "horizon",
+      "location"
+    ),
+    date_col = "horizon",
+    versioned = TRUE
+  )
+
+  hub_path <- create_test_hub_with_target_data(target_data_config)
+
+  out <- suppressMessages(validate_config(
+    hub_path = hub_path,
+    config = "target-data"
+  ))
+  expect_false(out)
+
+  errors <- attr(out, "errors")
+  expect_equal(nrow(errors), 1L)
+  expect_match(errors$keyword, "date_col task ID type")
+  expect_match(
+    errors$message,
+    "date_col references task ID 'horizon' which is of type 'integer'"
+  )
+  expect_match(errors$message, "must be of type 'Date'")
+  expect_match(errors$instancePath, "/date_col")
+})
