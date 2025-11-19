@@ -38,7 +38,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="hubadmin-development-version">hubAdmin (development version)<a class="anchor" aria-label="anchor" href="#hubadmin-development-version"></a></h2>
-<ul><li>Added support for additional properties via <code>...</code> argument in <code><a href="../reference/create_round.html">create_round()</a></code> and updated both <code><a href="../reference/create_round.html">create_round()</a></code> and <code><a href="../reference/create_target_metadata_item.html">create_target_metadata_item()</a></code> to support schema v6.0.0 <code>additional_metadata</code> field. In v6.0.0+, additional properties are wrapped in an <code>additional_metadata</code> field. For earlier versions: <code><a href="../reference/create_round.html">create_round()</a></code> adds properties directly to the round object (note: while the schema has always allowed additional properties in rounds, the programmatic functionality was previously missing); <code><a href="../reference/create_target_metadata_item.html">create_target_metadata_item()</a></code> adds properties directly for v5.1.0+ or ignores them with a message for earlier versions.</li>
+<ul><li>Fixed bug that caused unhelpful validation errors when using custom task IDs (e.g., <code>reference_date</code>) as round ID variables with inconsistent values across model tasks in schema versions v4.0.0+.</li>
+<li>Added support for additional properties via <code>...</code> argument in <code><a href="../reference/create_round.html">create_round()</a></code> and updated both <code><a href="../reference/create_round.html">create_round()</a></code> and <code><a href="../reference/create_target_metadata_item.html">create_target_metadata_item()</a></code> to support schema v6.0.0 <code>additional_metadata</code> field. In v6.0.0+, additional properties are wrapped in an <code>additional_metadata</code> field. For earlier versions: <code><a href="../reference/create_round.html">create_round()</a></code> adds properties directly to the round object (note: while the schema has always allowed additional properties in rounds, the programmatic functionality was previously missing); <code><a href="../reference/create_target_metadata_item.html">create_target_metadata_item()</a></code> adds properties directly for v5.1.0+ or ignores them with a message for earlier versions.</li>
 <li>
 <code><a href="https://hubverse-org.github.io/hubUtils/reference/target-data-utils.html" class="external-link">has_target_data_config()</a></code> has been moved to and is now re-exported from <code>hubUtils</code> for backward compatibility (<a href="https://github.com/hubverse-org/hubAdmin/issues/139" class="external-link">#139</a>).</li>
 </ul></div>
@@ -126,7 +127,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3. PR Previews built by <a href="https://www.netlify.com" class="external-link">Netlify</a>. Provided without <strong>any warranty</strong>.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. PR Previews built by <a href="https://www.netlify.com" class="external-link">Netlify</a>. Provided without <strong>any warranty</strong>.</p>
 </div>
 
     </footer></div>
