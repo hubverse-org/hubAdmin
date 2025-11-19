@@ -25,6 +25,10 @@
   has been moved to and is now re-exported from `hubUtils` for backward
   compatibility
   ([\#139](https://github.com/hubverse-org/hubAdmin/issues/139)).
+- Added dynamic validation check for `target-data.json` that ensures
+  when `date_col` references a task ID, that task ID must be a Date type
+  task ID (i.e., contains ISO 8601 date values)
+  ([\#145](https://github.com/hubverse-org/hubAdmin/issues/145)).
 
 ## hubAdmin 1.8.0
 
