@@ -2,6 +2,8 @@
 
 ## hubAdmin (development version)
 
+## hubAdmin 1.9.0
+
 - Fixed bug that caused unhelpful validation errors when using custom
   task IDs (e.g., `reference_date`) as round ID variables with
   inconsistent values across model tasks in schema versions v4.0.0+.
