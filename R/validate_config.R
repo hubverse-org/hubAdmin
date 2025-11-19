@@ -243,6 +243,12 @@ perform_target_data_dynamic_validations <- function(validation) {
       schema,
       task_id_names
     ),
+    # date_col validation
+    validate_date_col_is_date_type(
+      config_json,
+      config_tasks,
+      schema
+    ),
     # Config-wide validations
     validate_unique_names_recursive(config_json, schema = schema)
   ) |>
