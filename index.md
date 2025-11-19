@@ -1,0 +1,55 @@
+# hubAdmin
+
+The goal of hubAdmin is to provide a set of utility functions for
+administering hubverse Hubs.
+
+This package is part of the [hubverse](https://hubverse.io) ecosystem,
+which aims to provide a set of tools for infectious disease modeling
+hubs to share and collaborate on their work.
+
+## Installation
+
+> \[!NOTE\]  
+> If you have any problems with installation of package `V8` (more
+> likely on Linux), please consult the [V8 installation
+> instructions](https://github.com/jeroen/V8#installation).
+
+### Latest
+
+You can install the [latest version of hubAdmin from the
+R-universe](https://hubverse-org.r-universe.dev/hubAdmin):
+
+``` r
+install.packages("hubAdmin", repos = c("https://hubverse-org.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+### Development
+
+If you want to test out new features that have not yet been released,
+you can install the development version of hubAdmin from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("hubverse-org/hubAdmin")
+```
+
+You can also [**view the development version
+documentation**](https://hubverse-org.github.io/hubAdmin/dev/).
+
+------------------------------------------------------------------------
+
+## Code of Conduct
+
+Please note that the hubAdmin package is released with a [Contributor
+Code of
+Conduct](https://hubverse-org.github.io/hubAdmin/CODE_OF_CONDUCT.md). By
+contributing to this project, you agree to abide by its terms.
+
+## Contributing
+
+Interested in contributing back to the open-source Hubverse project?
+Learn more about how to [get involved in the Hubverse
+Community](https://hubverse.io/community/) or [how to contribute to the
+hubAdmin
+package](https://hubverse-org.github.io/hubAdmin/CONTRIBUTING.md).

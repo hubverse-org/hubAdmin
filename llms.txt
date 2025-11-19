@@ -1,0 +1,162 @@
+# hubAdmin
+
+The goal of hubAdmin is to provide a set of utility functions for
+administering hubverse Hubs.
+
+This package is part of the [hubverse](https://hubverse.io) ecosystem,
+which aims to provide a set of tools for infectious disease modeling
+hubs to share and collaborate on their work.
+
+## Installation
+
+> \[!NOTE\]  
+> If you have any problems with installation of package `V8` (more
+> likely on Linux), please consult the [V8 installation
+> instructions](https://github.com/jeroen/V8#installation).
+
+### Latest
+
+You can install the [latest version of hubAdmin from the
+R-universe](https://hubverse-org.r-universe.dev/hubAdmin):
+
+``` r
+install.packages("hubAdmin", repos = c("https://hubverse-org.r-universe.dev", "https://cloud.r-project.org"))
+```
+
+### Development
+
+If you want to test out new features that have not yet been released,
+you can install the development version of hubAdmin from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("hubverse-org/hubAdmin")
+```
+
+You can also [**view the development version
+documentation**](https://hubverse-org.github.io/hubAdmin/dev/).
+
+------------------------------------------------------------------------
+
+## Code of Conduct
+
+Please note that the hubAdmin package is released with a [Contributor
+Code of
+Conduct](https://hubverse-org.github.io/hubAdmin/CODE_OF_CONDUCT.md). By
+contributing to this project, you agree to abide by its terms.
+
+## Contributing
+
+Interested in contributing back to the open-source Hubverse project?
+Learn more about how to [get involved in the Hubverse
+Community](https://hubverse.io/community/) or [how to contribute to the
+hubAdmin
+package](https://hubverse-org.github.io/hubAdmin/CONTRIBUTING.md).
+
+# Package index
+
+## All functions
+
+- [`append_round()`](https://hubverse-org.github.io/hubAdmin/reference/append_round.md)
+  : Append one or more rounds to a config class object.
+
+- [`create_config()`](https://hubverse-org.github.io/hubAdmin/reference/create_config.md)
+  :
+
+  Create a `config` class object.
+
+- [`create_model_task()`](https://hubverse-org.github.io/hubAdmin/reference/create_model_task.md)
+  :
+
+  Create an object of class `model_task`
+
+- [`create_model_tasks()`](https://hubverse-org.github.io/hubAdmin/reference/create_model_tasks.md)
+  :
+
+  Create a `model_tasks` class object.
+
+- [`create_output_type()`](https://hubverse-org.github.io/hubAdmin/reference/create_output_type.md)
+  :
+
+  Create an `output_type` class object.
+
+- [`create_output_type_mean()`](https://hubverse-org.github.io/hubAdmin/reference/create_output_type_mean.md)
+  [`create_output_type_median()`](https://hubverse-org.github.io/hubAdmin/reference/create_output_type_mean.md)
+  :
+
+  Create a point estimate output type object of class `output_type_item`
+
+- [`create_output_type_quantile()`](https://hubverse-org.github.io/hubAdmin/reference/create_output_type_quantile.md)
+  [`create_output_type_cdf()`](https://hubverse-org.github.io/hubAdmin/reference/create_output_type_quantile.md)
+  [`create_output_type_pmf()`](https://hubverse-org.github.io/hubAdmin/reference/create_output_type_quantile.md)
+  [`create_output_type_sample()`](https://hubverse-org.github.io/hubAdmin/reference/create_output_type_quantile.md)
+  :
+
+  Create a distribution output type object of class `output_type_item`
+
+- [`create_round()`](https://hubverse-org.github.io/hubAdmin/reference/create_round.md)
+  :
+
+  Create an object of class `round`
+
+- [`create_rounds()`](https://hubverse-org.github.io/hubAdmin/reference/create_rounds.md)
+  :
+
+  Create a `rounds` class object.
+
+- [`create_target_metadata()`](https://hubverse-org.github.io/hubAdmin/reference/create_target_metadata.md)
+  :
+
+  Create a `target_metadata` class object.
+
+- [`create_target_metadata_item()`](https://hubverse-org.github.io/hubAdmin/reference/create_target_metadata_item.md)
+  :
+
+  Create an object of class `target_metadata_item`
+
+- [`create_task_id()`](https://hubverse-org.github.io/hubAdmin/reference/create_task_id.md)
+  :
+
+  Create an object of class `task_id`
+
+- [`create_task_ids()`](https://hubverse-org.github.io/hubAdmin/reference/create_task_ids.md)
+  :
+
+  Create a `task_ids` class object.
+
+- [`download_tasks_schema()`](https://hubverse-org.github.io/hubAdmin/reference/download_tasks_schema.md)
+  : Download hubverse tasks schema from the hubverse schema repository.
+
+- [`get_array_schema_paths()`](https://hubverse-org.github.io/hubAdmin/reference/get_array_schema_paths.md)
+  : Get potential paths to properties in a config file that can be
+  arrays from a hubverse schema
+
+- [`schema_autobox()`](https://hubverse-org.github.io/hubAdmin/reference/schema_autobox.md)
+  :
+
+  Box elements of a `<config>` class object that can be arrays
+
+- [`validate_config()`](https://hubverse-org.github.io/hubAdmin/reference/validate_config.md)
+  : Validate a hub config file against a hubverse schema
+
+- [`validate_hub_config()`](https://hubverse-org.github.io/hubAdmin/reference/validate_hub_config.md)
+  : Validate Hub config files against hubverse schema.
+
+- [`validate_model_metadata_schema()`](https://hubverse-org.github.io/hubAdmin/reference/validate_model_metadata_schema.md)
+  : Validate model-metadata-schema config file
+
+- [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/view_config_val_errors.md)
+  : Print a concise and informative version of validation errors table.
+
+- [`write_config()`](https://hubverse-org.github.io/hubAdmin/reference/write_config.md)
+  : Write config class object to a JSON file.
+
+# Articles
+
+### All vignettes
+
+- [Setting up a
+  Hub](https://hubverse-org.github.io/hubAdmin/articles/hub-setup.md):
+- [Scripting task configuration
+  files](https://hubverse-org.github.io/hubAdmin/articles/scripting-tasks-config.md):
