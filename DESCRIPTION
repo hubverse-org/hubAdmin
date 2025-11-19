@@ -1,6 +1,6 @@
 Package: hubAdmin
 Title: Utilities for Administering Hubverse Hubs
-Version: 1.9.0
+Version: 1.9.0.9000
 Authors@R: c(
     person("Anna", "Krystalli", , "annakrystalli@googlemail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2378-4915")),
