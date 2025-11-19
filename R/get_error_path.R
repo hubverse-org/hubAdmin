@@ -40,9 +40,12 @@
 #' get_error_path(schema, "derived_task_ids", "schema")
 #' # Target lower level properties by defining more of the path
 #' get_error_path(schema, "rounds/items/properties/derived_task_ids", "schema")
-get_error_path <- function(schema, element = "target_metadata", # nolint: cyclocomp_linter
-                           type = c("schema", "instance"),
-                           append_item_n = FALSE) {
+get_error_path <- function(
+  schema,
+  element = "target_metadata", # nolint: cyclocomp_linter
+  type = c("schema", "instance"),
+  append_item_n = FALSE
+) {
   type <- rlang::arg_match(type)
 
   # Return appropriate path early if element indicates root of config (i.e. is "/")
@@ -63,7 +66,8 @@ get_error_path <- function(schema, element = "target_metadata", # nolint: cycloc
   # Subset to the schema paths to the element in question. By sub-setting to the `type[0-9]`
   # path associated with a property, we ensure we limit to a leaf path (not
   #  deeper paths in the schema that include the property of interest as a parent).
-  path <- grep(paste0(".*", element, "/type([0-9])?$"),
+  path <- grep(
+    paste0(".*", element, "/type([0-9])?$"),
     schema_paths,
     value = TRUE
   ) %>%
@@ -73,17 +77,32 @@ get_error_path <- function(schema, element = "target_metadata", # nolint: cycloc
     unique() |>
     detect_first()
 
-
   # Instance paths to custom task IDs (which will not have been matched in the schema)
   # can be created by appending the element name to the task ID properties path.
   if (length(path) == 0L && type == "instance") {
-    path <- grep(paste0(".*", "task_ids", "/type([0-9])?$"),
+    task_ids_paths <- grep(
+      paste0(".*", "/task_ids", "/type([0-9])?$"),
       schema_paths,
       value = TRUE
     ) %>%
       gsub("/type([0-9])?", "", .) %>%
-      unique() %>%
-      paste("properties", element, sep = "/")
+      unique()
+
+    # Error if we found multiple paths (indicates regex bug from missing leading /)
+    if (length(task_ids_paths) > 1L) {
+      cli::cli_abort(
+        c(
+          "x" = "Internal error occurred when validating property {.val {element}}.",
+          "!" = "This indicates a bug in the hubAdmin package.",
+          ">" = "Please report this issue at {.url https://github.com/hubverse-org/hubAdmin/issues}",
+          "i" = "Debug info: Found {length(task_ids_paths)} task_ids paths instead of 1"
+        ),
+        .internal = TRUE
+      )
+    }
+
+    # Always paste, even if task_ids_paths is empty (preserves original behavior)
+    path <- paste(task_ids_paths, "properties", element, sep = "/")
   }
 
   # Schema paths to custom task IDs can be created by sub-setting the task_ids
@@ -92,7 +111,8 @@ get_error_path <- function(schema, element = "target_metadata", # nolint: cycloc
   # This will only return a path with schema v2.0.0 and above, when
   # additionalProperties became an object.
   if (length(path) == 0L && type == "schema") {
-    path <- grep(".*task_ids/additionalProperties/type([0-9])?$",
+    path <- grep(
+      ".*task_ids/additionalProperties/type([0-9])?$",
       schema_paths,
       value = TRUE
     ) %>%
@@ -111,7 +131,8 @@ get_error_path <- function(schema, element = "target_metadata", # nolint: cycloc
     path <- paste(path, "items", sep = "/")
   }
 
-  switch(type,
+  switch(
+    type,
     schema = if (length(path) == 0L) NA else paste0("#", path),
     instance = generate_instance_path_glue(path)
   )
