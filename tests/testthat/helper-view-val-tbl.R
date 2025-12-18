@@ -1,6 +1,9 @@
-extract_error_tbl_cols <- function(x, cols = c(
-  "message"
-)) {
+extract_error_tbl_cols <- function(
+  x,
+  cols = c(
+    "message"
+  )
+) {
   attr(x, "errors")[cols] |>
     tibble::as_tibble()
 }
@@ -73,7 +76,6 @@ expect_tab <- function(tab) {
     length() %>%
     expect_equal(0)
 
-
   # Expect that extracted df has the same number of
   # rows as the original dataset
   expect_equal(
@@ -85,8 +87,12 @@ expect_tab <- function(tab) {
   expect_equal(
     colnames(gt:::dt_stub_df_get(data = tab)),
     c(
-      "rownum_i", "row_id", "group_id", "group_label",
-      "indent", "built_group_label"
+      "rownum_i",
+      "row_id",
+      "group_id",
+      "group_label",
+      "indent",
+      "built_group_label"
     )
   )
 }
@@ -94,11 +100,23 @@ expect_tab <- function(tab) {
 
 gt_attr_names <- function() {
   c(
-    "_data", "_boxhead",
-    "_stub_df", "_row_groups",
-    "_heading", "_spanners", "_stubhead",
-    "_footnotes", "_source_notes", "_formats", "_substitutions", "_styles",
-    "_summary", "_options", "_transforms", "_locale", "_has_built"
+    "_data",
+    "_boxhead",
+    "_stub_df",
+    "_row_groups",
+    "_heading",
+    "_spanners",
+    "_stubhead",
+    "_footnotes",
+    "_source_notes",
+    "_formats",
+    "_substitutions",
+    "_styles",
+    "_summary",
+    "_options",
+    "_transforms",
+    "_locale",
+    "_has_built"
   )
 }
 

@@ -19,7 +19,8 @@ view_config_val_errors <- function(x) {
   if (all(unlist(x))) {
     cli::cli_alert_success(c(
       "Validation of {.path {attr(x, 'config_path')}}",
-      "{.path {attr(x, 'config_dir')}} was successful.", "
+      "{.path {attr(x, 'config_dir')}} was successful.",
+      "
                              No validation errors to display."
     ))
     return(invisible(NULL))
@@ -34,7 +35,8 @@ summarise_errors <- function(x) {
   if (length(x) > 1L) {
     # Process multiple config file error_tbls
     error_df <- purrr::map2(
-      x, names(x),
+      x,
+      names(x),
       ~ compile_errors(.x, .y) %>%
         clean_error_df()
     ) %>%
@@ -84,7 +86,9 @@ clean_error_df <- function(errors_tbl) {
   # Move any custom error messages to the message column
   if (!is.null(purrr::pluck(errors_tbl, "parentSchema", "errorMessage"))) {
     error_msg <- !is.na(errors_tbl$parentSchema$errorMessage)
-    errors_tbl$message[error_msg] <- errors_tbl$parentSchema$errorMessage[error_msg]
+    errors_tbl$message[error_msg] <- errors_tbl$parentSchema$errorMessage[
+      error_msg
+    ]
   }
 
   errors_tbl[c("dataPath", "parentSchema")] <- NULL
@@ -92,7 +96,6 @@ clean_error_df <- function(errors_tbl) {
   # remove superfluous if error. The "then" error is what we are interested in
   errors_tbl <- errors_tbl[!errors_tbl$keyword == "if", ]
   errors_tbl <- remove_superfluous_enum_rows(errors_tbl)
-
 
   # Get rid of unnecessarily verbose data entry when a data column is a data.frame
   if (inherits(errors_tbl$data, "data.frame")) {
@@ -177,13 +180,17 @@ vector_to_character <- function(x) {
 # informative and can be removed. Only relevant to pre v4.0.0 schema versions
 remove_null_properties <- function(x) {
   null_maxitem <- names(x[is.na(x) & grepl("maxItems", names(x))])
-  x[!names(x) %in% c(
-    null_maxitem,
-    gsub(
-      "maxItems", "const",
-      null_maxitem
-    )
-  )]
+  x[
+    !names(x) %in%
+      c(
+        null_maxitem,
+        gsub(
+          "maxItems",
+          "const",
+          null_maxitem
+        )
+      )
+  ]
 }
 
 # Remove rows with duplicate instancePath values that are not informative. This affects
@@ -242,9 +249,7 @@ path_to_tree <- function(x) {
     for (i in 2:length(paths)) {
       paths[i] <- paste0(
         "\u2514",
-        paste(rep("\u2500", times = i - 2),
-          collapse = ""
-        ),
+        paste(rep("\u2500", times = i - 2), collapse = ""),
         paths[i]
       )
     }
@@ -253,11 +258,13 @@ path_to_tree <- function(x) {
 }
 
 # Extract informative values from params data.frame and add it to the data column
-extract_params_to_data <- function(errors_tbl,
-                                   param = c(
-                                     "additionalProperties",
-                                     "required"
-                                   )) {
+extract_params_to_data <- function(
+  errors_tbl,
+  param = c(
+    "additionalProperties",
+    "required"
+  )
+) {
   param <- rlang::arg_match(param)
   which <- errors_tbl$keyword == param
 
@@ -268,7 +275,8 @@ extract_params_to_data <- function(errors_tbl,
     return(errors_tbl)
   }
   # Get names of missing/additional properties from params object
-  at <- switch(param,
+  at <- switch(
+    param,
     required = "missingProperty",
     additionalProperties = "additionalProperty"
   )
@@ -282,7 +290,8 @@ extract_params_to_data <- function(errors_tbl,
 escape_pattern_dollar <- function(error_df) {
   is_pattern <- grepl("pattern", error_df[["keyword"]])
   error_df[["schema"]][is_pattern] <- gsub(
-    "$", "&#36;",
+    "$",
+    "&#36;",
     error_df[["schema"]][is_pattern],
     fixed = TRUE
   )
@@ -298,18 +307,25 @@ render_errors_df <- function(error_df) {
 
   title <- gt::md("**`hubAdmin` config validation error report**")
   subtitle <- gt::md(
-    glue::glue("Report for {type} **`{path}`** using
-                   schema version [**{schema_version}**]({schema_url})")
+    glue::glue(
+      "Report for {type} **`{path}`** using
+                   schema version [**{schema_version}**]({schema_url})"
+    )
   )
 
   # format path and error message columns
-  error_df[["schemaPath"]] <- purrr::map_chr(error_df[["schemaPath"]], path_to_tree)
-  error_df[["instancePath"]] <- purrr::map_chr(error_df[["instancePath"]], path_to_tree)
+  error_df[["schemaPath"]] <- purrr::map_chr(
+    error_df[["schemaPath"]],
+    path_to_tree
+  )
+  error_df[["instancePath"]] <- purrr::map_chr(
+    error_df[["instancePath"]],
+    path_to_tree
+  )
   error_df[["message"]] <- paste("\u274c", error_df[["message"]])
   # Escape `$` characters to ensure regex pattern does not trigger equation
   # formatting in markdown
   error_df <- escape_pattern_dollar(error_df)
-
 
   # Create table ----
   gt::gt(error_df) %>%
@@ -333,18 +349,22 @@ render_errors_df <- function(error_df) {
       label = gt::md("**Config**"),
       columns = "data"
     ) %>%
-    gt::fmt_markdown(columns = c(
-      "instancePath",
-      "schemaPath",
-      "schema"
-    )) %>%
-    gt::tab_style(
-      style = gt::cell_text(whitespace = "pre"),
-      locations = gt::cells_body(columns = c(
+    gt::fmt_markdown(
+      columns = c(
         "instancePath",
         "schemaPath",
         "schema"
-      ))
+      )
+    ) %>%
+    gt::tab_style(
+      style = gt::cell_text(whitespace = "pre"),
+      locations = gt::cells_body(
+        columns = c(
+          "instancePath",
+          "schemaPath",
+          "schema"
+        )
+      )
     ) %>%
     gt::tab_style(
       style = gt::cell_text(whitespace = "pre-wrap"),
@@ -381,7 +401,9 @@ render_errors_df <- function(error_df) {
       column_labels.background.color = "#F0F3F5"
     ) %>%
     gt::tab_source_note(
-      source_note = gt::md("For more information, please consult the
-                                 [**`hubDocs` documentation**.](https://docs.hubverse.io/en/latest/)")
+      source_note = gt::md(
+        "For more information, please consult the
+                                 [**`hubDocs` documentation**.](https://docs.hubverse.io/en/latest/)"
+      )
     )
 }

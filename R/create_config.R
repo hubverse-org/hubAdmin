@@ -79,9 +79,11 @@
 #'   )
 #' )
 #' create_config(rounds)
-create_config <- function(rounds,
-                          output_type_id_datatype = NULL,
-                          derived_task_ids = NULL) {
+create_config <- function(
+  rounds,
+  output_type_id_datatype = NULL,
+  derived_task_ids = NULL
+) {
   rlang::check_required(rounds)
   check_object_class(rounds, "rounds")
   schema_id <- attr(rounds, "schema_id")
@@ -101,7 +103,8 @@ create_config <- function(rounds,
       rounds = rounds$rounds,
       output_type_id_datatype = output_type_id_datatype,
       derived_task_ids = derived_task_ids
-    ) %>% purrr::compact(), # remove output_type_id_datatype if NULL
+    ) %>%
+      purrr::compact(), # remove output_type_id_datatype if NULL
     class = c("config", "list"),
     type = "tasks",
     schema_id = schema_id,
@@ -110,10 +113,15 @@ create_config <- function(rounds,
 }
 
 check_output_type_id_datatype <- function(schema_id, output_type_id_datatype) {
-  checkmate::assert_choice(output_type_id_datatype,
+  checkmate::assert_choice(
+    output_type_id_datatype,
     c(
-      "auto", "character", "double", "integer",
-      "logical", "Date"
+      "auto",
+      "character",
+      "double",
+      "integer",
+      "logical",
+      "Date"
     ),
     null.ok = TRUE
   )

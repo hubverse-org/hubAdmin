@@ -63,11 +63,8 @@ create_model_task <- function(task_ids, output_type, target_metadata) {
       "output_type",
       "target_metadata"
     ),
-    ~ check_object_class(get(.x), .x,
-      call = call
-    )
+    ~ check_object_class(get(.x), .x, call = call)
   )
-
 
   schema_id <- check_schema_id_attr(
     list(
@@ -103,8 +100,11 @@ create_model_task <- function(task_ids, output_type, target_metadata) {
 }
 
 
-check_target_key_valid <- function(target_metadata, task_ids,
-                                   call = rlang::caller_env()) {
+check_target_key_valid <- function(
+  target_metadata,
+  task_ids,
+  call = rlang::caller_env()
+) {
   target_keys <- purrr::map(
     target_metadata[[1]],
     ~ .x[["target_keys"]]
@@ -135,11 +135,7 @@ check_target_key_valid <- function(target_metadata, task_ids,
   }
   purrr::walk(
     target_keys_names,
-    ~ check_task_id_target_key_values(.x,
-      task_ids,
-      target_keys,
-      call = call
-    )
+    ~ check_task_id_target_key_values(.x, task_ids, target_keys, call = call)
   )
 }
 
@@ -147,15 +143,21 @@ check_target_key_valid <- function(target_metadata, task_ids,
 check_object_class <- function(object, class, call = rlang::caller_env()) {
   if (!inherits(object, class)) {
     cli::cli_abort(
-      c("x" = "{.arg {class}} must inherit from class {.cls {class}} but does not"),
+      c(
+        "x" = "{.arg {class}} must inherit from class {.cls {class}} but does not"
+      ),
       call = call
     )
   }
 }
 
 
-check_task_id_target_key_values <- function(target_key_name, task_ids, # nolint: object_length_linter
-                                            target_keys, call = rlang::caller_env()) {
+check_task_id_target_key_values <- function(
+  target_key_name,
+  task_ids, # nolint: object_length_linter
+  target_keys,
+  call = rlang::caller_env()
+) {
   task_id_values <- unlist(task_ids$task_ids[[target_key_name]]) %>%
     unique() %>%
     sort()
@@ -166,7 +168,6 @@ check_task_id_target_key_values <- function(target_key_name, task_ids, # nolint:
   ) %>%
     unique() %>%
     sort()
-
 
   if (any(task_id_values != target_key_values)) {
     cli::cli_abort(
@@ -183,8 +184,7 @@ check_task_id_target_key_values <- function(target_key_name, task_ids, # nolint:
   }
 }
 
-check_compound_taskids_valid <- function(task_ids,
-                                         output_type) {
+check_compound_taskids_valid <- function(task_ids, output_type) {
   comp_tids <- purrr::pluck(
     output_type,
     "output_type",

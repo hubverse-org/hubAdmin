@@ -33,8 +33,10 @@
 #'   )
 #' )
 create_output_type <- function(...) {
-  collect_items(...,
-    item_class = "output_type_item", output_class = "output_type",
+  collect_items(
+    ...,
+    item_class = "output_type_item",
+    output_class = "output_type",
     flatten = TRUE
   )
 }

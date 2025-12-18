@@ -1,11 +1,14 @@
-create_derived_task_ids_round <- function(version,
-                                          branch = getOption(
-                                            "hubAdmin.branch",
-                                            default = "main"
-                                          ),
-                                          derived_task_ids = NULL) {
+create_derived_task_ids_round <- function(
+  version,
+  branch = getOption(
+    "hubAdmin.branch",
+    default = "main"
+  ),
+  derived_task_ids = NULL
+) {
   task_ids <- create_task_ids(
-    create_task_id("origin_date",
+    create_task_id(
+      "origin_date",
       required = NULL,
       optional = c(
         "2023-01-02",
@@ -15,13 +18,15 @@ create_derived_task_ids_round <- function(version,
       schema_version = version,
       branch = branch
     ),
-    create_task_id("location",
+    create_task_id(
+      "location",
       required = "US",
       optional = c("01", "02", "04", "05", "06"),
       schema_version = version,
       branch = branch
     ),
-    create_task_id("horizon",
+    create_task_id(
+      "horizon",
       required = 1L,
       optional = 2:4,
       schema_version = version,

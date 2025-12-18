@@ -133,9 +133,11 @@ test_that("write_config autoboxing works", {
   config <- hubUtils::read_config(".")
   config_plus_new_round <- append_round(config = config, create_new_round())
 
-  write_config(config_plus_new_round,
+  write_config(
+    config_plus_new_round,
     silent = TRUE,
-    autobox = FALSE, overwrite = TRUE
+    autobox = FALSE,
+    overwrite = TRUE
   )
   expect_false(suppressMessages(validate_config()))
 
@@ -164,8 +166,10 @@ test_that("write_config with autobox = FALSE does not box and issues warning", {
       )
     )
     result <- write_config(
-      config = config, silent = TRUE,
-      autobox = FALSE, overwrite = TRUE
+      config = config,
+      silent = TRUE,
+      autobox = FALSE,
+      overwrite = TRUE
     )
     expect_false(suppressMessages(validate_config()))
   })

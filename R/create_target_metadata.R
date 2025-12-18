@@ -32,7 +32,8 @@
 #'   )
 #' )
 create_target_metadata <- function(...) {
-  collect_items(...,
+  collect_items(
+    ...,
     item_class = "target_metadata_item",
     output_class = "target_metadata",
     flatten = FALSE
@@ -40,8 +41,11 @@ create_target_metadata <- function(...) {
 }
 
 
-check_schema_id_attr <- function(items, attribute = c("schema_id", "branch"),
-                                 call = rlang::caller_env()) {
+check_schema_id_attr <- function(
+  items,
+  attribute = c("schema_id", "branch"),
+  call = rlang::caller_env()
+) {
   attribute <- rlang::arg_match(attribute)
   schema_id_attr <- purrr::map_chr(
     items,
@@ -61,7 +65,12 @@ check_schema_id_attr <- function(items, attribute = c("schema_id", "branch"),
       schema_id_attr <- paste(item_names, ":", schema_id_attr)
       obj_ref <- "Argument" # nolint: object_usage_linter
     } else {
-      schema_id_attr <- paste("Item", seq_along(schema_id_attr), ":", schema_id_attr)
+      schema_id_attr <- paste(
+        "Item",
+        seq_along(schema_id_attr),
+        ":",
+        schema_id_attr
+      )
       obj_ref <- "Item"
     }
     names(schema_id_attr) <- rep("*", length(schema_id_attr))
@@ -99,8 +108,11 @@ check_item_classes <- function(items, class, call = rlang::caller_env()) {
   }
 }
 
-check_target_metadata_properties_unique <- function(items, property, # nolint: object_length_linter
-                                                    call = rlang::caller_env()) {
+check_target_metadata_properties_unique <- function(
+  items,
+  property, # nolint: object_length_linter
+  call = rlang::caller_env()
+) {
   item_properties <- purrr::map(
     items,
     ~ .x[[property]]

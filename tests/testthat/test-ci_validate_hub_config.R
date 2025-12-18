@@ -9,7 +9,7 @@ test_that("ci_validate_hub creates message of success", {
   tmp <- withr::local_tempdir()
   diff <- withr::local_tempfile()
   fs::dir_copy(system.file("testhubs/simple/", package = "hubUtils"), tmp)
-  out  <- withr::local_tempfile()
+  out <- withr::local_tempfile()
   simp <- fs::path(tmp, "simple")
   # the diff file should not exist
   expect_false(fs::file_exists(diff))
@@ -47,7 +47,6 @@ test_that("ci_validate_hub creates message of success", {
   expect_match(diff2[1], "correct")
   expect_match(tail(diff2, 1), "LATER")
   expect_snapshot(writeLines(diff2))
-
 })
 
 test_that("ci_validate_hub creates message of failure", {
@@ -60,7 +59,7 @@ test_that("ci_validate_hub creates message of failure", {
   }
   tmp <- withr::local_tempdir()
   fs::dir_copy(testthat::test_path("testdata", "error_hub"), tmp)
-  out  <- withr::local_tempfile()
+  out <- withr::local_tempfile()
   diff <- withr::local_tempfile()
   err <- fs::path(tmp, "error_hub")
   # the diff file should not exist
@@ -99,5 +98,4 @@ test_that("ci_validate_hub creates message of failure", {
   diff2 <- readLines(diff)
   expect_match(diff2[1], "Invalid Configuration")
   expect_match(tail(diff2, 1), "LATER")
-
 })

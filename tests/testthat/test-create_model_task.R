@@ -7,7 +7,8 @@ test_that("create_model_task functions work correctly", {
       model_tasks = create_model_tasks(
         create_model_task(
           task_ids = create_task_ids(
-            create_task_id("origin_date",
+            create_task_id(
+              "origin_date",
               required = NULL,
               optional = c(
                 "2023-01-02",
@@ -15,14 +16,12 @@ test_that("create_model_task functions work correctly", {
                 "2023-01-16"
               )
             ),
-            create_task_id("location",
+            create_task_id(
+              "location",
               required = "US",
               optional = c("01", "02", "04", "05", "06")
             ),
-            create_task_id("horizon",
-              required = 1L,
-              optional = 2:4
-            )
+            create_task_id("horizon", required = 1L, optional = 2:4)
           ),
           output_type = create_output_type(
             create_output_type_mean(
@@ -54,7 +53,8 @@ test_that("create_model_task functions work correctly", {
   expect_snapshot(
     create_model_task(
       task_ids = create_task_ids(
-        create_task_id("origin_date",
+        create_task_id(
+          "origin_date",
           required = NULL,
           optional = c(
             "2023-01-02",
@@ -62,14 +62,12 @@ test_that("create_model_task functions work correctly", {
             "2023-01-16"
           )
         ),
-        create_task_id("location",
+        create_task_id(
+          "location",
           required = "US",
           optional = c("01", "02", "04", "05", "06")
         ),
-        create_task_id("horizon",
-          required = 1L,
-          optional = 2:4
-        )
+        create_task_id("horizon", required = 1L, optional = 2:4)
       ),
       output_type = create_output_type(
         create_output_type_mean(
@@ -89,13 +87,15 @@ test_that("create_model_task functions work correctly", {
           time_unit = "week"
         )
       )
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
 
   expect_snapshot(
     create_model_task(
       task_ids = create_task_ids(
-        create_task_id("origin_date",
+        create_task_id(
+          "origin_date",
           required = NULL,
           optional = c(
             "2023-01-02",
@@ -103,14 +103,12 @@ test_that("create_model_task functions work correctly", {
             "2023-01-16"
           )
         ),
-        create_task_id("location",
+        create_task_id(
+          "location",
           required = "US",
           optional = c("01", "02", "04", "05", "06")
         ),
-        create_task_id("horizon",
-          required = 1L,
-          optional = 2:4
-        )
+        create_task_id("horizon", required = 1L, optional = 2:4)
       ),
       output_type = create_output_type(
         create_output_type_mean(
@@ -122,7 +120,8 @@ test_that("create_model_task functions work correctly", {
           is_required = FALSE,
           output_type_id_type = "character",
           max_length = 5L,
-          min_samples_per_task = 70L, max_samples_per_task = 100L,
+          min_samples_per_task = 70L,
+          max_samples_per_task = 100L,
           compound_taskid_set = c("horizon", "origin_date"),
           value_type = "double",
           value_minimum = 0L,
@@ -140,13 +139,15 @@ test_that("create_model_task functions work correctly", {
           time_unit = "week"
         )
       )
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
 
   expect_snapshot(
     create_model_task(
       task_ids = create_task_ids(
-        create_task_id("origin_date",
+        create_task_id(
+          "origin_date",
           required = NULL,
           optional = c(
             "2023-01-02",
@@ -154,18 +155,17 @@ test_that("create_model_task functions work correctly", {
             "2023-01-16"
           )
         ),
-        create_task_id("location",
+        create_task_id(
+          "location",
           required = "US",
           optional = c("01", "02", "04", "05", "06")
         ),
-        create_task_id("target",
+        create_task_id(
+          "target",
           required = NULL,
           optional = c("inc death", "inc hosp")
         ),
-        create_task_id("horizon",
-          required = 1L,
-          optional = 2:4
-        )
+        create_task_id("horizon", required = 1L, optional = 2:4)
       ),
       output_type = create_output_type(
         create_output_type_mean(
@@ -179,8 +179,14 @@ test_that("create_model_task functions work correctly", {
         ),
         create_output_type_quantile(
           required = c(
-            0.1, 0.2, 0.3, 0.4, 0.6,
-            0.7, 0.8, 0.9
+            0.1,
+            0.2,
+            0.3,
+            0.4,
+            0.6,
+            0.7,
+            0.8,
+            0.9
           ),
           is_required = TRUE,
           value_type = "double",
@@ -207,7 +213,8 @@ test_that("create_model_task functions work correctly", {
           time_unit = "week"
         )
       )
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
 })
 
@@ -219,7 +226,8 @@ test_that("create_output_type_point functions error correctly", {
     ),
     {
       task_ids <- create_task_ids(
-        create_task_id("origin_date",
+        create_task_id(
+          "origin_date",
           required = NULL,
           optional = c(
             "2023-01-02",
@@ -227,14 +235,12 @@ test_that("create_output_type_point functions error correctly", {
             "2023-01-16"
           )
         ),
-        create_task_id("target",
+        create_task_id(
+          "target",
           required = NULL,
           optional = c("inc death", "inc hosp")
         ),
-        create_task_id("horizon",
-          required = 1L,
-          optional = 2:4
-        )
+        create_task_id("horizon", required = 1L, optional = 2:4)
       )
       output_type <- create_output_type(
         create_output_type_mean(
@@ -300,7 +306,8 @@ test_that("create_output_type_point functions error correctly", {
       )
 
       task_ids <- create_task_ids(
-        create_task_id("origin_date",
+        create_task_id(
+          "origin_date",
           required = NULL,
           optional = c(
             "2023-01-02",
@@ -308,10 +315,7 @@ test_that("create_output_type_point functions error correctly", {
             "2023-01-16"
           )
         ),
-        create_task_id("horizon",
-          required = 1L,
-          optional = 2:4
-        )
+        create_task_id("horizon", required = 1L, optional = 2:4)
       )
 
       attr(task_ids, "schema_id") <- "invalid_schema_id"
@@ -337,7 +341,8 @@ test_that("create_output_type_point functions error correctly", {
       expect_snapshot(
         create_model_task(
           task_ids = create_task_ids(
-            create_task_id("origin_date",
+            create_task_id(
+              "origin_date",
               required = NULL,
               optional = c(
                 "2023-01-02",
@@ -345,14 +350,12 @@ test_that("create_output_type_point functions error correctly", {
                 "2023-01-16"
               )
             ),
-            create_task_id("location",
+            create_task_id(
+              "location",
               required = "US",
               optional = c("01", "02", "04", "05", "06")
             ),
-            create_task_id("horizon",
-              required = 1L,
-              optional = 2:4
-            )
+            create_task_id("horizon", required = 1L, optional = 2:4)
           ),
           output_type = create_output_type(
             create_output_type_mean(
@@ -364,7 +367,8 @@ test_that("create_output_type_point functions error correctly", {
               is_required = FALSE,
               output_type_id_type = "character",
               max_length = 5L,
-              min_samples_per_task = 70L, max_samples_per_task = 100L,
+              min_samples_per_task = 70L,
+              max_samples_per_task = 100L,
               compound_taskid_set = c("horizon", "random_task_id"),
               value_type = "double",
               value_minimum = 0L,

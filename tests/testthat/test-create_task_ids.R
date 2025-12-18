@@ -2,7 +2,8 @@ test_that("create_task_ids functions work correctly", {
   skip_if_offline()
   expect_snapshot(
     create_task_ids(
-      create_task_id("origin_date",
+      create_task_id(
+        "origin_date",
         required = NULL,
         optional = c(
           "2023-01-02",
@@ -10,26 +11,23 @@ test_that("create_task_ids functions work correctly", {
           "2023-01-16"
         )
       ),
-      create_task_id("scenario_id",
+      create_task_id(
+        "scenario_id",
         required = NULL,
         optional = c(
           "A-2021-03-28",
           "B-2021-03-28"
         )
       ),
-      create_task_id("location",
+      create_task_id(
+        "location",
         required = "US",
         optional = c("01", "02", "04", "05", "06")
       ),
-      create_task_id("target",
-        required = "inc hosp",
-        optional = NULL
-      ),
-      create_task_id("horizon",
-        required = 1L,
-        optional = 2:4
-      )
-    ) |> verify_latest_schema_version()
+      create_task_id("target", required = "inc hosp", optional = NULL),
+      create_task_id("horizon", required = 1L, optional = 2:4)
+    ) |>
+      verify_latest_schema_version()
   )
 })
 
@@ -38,7 +36,8 @@ test_that("create_task_ids functions error correctly", {
   skip_if_offline()
   expect_snapshot(
     create_task_ids(
-      create_task_id("origin_date",
+      create_task_id(
+        "origin_date",
         required = NULL,
         optional = c(
           "2023-01-02",
@@ -46,7 +45,8 @@ test_that("create_task_ids functions error correctly", {
           "2023-01-16"
         )
       ),
-      create_task_id("origin_date",
+      create_task_id(
+        "origin_date",
         required = NULL,
         optional = c(
           "2023-01-02",
@@ -60,7 +60,8 @@ test_that("create_task_ids functions error correctly", {
 
   expect_snapshot(
     create_task_ids(
-      create_task_id("origin_date",
+      create_task_id(
+        "origin_date",
         required = NULL,
         optional = c(
           "2023-01-02",
@@ -80,7 +81,8 @@ test_that("create_task_ids functions error correctly", {
       hubAdmin.branch = "main"
     ),
     {
-      item_1 <- create_task_id("origin_date",
+      item_1 <- create_task_id(
+        "origin_date",
         required = NULL,
         optional = c(
           "2023-01-02",
@@ -92,7 +94,8 @@ test_that("create_task_ids functions error correctly", {
       expect_snapshot(
         create_task_ids(
           item_1,
-          create_task_id("scenario_id",
+          create_task_id(
+            "scenario_id",
             required = NULL,
             optional = c(
               "A-2021-03-28",

@@ -25,7 +25,9 @@ validate_model_metadata_schema <- function(hub_path = ".") {
     )
   }
   checkmate::assert_directory_exists(hub_path)
-  config_path <- fs::path(hub_path, "hub-config",
+  config_path <- fs::path(
+    hub_path,
+    "hub-config",
     "model-metadata-schema",
     ext = "json"
   )
@@ -44,7 +46,10 @@ validate_model_metadata_schema <- function(hub_path = ".") {
   )
 
   if (inherits(schema, "try-error")) {
-    validation <- make_config_error(config_path, attr(schema, "condition")$message)
+    validation <- make_config_error(
+      config_path,
+      attr(schema, "condition")$message
+    )
     return(validation)
   }
 
@@ -59,7 +64,8 @@ validate_model_metadata_schema <- function(hub_path = ".") {
 
   if (
     isFALSE(
-      "model_id" %in% properties ||
+      "model_id" %in%
+        properties ||
         all(c("model_abbr", "team_abbr") %in% properties)
     )
   ) {

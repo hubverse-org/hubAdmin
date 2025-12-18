@@ -2,7 +2,9 @@ test_that("val_target_ids_match_target_key_values works", {
   # Ensure validation returns mismatches between target IDs and target keys
   # correctly when multiple target keys are present.
   grp_target_keys <- jsonlite::read_json(
-    testthat::test_path("testdata/target-metadata-target-id-target-key-mismatch.json"),
+    testthat::test_path(
+      "testdata/target-metadata-target-id-target-key-mismatch.json"
+    ),
     simplifyVector = TRUE,
     simplifyDataFrame = FALSE
   )$target_metadata
@@ -12,7 +14,10 @@ test_that("val_target_ids_match_target_key_values works", {
   schema <- hubUtils::get_schema(hubUtils::get_schema_url(version = "v5.0.0"))
 
   check <- val_target_ids_match_target_key_values(
-    grp_target_keys, model_task_i, round_i, schema
+    grp_target_keys,
+    model_task_i,
+    round_i,
+    schema
   )
   expect_equal(
     check,
@@ -58,7 +63,10 @@ test_that("val_target_ids_match_target_key_values works", {
   # correctly when a single target keys are present.
   grp_target_keys <- grp_target_keys[2]
   check <- val_target_ids_match_target_key_values(
-    grp_target_keys, model_task_i, round_i, schema
+    grp_target_keys,
+    model_task_i,
+    round_i,
+    schema
   )
   expect_equal(
     check,
@@ -68,8 +76,7 @@ test_that("val_target_ids_match_target_key_values works", {
           "/rounds/0/model_tasks/0/target_metadata/0/target_id",
           class = c("glue", "character")
         ),
-        schemaPath =
-          "#/properties/rounds/items/properties/model_tasks/items/properties/target_metadata/items/properties/target_id", # nolint: line_length_linter
+        schemaPath = "#/properties/rounds/items/properties/model_tasks/items/properties/target_metadata/items/properties/target_id", # nolint: line_length_linter
         keyword = "target_id value",
         message = "target_id value does not match corresponding target key value",
         schema = "",
@@ -78,14 +85,18 @@ test_that("val_target_ids_match_target_key_values works", {
           class = c("glue", "character")
         )
       ),
-      class = "data.frame", row.names = c(NA, -1L)
+      class = "data.frame",
+      row.names = c(NA, -1L)
     )
   )
 
   # Ensure validation returns NULL when target keys are NULL
   grp_target_keys[[1]]$target_keys <- NULL
   check <- val_target_ids_match_target_key_values(
-    grp_target_keys, model_task_i, round_i, schema
+    grp_target_keys,
+    model_task_i,
+    round_i,
+    schema
   )
   expect_null(check)
 
@@ -97,7 +108,10 @@ test_that("val_target_ids_match_target_key_values works", {
     target_outcome = "hospitalisation"
   )
   check <- val_target_ids_match_target_key_values(
-    grp_target_keys, model_task_i, round_i, schema
+    grp_target_keys,
+    model_task_i,
+    round_i,
+    schema
   )
   expect_null(check)
 })

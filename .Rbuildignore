@@ -18,3 +18,5 @@
 ^claude
 ^PLAN\.md$
 ^.claude$
+^[.]?air[.]toml$
+^\.vscode$

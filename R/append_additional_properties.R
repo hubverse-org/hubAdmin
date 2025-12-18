@@ -47,11 +47,15 @@ get_config_paths <- function(config) {
 # Keep any config_paths that match an additional_property path. The "additionalProperty"
 # element in the path is treated like a wildcard. Paths are also transformed to schema
 # paths by adding "items" elements appropriately.
-keep_additional_property_config_paths <- function(additional_property, config_paths) {
+keep_additional_property_config_paths <- function(
+  additional_property,
+  config_paths
+) {
   purrr::keep(
     config_paths,
     ~ is_valid_additional_property(.x, additional_property)
-  ) |> purrr::map(~ add_items(.x, additional_property))
+  ) |>
+    purrr::map(~ add_items(.x, additional_property))
 }
 
 # Given an additionalProperty schema path, detect whether a config path is a

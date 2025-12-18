@@ -12,8 +12,12 @@
 #' @return NULL. The functions are called for their side effects.
 #' @noRd
 # Check scalar properties against the schema
-check_properties_scalar <- function(properties, schema, parent_property = NULL,
-                                    call = rlang::caller_env()) {
+check_properties_scalar <- function(
+  properties,
+  schema,
+  parent_property = NULL,
+  call = rlang::caller_env()
+) {
   schema_names <- prop_type_scalar(schema)
   property_names <- intersect(schema_names, names(properties))
 
@@ -33,8 +37,12 @@ check_properties_scalar <- function(properties, schema, parent_property = NULL,
 }
 
 # Check array properties against the schema
-check_properties_array <- function(properties, schema, parent_property = NULL,
-                                   call = rlang::caller_env()) {
+check_properties_array <- function(
+  properties,
+  schema,
+  parent_property = NULL,
+  call = rlang::caller_env()
+) {
   schema_names <- prop_type_array(schema)
   property_names <- intersect(schema_names, names(properties))
 
