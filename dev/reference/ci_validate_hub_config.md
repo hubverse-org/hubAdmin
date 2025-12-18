@@ -146,15 +146,15 @@ ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 #> 
 #> ── $tasks 
 #> [1] TRUE
-#> ✔ ok:  hub-config/tasks.json (<file:///tmp/RtmpXFq3Xl/file19e56f4fc7c3/simple/hub-config/tasks.json>) (via tasks-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+#> ✔ ok:  hub-config/tasks.json (<file:///tmp/Rtmp1ewACZ/file1cec46ce81d/simple/hub-config/tasks.json>) (via tasks-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
 #> 
 #> ── $admin 
 #> [1] TRUE
-#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpXFq3Xl/file19e56f4fc7c3/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
+#> ✔ ok:  hub-config/admin.json (<file:///tmp/Rtmp1ewACZ/file1cec46ce81d/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
 #> 
 #> ── $model-metadata-schema 
 #> [1] TRUE
-#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpXFq3Xl/file19e56f4fc7c3/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpXFq3Xl/file19e56f4fc7c3/simple/hub-config/model-metadata-schema.json>))
+#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/Rtmp1ewACZ/file1cec46ce81d/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/Rtmp1ewACZ/file1cec46ce81d/simple/hub-config/model-metadata-schema.json>))
 # result is true
 readLines(out)
 #> [1] "result=true"
@@ -162,7 +162,7 @@ readLines(out)
 readLines(diff)
 #> [1] ":white_check_mark: Hub correctly configured!"
 #> [2] ""                                            
-#> [3] "2025-11-19 15:38:12 UTC"                     
+#> [3] "2025-12-18 15:57:29 UTC"                     
 
 # Results from an invalid hub --------------------------------------
 # reset output file
@@ -183,18 +183,18 @@ ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 #> ── $tasks 
 #> [1] FALSE
 #> ! 4 schema errors: hub-config/tasks.json
-#>   (<file:///tmp/RtmpXFq3Xl/file19e56f4fc7c3/simple/hub-config/tasks.json>) (via
+#>   (<file:///tmp/Rtmp1ewACZ/file1cec46ce81d/simple/hub-config/tasks.json>) (via
 #>   tasks-schema v2.0.0
 #>   (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
 #> ℹ use `view_config_val_errors()` to view table of error details.
 #> 
 #> ── $admin 
 #> [1] TRUE
-#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpXFq3Xl/file19e56f4fc7c3/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
+#> ✔ ok:  hub-config/admin.json (<file:///tmp/Rtmp1ewACZ/file1cec46ce81d/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
 #> 
 #> ── $model-metadata-schema 
 #> [1] TRUE
-#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpXFq3Xl/file19e56f4fc7c3/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpXFq3Xl/file19e56f4fc7c3/simple/hub-config/model-metadata-schema.json>))
+#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/Rtmp1ewACZ/file1cec46ce81d/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/Rtmp1ewACZ/file1cec46ce81d/simple/hub-config/model-metadata-schema.json>))
 # result is now false
 readLines(out)
 #> [1] "result=false"
@@ -212,5 +212,5 @@ tail(readLines(diff))
 #> [3] "  </tfoot>"                                                                                                                                                     
 #> [4] "</table>"                                                                                                                                                       
 #> [5] "</div>"                                                                                                                                                         
-#> [6] "2025-11-19 15:38:12 UTC"                                                                                                                                        
+#> [6] "2025-12-18 15:57:30 UTC"                                                                                                                                        
 ```
