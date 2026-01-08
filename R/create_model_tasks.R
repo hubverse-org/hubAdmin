@@ -163,7 +163,8 @@
 #'   )
 #' )
 create_model_tasks <- function(...) {
-  collect_items(...,
+  collect_items(
+    ...,
     item_class = "model_task",
     output_class = "model_tasks",
     flatten = FALSE

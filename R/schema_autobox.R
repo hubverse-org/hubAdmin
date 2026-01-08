@@ -88,8 +88,10 @@ schema_autobox <- function(config, box_extra_paths = NULL) {
   checkmate::assert_list(box_extra_paths, null.ok = TRUE)
   if (!inherits(config, "config")) {
     cli::cli_abort(
-      c("x" = "{.arg config} must be an object of class {.cls config}
-             not {.cls {class(config)}}.")
+      c(
+        "x" = "{.arg config} must be an object of class {.cls config}
+             not {.cls {class(config)}}."
+      )
     )
   }
   schema_id <- attr(config, "schema_id")
@@ -201,11 +203,15 @@ expand_items <- function(x, config) {
   item_n <- purrr::pluck(config, !!!at) |>
     length()
 
-  purrr::map(seq_len(item_n), \(.x, item_idx) {
-    x <- as.list(x)
-    x[[item_idx]] <- as.integer(.x)
-    x
-  }, item_idx = item_idx)
+  purrr::map(
+    seq_len(item_n),
+    \(.x, item_idx) {
+      x <- as.list(x)
+      x[[item_idx]] <- as.integer(.x)
+      x
+    },
+    item_idx = item_idx
+  )
 }
 
 

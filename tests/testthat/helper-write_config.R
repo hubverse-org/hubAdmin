@@ -1,7 +1,8 @@
 # Setup fixtures for creating test objects
 create_test_rounds <- function(
-    branch = "main",
-    version = "v3.0.1") {
+  branch = "main",
+  version = "v3.0.1"
+) {
   create_rounds(
     create_round(
       round_id_from_variable = TRUE,
@@ -9,7 +10,8 @@ create_test_rounds <- function(
       model_tasks = create_model_tasks(
         create_model_task(
           task_ids = create_task_ids(
-            create_task_id("origin_date",
+            create_task_id(
+              "origin_date",
               required = NULL,
               optional = c(
                 "2023-01-02",
@@ -19,13 +21,15 @@ create_test_rounds <- function(
               branch = branch,
               schema_version = version
             ),
-            create_task_id("location",
+            create_task_id(
+              "location",
               required = "US",
               optional = c("01", "02", "04", "05", "06"),
               branch = branch,
               schema_version = version
             ),
-            create_task_id("horizon",
+            create_task_id(
+              "horizon",
               required = 1L,
               optional = 2:4,
               branch = branch,

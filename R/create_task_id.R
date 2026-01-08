@@ -52,15 +52,19 @@
 #' create_task_id("horizon", required = 1L, optional = 2:4)
 #' create_task_id("location", required = "US", optional = c("01", "02"))
 #' options(hubAdmin.schema_version = "latest")
-create_task_id <- function(name, required, optional,
-                           schema_version = getOption(
-                             "hubAdmin.schema_version",
-                             default = "latest"
-                           ),
-                           branch = getOption(
-                             "hubAdmin.branch",
-                             default = "main"
-                           )) {
+create_task_id <- function(
+  name,
+  required,
+  optional,
+  schema_version = getOption(
+    "hubAdmin.schema_version",
+    default = "latest"
+  ),
+  branch = getOption(
+    "hubAdmin.branch",
+    default = "main"
+  )
+) {
   checkmate::assert_character(name, len = 1L)
   rlang::check_required(required)
   rlang::check_required(optional)
@@ -117,23 +121,33 @@ create_task_id <- function(name, required, optional,
 get_schema_task_ids <- function(schema) {
   purrr::pluck(
     schema,
-    "properties", "rounds",
-    "items", "properties", "model_tasks",
-    "items", "properties", "task_ids"
+    "properties",
+    "rounds",
+    "items",
+    "properties",
+    "model_tasks",
+    "items",
+    "properties",
+    "task_ids"
   )
 }
 
 #' @importFrom utils askYesNo
-match_element_name <- function(name, element_names,
-                               element = c("task_id", "output_type")) {
+match_element_name <- function(
+  name,
+  element_names,
+  element = c("task_id", "output_type")
+) {
   matched_name <- utils::head(agrep(name, element_names, value = TRUE), 1)
   if (length(matched_name) == 1L && matched_name != name) {
-    ask <- askYesNo(ask_msg(name, matched_name, element),
-      prompts = "Y/N/C"
-    )
+    ask <- askYesNo(ask_msg(name, matched_name, element), prompts = "Y/N/C")
 
-    if (is.na(ask)) stop()
-    if (element != "task_id" && !ask) stop()
+    if (is.na(ask)) {
+      stop()
+    }
+    if (element != "task_id" && !ask) {
+      stop()
+    }
 
     if (ask) {
       name <- matched_name
@@ -171,8 +185,10 @@ ask_msg <- function(name, matched_name, element = c("task_id", "output_type")) {
 
 check_prop_not_all_null <- function(required, optional) {
   if (all(is.null(required), is.null(optional))) {
-    cli::cli_abort(c("x" = "Both arguments {.arg required} and {.arg optional}
-              cannot be NULL."))
+    cli::cli_abort(c(
+      "x" = "Both arguments {.arg required} and {.arg optional}
+              cannot be NULL."
+    ))
   }
 }
 

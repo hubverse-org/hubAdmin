@@ -7,8 +7,14 @@ test_that("prop_type_scalar works at top level", {
   expect_equal(
     prop_type_scalar(schema, invert = TRUE),
     c(
-      "$schema", "$id", "title", "description", "type", "properties",
-      "required", "additionalProperties"
+      "$schema",
+      "$id",
+      "title",
+      "description",
+      "type",
+      "properties",
+      "required",
+      "additionalProperties"
     )
   )
 
@@ -59,8 +65,14 @@ test_that("prop_type_array works at top level", {
   expect_equal(
     prop_type_array(schema, invert = TRUE),
     c(
-      "$schema", "$id", "title", "description", "type", "properties",
-      "required", "additionalProperties"
+      "$schema",
+      "$id",
+      "title",
+      "description",
+      "type",
+      "properties",
+      "required",
+      "additionalProperties"
     )
   )
 
@@ -90,8 +102,12 @@ test_that("prop_type_array works at round level", {
   expect_equal(
     prop_type_array(round_schema, invert = TRUE),
     c(
-      "round_id_from_variable", "round_id", "round_name", "model_tasks",
-      "submissions_due", "last_data_date"
+      "round_id_from_variable",
+      "round_id",
+      "round_name",
+      "model_tasks",
+      "submissions_due",
+      "last_data_date"
     )
   )
   # Check that default + inverse calls return all schema property names
@@ -111,8 +127,14 @@ test_that("prop_type_object works at top level", {
   expect_equal(
     prop_type_object(schema, invert = TRUE),
     c(
-      "$schema", "$id", "title", "description", "type", "properties",
-      "required", "additionalProperties"
+      "$schema",
+      "$id",
+      "title",
+      "description",
+      "type",
+      "properties",
+      "required",
+      "additionalProperties"
     )
   )
 
@@ -142,8 +164,12 @@ test_that("prop_type_object works at round level", {
   expect_equal(
     prop_type_object(round_schema, invert = TRUE),
     c(
-      "round_id_from_variable", "round_id", "round_name", "model_tasks",
-      "last_data_date", "file_format"
+      "round_id_from_variable",
+      "round_id",
+      "round_name",
+      "model_tasks",
+      "last_data_date",
+      "file_format"
     )
   )
   # Check that default + inverse calls return all schema property names
@@ -163,8 +189,14 @@ test_that("prop_type_object_array works at top level", {
   expect_equal(
     prop_type_object_array(schema, invert = TRUE),
     c(
-      "$schema", "$id", "title", "description", "type", "properties",
-      "required", "additionalProperties"
+      "$schema",
+      "$id",
+      "title",
+      "description",
+      "type",
+      "properties",
+      "required",
+      "additionalProperties"
     )
   )
 
@@ -197,8 +229,12 @@ test_that("prop_type_object_array works at round level", {
   expect_equal(
     prop_type_object_array(round_schema, invert = TRUE),
     c(
-      "round_id_from_variable", "round_id", "round_name",
-      "submissions_due", "last_data_date", "file_format"
+      "round_id_from_variable",
+      "round_id",
+      "round_name",
+      "submissions_due",
+      "last_data_date",
+      "file_format"
     )
   )
   # Check that default + inverse calls return all schema property names

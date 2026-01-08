@@ -2,7 +2,8 @@ test_that("Missing files returns an invalid config with an immediate message", {
   withr::local_options(list(width = 120))
   tmp <- withr::local_tempdir()
   suppressMessages({
-    expect_message(out <- validate_model_metadata_schema(hub_path = tmp),
+    expect_message(
+      out <- validate_model_metadata_schema(hub_path = tmp),
       "File does not exist"
     )
   })
@@ -26,7 +27,8 @@ test_that("validate_model_metadata_schema works", {
   out_error <- suppressWarnings(
     validate_model_metadata_schema(
       hub_path = testthat::test_path(
-        "testdata", "error_hub"
+        "testdata",
+        "error_hub"
       )
     )
   )
@@ -41,22 +43,24 @@ test_that("validate_model_metadata_schema works", {
 test_that("validate_model_metadata_schema errors for imparsable json", {
   tmp <- withr::local_tempdir()
   testhub <- testthat::test_path(
-    "testdata", "error_hub"
+    "testdata",
+    "error_hub"
   )
 
   fs::dir_copy(testhub, tmp, overwrite = TRUE)
   # muck about
-  cat("!green crayon? {\n",
+  cat(
+    "!green crayon? {\n",
     file = fs::path(tmp, "hub-config", "model-metadata-schema.json"),
     append = TRUE
   )
   suppressMessages({
-    expect_message(out <- validate_model_metadata_schema(hub_path = tmp),
+    expect_message(
+      out <- validate_model_metadata_schema(hub_path = tmp),
       "SyntaxError"
     )
   })
   # NOTE: this needs to be unclassed because otherwise testthat assumes it is
   # an error: https://github.com/hubverse-org/hubAdmin/pull/86/files#r1882552109
   expect_false(unclass(out))
-
 })

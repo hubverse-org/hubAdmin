@@ -67,8 +67,14 @@ test_that("create_output_type_dist functions work correctly", {
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.75),
       optional = c(
-        0.1, 0.2, 0.3, 0.4, 0.6,
-        0.7, 0.8, 0.9
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.6,
+        0.7,
+        0.8,
+        0.9
       ),
       value_type = "double",
       value_minimum = 0,
@@ -99,8 +105,10 @@ test_that("create_output_type_dist functions work correctly", {
     create_output_type_pmf(
       required = NULL,
       optional = c(
-        "low", "moderate",
-        "high", "extreme"
+        "low",
+        "moderate",
+        "high",
+        "extreme"
       ),
       value_type = "double",
       schema_version = "v3.0.1"
@@ -112,8 +120,14 @@ test_that("create_output_type_dist functions work correctly", {
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.75),
       optional = c(
-        0.1, 0.2, 0.3, 0.4, 0.6,
-        0.7, 0.8, 0.9
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.6,
+        0.7,
+        0.8,
+        0.9
       ),
       value_type = "double",
       value_minimum = 0,
@@ -142,8 +156,14 @@ test_that("create_output_type_dist functions error correctly", {
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.6, 0.75),
       optional = c(
-        0.1, 0.2, 0.3, 0.4, 0.6,
-        0.7, 0.8, 0.9
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.6,
+        0.7,
+        0.8,
+        0.9
       ),
       value_type = "double",
       value_minimum = 0
@@ -159,17 +179,20 @@ test_that("create_output_type_sample works", {
     create_output_type_sample(
       is_required = TRUE,
       output_type_id_type = "integer",
-      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      min_samples_per_task = 70L,
+      max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
       value_maximum = 1L
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
   expect_snapshot(
     create_output_type_sample(
       is_required = TRUE,
       output_type_id_type = "integer",
-      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      min_samples_per_task = 70L,
+      max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
       value_maximum = 1L,
@@ -181,7 +204,8 @@ test_that("create_output_type_sample works", {
       is_required = FALSE,
       output_type_id_type = "character",
       max_length = 5L,
-      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      min_samples_per_task = 70L,
+      max_samples_per_task = 100L,
       compound_taskid_set = c("horizon", "target", "location"),
       value_type = "double",
       value_minimum = 0L,
@@ -198,7 +222,8 @@ test_that("create_output_type_sample errors correctly", {
     create_output_type_sample(
       is_required = TRUE,
       output_type_id_type = "Date",
-      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      min_samples_per_task = 70L,
+      max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
       value_maximum = 1L
@@ -210,20 +235,21 @@ test_that("create_output_type_sample errors correctly", {
     create_output_type_sample(
       is_required = 1L,
       output_type_id_type = "Date",
-      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      min_samples_per_task = 70L,
+      max_samples_per_task = 100L,
       value_type = "double",
       value_minimum = 0L,
       value_maximum = 1L
     ),
-    regexp =
-      "Assertion on 'is_required' failed: Must be of type 'logical', not 'integer'"
+    regexp = "Assertion on 'is_required' failed: Must be of type 'logical', not 'integer'"
   )
   # min_samples_per_task vector instead of scalar fails
   expect_snapshot(
     create_output_type_sample(
       is_required = TRUE,
       output_type_id_type = "integer",
-      min_samples_per_task = 10:11, max_samples_per_task = 100L,
+      min_samples_per_task = 10:11,
+      max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
       value_maximum = 1L,
@@ -236,7 +262,8 @@ test_that("create_output_type_sample errors correctly", {
     create_output_type_sample(
       is_required = TRUE,
       output_type_id_type = "integer",
-      min_samples_per_task = 110L, max_samples_per_task = 100L,
+      min_samples_per_task = 110L,
+      max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
       value_maximum = 1L,
@@ -249,7 +276,8 @@ test_that("create_output_type_sample errors correctly", {
     create_output_type_sample(
       is_required = TRUE,
       output_type_id_type = "integer",
-      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      min_samples_per_task = 70L,
+      max_samples_per_task = 100L,
       value_type = "character",
       value_minimum = 0L,
       value_maximum = 1L,
@@ -264,7 +292,8 @@ test_that("create_output_type_sample errors correctly", {
       is_required = FALSE,
       output_type_id_type = "character",
       max_length = 5L,
-      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      min_samples_per_task = 70L,
+      max_samples_per_task = 100L,
       compound_taskid_set = c(1, 2, 3),
       value_type = "double",
       value_minimum = 0L,
@@ -278,7 +307,8 @@ test_that("create_output_type_sample errors correctly", {
     create_output_type_sample(
       is_required = TRUE,
       output_type_id_type = "integer",
-      min_samples_per_task = 70L, max_samples_per_task = 100L,
+      min_samples_per_task = 70L,
+      max_samples_per_task = 100L,
       value_type = "integer",
       value_minimum = 0L,
       value_maximum = 1L,
@@ -359,15 +389,22 @@ test_that("create_output_type_dist fns support v4 schema", {
       create_output_type_quantile(
         required = c(0.25, 0.5, 0.75),
         optional = c(
-          0.1, 0.2, 0.3, 0.4, 0.6,
-          0.7, 0.8, 0.9
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.6,
+          0.7,
+          0.8,
+          0.9
         ),
         is_required = TRUE,
         value_type = "double",
         value_minimum = 0,
         schema_version = "v4.0.0"
       )$quantile$output_type_id$required
-    ), c(0.25, 0.5, 0.75)
+    ),
+    c(0.25, 0.5, 0.75)
   )
   expect_snapshot(
     create_output_type_cdf(
@@ -390,8 +427,14 @@ test_that("create_output_type_dist fns support v4 schema", {
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.75),
       optional = c(
-        0.1, 0.2, 0.3, 0.4, 0.6,
-        0.7, 0.8, 0.9
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.6,
+        0.7,
+        0.8,
+        0.9
       ),
       is_required = TRUE,
       value_type = "double",
@@ -406,8 +449,14 @@ test_that("create_output_type_dist fns support v4 schema", {
     create_output_type_quantile(
       required = c(0.25, 0.5, 0.75),
       optional = c(
-        0.1, 0.2, 0.3, 0.4, 0.6,
-        0.7, 0.8, 0.9
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.6,
+        0.7,
+        0.8,
+        0.9
       ),
       value_type = "double",
       value_minimum = 0,
@@ -435,7 +484,8 @@ test_that("schema version option works for create_output_type_mean", {
     is_required = TRUE,
     value_type = "double",
     value_minimum = 0L
-  ) |> verify_latest_schema_version()
+  ) |>
+    verify_latest_schema_version()
 
   arg_version <- create_output_type_mean(
     is_required = TRUE,
@@ -472,13 +522,20 @@ test_that("schema version option works for create_output_type_quantile", {
     is_required = FALSE,
     value_type = "double",
     value_minimum = 0
-  ) |> verify_latest_schema_version()
+  ) |>
+    verify_latest_schema_version()
 
   arg_version <- create_output_type_quantile(
     required = c(0.25, 0.5, 0.75),
     optional = c(
-      0.1, 0.2, 0.3, 0.4, 0.6,
-      0.7, 0.8, 0.9
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.6,
+      0.7,
+      0.8,
+      0.9
     ),
     value_type = "double",
     value_minimum = 0,
@@ -495,8 +552,14 @@ test_that("schema version option works for create_output_type_quantile", {
       opt_version <- create_output_type_quantile(
         required = c(0.25, 0.5, 0.75),
         optional = c(
-          0.1, 0.2, 0.3, 0.4, 0.6,
-          0.7, 0.8, 0.9
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.6,
+          0.7,
+          0.8,
+          0.9
         ),
         value_type = "double",
         value_minimum = 0
@@ -521,7 +584,8 @@ test_that("schema version option works for create_output_type_cdf", {
       ),
       is_required = FALSE,
       value_type = "double"
-    ) |> verify_latest_schema_version()
+    ) |>
+    verify_latest_schema_version()
 
   arg_version <-
     create_output_type_cdf(
@@ -565,18 +629,23 @@ test_that("schema version option works for create_output_type_pmf", {
   skip_if_offline()
   version_default <- create_output_type_pmf(
     required = c(
-      "low", "moderate",
-      "high", "extreme"
+      "low",
+      "moderate",
+      "high",
+      "extreme"
     ),
     is_required = FALSE,
     value_type = "double"
-  ) |> verify_latest_schema_version()
+  ) |>
+    verify_latest_schema_version()
 
   arg_version <- create_output_type_pmf(
     required = NULL,
     optional = c(
-      "low", "moderate",
-      "high", "extreme"
+      "low",
+      "moderate",
+      "high",
+      "extreme"
     ),
     value_type = "double",
     schema_version = "v3.0.1",
@@ -592,8 +661,10 @@ test_that("schema version option works for create_output_type_pmf", {
       opt_version <- create_output_type_pmf(
         required = NULL,
         optional = c(
-          "low", "moderate",
-          "high", "extreme"
+          "low",
+          "moderate",
+          "high",
+          "extreme"
         ),
         value_type = "double"
       )
@@ -612,17 +683,20 @@ test_that("schema version option works for create_output_type_sample", {
     is_required = FALSE,
     output_type_id_type = "character",
     max_length = 5L,
-    min_samples_per_task = 70L, max_samples_per_task = 100L,
+    min_samples_per_task = 70L,
+    max_samples_per_task = 100L,
     value_type = "double",
     value_minimum = 0L,
     value_maximum = 1L
-  ) |> verify_latest_schema_version()
+  ) |>
+    verify_latest_schema_version()
 
   arg_version <- create_output_type_sample(
     is_required = FALSE,
     output_type_id_type = "character",
     max_length = 5L,
-    min_samples_per_task = 70L, max_samples_per_task = 100L,
+    min_samples_per_task = 70L,
+    max_samples_per_task = 100L,
     value_type = "double",
     value_minimum = 0L,
     value_maximum = 1L,
@@ -640,7 +714,8 @@ test_that("schema version option works for create_output_type_sample", {
         is_required = FALSE,
         output_type_id_type = "character",
         max_length = 5L,
-        min_samples_per_task = 70L, max_samples_per_task = 100L,
+        min_samples_per_task = 70L,
+        max_samples_per_task = 100L,
         value_type = "double",
         value_minimum = 0L,
         value_maximum = 1L

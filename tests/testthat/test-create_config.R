@@ -7,7 +7,8 @@ test_that("create_config functions work correctly", {
       model_tasks = create_model_tasks(
         create_model_task(
           task_ids = create_task_ids(
-            create_task_id("origin_date",
+            create_task_id(
+              "origin_date",
               required = NULL,
               optional = c(
                 "2023-01-02",
@@ -15,14 +16,12 @@ test_that("create_config functions work correctly", {
                 "2023-01-16"
               )
             ),
-            create_task_id("location",
+            create_task_id(
+              "location",
               required = "US",
               optional = c("01", "02", "04", "05", "06")
             ),
-            create_task_id("horizon",
-              required = 1L,
-              optional = 2:4
-            )
+            create_task_id("horizon", required = 1L, optional = 2:4)
           ),
           output_type = create_output_type(
             create_output_type_mean(
@@ -77,10 +76,14 @@ test_that("create_config handles output_type_id_datatype correctly ", {
 
   # Use older schema
   test_rounds_old <- test_rounds
-  attr(test_rounds_old, "schema_id") <- "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json" # nolint line_length_linter
+  attr(
+    test_rounds_old,
+    "schema_id"
+  ) <- "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json" # nolint line_length_linter
   expect_null(
     suppressMessages(
-      create_config(test_rounds_old,
+      create_config(
+        test_rounds_old,
         output_type_id_datatype = "character"
       )$output_type_id_datatype
     )

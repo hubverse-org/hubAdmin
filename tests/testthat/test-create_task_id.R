@@ -1,47 +1,49 @@
 test_that("create_task_id works correctly", {
   skip_if_offline()
   expect_snapshot(
-    create_task_id("horizon",
-      required = 1L,
-      optional = 2:4
-    ) |> verify_latest_schema_version()
+    create_task_id("horizon", required = 1L, optional = 2:4) |>
+      verify_latest_schema_version()
   )
 
   expect_snapshot(
-    create_task_id("origin_date",
+    create_task_id(
+      "origin_date",
       required = NULL,
       optional = c(
         "2023-01-02",
         "2023-01-09",
         "2023-01-16"
       )
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
 
   expect_snapshot(
-    create_task_id("scenario_id",
+    create_task_id(
+      "scenario_id",
       required = NULL,
       optional = c(
         "A-2021-03-28",
         "B-2021-03-28"
       )
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
 
   expect_snapshot(
-    create_task_id("scenario_id",
+    create_task_id(
+      "scenario_id",
       required = NULL,
       optional = c(
         1L,
         2L
       )
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
   expect_snapshot(
-    create_task_id("horizon",
-      required = NULL,
-      optional = NULL
-    ) |> verify_latest_schema_version()
+    create_task_id("horizon", required = NULL, optional = NULL) |>
+      verify_latest_schema_version()
   )
 })
 
@@ -49,14 +51,12 @@ test_that("create_task_id works correctly", {
 test_that("create_task_id errors correctly", {
   skip_if_offline()
   expect_snapshot(
-    create_task_id("origin_date",
-      required = NULL,
-      optional = c("01/20/2023")
-    ),
+    create_task_id("origin_date", required = NULL, optional = c("01/20/2023")),
     error = TRUE
   )
   expect_snapshot(
-    create_task_id("scenario_id",
+    create_task_id(
+      "scenario_id",
       required = NULL,
       optional = c(
         1L,
@@ -66,10 +66,7 @@ test_that("create_task_id errors correctly", {
     error = TRUE
   )
   expect_snapshot(
-    create_task_id("horizon",
-      required = c(TRUE, FALSE),
-      optional = NULL
-    ),
+    create_task_id("horizon", required = c(TRUE, FALSE), optional = NULL),
     error = TRUE
   )
 })
@@ -82,7 +79,8 @@ test_that("create_task_id name matching works correctly", {
   expect_equal(
     names(
       suppressMessages(
-        create_task_id("scenario_ids",
+        create_task_id(
+          "scenario_ids",
           required = NULL,
           optional = c(
             "A-2021-03-28",
@@ -109,12 +107,11 @@ test_that("create_task_id name matching works correctly", {
 
 test_that("schema version option works for create_task_id", {
   skip_if_offline()
-  version_default <- create_task_id("horizon",
-    required = 1L,
-    optional = 2:4
-  ) |> verify_latest_schema_version()
+  version_default <- create_task_id("horizon", required = 1L, optional = 2:4) |>
+    verify_latest_schema_version()
 
-  arg_version <- create_task_id("horizon",
+  arg_version <- create_task_id(
+    "horizon",
     required = 1L,
     optional = 2:4,
     schema_version = "v3.0.1",
@@ -127,10 +124,7 @@ test_that("schema version option works for create_task_id", {
       hubAdmin.branch = "main"
     ),
     {
-      opt_version <- create_task_id("horizon",
-        required = 1L,
-        optional = 2:4
-      )
+      opt_version <- create_task_id("horizon", required = 1L, optional = 2:4)
     }
   )
   expect_equal(arg_version, opt_version)

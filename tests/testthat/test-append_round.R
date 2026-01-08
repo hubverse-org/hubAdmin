@@ -10,7 +10,8 @@ test_that("append_round works", {
 
   # Adding two round works
   add_2_rounds <- append_round(
-    config = config, round,
+    config = config,
+    round,
     create_new_round("2024-09-25")
   )
 

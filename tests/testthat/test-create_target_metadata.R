@@ -20,7 +20,8 @@ test_that("create_target_metadata functions work correctly", {
         is_step_ahead = TRUE,
         time_unit = "week"
       )
-    ) |> verify_latest_schema_version()
+    ) |>
+      verify_latest_schema_version()
   )
 })
 

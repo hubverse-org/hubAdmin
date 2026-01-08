@@ -40,8 +40,10 @@
 #'   )
 #' )
 create_task_ids <- function(...) {
-  collect_items(...,
-    item_class = "task_id", output_class = "task_ids",
+  collect_items(
+    ...,
+    item_class = "task_id",
+    output_class = "task_ids",
     flatten = TRUE
   )
 }

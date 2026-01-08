@@ -165,7 +165,8 @@
 #'   )
 #' )
 create_rounds <- function(...) {
-  collect_items(...,
+  collect_items(
+    ...,
     item_class = "round",
     output_class = "rounds",
     flatten = FALSE

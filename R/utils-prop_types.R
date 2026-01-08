@@ -10,8 +10,7 @@
 prop_type_array <- function(schema, invert = FALSE) {
   predicate <- function(.x) {
     if (is.list(.x)) {
-      "array" %in% .x$type &&
-        .x$items$type != "object"
+      "array" %in% .x$type && .x$items$type != "object"
     } else {
       FALSE
     }
@@ -57,7 +56,8 @@ prop_type_scalar <- function(schema, invert = FALSE) {
   predicate <- function(.x) {
     if (is.list(.x)) {
       any(is.element(
-        .x$type, c("string", "integer", "number", "boolean")
+        .x$type,
+        c("string", "integer", "number", "boolean")
       ))
     } else {
       FALSE

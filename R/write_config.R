@@ -99,13 +99,21 @@
 #'   # Read and print tasks.json again
 #'   cat(readLines(file.path("hub-config", "tasks.json")), sep = "\n")
 #' })
-write_config <- function(config, hub_path = ".", config_path = NULL,
-                         autobox = TRUE, box_extra_paths = NULL,
-                         overwrite = FALSE, silent = FALSE) {
+write_config <- function(
+  config,
+  hub_path = ".",
+  config_path = NULL,
+  autobox = TRUE,
+  box_extra_paths = NULL,
+  overwrite = FALSE,
+  silent = FALSE
+) {
   if (!inherits(config, "config")) {
     cli::cli_abort(
-      c("x" = "{.arg config} must be an object of class {.cls config}
-             not {.cls {class(config)}}.")
+      c(
+        "x" = "{.arg config} must be an object of class {.cls config}
+             not {.cls {class(config)}}."
+      )
     )
   }
 
@@ -118,15 +126,19 @@ write_config <- function(config, hub_path = ".", config_path = NULL,
   parent_dir <- fs::path_dir(config_path)
   if (!fs::dir_exists(parent_dir)) {
     cli::cli_abort(
-      c("x" = "{.arg config_path} parent directory {.field {parent_dir}} does not exist.
-              Can't write to a file in a non-existent directory.")
+      c(
+        "x" = "{.arg config_path} parent directory {.field {parent_dir}} does not exist.
+              Can't write to a file in a non-existent directory."
+      )
     )
   }
 
   if (fs::file_exists(config_path) && isFALSE(overwrite)) {
     cli::cli_abort(
-      c("x" = "File {.arg {config_path}} already exists. Set {.arg overwrite = TRUE}
-              to overwrite the file.")
+      c(
+        "x" = "File {.arg {config_path}} already exists. Set {.arg overwrite = TRUE}
+              to overwrite the file."
+      )
     )
   }
 
@@ -138,7 +150,8 @@ write_config <- function(config, hub_path = ".", config_path = NULL,
     x = config,
     path = config_path,
     auto_unbox = TRUE,
-    na = "string", null = "null",
+    na = "string",
+    null = "null",
     pretty = TRUE
   )
 

@@ -13,10 +13,14 @@
 #' @return Function used primarily for it's side effects of signalling errors when
 #' input does not conform to schema.
 #' @noRd
-check_input <- function(input, property, parent_schema, # nolint: cyclocomp_linter
-                        parent_property,
-                        scalar = FALSE,
-                        call = rlang::caller_env()) {
+check_input <- function(
+  input,
+  property,
+  parent_schema, # nolint: cyclocomp_linter
+  parent_property,
+  scalar = FALSE,
+  call = rlang::caller_env()
+) {
   property_name <- property # nolint: object_usage_linter
   if (!is.null(parent_property) && parent_property == "value") {
     property_name <- paste0("value_", property)
@@ -27,7 +31,8 @@ check_input <- function(input, property, parent_schema, # nolint: cyclocomp_lint
   if (is.null(input)) {
     property_types <- property_schema[["type"]]
     if (!"null" %in% property_types) {
-      cli::cli_abort(c("x" = "{.arg {property_name}} cannot be NULL."),
+      cli::cli_abort(
+        c("x" = "{.arg {property_name}} cannot be NULL."),
         call = call
       )
     } else {
@@ -35,14 +40,18 @@ check_input <- function(input, property, parent_schema, # nolint: cyclocomp_lint
     }
   }
   if (!is.atomic(input) || is.pairlist(input)) {
-    cli::cli_abort(c("x" = "{.arg {property_name}} must be an atomic vector."),
+    cli::cli_abort(
+      c("x" = "{.arg {property_name}} must be an atomic vector."),
       call = call
     )
   }
 
   if (is.factor(input)) {
-    cli::cli_abort(c("x" = "{.arg {property_name}} cannot be of class
-                     {.cls factor}."),
+    cli::cli_abort(
+      c(
+        "x" = "{.arg {property_name}} cannot be of class
+                     {.cls factor}."
+      ),
       call = call
     )
   }
@@ -137,20 +146,33 @@ check_input <- function(input, property, parent_schema, # nolint: cyclocomp_lint
     }
   }
 
-  if (!is.null(value_formats) && value_formats == "date" && typeof(input) != "character") {
-    cli::cli_abort(c("x" = "{cli::qty(length(input))} {.arg {property_name}}
+  if (
+    !is.null(value_formats) &&
+      value_formats == "date" &&
+      typeof(input) != "character"
+  ) {
+    cli::cli_abort(
+      c(
+        "x" = "{cli::qty(length(input))} {.arg {property_name}}
                          value{?s} must be character string{?s} of date{?s} in valid
                          ISO 8601 format (YYYY-MM-DD). Date object format not accepted.
-                         Consider using {.code as.character()} to convert to character."),
+                         Consider using {.code as.character()} to convert to character."
+      ),
       call = call
     )
   }
 
-  if (!is.null(value_formats) && value_formats == "date" && anyNA(as.Date(input, format = "%Y-%m-%d"))
+  if (
+    !is.null(value_formats) &&
+      value_formats == "date" &&
+      anyNA(as.Date(input, format = "%Y-%m-%d"))
   ) {
-    cli::cli_abort(c("x" = "{cli::qty(length(input))} {.arg {property_name}}
+    cli::cli_abort(
+      c(
+        "x" = "{cli::qty(length(input))} {.arg {property_name}}
                          value{?s} must be character string{?s} of date{?s} in valid
-                         ISO 8601 format (YYYY-MM-DD)."),
+                         ISO 8601 format (YYYY-MM-DD)."
+      ),
       call = call
     )
   }
@@ -257,7 +279,6 @@ check_input <- function(input, property, parent_schema, # nolint: cyclocomp_lint
     }
   }
 
-
   if (any(names(value_schema) == "multipleOf")) {
     is_invalid <- input %% value_schema[["multipleOf"]] != 0L
     if (any(is_invalid)) {
@@ -275,29 +296,32 @@ check_input <- function(input, property, parent_schema, # nolint: cyclocomp_lint
 }
 
 # Used to check properties that contain oneOf schema properties.
-check_oneof_input <- function(input, property = c("required", "optional"), # nolint: cyclocomp_linter
-                              parent_schema,
-                              call = rlang::caller_env()) {
+check_oneof_input <- function(
+  input,
+  property = c("required", "optional"), # nolint: cyclocomp_linter
+  parent_schema,
+  call = rlang::caller_env()
+) {
   property_schema <- parent_schema[[property]]
 
   if (is.null(input)) {
     property_types <- property_schema[["type"]]
     if (!"null" %in% property_types) {
-      cli::cli_abort(c("x" = "{.arg {property}} cannot be NULL."),
-        call = call
-      )
+      cli::cli_abort(c("x" = "{.arg {property}} cannot be NULL."), call = call)
     } else {
       return()
     }
   }
   if (!is.atomic(input) || is.pairlist(input)) {
-    cli::cli_abort(c("x" = "{.arg {property}} must be an atomic vector."),
+    cli::cli_abort(
+      c("x" = "{.arg {property}} must be an atomic vector."),
       call = call
     )
   }
 
   if (is.factor(input)) {
-    cli::cli_abort(c("x" = "{.arg {property}} cannot be of class {.cls factor}."),
+    cli::cli_abort(
+      c("x" = "{.arg {property}} cannot be of class {.cls factor}."),
       call = call
     )
   }
@@ -397,9 +421,15 @@ check_oneof_input <- function(input, property = c("required", "optional"), # nol
 get_schema_output_type <- function(schema, output_type) {
   purrr::pluck(
     schema,
-    "properties", "rounds",
-    "items", "properties", "model_tasks",
-    "items", "properties", "output_type",
-    "properties", output_type
+    "properties",
+    "rounds",
+    "items",
+    "properties",
+    "model_tasks",
+    "items",
+    "properties",
+    "output_type",
+    "properties",
+    output_type
   )
 }

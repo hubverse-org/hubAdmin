@@ -8,8 +8,14 @@ test_that("download_tasks_schema defaults work", {
   expect_equal(
     names(latest_schema),
     c(
-      "$schema", "$id", "title", "description", "type", "properties",
-      "required", "additionalProperties"
+      "$schema",
+      "$id",
+      "title",
+      "description",
+      "type",
+      "properties",
+      "required",
+      "additionalProperties"
     )
   )
 })
