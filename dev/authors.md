@@ -22,14 +22,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/hubverse-org/hubAdmin/blob/main/DESCRIPTION)
 
-Krystalli A (2025). *hubAdmin: Utilities for Administering Hubverse
+Krystalli A (2026). *hubAdmin: Utilities for Administering Hubverse
 Hubs*. R package version 1.9.0.9000,
 <https://github.com/hubverse-org/hubAdmin>.
 
     @Manual{,
       title = {hubAdmin: Utilities for Administering Hubverse Hubs},
       author = {Anna Krystalli},
-      year = {2025},
+      year = {2026},
       note = {R package version 1.9.0.9000},
       url = {https://github.com/hubverse-org/hubAdmin},
     }
