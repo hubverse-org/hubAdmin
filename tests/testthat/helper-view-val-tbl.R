@@ -113,6 +113,8 @@ gt_attr_names <- function() {
     "_substitutions",
     "_styles",
     "_summary",
+    "_summary_cols",
+    "_summary_cols_build",
     "_options",
     "_transforms",
     "_locale",
