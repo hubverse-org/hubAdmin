@@ -16,9 +16,9 @@ test_that("ci_validate_hub creates message of success", {
   # the results should be true
   local_mocked_bindings(timestamp = broken_clock("NOW"))
   expect_true(
-    ci_validate_hub_config(hub_path = simp, gh_output = out, diff = diff) %>%
-      unlist() %>%
-      all() %>%
+    ci_validate_hub_config(hub_path = simp, gh_output = out, diff = diff) |>
+      unlist() |>
+      all() |>
       suppressMessages()
   )
 
@@ -34,10 +34,10 @@ test_that("ci_validate_hub creates message of success", {
   # the results should be true
   local_mocked_bindings(timestamp = broken_clock("LATER"))
   expect_true(
-    ci_validate_hub_config(hub_path = simp, gh_output = out, diff = diff) %>%
-      unlist() %>%
-      all() %>%
-      suppressMessages() %>%
+    ci_validate_hub_config(hub_path = simp, gh_output = out, diff = diff) |>
+      unlist() |>
+      all() |>
+      suppressMessages() |>
       suppressWarnings()
   )
 
@@ -67,10 +67,10 @@ test_that("ci_validate_hub creates message of failure", {
   # the results should be false
   local_mocked_bindings(timestamp = broken_clock("NOW"))
   expect_false(
-    ci_validate_hub_config(hub_path = err, gh_output = out, diff = diff) %>%
-      unlist() %>%
-      all() %>%
-      suppressMessages() %>%
+    ci_validate_hub_config(hub_path = err, gh_output = out, diff = diff) |>
+      unlist() |>
+      all() |>
+      suppressMessages() |>
       suppressWarnings()
   )
 
@@ -86,10 +86,10 @@ test_that("ci_validate_hub creates message of failure", {
   # the results should be false
   local_mocked_bindings(timestamp = broken_clock("LATER"))
   expect_false(
-    ci_validate_hub_config(hub_path = err, gh_output = out, diff = diff) %>%
-      unlist() %>%
-      all() %>%
-      suppressMessages() %>%
+    ci_validate_hub_config(hub_path = err, gh_output = out, diff = diff) |>
+      unlist() |>
+      all() |>
+      suppressMessages() |>
       suppressWarnings()
   )
 

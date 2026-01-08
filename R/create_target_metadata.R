@@ -52,8 +52,8 @@ check_schema_id_attr <- function(
     ~ attr(.x, attribute)
   )
 
-  unique_n <- schema_id_attr %>%
-    unique() %>%
+  unique_n <- schema_id_attr |>
+    unique() |>
     length()
 
   if (unique_n > 1L) {

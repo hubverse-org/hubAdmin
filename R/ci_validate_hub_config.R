@@ -127,7 +127,7 @@ ci_validate_hub_config <- function(
     writeLines(":white_check_mark: Hub correctly configured!\n", diff)
     timestamp(diff)
   }
-  return(v)
+  v
 }
 
 timestamp <- function(outfile) {

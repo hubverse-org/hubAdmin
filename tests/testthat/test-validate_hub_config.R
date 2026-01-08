@@ -6,9 +6,9 @@ test_that("correct hub validates successfully", {
         "testhubs/simple/",
         package = "hubUtils"
       )
-    ) %>%
-      unlist() %>%
-      all() %>%
+    ) |>
+      unlist() |>
+      all() |>
       suppressMessages()
   )
 })
@@ -20,7 +20,7 @@ test_that("Hub with config errors fails validation", {
       "testdata",
       "error_hub"
     )
-  ) %>%
+  ) |>
     suppressWarnings()
 
   expect_false(all(unlist(val)))

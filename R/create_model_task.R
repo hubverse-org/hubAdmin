@@ -114,7 +114,7 @@ check_target_key_valid <- function(
     return()
   }
 
-  target_keys_names <- purrr::map_chr(target_keys, ~ names(.x)) %>%
+  target_keys_names <- purrr::map_chr(target_keys, ~ names(.x)) |>
     unique()
 
   task_id_names <- names(task_ids[[1]])
@@ -158,15 +158,15 @@ check_task_id_target_key_values <- function(
   target_keys,
   call = rlang::caller_env()
 ) {
-  task_id_values <- unlist(task_ids$task_ids[[target_key_name]]) %>%
-    unique() %>%
+  task_id_values <- unlist(task_ids$task_ids[[target_key_name]]) |>
+    unique() |>
     sort()
 
   target_key_values <- purrr::map_chr(
     target_keys,
     ~ .x[[target_key_name]]
-  ) %>%
-    unique() %>%
+  ) |>
+    unique() |>
     sort()
 
   if (any(task_id_values != target_key_values)) {

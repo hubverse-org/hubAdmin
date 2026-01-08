@@ -271,12 +271,12 @@ get_task_id_values <- function(config_tasks, task_id_name) {
     ~ .x[["model_tasks"]]
   )
 
-  model_tasks %>%
+  model_tasks |>
     purrr::map(
-      ~ .x %>%
+      ~ .x |>
         purrr::map(~ .x[["task_ids"]][[task_id_name]])
-    ) %>%
-    unlist(recursive = FALSE) %>%
+    ) |>
+    unlist(recursive = FALSE) |>
     unlist()
 }
 

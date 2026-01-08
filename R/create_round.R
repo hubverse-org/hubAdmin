@@ -146,9 +146,9 @@ create_round <- function(
     "last_data_date",
     "file_format",
     "derived_task_ids"
-  ) %>%
+  ) |>
     purrr::keep(~ .x %in% names(round_schema))
-  properties <- mget(property_names) %>%
+  properties <- mget(property_names) |>
     purrr::compact()
   property_names <- names(properties)
   properties$model_tasks <- model_tasks$model_tasks
@@ -235,8 +235,8 @@ check_submission_due <- function(
   schema_valid_names <- purrr::map(
     round_schema$submissions_due$oneOf,
     ~ names(.x$properties)
-  ) %>%
-    unlist() %>%
+  ) |>
+    unlist() |>
     unique()
   invalid_properties <- !names(submissions_due) %in% schema_valid_names
 

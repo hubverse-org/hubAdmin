@@ -212,7 +212,7 @@ check_prop_type_const <- function(required, optional) {
   prop_types <- purrr::map_chr(
     c(required, optional),
     ~ typeof(.x)
-  ) %>%
+  ) |>
     unique()
 
   if (length(prop_types) > 1L && !"NULL" %in% prop_types) {

@@ -37,9 +37,9 @@ summarise_errors <- function(x) {
     error_df <- purrr::map2(
       x,
       names(x),
-      ~ compile_errors(.x, .y) %>%
+      ~ compile_errors(.x, .y) |>
         clean_error_df()
-    ) %>%
+    ) |>
       purrr::list_rbind()
     attr(error_df, "path") <- attr(x, "config_dir")
     attr(error_df, "type") <- "directory"
@@ -50,7 +50,7 @@ summarise_errors <- function(x) {
     )
   } else {
     # Process single config file error_tbl
-    error_df <- attr(x, "errors") %>%
+    error_df <- attr(x, "errors") |>
       clean_error_df()
     attr(error_df, "path") <- attr(x, "config_path")
     attr(error_df, "type") <- "file"
@@ -121,18 +121,18 @@ clean_error_df <- function(errors_tbl) {
   # create a clean summary table. We do so by processing each row and then each
   # cell in each row individually, collapsing and concatenating as required by
   # the contents of each cell.
-  error_df <- split(errors_tbl, seq_len(nrow(errors_tbl))) %>%
-    purrr::map(~ flatten_error_tbl_row(.x)) %>%
-    purrr::list_rbind() %>%
-    # split long column names
-    stats::setNames(gsub("\\.", " ", names(.)))
+  error_df <- split(errors_tbl, seq_len(nrow(errors_tbl))) |>
+    purrr::map(~ flatten_error_tbl_row(.x)) |>
+    purrr::list_rbind()
+  # split long column names
+  names(error_df) <- gsub("\\.", " ", names(error_df))
 
   error_df
 }
 
 flatten_error_tbl_row <- function(x) {
-  unlist(x, recursive = FALSE) %>%
-    purrr::map(~ collapse_element(.x)) %>%
+  unlist(x, recursive = FALSE) |>
+    purrr::map(~ collapse_element(.x)) |>
     tibble::as_tibble()
 }
 # Collapse individual cell entries to a single string according to their type.
@@ -149,19 +149,21 @@ collapse_element <- function(x) {
 # oneOf schema column cell formatting.
 dataframe_to_markdown <- function(x) {
   # Process data.frame row by row
-  split(x, seq_len(nrow(x))) %>%
+  rows <- split(x, seq_len(nrow(x))) |>
     purrr::map(
-      ~ unlist(.x, use.names = TRUE) %>%
-        stats::setNames(gsub("properties\\.", "", names(.))) %>%
-        stats::setNames(gsub("\\.", "-", names(.))) %>%
-        remove_null_properties() %>%
-        paste0("**", names(.), ":** ", .) %>%
-        paste(collapse = " \n ")
-    ) %>%
-    unlist(use.names = TRUE) %>%
-    paste0("**", names(.), "** \n ", .) %>%
-    paste(collapse = "\n\n ") %>%
-    gsub("[^']NA", "'NA'", .)
+      function(row) {
+        row <- unlist(row, use.names = TRUE)
+        names(row) <- gsub("properties\\.", "", names(row))
+        names(row) <- gsub("\\.", "-", names(row))
+        row <- remove_null_properties(row)
+        paste0("**", names(row), ":** ", row) |>
+          paste(collapse = " \n ")
+      }
+    ) |>
+    unlist(use.names = TRUE)
+  result <- paste0("**", names(rows), "** \n ", rows) |>
+    paste(collapse = "\n\n ")
+  gsub("[^']NA", "'NA'", result)
 }
 
 # Process vector error tbl cell entries into a single string
@@ -172,7 +174,7 @@ vector_to_character <- function(x) {
   if (length(names(out)) != 0L) {
     out <- paste0(names(out), ": ", out)
   }
-  out %>% paste(collapse = ", ")
+  out |> paste(collapse = ", ")
 }
 
 # In oneOf validation of point estimate output type IDs,
@@ -199,7 +201,7 @@ remove_superfluous_enum_rows <- function(errors_tbl) {
   dup_inst <- duplicated(errors_tbl$instancePath)
 
   if (any(dup_inst)) {
-    dup_idx <- errors_tbl$instancePath[dup_inst] %>%
+    dup_idx <- errors_tbl$instancePath[dup_inst] |>
       purrr::map(~ which(errors_tbl$instancePath == .x))
 
     dup_keywords <- purrr::map(dup_idx, ~ errors_tbl$keyword[.x])
@@ -226,22 +228,22 @@ remove_superfluous_enum_rows <- function(errors_tbl) {
 # Create tree representation of error (instance and schema) paths
 path_to_tree <- function(x) {
   # Split up path and remove blank and root elements
-  paths <- strsplit(x, "/") %>%
-    unlist() %>%
+  paths <- strsplit(x, "/") |>
+    unlist() |>
     as.list()
   paths <- paths[!(paths == "" | paths == "#")]
 
   # Highlight property names and convert from 0 to 1 array index
-  paths <- paths %>%
+  paths <- paths |>
     purrr::map_if(
       !is.na(as.numeric(paths)),
       ~ as.numeric(.x) + 1
-    ) %>%
+    ) |>
     purrr::map_if(
       !paths %in% c("items", "properties"),
       ~ paste0("**", .x, "**")
-    ) %>%
-    unlist() %>%
+    ) |>
+    unlist() |>
     suppressWarnings()
 
   # build path tree
@@ -328,15 +330,15 @@ render_errors_df <- function(error_df) {
   error_df <- escape_pattern_dollar(error_df)
 
   # Create table ----
-  gt::gt(error_df) %>%
+  gt::gt(error_df) |>
     gt::tab_header(
       title = title,
       subtitle = subtitle
-    ) %>%
+    ) |>
     gt::tab_spanner(
       label = gt::md("**Error location**"),
       columns = loc_cols
-    ) %>%
+    ) |>
     gt::tab_spanner(
       label = gt::md("**Schema details**"),
       columns = c(
@@ -344,18 +346,18 @@ render_errors_df <- function(error_df) {
         "message",
         "schema"
       )
-    ) %>%
+    ) |>
     gt::tab_spanner(
       label = gt::md("**Config**"),
       columns = "data"
-    ) %>%
+    ) |>
     gt::fmt_markdown(
       columns = c(
         "instancePath",
         "schemaPath",
         "schema"
       )
-    ) %>%
+    ) |>
     gt::tab_style(
       style = gt::cell_text(whitespace = "pre"),
       locations = gt::cells_body(
@@ -365,11 +367,11 @@ render_errors_df <- function(error_df) {
           "schema"
         )
       )
-    ) %>%
+    ) |>
     gt::tab_style(
       style = gt::cell_text(whitespace = "pre-wrap"),
       locations = gt::cells_body(columns = "schema")
-    ) %>%
+    ) |>
     gt::tab_style(
       style = list(
         gt::cell_fill(color = "#F9E3D6"),
@@ -378,12 +380,12 @@ render_errors_df <- function(error_df) {
       locations = gt::cells_body(
         columns = c("message", "data")
       )
-    ) %>%
+    ) |>
     gt::cols_width(
       "schema" ~ gt::pct(1.5 / 6 * 100),
       "data" ~ gt::pct(1 / 6 * 100),
       "message" ~ gt::pct(1 / 6 * 100)
-    ) %>%
+    ) |>
     gt::cols_align(
       align = "center",
       columns = c(
@@ -391,7 +393,7 @@ render_errors_df <- function(error_df) {
         "message",
         "data"
       )
-    ) %>%
+    ) |>
     gt::tab_options(
       column_labels.font.weight = "bold",
       table.margin.left = gt::pct(2),
@@ -399,7 +401,7 @@ render_errors_df <- function(error_df) {
       data_row.padding = gt::px(5),
       heading.background.color = "#F0F3F5",
       column_labels.background.color = "#F0F3F5"
-    ) %>%
+    ) |>
     gt::tab_source_note(
       source_note = gt::md(
         "For more information, please consult the

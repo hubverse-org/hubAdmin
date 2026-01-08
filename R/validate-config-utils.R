@@ -70,7 +70,7 @@ val_model_task_grp_target_metadata <- function(
   invalid_target_key_names <- purrr::map(
     grp_target_keys,
     ~ find_invalid_target_keys(.x, model_task_grp)
-  ) %>%
+  ) |>
     unlist(use.names = FALSE)
 
   # If any do not correspond, run validation function to generate errors rows.
@@ -86,7 +86,7 @@ val_model_task_grp_target_metadata <- function(
         round_i = round_i,
         schema = schema
       )
-    ) %>%
+    ) |>
       purrr::list_rbind()
   } else {
     errors_check_2 <- NULL
@@ -109,7 +109,7 @@ val_model_task_grp_target_metadata <- function(
       round_i = round_i,
       schema = schema
     )
-  ) %>%
+  ) |>
     purrr::list_rbind()
 
   # Check that the unique values in the required & optional property arrays
@@ -146,7 +146,7 @@ val_target_key_names_const <- function(
   round_i,
   schema
 ) {
-  target_key_names <- purrr::map(grp_target_keys, ~ names(.x)) %>%
+  target_key_names <- purrr::map(grp_target_keys, ~ names(.x)) |>
     purrr::map_if(~ !is.null(.x), ~.x, .else = ~"null")
 
   if (length(unique(target_key_names)) > 1) {
@@ -165,7 +165,7 @@ val_target_key_names_const <- function(
       data = glue::glue(
         "target_key_{seq_along(target_key_names)}: {purrr::map_chr(target_key_names,
         ~paste(.x, collapse = ','))}"
-      ) %>%
+      ) |>
         glue::glue_collapse(sep = ";  ")
     )
     return(error_row)
@@ -275,9 +275,9 @@ val_target_key_values <- function(
 
   task_id_values <- purrr::map(
     names(valid_target_keys),
-    ~ model_task_grp[["task_ids"]][[.x]] %>%
+    ~ model_task_grp[["task_ids"]][[.x]] |>
       unlist(recursive = TRUE, use.names = FALSE)
-  ) %>%
+  ) |>
     purrr::set_names(names(valid_target_keys))
 
   is_invalid_target_key <- purrr::map2_lgl(
@@ -319,8 +319,8 @@ val_target_key_task_id_values <- function(
   schema
 ) {
   # Get unique values of target key names
-  target_key_names <- purrr::map(grp_target_keys, ~ names(.x)) %>%
-    unique() %>%
+  target_key_names <- purrr::map(grp_target_keys, ~ names(.x)) |>
+    unique() |>
     unlist()
 
   # Identify target_key_names that are valid task id properties
@@ -330,15 +330,15 @@ val_target_key_task_id_values <- function(
 
   # Get list of unique task id values across both required & optional arrays
   # for each valid target key.
-  task_id_values <- model_task_grp[["task_ids"]][val_target_key_names] %>%
-    purrr::map(~ unlist(.x, use.names = FALSE)) %>%
-    unique() %>%
+  task_id_values <- model_task_grp[["task_ids"]][val_target_key_names] |>
+    purrr::map(~ unlist(.x, use.names = FALSE)) |>
+    unique() |>
     purrr::set_names(val_target_key_names)
 
   # Get list of target key values for each valid target key.
   target_key_values <- purrr::map(
     purrr::set_names(val_target_key_names),
-    ~ get_all_grp_target_key_values(.x, grp_target_keys) %>%
+    ~ get_all_grp_target_key_values(.x, grp_target_keys) |>
       unique()
   )
 
@@ -348,12 +348,12 @@ val_target_key_task_id_values <- function(
     .x = task_id_values,
     .y = target_key_values,
     ~ !.x %in% .y
-  ) %>%
+  ) |>
     purrr::map2(
       task_id_values,
       ~ .y[.x]
-    ) %>%
-    purrr::compact() %>%
+    ) |>
+    purrr::compact() |>
     purrr::map_chr(~ paste(.x, collapse = ", "))
 
   if (length(invalid_task_id_values) != 0) {
@@ -422,7 +422,7 @@ get_round_task_ids <- function(round) {
 
 find_invalid_target_keys <- function(target_keys, model_task_grp) {
   !names(target_keys) %in%
-    get_grp_task_ids(model_task_grp) %>%
+    get_grp_task_ids(model_task_grp) |>
     stats::setNames(names(target_keys))
 }
 
@@ -564,8 +564,8 @@ validate_mt_property_unique_vals <- function(
     task_ids = model_task_grp[["task_ids"]],
     output_type = model_task_grp[["output_type"]][
       c("quantile", "cdf", "pmf")
-    ] %>%
-      purrr::compact() %>%
+    ] |>
+      purrr::compact() |>
       purrr::map(
         ~ if ("type_id" %in% names(.x)) {
           .x[["type_id"]]
@@ -586,11 +586,11 @@ validate_mt_property_unique_vals <- function(
         dups
       }
     }
-  ) %>%
+  ) |>
     purrr::compact()
 
   if (length(dup_properties) == 0L) {
-    return(NULL)
+    NULL
   } else {
     purrr::imap(
       dup_properties,
@@ -604,7 +604,7 @@ validate_mt_property_unique_vals <- function(
         schema = "",
         data = glue::glue("duplicate values: {paste(.x, collapse = ', ')}")
       )
-    ) %>%
+    ) |>
       purrr::list_rbind()
   }
 }
@@ -689,7 +689,7 @@ validate_round_ids_consistent <- function(round, round_i, schema) {
       check <- all.equal(mt[[1]], mt[[.x]])
       if (is.logical(check) && check) NULL else check
     }
-  ) %>%
+  ) |>
     purrr::compact()
 
   if (length(checks) == 0L) {
@@ -711,8 +711,8 @@ validate_round_ids_consistent <- function(round, round_i, schema) {
       schema = "",
       data = glue::glue("{.x} compared to first model task item")
     )
-  ) %>%
-    purrr::list_rbind() %>%
+  ) |>
+    purrr::list_rbind() |>
     as.data.frame()
 }
 
@@ -806,29 +806,30 @@ validate_round_ids_unique <- function(config_tasks, schema) {
       config_tasks = config_tasks,
       schema = schema
     )
-  ) %>%
+  ) |>
     purrr::list_rbind()
 }
 
+#' @importFrom utils tail
 dup_round_id_error_df <- function(dup_round_id, config_tasks, schema) {
   dup_round_idx <- purrr::imap(
     hubUtils::get_round_ids(config_tasks, flatten = "model_task"),
     ~ {
       if (dup_round_id %in% .x) .y else NULL
     }
-  ) %>%
-    purrr::compact() %>%
-    unlist() %>%
-    `[`(-1L)
+  ) |>
+    purrr::compact() |>
+    unlist() |>
+    tail(-1L)
 
   dup_mt_idx <- purrr::map(
     dup_round_idx,
-    ~ hubUtils::get_round_ids(config_tasks, flatten = "task_id")[[.x]] %>%
+    ~ hubUtils::get_round_ids(config_tasks, flatten = "task_id")[[.x]] |>
       purrr::imap_int(
         ~ {
           if (dup_round_id %in% .x) .y else NULL
         }
-      ) %>%
+      ) |>
       purrr::compact()
   )
 
@@ -860,8 +861,8 @@ dup_round_id_error_df <- function(dup_round_id, config_tasks, schema) {
       schema = "",
       data = glue::glue("duplicate value: {dup_round_id}")
     )
-  ) %>%
-    purrr::list_rbind() %>%
+  ) |>
+    purrr::list_rbind() |>
     as.data.frame()
 }
 
@@ -1069,12 +1070,12 @@ is_null_task_id <- function(task_id_name, config_tasks) {
   purrr::map(
     config_tasks[["rounds"]],
     ~ .x[["model_tasks"]]
-  ) %>%
+  ) |>
     purrr::map(
-      ~ .x %>%
+      ~ .x |>
         purrr::map(~ .x[["task_ids"]][[task_id_name]])
-    ) %>% # nolint: indentation_linter
-    unlist(use.names = FALSE) %>%
+    ) |> # nolint: indentation_linter
+    unlist(use.names = FALSE) |>
     is.null()
 }
 

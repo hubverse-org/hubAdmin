@@ -91,8 +91,8 @@ validate_config <- function(
 
   # Get the latest version available in our GitHub schema repo
   if (schema_version == "latest") {
-    schema_version <- hubUtils::get_schema_valid_versions(branch = branch) %>%
-      sort() %>%
+    schema_version <- hubUtils::get_schema_valid_versions(branch = branch) |>
+      sort() |>
       utils::tail(1)
   }
 
@@ -137,7 +137,7 @@ validate_config <- function(
   }
 
   class(validation) <- "conval"
-  return(validation)
+  validation
 }
 
 
@@ -309,7 +309,7 @@ perform_tasks_dynamic_validations <- function(validation) {
       validate_config_derived_task_ids(config_json, schema),
       validate_unique_names_recursive(config_json, schema = schema)
     )
-  ) %>%
+  ) |>
     purrr::list_rbind()
 
   if (nrow(errors_tbl) > 0) {
@@ -412,6 +412,6 @@ val_round <- function(round, round_i, schema) {
         schema = schema
       )
     )
-  ) %>%
+  ) |>
     purrr::list_rbind()
 }

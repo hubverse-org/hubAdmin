@@ -342,7 +342,7 @@ check_oneof_input <- function(
         x
       }
     }
-  ) %>%
+  ) |>
     unlist(recursive = FALSE)
 
   value_types <- c("character", "double", "integer")

@@ -103,7 +103,7 @@ create_config <- function(
       rounds = rounds$rounds,
       output_type_id_datatype = output_type_id_datatype,
       derived_task_ids = derived_task_ids
-    ) %>%
+    ) |>
       purrr::compact(), # remove output_type_id_datatype if NULL
     class = c("config", "list"),
     type = "tasks",
