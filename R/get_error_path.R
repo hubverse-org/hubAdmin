@@ -56,12 +56,11 @@ get_error_path <- function(
     return(element)
   }
   # Create a character vector of schema paths
-  schema_paths <- schema %>%
-    jsonlite::fromJSON(simplifyDataFrame = FALSE) %>%
-    unlist(recursive = TRUE, use.names = TRUE) %>%
-    names() %>%
-    gsub("\\.", "/", .) %>%
-    paste0("/", .)
+  schema_paths <- schema |>
+    jsonlite::fromJSON(simplifyDataFrame = FALSE) |>
+    unlist(recursive = TRUE, use.names = TRUE) |>
+    names()
+  schema_paths <- paste0("/", gsub("\\.", "/", schema_paths))
 
   # Subset to the schema paths to the element in question. By sub-setting to the `type[0-9]`
   # path associated with a property, we ensure we limit to a leaf path (not
@@ -70,10 +69,10 @@ get_error_path <- function(
     paste0(".*", element, "/type([0-9])?$"),
     schema_paths,
     value = TRUE
-  ) %>%
-    # here we remove the unnecessary `type[0-9]` part of the path we used to ensure
-    # a leaf path.
-    gsub("/type([0-9])?", "", .) %>%
+  )
+  # here we remove the unnecessary `type[0-9]` part of the path we used to ensure
+  # a leaf path.
+  path <- gsub("/type([0-9])?", "", path) |>
     unique() |>
     detect_first()
 
@@ -84,8 +83,8 @@ get_error_path <- function(
       paste0(".*", "/task_ids", "/type([0-9])?$"),
       schema_paths,
       value = TRUE
-    ) %>%
-      gsub("/type([0-9])?", "", .) %>%
+    )
+    task_ids_paths <- gsub("/type([0-9])?", "", task_ids_paths) |>
       unique()
 
     # Error if we found multiple paths (indicates regex bug from missing leading /)
@@ -115,8 +114,8 @@ get_error_path <- function(
       ".*task_ids/additionalProperties/type([0-9])?$",
       schema_paths,
       value = TRUE
-    ) %>%
-      gsub("/type([0-9])?", "", .) %>%
+    )
+    path <- gsub("/type([0-9])?", "", path) |>
       unique()
   }
 
@@ -147,8 +146,8 @@ generate_instance_path_glue <- function(path) {
     "{model_task_i - 1}",
     "{target_key_i - 1}"
   )
-  split_path <- gsub("properties/", "", path) %>%
-    strsplit("/") %>%
+  split_path <- gsub("properties/", "", path) |>
+    strsplit("/") |>
     unlist()
   is_item <- split_path == "items"
   n_item_props <- sum(is_item)

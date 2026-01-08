@@ -32,54 +32,54 @@ expect_tab <- function(tab) {
   expect_s3_class(gt:::dt_options_get(data = tab), "data.frame")
   expect_type(gt:::dt_transforms_get(data = tab), "list")
 
-  (gt:::dt_boxhead_get(data = tab) %>%
-    dim())[2] %>% # nolint: indentation_linter
+  (gt:::dt_boxhead_get(data = tab) |>
+    dim())[2] |> # nolint: indentation_linter
     expect_equal(8)
 
-  gt:::dt_stub_df_get(data = tab) %>%
-    dim() %>%
+  gt:::dt_stub_df_get(data = tab) |>
+    dim() |>
     expect_equal(c(3, 6))
 
-  gt:::dt_heading_get(data = tab) %>%
-    length() %>%
+  gt:::dt_heading_get(data = tab) |>
+    length() |>
     expect_equal(3)
 
-  gt:::dt_spanners_get(data = tab) %>%
-    dim() %>%
+  gt:::dt_spanners_get(data = tab) |>
+    dim() |>
     expect_equal(c(3, 8))
 
-  gt:::dt_stubhead_get(data = tab) %>%
-    length() %>%
+  gt:::dt_stubhead_get(data = tab) |>
+    length() |>
     expect_equal(1)
 
-  gt:::dt_footnotes_get(data = tab) %>%
-    dim() %>%
+  gt:::dt_footnotes_get(data = tab) |>
+    dim() |>
     expect_equal(c(0, 8))
 
-  gt:::dt_source_notes_get(data = tab) %>%
-    length() %>%
+  gt:::dt_source_notes_get(data = tab) |>
+    length() |>
     expect_equal(1)
 
-  gt:::dt_formats_get(data = tab) %>%
-    length() %>%
+  gt:::dt_formats_get(data = tab) |>
+    length() |>
     expect_equal(1)
 
-  gt:::dt_substitutions_get(data = tab) %>%
-    length() %>%
+  gt:::dt_substitutions_get(data = tab) |>
+    length() |>
     expect_equal(0)
 
-  gt:::dt_styles_get(data = tab) %>%
-    dim() %>%
+  gt:::dt_styles_get(data = tab) |>
+    dim() |>
     expect_equal(c(18, 7))
 
-  gt:::dt_transforms_get(data = tab) %>%
-    length() %>%
+  gt:::dt_transforms_get(data = tab) |>
+    length() |>
     expect_equal(0)
 
   # Expect that extracted df has the same number of
   # rows as the original dataset
   expect_equal(
-    tab %>% gt:::dt_data_get() %>% nrow(),
+    tab |> gt:::dt_data_get() |> nrow(),
     3
   )
 

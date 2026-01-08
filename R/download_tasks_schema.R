@@ -31,8 +31,8 @@ download_tasks_schema <- function(
 
   # Get the latest version available in our GitHub schema repos
   if (schema_version == "latest") {
-    schema_version <- hubUtils::get_schema_valid_versions(branch = branch) %>%
-      sort() %>%
+    schema_version <- hubUtils::get_schema_valid_versions(branch = branch) |>
+      sort() |>
       utils::tail(1)
   }
 

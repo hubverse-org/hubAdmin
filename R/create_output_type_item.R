@@ -182,7 +182,7 @@ create_output_type_point <- function(
     type = value_type,
     minimum = value_minimum,
     maximum = value_maximum
-  ) %>%
+  ) |>
     purrr::compact()
 
   check_properties_scalar(
@@ -450,7 +450,7 @@ create_output_type_sample <- function(
         min_samples_per_task = min_samples_per_task,
         max_samples_per_task = max_samples_per_task,
         compound_taskid_set = compound_taskid_set
-      ) %>%
+      ) |>
         purrr::compact()
     )
   } else {
@@ -464,7 +464,7 @@ create_output_type_sample <- function(
         min_samples_per_task = min_samples_per_task,
         max_samples_per_task = max_samples_per_task,
         compound_taskid_set = compound_taskid_set
-      ) %>%
+      ) |>
         purrr::compact(),
       # separate `is_required` out from `output_type_id_params` in versions v4
       # and later.
@@ -497,7 +497,7 @@ create_output_type_sample <- function(
     type = value_type,
     minimum = value_minimum,
     maximum = value_maximum
-  ) %>%
+  ) |>
     purrr::compact()
 
   value_schema <- purrr::pluck(
@@ -637,7 +637,7 @@ create_output_type_dist <- function(
     type = value_type,
     minimum = value_minimum,
     maximum = value_maximum
-  ) %>%
+  ) |>
     purrr::compact()
 
   value_schema <- purrr::pluck(

@@ -137,5 +137,5 @@ validate_schema_version_property <- function(
     )
   }
 
-  return(validation)
+  validation
 }

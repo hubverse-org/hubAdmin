@@ -59,9 +59,9 @@ validate_hub_config <- function(
       schema_version = schema_version,
       branch = branch
     )
-  ) %>%
-    purrr::set_names(configs) %>%
-    suppressMessages() %>%
+  ) |>
+    purrr::set_names(configs) |>
+    suppressMessages() |>
     suppressWarnings()
 
   # Throw error if schema urls do not resolve to the same schema version directory.
@@ -78,7 +78,7 @@ validate_hub_config <- function(
       ".json} schema version: {.url ",
       schema_url_dirnames,
       "}"
-    ) %>%
+    ) |>
       stats::setNames(rep("*", length(schema_url_dirnames)))
 
     cli::cli_abort(c(
@@ -91,7 +91,7 @@ validate_hub_config <- function(
   schema_version <- purrr::map_chr(
     validations,
     ~ attr(.x, "schema_version")
-  ) %>%
+  ) |>
     unique()
 
   # Add model metadata schema validations
@@ -99,8 +99,8 @@ validate_hub_config <- function(
     "model-metadata-schema"
   ]] <- validate_model_metadata_schema(
     hub_path
-  ) %>%
-    suppressMessages() %>%
+  ) |>
+    suppressMessages() |>
     suppressWarnings()
 
   # Issue warning if validation errors detected in any of the config files.
@@ -137,5 +137,5 @@ validate_hub_config <- function(
   )
   class(validations) <- "hubval"
 
-  return(validations)
+  validations
 }

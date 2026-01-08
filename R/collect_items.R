@@ -93,7 +93,7 @@ check_items_unique <- function(items, item_class, call = rlang::caller_env()) {
       " {.val {",
       duplicate_of,
       "L}}"
-    ) %>%
+    ) |>
       stats::setNames(rep("x", length(duplicate_of)))
 
     cli::cli_abort(
@@ -109,6 +109,6 @@ find_duplicate_of <- function(duplicated_item, duplicate_idx, items) {
   which(purrr::map_lgl(
     items,
     ~ identical(.x, duplicated_item)
-  )) %>%
+  )) |>
     utils::head(1)
 }

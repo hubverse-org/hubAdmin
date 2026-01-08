@@ -133,7 +133,7 @@ schema_autobox <- function(config, box_extra_paths = NULL) {
       )
     }
   }
-  return(config)
+  config
 }
 
 #' Get potential paths to properties in a config file that can be arrays from a hubverse schema

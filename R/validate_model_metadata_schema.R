@@ -58,8 +58,8 @@ validate_model_metadata_schema <- function(hub_path = ".") {
   attr(validation, "schema_version") <- NULL
   attr(validation, "schema_url") <- NULL
 
-  properties <- hubUtils::read_config(hub_path, "model-metadata-schema") %>%
-    purrr::pluck("properties") %>%
+  properties <- hubUtils::read_config(hub_path, "model-metadata-schema") |>
+    purrr::pluck("properties") |>
     names()
 
   if (
@@ -82,5 +82,5 @@ validate_model_metadata_schema <- function(hub_path = ".") {
     attr(validation, "errors") <- errors_tbl
   }
   class(validation) <- "conval"
-  return(validation)
+  validation
 }
