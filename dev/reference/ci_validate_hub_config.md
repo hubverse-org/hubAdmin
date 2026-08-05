@@ -146,15 +146,15 @@ ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 #> 
 #> ── $tasks 
 #> [1] TRUE
-#> ✔ ok:  hub-config/tasks.json (<file:///tmp/RtmpCQvnzo/file1d345ec7655b/simple/hub-config/tasks.json>) (via tasks-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+#> ✔ ok:  hub-config/tasks.json (<file:///tmp/RtmpwKUox3/file1d933761ecfc/simple/hub-config/tasks.json>) (via tasks-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
 #> 
 #> ── $admin 
 #> [1] TRUE
-#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpCQvnzo/file1d345ec7655b/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
+#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpwKUox3/file1d933761ecfc/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
 #> 
 #> ── $model-metadata-schema 
 #> [1] TRUE
-#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpCQvnzo/file1d345ec7655b/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpCQvnzo/file1d345ec7655b/simple/hub-config/model-metadata-schema.json>))
+#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpwKUox3/file1d933761ecfc/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpwKUox3/file1d933761ecfc/simple/hub-config/model-metadata-schema.json>))
 # result is true
 readLines(out)
 #> [1] "result=true"
@@ -162,7 +162,7 @@ readLines(out)
 readLines(diff)
 #> [1] ":white_check_mark: Hub correctly configured!"
 #> [2] ""                                            
-#> [3] "2026-01-08 17:09:39 UTC"                     
+#> [3] "2026-08-05 14:13:25 UTC"                     
 
 # Results from an invalid hub --------------------------------------
 # reset output file
@@ -183,18 +183,18 @@ ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 #> ── $tasks 
 #> [1] FALSE
 #> ! 4 schema errors: hub-config/tasks.json
-#>   (<file:///tmp/RtmpCQvnzo/file1d345ec7655b/simple/hub-config/tasks.json>) (via
+#>   (<file:///tmp/RtmpwKUox3/file1d933761ecfc/simple/hub-config/tasks.json>) (via
 #>   tasks-schema v2.0.0
 #>   (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
 #> ℹ use `view_config_val_errors()` to view table of error details.
 #> 
 #> ── $admin 
 #> [1] TRUE
-#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpCQvnzo/file1d345ec7655b/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
+#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpwKUox3/file1d933761ecfc/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
 #> 
 #> ── $model-metadata-schema 
 #> [1] TRUE
-#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpCQvnzo/file1d345ec7655b/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpCQvnzo/file1d345ec7655b/simple/hub-config/model-metadata-schema.json>))
+#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpwKUox3/file1d933761ecfc/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpwKUox3/file1d933761ecfc/simple/hub-config/model-metadata-schema.json>))
 # result is now false
 readLines(out)
 #> [1] "result=false"
@@ -204,7 +204,7 @@ head(readLines(diff))
 #> [2] ""                                                                                                                                                                 
 #> [3] ""                                                                                                                                                                 
 #> [4] "Errors were detected in one or more config files in `hub-config/`. Details about the exact locations of the errors can be found in the table below."              
-#> [5] "<div id=\"efoodfieex\" style=\"padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;\">"
+#> [5] "<div id=\"mwlefoodfi\" style=\"padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;\">"
 #> [6] "  "                                                                                                                                                               
 tail(readLines(diff))
 #> [1] "<a href=\"https://docs.hubverse.io/en/latest/\" style=\"margin-top: 0; margin-bottom: 0;\"><strong><code>hubDocs</code> documentation</strong>.</a></span></td>"
@@ -212,5 +212,5 @@ tail(readLines(diff))
 #> [3] "  </tfoot>"                                                                                                                                                     
 #> [4] "</table>"                                                                                                                                                       
 #> [5] "</div>"                                                                                                                                                         
-#> [6] "2026-01-08 17:09:40 UTC"                                                                                                                                        
+#> [6] "2026-08-05 14:13:25 UTC"                                                                                                                                        
 ```

@@ -114,7 +114,7 @@ validate_config(config_path = config_path, config = "tasks")
 #> v2.0.0 was deprecated in hubUtils 0.0.0.9010.
 #> ℹ Please upgrade Hub config files to conform to, at minimum, version v2.0.0 as
 #>   soon as possible.
-#> This warning is displayed once every 8 hours.
+#> This warning is displayed once per session.
 #> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 #> generated.
 #> [1] FALSE
