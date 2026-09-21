@@ -281,6 +281,7 @@ perform_target_data_dynamic_validations <- function(validation) {
 #' - Sample output type parameter validation (range, compound task IDs)
 #' - Derived task ID validation
 #' - Duplicate property name detection at all config levels
+#' - Modeling tasks within a round being distinguishable from each other
 #'
 #' @param validation validation object returned by jsonvalidate::json_validate().
 #'
@@ -299,7 +300,8 @@ perform_tasks_dynamic_validations <- function(validation) {
       ~ val_round(
         round = .x,
         round_i = .y,
-        schema = schema
+        schema = schema,
+        derived_task_ids = get_round_derived_task_ids(.x, config_json)
       )
     ),
     # Perform config level validation
@@ -325,7 +327,7 @@ perform_tasks_dynamic_validations <- function(validation) {
 }
 
 ## Dynamic schema validation utilities ----
-val_round <- function(round, round_i, schema) {
+val_round <- function(round, round_i, schema, derived_task_ids) {
   model_task_grps <- round[["model_tasks"]]
   round_id_from_variable <- round[["round_id_from_variable"]]
   round_id_var <- round[["round_id"]]
@@ -410,6 +412,12 @@ val_round <- function(round, round_i, schema) {
         round = round,
         round_i = round_i,
         schema = schema
+      ),
+      validate_round_mts_distinguishable(
+        round = round,
+        round_i = round_i,
+        schema = schema,
+        derived_task_ids = derived_task_ids
       )
     )
   ) |>

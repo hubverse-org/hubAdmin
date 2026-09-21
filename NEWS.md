@@ -1,5 +1,7 @@
 # hubAdmin (development version)
 
+* `validate_config()` now reports an error when two modeling tasks in a round are not distinguishable, that is, when no task ID, output type or output type ID separates them, so a row of model output could belong to either. The error names the task IDs on which the two modeling tasks differ but still have values in common, and the output types in common. Derived task IDs do not count towards distinguishing modeling tasks, as their values are determined by the task IDs they are derived from (#157).
+
 # hubAdmin 1.9.0
 
 * Fixed bug that caused unhelpful validation errors when using custom task IDs (e.g., `reference_date`) as round ID variables with inconsistent values across model tasks in schema versions v4.0.0+.
