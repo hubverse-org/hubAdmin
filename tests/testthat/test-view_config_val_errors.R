@@ -7,12 +7,23 @@ test_that("Errors report launch successful", {
   set.seed(1)
   tbl <- view_config_val_errors(validation)
 
-  # Expect that the `gt_tbl` validation object has all of the
-  # usual components and that they have all of the
-  # expected dimensions and features
-  # Tests adapted from gt package tests:
-  # https://github.com/rstudio/gt/blob/master/tests/testthat/test-gt_object.R
-  expect_tab(tbl)
+  expect_s3_class(tbl, "gt_tbl")
+  expect_named(
+    tbl$`_data`,
+    c("instancePath", "schemaPath", "keyword", "message", "schema", "data")
+  )
+  expect_equal(
+    vapply(tbl$`_spanners`$spanner_label, as.character, character(1)),
+    c("**Error location**", "**Schema details**", "**Config**")
+  )
+  expect_equal(
+    tbl$`_spanners`$vars,
+    list(
+      c("instancePath", "schemaPath"),
+      c("keyword", "message", "schema"),
+      "data"
+    )
+  )
   expect_snapshot(tbl$`_source_notes`)
   expect_snapshot(tbl$`_heading`)
   expect_snapshot(str(tbl$`_data`))
