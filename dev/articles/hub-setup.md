@@ -1,6 +1,7 @@
 # Setting up a Hub
 
 ``` r
+
 library(hubAdmin)
 ```
 
@@ -46,6 +47,7 @@ version specified in the `schema_version` property of the config file
 being validated.
 
 ``` r
+
 validate_config(
   hub_path = system.file("testhubs/simple/", package = "hubUtils"),
   config = "tasks"
@@ -69,6 +71,7 @@ The function defaults to using stable schema versions released to the
 (e.g. an upcoming development version) through argument `branch`.
 
 ``` r
+
 validate_config(
   hub_path = system.file("testhubs/simple/", package = "hubUtils"),
   config = "tasks",
@@ -83,6 +86,7 @@ validate_config(
 ```
 
 ``` r
+
 validate_config(
   hub_path = system.file("testhubs/simple/", package = "hubUtils"),
   config = "tasks",
@@ -103,12 +107,14 @@ additional list dataframe of errors returned by the `ajv` validation
 engine used is also attached as attribute `"errors"`.
 
 ``` r
+
 config_path <- system.file("error-schema/tasks-errors.json",
   package = "hubUtils"
 )
 ```
 
 ``` r
+
 validate_config(config_path = config_path, config = "tasks")
 #> Warning: Hub configured using schema version v0.0.0.9. Support for schema earlier than
 #> v2.0.0 was deprecated in hubUtils 0.0.0.9010.
@@ -132,6 +138,7 @@ to launch a more user friendly and concise version of the errors table
 in the Viewer panel in Rstudio.
 
 ``` r
+
 validation <- validate_config(config_path = config_path, config = "tasks")
 view_config_val_errors(validation)
 ```
@@ -162,6 +169,7 @@ results of the validation checks for each file. By default it uses
 are not using the same schema version.
 
 ``` r
+
 validate_hub_config(
   hub_path = system.file("testhubs/simple/", package = "hubUtils")
 )
@@ -187,6 +195,7 @@ You can also use the function to validate a Hub’s config against the
 latest version of the schema.
 
 ``` r
+
 validate_config(
   hub_path = system.file("testhubs/simple/", package = "hubUtils"),
   schema_version = "latest"

@@ -111,6 +111,7 @@ setting the `hubAdmin.schema_version` option. In this example, we will
 use the `v5.0.0` schema:
 
 ``` r
+
 library(hubAdmin)
 options(hubAdmin.schema_version = "v5.0.0")
 ```
@@ -122,6 +123,7 @@ The `target_metadata` provides both human-readable (`target_name` and
 `is_step_ahead`) information about the targets.
 
 ``` r
+
 target_metadata_hosp <- create_target_metadata_item(
   target_id = "inc hosp",
   target_name = "Weekly incident influenza hospitalizations",
@@ -150,6 +152,7 @@ appears as a class `target_metadata_item` with additional attributes
 about the schema that created it:
 
 ``` r
+
 str(target_metadata_hosp)
 #> List of 7
 #>  $ target_id    : chr "inc hosp"
@@ -169,6 +172,7 @@ Likewise, `target_metadata` is a combination of `target_metadata_hosp`,
 and `target_metadata_death`:
 
 ``` r
+
 str(target_metadata)
 #> List of 1
 #>  $ target_metadata:List of 2
@@ -204,6 +208,7 @@ sooner. For example, some of the values are interdependent and if you
 accidentally leave one out, the function will provide a helpful error:
 
 ``` r
+
 create_target_metadata_item(
   target_id = "inc hosp",
   target_name = "Weekly incident influenza hospitalizations",
@@ -230,6 +235,7 @@ up to 4-week-ahead predictions, and also provide predictions for the
 “weekly incident influenza deaths” target (`inc death`).
 
 ``` r
+
 origin_date <- create_task_id(
   "origin_date",
   required = NULL,
@@ -266,6 +272,7 @@ output types. Specifically, target `"inc hosp"` will only accept
 accept `"mean"` and `"quantile"` output types.
 
 ``` r
+
 mean_out_type <- create_output_type_mean(
   is_required = TRUE,
   value_type = "double",
@@ -292,6 +299,7 @@ combine them to create `output_type` class objects that we want to use
 for each particular target.
 
 ``` r
+
 output_type_mean_median <- create_output_type(mean_out_type, median_out_type)
 
 output_type_mean_quantile <- create_output_type(mean_out_type, quantile_out_type)
@@ -304,6 +312,7 @@ tasks, but we want a “quantile” output type for the `inc death` target
 and an optional “median” for the `inc hosp` target.
 
 ``` r
+
 model_task_hosp <- create_model_task(
   task_ids = task_ids_example,
   output_type = output_type_mean_median,
@@ -340,6 +349,7 @@ submission dates for that round are from Thursday 2022-12-29 to
 Wednesday 2023-01-04
 
 ``` r
+
 round1 <- create_round(
   round_id_from_variable = TRUE,
   round_id = "origin_date",
@@ -374,6 +384,7 @@ sample or PMF outputs into our hub, so we will set the data type to
 “double”
 
 ``` r
+
 config <- create_config(rounds, output_type_id_datatype = "double")
 
 write_config(config)
@@ -384,6 +395,7 @@ write_config(config)
 contents of `hub-config/tasks.json`
 
 ``` json
+
 {
   "schema_version": "https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json",
   "rounds": [
@@ -568,6 +580,7 @@ To check that your configuration file is valid, you can use the
 function from the root directory of your hub:
 
 ``` r
+
 validate_config(config = "tasks")
 ```
 
