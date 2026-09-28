@@ -21,7 +21,8 @@ variable.}
 
 \item{diff}{path to a file (defaults to \code{stdout()}) that will contain a user
 facing message with a time stamp that shows if the hub was correctly
-configured along with the output of \code{\link[=view_config_val_errors]{view_config_val_errors()}} (if any).}
+configured along with the errors table rendered by
+\code{\link[=render_config_val_errors_html]{render_config_val_errors_html()}} (if any).}
 
 \item{...}{
   Arguments passed on to \code{\link[=validate_hub_config]{validate_hub_config}}
@@ -54,14 +55,17 @@ You can print a more concise and easier to view version of an errors table with
 A continuous integration helper
 }
 \details{
-This function is to be used within a continuous integration context. You can
-find this used in the \href{https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config}{\code{validate-config} hubverse workflow}.
-To use the workflow with your own hub, you can use
-\code{hubCI::use_hub_github_action('validate-config')}
+This function is to be used within a continuous integration context, in a
+workflow that checks the validity of a hub's configuration files.
 
-This function is intended to be used in a workflow that checks the validity
-of a hub's configuration files. Below is an excerpt of steps on GitHub
-Actions where the environment variables \code{PR_NUMBER} and \code{HUB_PATH} have been
+The hubverse \href{https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config}{\code{validate-config} action}
+is the recommended way to validate a hub's config on pull requests. It posts
+the report as a comment, writes it to the job summary as well and handles
+pull requests from forks. To add it to a hub, use
+\code{hubCI::use_hub_github_action('validate-config')}.
+
+Below is an excerpt of steps on GitHub Actions using this function directly,
+where the environment variables \code{PR_NUMBER} and \code{HUB_PATH} have been
 defined:
 
 \if{html}{\out{<div class="sourceCode yaml">}}\preformatted{     - uses: actions/checkout@v4
@@ -80,7 +84,7 @@ defined:
        id: validate
        run: |
          diff_path <- file.path(Sys.getenv("HUB_PATH"), "diff.md")
-         hubAdmin::ci_validate_config(diff = diff_path)
+         hubAdmin::ci_validate_hub_config(diff = diff_path)
        shell: Rscript \{0\}
      - name: "Comment on PR"
        id: comment-diff

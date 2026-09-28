@@ -9,20 +9,24 @@
 #'   variable.
 #' @param diff path to a file (defaults to `stdout()`) that will contain a user
 #'   facing message with a time stamp that shows if the hub was correctly
-#'   configured along with the output of [view_config_val_errors()] (if any).
+#'   configured along with the errors table rendered by
+#'   [render_config_val_errors_html()] (if any).
 #' @inheritDotParams validate_hub_config
 #' @inherit validate_hub_config return
 #'
 #' @details
-#' This function is to be used within a continuous integration context. You can
-#' find this used in the [`validate-config` hubverse
-#' workflow](https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config).
-#' To use the workflow with your own hub, you can use
-#' `hubCI::use_hub_github_action('validate-config')`
+#' This function is to be used within a continuous integration context, in a
+#' workflow that checks the validity of a hub's configuration files.
 #'
-#' This function is intended to be used in a workflow that checks the validity
-#' of a hub's configuration files. Below is an excerpt of steps on GitHub
-#' Actions where the environment variables `PR_NUMBER` and `HUB_PATH` have been
+#' The hubverse [`validate-config`
+#' action](https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config)
+#' is the recommended way to validate a hub's config on pull requests. It posts
+#' the report as a comment, writes it to the job summary as well and handles
+#' pull requests from forks. To add it to a hub, use
+#' `hubCI::use_hub_github_action('validate-config')`.
+#'
+#' Below is an excerpt of steps on GitHub Actions using this function directly,
+#' where the environment variables `PR_NUMBER` and `HUB_PATH` have been
 #' defined:
 #'
 #' ```yaml
@@ -42,7 +46,7 @@
 #'        id: validate
 #'        run: |
 #'          diff_path <- file.path(Sys.getenv("HUB_PATH"), "diff.md")
-#'          hubAdmin::ci_validate_config(diff = diff_path)
+#'          hubAdmin::ci_validate_hub_config(diff = diff_path)
 #'        shell: Rscript {0}
 #'      - name: "Comment on PR"
 #'        id: comment-diff
@@ -108,26 +112,34 @@ ci_validate_hub_config <- function(
   ...
 ) {
   v <- validate_hub_config(hub_path = hub_path, ...)
-  # check if there were any failures
-  invalid <- any(vapply(v, isFALSE, logical(1)))
-  if (invalid) {
-    cat("result=false", "\n", file = gh_output, sep = "", append = TRUE)
-    # write output to HTML
-    tbl <- view_config_val_errors(v)
-    writeLines("## :x: Invalid Configuration\n", diff)
-    txt <- c(
-      "\nErrors were detected in one or more config files in `hub-config/`. ",
-      "Details about the exact locations of the errors can be found in the table below.\n"
-    )
-    cat(txt, file = diff, sep = "", append = TRUE)
-    cat(gt::as_raw_html(tbl), "\n", file = diff, sep = "", append = TRUE)
-    timestamp(diff)
-  } else {
+  tbl <- render_config_val_errors_html(v)
+  if (is.null(tbl)) {
     cat("result=true", "\n", file = gh_output, sep = "", append = TRUE)
     writeLines(":white_check_mark: Hub correctly configured!\n", diff)
-    timestamp(diff)
+  } else {
+    cat("result=false", "\n", file = gh_output, sep = "", append = TRUE)
+    writeLines(invalid_config_report(tbl), diff)
   }
+  timestamp(diff)
   v
+}
+
+invalid_config_report <- function(tbl) {
+  c(
+    "## :x: Invalid Configuration",
+    "",
+    paste(
+      "Errors were detected in one or more config files in `hub-config/`.",
+      "Details about the exact locations of the errors can be found in the table below."
+    ),
+    "",
+    tbl,
+    "",
+    paste(
+      "For more information, please consult the",
+      "[**`hubDocs` documentation**](https://docs.hubverse.io/en/latest/)."
+    )
+  )
 }
 
 timestamp <- function(outfile) {

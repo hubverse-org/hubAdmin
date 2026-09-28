@@ -79,9 +79,13 @@ test_that("ci_validate_hub creates message of failure", {
   diff1 <- readLines(diff)
   expect_match(diff1[1], "Invalid Configuration")
   expect_match(tail(diff1, 1), "NOW")
-  # NOTE: not attempting to snapshot the generated table because its ID and
-  # the file path changes all the time and testthat's masking is flaky on CI
-  # systems that tend to change their tempdir specifications.
+  # Mask the temporary directory the hub was copied to
+  expect_snapshot(
+    writeLines(diff1),
+    transform = function(x) {
+      gsub("<code>.*(/error_hub/hub-config)</code>", "<code><tmp>\\1</code>", x)
+    }
+  )
 
   # the results should be false
   local_mocked_bindings(timestamp = broken_clock("LATER"))

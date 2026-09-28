@@ -1,5 +1,9 @@
 # hubAdmin (development version)
 
+* Added `tabulate_config_val_errors()`, which returns the validation errors shown by `view_config_val_errors()` as a data frame (#170).
+* Added `render_config_val_errors_html()`, which renders those errors as a much simpler HTML table than `view_config_val_errors()`, designed for posting to a pull request from CI. It uses only the markup GitHub displays in a pull request comment or job summary (#170).
+* `ci_validate_hub_config()` now writes the errors table rendered by `render_config_val_errors_html()` to `diff`, instead of the raw `gt` output of `view_config_val_errors()`, which was several times larger than a pull request comment allows (#170).
+
 # hubAdmin 1.9.0
 
 * Fixed bug that caused unhelpful validation errors when using custom task IDs (e.g., `reference_date`) as round ID variables with inconsistent values across model tasks in schema versions v4.0.0+.

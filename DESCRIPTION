@@ -23,6 +23,7 @@ BugReports: https://github.com/hubverse-org/hubAdmin/issues
 Imports: 
     checkmate,
     cli,
+    commonmark,
     fs,
     glue,
     gt (>= 0.11.1),

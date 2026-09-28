@@ -1,11 +1,12 @@
 #' Print a concise and informative version of validation errors table.
 #'
-#' @param x output of [validate_config()].
+#' @param x output of [validate_config()] or [validate_hub_config()].
 #'
 #' @return prints the errors attribute of x in an informative format to the viewer. Only
-#' available in interactive mode.
+#' available in interactive mode. The data frame the table is built from is
+#' returned by [tabulate_config_val_errors()].
 #' @export
-#' @seealso [validate_config()]
+#' @seealso [validate_config()], [tabulate_config_val_errors()]
 #' @family functions supporting config file validation
 #' @examples
 #' \dontrun{
@@ -16,7 +17,8 @@
 #'   view_config_val_errors()
 #' }
 view_config_val_errors <- function(x) {
-  if (all(unlist(x))) {
+  error_df <- tabulate_config_val_errors(x)
+  if (is.null(error_df)) {
     cli::cli_alert_success(c(
       "Validation of {.path {attr(x, 'config_path')}}",
       "{.path {attr(x, 'config_dir')}} was successful.",
@@ -25,8 +27,75 @@ view_config_val_errors <- function(x) {
     ))
     return(invisible(NULL))
   }
-  error_df <- summarise_errors(x)
   render_errors_df(error_df)
+}
+
+#' Tabulate validation errors as a data frame
+#'
+#' Compile the validation errors recorded in the output of [validate_config()]
+#' or [validate_hub_config()] into a single data frame, processed for display.
+#' [view_config_val_errors()] renders this data frame as a `gt` table. Other
+#' tools, for example a GitHub Actions workflow posting a pull request comment,
+#' can render the same errors in their own format from it.
+#'
+#' @param x output of [validate_config()] or [validate_hub_config()].
+#'
+#' @return A tibble with one row per validation error, or `NULL` if no errors
+#' were detected. It has the following columns:
+#' - `fileName`: the config file the error was found in. Only present for
+#'   [validate_hub_config()] output.
+#' - `instancePath`: location of the error in the config file.
+#' - `schemaPath`: location of the violated rule in the schema.
+#' - `keyword`: the schema keyword that was violated.
+#' - `message`: description of the error, prefixed with a cross mark (❌).
+#' - `schema`: the schema requirement that was violated.
+#' - `data`: the value in the config file that failed validation.
+#'
+#' The `instancePath`, `schemaPath` and `schema` columns contain markdown.
+#' Each path is laid out as a tree, one element per line, with property names
+#' in bold and array indices converted from 0-based to 1-based.
+#'
+#' The following attributes are attached, so that a caller can reproduce the
+#' title and subtitle of the [view_config_val_errors()] report:
+#' - `path`: the path to the config file or `hub-config` directory validated.
+#' - `type`: `"file"` for [validate_config()] output, `"directory"` for
+#'   [validate_hub_config()] output.
+#' - `loc_cols`: the names of the columns locating each error.
+#' - `schema_version`: the version of the schema the config was validated
+#'   against.
+#' - `schema_url`: the URL of that schema.
+#' @export
+#' @seealso [view_config_val_errors()]
+#' @family functions supporting config file validation
+#' @examples
+#' \dontrun{
+#' config_path <- system.file("error-schema/tasks-errors.json",
+#'   package = "hubUtils"
+#' )
+#' validate_config(config_path = config_path, config = "tasks") |>
+#'   tabulate_config_val_errors()
+#' }
+tabulate_config_val_errors <- function(x) {
+  if (all(unlist(x))) {
+    return(NULL)
+  }
+  summarise_errors(x) |>
+    format_errors_df()
+}
+
+# Columns whose cells hold markdown. Note that a schema cell holds markdown
+# only for a oneOf error, where dataframe_to_markdown() lays out the
+# alternatives. Every other schema cell is plain text, such as an enum list or
+# a regular expression.
+markdown_cols <- c("instancePath", "schemaPath", "schema")
+
+# The column groups both renderers show above the column names.
+error_df_col_groups <- function(error_df) {
+  list(
+    "Error location" = attr(error_df, "loc_cols"),
+    "Schema details" = c("keyword", "message", "schema"),
+    "Config" = "data"
+  )
 }
 
 # Compile, clean and process validations errors attribute(s) into errors_df
@@ -300,22 +369,9 @@ escape_pattern_dollar <- function(error_df) {
   error_df
 }
 
-render_errors_df <- function(error_df) {
-  schema_version <- attr(error_df, "schema_version")
-  schema_url <- attr(error_df, "schema_url")
-  path <- attr(error_df, "path")
-  type <- attr(error_df, "type")
-  loc_cols <- attr(error_df, "loc_cols")
-
-  title <- gt::md("**`hubAdmin` config validation error report**")
-  subtitle <- gt::md(
-    glue::glue(
-      "Report for {type} **`{path}`** using
-                   schema version [**{schema_version}**]({schema_url})"
-    )
-  )
-
-  # format path and error message columns
+# Apply the display transformations every renderer of the errors table shares:
+# paths laid out as markdown trees and the error marker on each message.
+format_errors_df <- function(error_df) {
   error_df[["schemaPath"]] <- purrr::map_chr(
     error_df[["schemaPath"]],
     path_to_tree
@@ -325,48 +381,46 @@ render_errors_df <- function(error_df) {
     path_to_tree
   )
   error_df[["message"]] <- paste("\u274c", error_df[["message"]])
+  error_df
+}
+
+# Render the data frame returned by tabulate_config_val_errors() as a gt table.
+render_errors_df <- function(error_df) {
   # Escape `$` characters to ensure regex pattern does not trigger equation
   # formatting in markdown
   error_df <- escape_pattern_dollar(error_df)
+  schema_version <- attr(error_df, "schema_version")
+  schema_url <- attr(error_df, "schema_url")
+  path <- attr(error_df, "path")
+  type <- attr(error_df, "type")
+
+  title <- gt::md("**`hubAdmin` config validation error report**")
+  subtitle <- gt::md(
+    glue::glue(
+      "Report for {type} **`{path}`** using
+                   schema version [**{schema_version}**]({schema_url})"
+    )
+  )
 
   # Create table ----
-  gt::gt(error_df) |>
+  tbl <- gt::gt(error_df) |>
     gt::tab_header(
       title = title,
       subtitle = subtitle
-    ) |>
-    gt::tab_spanner(
-      label = gt::md("**Error location**"),
-      columns = loc_cols
-    ) |>
-    gt::tab_spanner(
-      label = gt::md("**Schema details**"),
-      columns = c(
-        "keyword",
-        "message",
-        "schema"
-      )
-    ) |>
-    gt::tab_spanner(
-      label = gt::md("**Config**"),
-      columns = "data"
-    ) |>
-    gt::fmt_markdown(
-      columns = c(
-        "instancePath",
-        "schemaPath",
-        "schema"
-      )
-    ) |>
+    )
+  groups <- error_df_col_groups(error_df)
+  for (label in names(groups)) {
+    tbl <- gt::tab_spanner(
+      tbl,
+      label = gt::md(paste0("**", label, "**")),
+      columns = groups[[label]]
+    )
+  }
+  tbl |>
+    gt::fmt_markdown(columns = markdown_cols) |>
     gt::tab_style(
       style = gt::cell_text(whitespace = "pre"),
-      locations = gt::cells_body(
-        columns = c(
-          "instancePath",
-          "schemaPath",
-          "schema"
-        )
-      )
+      locations = gt::cells_body(columns = markdown_cols)
     ) |>
     gt::tab_style(
       style = gt::cell_text(whitespace = "pre-wrap"),
