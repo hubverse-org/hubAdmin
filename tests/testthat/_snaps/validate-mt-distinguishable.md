@@ -3,7 +3,7 @@
     Code
       cat(errors$message, errors$data, sep = "\n")
     Output
-      modeling task item defines value combinations also defined by the modeling task item at '/rounds/1/model_tasks/0'. Modeling task items in a round MUST NOT define the same combination of task ID values, output type and output type ID.
+      shares value combinations with modeling task item 1 of this round. Modeling task items in a round MUST NOT define the same combination of task ID values, output type and output type ID.
       overlap on horizon (2), identical on all other task IDs; output types in common: mean
 
 # values in common are listed where the modeling tasks differ

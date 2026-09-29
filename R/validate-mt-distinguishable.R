@@ -57,23 +57,22 @@ validate_round_mts_distinguishable <- function(
     "instance",
     append_item_n = TRUE
   )
-  mt_path <- function(model_task_i) {
-    glue::glue_data(
-      list(round_i = round_i, model_task_i = model_task_i),
+
+  # The errors table displays array positions counting from 1, so the message
+  # names the other modeling task by its 1-based position rather than by its
+  # JSON pointer, which counts from 0.
+  tibble::tibble(
+    instancePath = glue::glue_data(
+      list(round_i = round_i, model_task_i = pairs[2L, ]),
       instance_path
     ) |>
-      as.character()
-  }
-
-  tibble::tibble(
-    instancePath = mt_path(pairs[2L, ]),
+      as.character(),
     schemaPath = get_error_path(schema, "model_tasks", "schema"),
     keyword = "model_tasks distinguishable",
     message = glue::glue(
-      "modeling task item defines value combinations also defined by the",
-      " modeling task item at '{mt_path(pairs[1L, ])}'. Modeling task",
-      " items in a round MUST NOT define the same combination of task ID",
-      " values, output type and output type ID."
+      "shares value combinations with modeling task item {pairs[1L, ]}",
+      " of this round. Modeling task items in a round MUST NOT define the",
+      " same combination of task ID values, output type and output type ID."
     ),
     schema = "",
     data = purrr::map_chr(overlaps, mt_overlap_data)
@@ -81,15 +80,18 @@ validate_round_mts_distinguishable <- function(
     as.data.frame()
 }
 
-#' The values each modeling task in a round allows
+#' Get the value sets of each modeling task in a round
 #'
-#' A modeling task's value combinations are every combination drawn from these
-#' sets. Note that the sets themselves are compared, so the combinations are
-#' never enumerated.
+#' A value set is the values a modeling task allows for one task ID, or the
+#' output type IDs it allows under one output type. A modeling task accepts
+#' every combination of one value from each of its value sets. Two modeling
+#' tasks therefore accept the same combination exactly when their value sets
+#' share a value on every task ID and under some output type. Comparing the
+#' value sets one by one settles that without building any combination.
 #'
 #' A modeling task need not use every task ID the round defines. A modeling task
 #' that does not use a task ID either leaves it out or sets it to null, and its
-#' value set for that task ID is `NA`. Note that `NA` matches only `NA`, so a
+#' value set for that task ID is `NA`, which no actual value matches, so a
 #' modeling task that uses a task ID is distinguishable from one that does not.
 #'
 #' Derived task IDs are left out. A derived task ID's value is worked out from
@@ -138,7 +140,7 @@ as_value_set <- function(x) {
   unlist(x, use.names = FALSE) %||% NA
 }
 
-#' The values two modeling tasks have in common
+#' Find the values two modeling tasks have in common
 #'
 #' A pair of modeling tasks is distinguishable when at least one dimension
 #' distinguishes them, that is, when the two modeling tasks have no value at
@@ -146,6 +148,11 @@ as_value_set <- function(x) {
 #' types and their output type IDs. Note that output type IDs are specific to
 #' their output type, so the last two are compared together: output type IDs
 #' are compared only for an output type both modeling tasks offer.
+#'
+#' Values in common are found with `%in%`, which matches `NA` to `NA`, unlike
+#' `==`. A modeling task that does not use a task ID has the value set `NA`
+#' for it, so two modeling tasks that both leave a task ID unused have that
+#' task ID in common.
 #'
 #' @param x,y Value sets for a pair of modeling tasks, as returned by
 #'  `get_mt_value_sets()`.
@@ -162,7 +169,7 @@ mt_pair_overlap <- function(x, y) {
   task_ids_overlap <- purrr::map2_lgl(
     x_task_ids,
     y_task_ids,
-    has_shared_values
+    \(x_values, y_values) any(x_values %in% y_values)
   )
   if (!all(task_ids_overlap)) {
     return(NULL)
@@ -176,9 +183,8 @@ mt_pair_overlap <- function(x, y) {
   ) |>
     purrr::keep(
       \(output_type) {
-        has_shared_values(
-          x_output_type_ids[[output_type]],
-          y_output_type_ids[[output_type]]
+        any(
+          x_output_type_ids[[output_type]] %in% y_output_type_ids[[output_type]]
         )
       }
     )
@@ -200,29 +206,7 @@ mt_pair_overlap <- function(x, y) {
   )
 }
 
-#' Whether two value sets have at least one value in common
-#'
-#' @param x,y Value sets, as returned by `as_value_set()`.
-#'
-#' @return `TRUE` when the two value sets share at least one value. Note that
-#'  `%in%` matches `NA` to `NA`, unlike `==`, so two value sets that both hold
-#'  no values overlap.
-#' @noRd
-has_shared_values <- function(x, y) {
-  any(x %in% y)
-}
-
-#' The values two value sets have in common
-#'
-#' @param x,y Value sets, as returned by `as_value_set()`.
-#'
-#' @return The values in both `x` and `y`, in the order `y` lists them.
-#' @noRd
-get_shared_values <- function(x, y) {
-  unique(y[y %in% x])
-}
-
-#' The values two value sets have in common, unless they are identical
+#' Find the values two value sets have in common, unless they are identical
 #'
 #' Builds the elements of the list `mt_pair_overlap()` returns. The error
 #' message lists shared values only for partial overlaps, so identical value
@@ -237,7 +221,7 @@ get_partial_overlap <- function(x, y) {
   if (setequal(x, y)) {
     return(NULL)
   }
-  get_shared_values(x, y)
+  unique(y[y %in% x])
 }
 
 #' Describe what leaves a pair of modeling tasks indistinguishable

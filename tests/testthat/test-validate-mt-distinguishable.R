@@ -58,7 +58,9 @@ test_that("distinguishable modeling tasks pass", {
 
 test_that("modeling tasks that define the same value combinations are detected", {
   # `horizon` overlaps on 2 and every other task ID matches, so a row with
-  # horizon 2 belongs to both modeling tasks.
+  # horizon 2 belongs to both modeling tasks. Whether a value is required or
+  # optional plays no part: a row is matched to a modeling task by the values
+  # it carries, and both modeling tasks allow horizon 2.
   round <- stub_round(
     stub_model_task(list(
       target = stub_task_id(required = "inc hosp"),
