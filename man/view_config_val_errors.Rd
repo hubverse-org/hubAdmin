@@ -7,11 +7,12 @@
 view_config_val_errors(x)
 }
 \arguments{
-\item{x}{output of \code{\link[=validate_config]{validate_config()}}.}
+\item{x}{output of \code{\link[=validate_config]{validate_config()}} or \code{\link[=validate_hub_config]{validate_hub_config()}}.}
 }
 \value{
 prints the errors attribute of x in an informative format to the viewer. Only
-available in interactive mode.
+available in interactive mode. The data frame the table is built from is
+returned by \code{\link[=tabulate_config_val_errors]{tabulate_config_val_errors()}}.
 }
 \description{
 Print a concise and informative version of validation errors table.
@@ -26,9 +27,11 @@ validate_config(config_path = config_path, config = "tasks") |>
 }
 }
 \seealso{
-\code{\link[=validate_config]{validate_config()}}
+\code{\link[=validate_config]{validate_config()}}, \code{\link[=tabulate_config_val_errors]{tabulate_config_val_errors()}}
 
 Other functions supporting config file validation: 
+\code{\link{render_config_val_errors_html}()},
+\code{\link{tabulate_config_val_errors}()},
 \code{\link{validate_config}()},
 \code{\link{validate_hub_config}()}
 }
