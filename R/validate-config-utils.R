@@ -566,13 +566,7 @@ validate_mt_property_unique_vals <- function(
       c("quantile", "cdf", "pmf")
     ] |>
       purrr::compact() |>
-      purrr::map(
-        ~ if ("type_id" %in% names(.x)) {
-          .x[["type_id"]]
-        } else {
-          .x[["output_type_id"]]
-        }
-      )
+      purrr::map(get_output_type_ids)
   )
 
   dup_properties <- purrr::map(
@@ -1023,6 +1017,17 @@ validate_unique_names_recursive <- function(object, object_path = "", schema) {
 
 
 ### Utilities ----
+# Round level `derived_task_ids` override the config level property rather than
+# add to it.
+get_round_derived_task_ids <- function(round, config_tasks) {
+  round[["derived_task_ids"]] %||% config_tasks[["derived_task_ids"]]
+}
+
+# Schema versions before v2.0.0 name the property `type_id`.
+get_output_type_ids <- function(output_type) {
+  output_type[["output_type_id"]] %||% output_type[["type_id"]]
+}
+
 derived_task_ids_with_required_vals <- function(
   x,
   derived_task_ids,
