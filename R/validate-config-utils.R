@@ -785,7 +785,8 @@ validate_round_derived_task_ids <- function(round, round_i, schema) {
 ## CONFIG LEVEL VALIDATIONS ----
 # Validate that round IDs are unique across all rounds in config file
 validate_round_ids_unique <- function(config_tasks, schema) {
-  round_ids <- hubUtils::get_round_ids(config_tasks)
+  round_ids <- hubUtils::get_round_ids(config_tasks, flatten = "model_task") |>
+    unlist(use.names = FALSE)
 
   if (!any(duplicated(round_ids))) {
     return(NULL)
