@@ -585,5 +585,8 @@ validate_config(config = "tasks")
 ```
 
     #> Loading required namespace: jsonvalidate
-    #> [1] TRUE
-    #> ✔ ok:  hub-config/tasks.json (<file:///path/to/hub/hub-config/tasks.json>) (via tasks-schema v5.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json>))
+    #> [1] FALSE
+    #> ! 1 schema errors: hub-config/tasks.json
+    #>   (<file:///path/to/hub/hub-config/tasks.json>) (via tasks-schema v5.0.0
+    #>   (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v5.0.0/tasks-schema.json>))
+    #> ℹ use `view_config_val_errors()` to view table of error details.
