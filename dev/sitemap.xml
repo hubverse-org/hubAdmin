@@ -29,7 +29,9 @@
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/index.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/pipe.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/reexports.html</loc></url>
+<url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/render_config_val_errors_html.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/schema_autobox.html</loc></url>
+<url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/tabulate_config_val_errors.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/validate_hub_config.html</loc></url>
 <url><loc>https://hubverse-org.github.io/hubAdmin/dev/reference/validate_model_metadata_schema.html</loc></url>

@@ -31,9 +31,10 @@ ci_validate_hub_config(
   path to a file (defaults to
   [`stdout()`](https://rdrr.io/r/base/showConnections.html)) that will
   contain a user facing message with a time stamp that shows if the hub
-  was correctly configured along with the output of
-  [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/dev/reference/view_config_val_errors.md)
-  (if any).
+  was correctly configured along with the errors table rendered by
+  [`render_config_val_errors_html()`](https://hubverse-org.github.io/hubAdmin/dev/reference/render_config_val_errors_html.md)
+  (if any). The table is capped to fit a pull request comment and a note
+  gives the number of errors left out.
 
 - ...:
 
@@ -71,16 +72,19 @@ and easier to view version of an errors table with
 
 ## Details
 
-This function is to be used within a continuous integration context. You
-can find this used in the [`validate-config` hubverse
-workflow](https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config).
-To use the workflow with your own hub, you can use
-`hubCI::use_hub_github_action('validate-config')`
+This function is to be used within a continuous integration context, in
+a workflow that checks the validity of a hub's configuration files.
 
-This function is intended to be used in a workflow that checks the
-validity of a hub's configuration files. Below is an excerpt of steps on
-GitHub Actions where the environment variables `PR_NUMBER` and
-`HUB_PATH` have been defined:
+The hubverse [`validate-config`
+action](https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config)
+is the recommended way to validate a hub's config on pull requests. It
+posts the report as a comment, writes it to the job summary as well and
+handles pull requests from forks. To add it to a hub, use
+`hubCI::use_hub_github_action('validate-config')`.
+
+Below is an excerpt of steps on GitHub Actions using this function
+directly, where the environment variables `PR_NUMBER` and `HUB_PATH`
+have been defined:
 
          - uses: actions/checkout@v4
          - uses: r-lib/actions/setup-r@v2
@@ -98,7 +102,7 @@ GitHub Actions where the environment variables `PR_NUMBER` and
            id: validate
            run: |
              diff_path <- file.path(Sys.getenv("HUB_PATH"), "diff.md")
-             hubAdmin::ci_validate_config(diff = diff_path)
+             hubAdmin::ci_validate_hub_config(diff = diff_path)
            shell: Rscript {0}
          - name: "Comment on PR"
            id: comment-diff
@@ -146,15 +150,15 @@ ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 #> 
 #> ── $tasks 
 #> [1] TRUE
-#> ✔ ok:  hub-config/tasks.json (<file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/tasks.json>) (via tasks-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
+#> ✔ ok:  hub-config/tasks.json (<file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/tasks.json>) (via tasks-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
 #> 
 #> ── $admin 
 #> [1] TRUE
-#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
+#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
 #> 
 #> ── $model-metadata-schema 
 #> [1] TRUE
-#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/model-metadata-schema.json>))
+#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/model-metadata-schema.json>))
 # result is true
 readLines(out)
 #> [1] "result=true"
@@ -162,7 +166,7 @@ readLines(out)
 readLines(diff)
 #> [1] ":white_check_mark: Hub correctly configured!"
 #> [2] ""                                            
-#> [3] "2026-09-28 12:30:47 UTC"                     
+#> [3] "2026-09-29 07:29:22 UTC"                     
 
 # Results from an invalid hub --------------------------------------
 # reset output file
@@ -183,34 +187,34 @@ ci_validate_hub_config(hub_path = hub, gh_output = out, diff = diff)
 #> ── $tasks 
 #> [1] FALSE
 #> ! 4 schema errors: hub-config/tasks.json
-#>   (<file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/tasks.json>) (via
+#>   (<file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/tasks.json>) (via
 #>   tasks-schema v2.0.0
 #>   (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json>))
 #> ℹ use `view_config_val_errors()` to view table of error details.
 #> 
 #> ── $admin 
 #> [1] TRUE
-#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
+#> ✔ ok:  hub-config/admin.json (<file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/admin.json>) (via admin-schema v2.0.0 (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json>))
 #> 
 #> ── $model-metadata-schema 
 #> [1] TRUE
-#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/model-metadata-schema.json>))
+#> ✔ ok:  hub-config/model-metadata-schema.json (<file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/model-metadata-schema.json>) (from default json schema  (<file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/model-metadata-schema.json>))
 # result is now false
 readLines(out)
 #> [1] "result=false"
 # message to user now shows a table
 head(readLines(diff))
-#> [1] "## :x: Invalid Configuration"                                                                                                                                     
-#> [2] ""                                                                                                                                                                 
-#> [3] ""                                                                                                                                                                 
-#> [4] "Errors were detected in one or more config files in `hub-config/`. Details about the exact locations of the errors can be found in the table below."              
-#> [5] "<div id=\"mwlefoodfi\" style=\"padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;\">"
-#> [6] "  "                                                                                                                                                               
+#> [1] "## :x: Invalid Configuration"                                                                                                                                                                           
+#> [2] ""                                                                                                                                                                                                       
+#> [3] "Errors were detected in one or more config files in `hub-config/`. Details about the exact locations of the errors can be found in the table below."                                                    
+#> [4] ""                                                                                                                                                                                                       
+#> [5] "<p>Report for directory <code>/tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config</code> using schema version <a href=\"https://github.com/hubverse-org/schemas/tree/main/v2.0.0\"><b>v2.0.0</b></a></p>"
+#> [6] "<table>"                                                                                                                                                                                                
 tail(readLines(diff))
-#> [1] "<a href=\"https://docs.hubverse.io/en/latest/\" style=\"margin-top: 0; margin-bottom: 0;\"><strong><code>hubDocs</code> documentation</strong>.</a></span></td>"
-#> [2] "    </tr>"                                                                                                                                                      
-#> [3] "  </tfoot>"                                                                                                                                                     
-#> [4] "</table>"                                                                                                                                                       
-#> [5] "</div>"                                                                                                                                                         
-#> [6] "2026-09-28 12:30:48 UTC"                                                                                                                                        
+#> [1] "<tr><td>tasks.json</td><td><strong>rounds</strong><br>└<strong>2</strong><br>└─<strong>model_tasks</strong><br>└──<strong>1</strong><br>└───<strong>output_type</strong><br>└────<strong>quantile</strong><br>└─────<strong>value</strong><br>└──────<strong>minimum</strong></td><td>properties<br>└<strong>rounds</strong><br>└─items<br>└──properties<br>└───<strong>model_tasks</strong><br>└────items<br>└─────properties<br>└──────<strong>output_type</strong><br>└───────properties<br>└────────<strong>quantile</strong><br>└─────────properties<br>└──────────<strong>value</strong><br>└───────────properties<br>└────────────<strong>minimum</strong><br>└─────────────<strong>type</strong></td><td>type</td><td>❌ must be number,integer</td><td>number, integer</td><td>0</td></tr>"
+#> [2] "</tbody>"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+#> [3] "</table>"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+#> [4] ""                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+#> [5] "For more information, please consult the [**`hubDocs` documentation**](https://docs.hubverse.io/en/latest/)."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+#> [6] "2026-09-29 07:29:23 UTC"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 ```

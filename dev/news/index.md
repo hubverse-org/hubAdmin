@@ -2,6 +2,30 @@
 
 ## hubAdmin (development version)
 
+- Added
+  [`tabulate_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/dev/reference/tabulate_config_val_errors.md),
+  which returns the validation errors shown by
+  [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/dev/reference/view_config_val_errors.md)
+  as a data frame
+  ([\#170](https://github.com/hubverse-org/hubAdmin/issues/170)).
+- Added
+  [`render_config_val_errors_html()`](https://hubverse-org.github.io/hubAdmin/dev/reference/render_config_val_errors_html.md),
+  which renders those errors as a much simpler HTML table than
+  [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/dev/reference/view_config_val_errors.md),
+  designed for posting to a pull request from CI. It uses only the
+  markup GitHub displays in a pull request comment or job summary, and
+  can be capped to a size in bytes, keeping the earliest errors and
+  noting how many were left out
+  ([\#170](https://github.com/hubverse-org/hubAdmin/issues/170)).
+- [`ci_validate_hub_config()`](https://hubverse-org.github.io/hubAdmin/dev/reference/ci_validate_hub_config.md)
+  now writes the errors table rendered by
+  [`render_config_val_errors_html()`](https://hubverse-org.github.io/hubAdmin/dev/reference/render_config_val_errors_html.md)
+  to `diff`, instead of the raw `gt` output of
+  [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/dev/reference/view_config_val_errors.md),
+  which was several times larger than a pull request comment allows. The
+  table is capped to fit a pull request comment
+  ([\#170](https://github.com/hubverse-org/hubAdmin/issues/170)).
+
 ## hubAdmin 1.9.0
 
 - Fixed bug that caused unhelpful validation errors when using custom

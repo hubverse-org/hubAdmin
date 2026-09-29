@@ -72,7 +72,9 @@ variable.</p></dd>
 <dt id="arg-diff">diff<a class="anchor" aria-label="anchor" href="#arg-diff"></a></dt>
 <dd><p>path to a file (defaults to <code><a href="https://rdrr.io/r/base/showConnections.html" class="external-link">stdout()</a></code>) that will contain a user
 facing message with a time stamp that shows if the hub was correctly
-configured along with the output of <code><a href="view_config_val_errors.html">view_config_val_errors()</a></code> (if any).</p></dd>
+configured along with the errors table rendered by
+<code><a href="render_config_val_errors_html.html">render_config_val_errors_html()</a></code> (if any). The table is capped to fit a
+pull request comment and a note gives the number of errors left out.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -109,13 +111,15 @@ You can print a more concise and easier to view version of an errors table with
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This function is to be used within a continuous integration context. You can
-find this used in the <a href="https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config" class="external-link"><code>validate-config</code> hubverse workflow</a>.
-To use the workflow with your own hub, you can use
-<code>hubCI::use_hub_github_action('validate-config')</code></p>
-<p>This function is intended to be used in a workflow that checks the validity
-of a hub's configuration files. Below is an excerpt of steps on GitHub
-Actions where the environment variables <code>PR_NUMBER</code> and <code>HUB_PATH</code> have been
+    <p>This function is to be used within a continuous integration context, in a
+workflow that checks the validity of a hub's configuration files.</p>
+<p>The hubverse <a href="https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config" class="external-link"><code>validate-config</code> action</a>
+is the recommended way to validate a hub's config on pull requests. It posts
+the report as a comment, writes it to the job summary as well and handles
+pull requests from forks. To add it to a hub, use
+<code>hubCI::use_hub_github_action('validate-config')</code>.</p>
+<p>Below is an excerpt of steps on GitHub Actions using this function directly,
+where the environment variables <code>PR_NUMBER</code> and <code>HUB_PATH</code> have been
 defined:</p>
 <p></p><div class="sourceCode yaml"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="at">     </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v4</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="at">     </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-r@v2</span></span>
@@ -133,7 +137,7 @@ defined:</p>
 <span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="at">       </span><span class="fu">id</span><span class="kw">:</span><span class="at"> validate</span></span>
 <span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="fu">       run</span><span class="kw">: </span><span class="ch">|</span></span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>         diff_path &lt;- file.path(Sys.getenv("HUB_PATH"), "diff.md")</span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>         hubAdmin::ci_validate_config(diff = diff_path)</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>         hubAdmin::ci_validate_hub_config(diff = diff_path)</span>
 <span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="at">       </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
 <span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="at">     </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">"Comment on PR"</span></span>
 <span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="at">       </span><span class="fu">id</span><span class="kw">:</span><span class="at"> comment-diff</span></span>
@@ -181,15 +185,15 @@ defined:</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── $tasks </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/tasks.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/tasks.json&gt;</span>) (via tasks-schema v2.0.0 (<span style="color: #0000BB; font-style: italic;">&lt;https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json&gt;</span>))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/tasks.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/tasks.json&gt;</span>) (via tasks-schema v2.0.0 (<span style="color: #0000BB; font-style: italic;">&lt;https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json&gt;</span>))</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── $admin </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/admin.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/admin.json&gt;</span>) (via admin-schema v2.0.0 (<span style="color: #0000BB; font-style: italic;">&lt;https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json&gt;</span>))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/admin.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/admin.json&gt;</span>) (via admin-schema v2.0.0 (<span style="color: #0000BB; font-style: italic;">&lt;https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json&gt;</span>))</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── $model-metadata-schema </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/model-metadata-schema.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/model-metadata-schema.json&gt;</span>) (from default json schema  (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/model-metadata-schema.json&gt;</span>))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/model-metadata-schema.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/model-metadata-schema.json&gt;</span>) (from default json schema  (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/model-metadata-schema.json&gt;</span>))</span>
 <span class="r-in"><span><span class="co"># result is true</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "result=true"</span>
@@ -197,7 +201,7 @@ defined:</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">diff</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] ":white_check_mark: Hub correctly configured!"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                            </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "2026-09-28 12:30:47 UTC"                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "2026-09-29 07:29:22 UTC"                     </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Results from an invalid hub --------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># reset output file</span></span></span>
@@ -218,36 +222,36 @@ defined:</p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">$tasks</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> <span style="font-weight: bold;">4 schema errors</span>: hub-config/tasks.json</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>   (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/tasks.json&gt;</span>) (via</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/tasks.json&gt;</span>) (via</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   tasks-schema v2.0.0</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>   (<span style="color: #0000BB; font-style: italic;">&lt;https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json&gt;</span>))</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> use `view_config_val_errors()` to view table of error details.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── $admin </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/admin.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/admin.json&gt;</span>) (via admin-schema v2.0.0 (<span style="color: #0000BB; font-style: italic;">&lt;https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json&gt;</span>))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/admin.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/admin.json&gt;</span>) (via admin-schema v2.0.0 (<span style="color: #0000BB; font-style: italic;">&lt;https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/admin-schema.json&gt;</span>))</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ── $model-metadata-schema </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/model-metadata-schema.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/model-metadata-schema.json&gt;</span>) (from default json schema  (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpbpptmF/file1bb53c11b961/simple/hub-config/model-metadata-schema.json&gt;</span>))</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> ok:  hub-config/model-metadata-schema.json (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/model-metadata-schema.json&gt;</span>) (from default json schema  (<span style="color: #0000BB; font-style: italic;">&lt;file:///tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config/model-metadata-schema.json&gt;</span>))</span>
 <span class="r-in"><span><span class="co"># result is now false</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "result=false"</span>
 <span class="r-in"><span><span class="co"># message to user now shows a table</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">diff</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "## :x: Invalid Configuration"                                                                                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                                                                                                                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] ""                                                                                                                                                                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "Errors were detected in one or more config files in `hub-config/`. Details about the exact locations of the errors can be found in the table below."              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "&lt;div id=\"mwlefoodfi\" style=\"padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;\"&gt;"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "  "                                                                                                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "## :x: Invalid Configuration"                                                                                                                                                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] ""                                                                                                                                                                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "Errors were detected in one or more config files in `hub-config/`. Details about the exact locations of the errors can be found in the table below."                                                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] ""                                                                                                                                                                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "&lt;p&gt;Report for directory &lt;code&gt;/tmp/RtmpUWWiJs/file1b184badb83a/simple/hub-config&lt;/code&gt; using schema version &lt;a href=\"https://github.com/hubverse-org/schemas/tree/main/v2.0.0\"&gt;&lt;b&gt;v2.0.0&lt;/b&gt;&lt;/a&gt;&lt;/p&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "&lt;table&gt;"                                                                                                                                                                                                </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">diff</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;a href=\"https://docs.hubverse.io/en/latest/\" style=\"margin-top: 0; margin-bottom: 0;\"&gt;&lt;strong&gt;&lt;code&gt;hubDocs&lt;/code&gt; documentation&lt;/strong&gt;.&lt;/a&gt;&lt;/span&gt;&lt;/td&gt;"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "    &lt;/tr&gt;"                                                                                                                                                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "  &lt;/tfoot&gt;"                                                                                                                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4] "&lt;/table&gt;"                                                                                                                                                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "&lt;/div&gt;"                                                                                                                                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "2026-09-28 12:30:48 UTC"                                                                                                                                        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&lt;tr&gt;&lt;td&gt;tasks.json&lt;/td&gt;&lt;td&gt;&lt;strong&gt;rounds&lt;/strong&gt;&lt;br&gt;└&lt;strong&gt;2&lt;/strong&gt;&lt;br&gt;└─&lt;strong&gt;model_tasks&lt;/strong&gt;&lt;br&gt;└──&lt;strong&gt;1&lt;/strong&gt;&lt;br&gt;└───&lt;strong&gt;output_type&lt;/strong&gt;&lt;br&gt;└────&lt;strong&gt;quantile&lt;/strong&gt;&lt;br&gt;└─────&lt;strong&gt;value&lt;/strong&gt;&lt;br&gt;└──────&lt;strong&gt;minimum&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;properties&lt;br&gt;└&lt;strong&gt;rounds&lt;/strong&gt;&lt;br&gt;└─items&lt;br&gt;└──properties&lt;br&gt;└───&lt;strong&gt;model_tasks&lt;/strong&gt;&lt;br&gt;└────items&lt;br&gt;└─────properties&lt;br&gt;└──────&lt;strong&gt;output_type&lt;/strong&gt;&lt;br&gt;└───────properties&lt;br&gt;└────────&lt;strong&gt;quantile&lt;/strong&gt;&lt;br&gt;└─────────properties&lt;br&gt;└──────────&lt;strong&gt;value&lt;/strong&gt;&lt;br&gt;└───────────properties&lt;br&gt;└────────────&lt;strong&gt;minimum&lt;/strong&gt;&lt;br&gt;└─────────────&lt;strong&gt;type&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;type&lt;/td&gt;&lt;td&gt;❌ must be number,integer&lt;/td&gt;&lt;td&gt;number, integer&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "&lt;/tbody&gt;"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "&lt;/table&gt;"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4] ""                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "For more information, please consult the [**`hubDocs` documentation**](https://docs.hubverse.io/en/latest/)."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6] "2026-09-29 07:29:23 UTC"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
