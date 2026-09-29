@@ -183,3 +183,105 @@ test_that("Error report throws no warnings (#79)", {
   )
   expect_no_warning(view_config_val_errors(vals))
 })
+
+# tabulate_config_val_errors ----
+
+test_that("tabulate_config_val_errors returns the frame view_config_val_errors renders", {
+  skip_if_offline()
+  config_path <- testthat::test_path("testdata", "tasks-errors.json")
+  validation <- suppressWarnings(
+    validate_config(config_path = config_path)
+  )
+  error_df <- tabulate_config_val_errors(validation)
+
+  expect_s3_class(error_df, "tbl_df")
+  expect_named(
+    error_df,
+    c("instancePath", "schemaPath", "keyword", "message", "schema", "data")
+  )
+  expect_equal(attr(error_df, "path"), config_path)
+  expect_equal(attr(error_df, "type"), "file")
+  expect_equal(attr(error_df, "loc_cols"), c("instancePath", "schemaPath"))
+  expect_equal(
+    attr(error_df, "schema_version"),
+    attr(validation, "schema_version")
+  )
+  expect_equal(attr(error_df, "schema_url"), attr(validation, "schema_url"))
+  # Attributes are plain strings whatever class the validator gave them
+  expect_identical(class(attr(error_df, "schema_url")), "character")
+  # Display transformations are applied to the frame, not by the renderer
+  expect_true(all(startsWith(error_df$message, "❌")))
+  expect_true(all(grepl("└", error_df$schemaPath, fixed = TRUE)))
+
+  tbl <- view_config_val_errors(validation)
+  expect_identical(tbl$`_data`, error_df)
+})
+
+test_that("only the gt renderer escapes `$` in a pattern error", {
+  skip_if_offline()
+  validation <- suppressWarnings(
+    validate_config(
+      config_path = testthat::test_path(
+        "testdata",
+        "v5.0.0-tasks-fail-round-id-pattern.json"
+      )
+    )
+  )
+  error_df <- tabulate_config_val_errors(validation)
+  expect_match(error_df$schema, "$", fixed = TRUE)
+  expect_no_match(error_df$schema, "&#36;", fixed = TRUE)
+  expect_match(
+    view_config_val_errors(validation)$`_data`$schema,
+    "&#36;",
+    fixed = TRUE
+  )
+})
+
+test_that("tabulate_config_val_errors works on validate_hub_config output", {
+  skip_if_offline()
+  validation <- suppressWarnings(
+    validate_hub_config(testthat::test_path("testdata", "error_hub"))
+  )
+  error_df <- tabulate_config_val_errors(validation)
+
+  expect_named(
+    error_df,
+    c(
+      "fileName",
+      "instancePath",
+      "schemaPath",
+      "keyword",
+      "message",
+      "schema",
+      "data"
+    )
+  )
+  expect_equal(
+    attr(error_df, "path"),
+    as.character(attr(validation, "config_dir"))
+  )
+  expect_equal(attr(error_df, "type"), "directory")
+  expect_equal(
+    attr(error_df, "loc_cols"),
+    c("fileName", "instancePath", "schemaPath")
+  )
+  expect_identical(
+    suppressWarnings(view_config_val_errors(validation))$`_data`,
+    error_df
+  )
+})
+
+test_that("tabulate_config_val_errors returns NULL when validation passed", {
+  skip_if_offline()
+  validation <- suppressMessages(
+    validate_hub_config(
+      system.file("testhubs/simple/", package = "hubUtils")
+    )
+  )
+  expect_null(tabulate_config_val_errors(validation))
+
+  validation <- validate_config(
+    config_path = testthat::test_path("testdata", "v4-tasks.json")
+  )
+  expect_null(tabulate_config_val_errors(validation))
+})

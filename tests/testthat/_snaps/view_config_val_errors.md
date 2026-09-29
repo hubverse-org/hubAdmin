@@ -44,7 +44,7 @@
        - attr(*, "type")= chr "file"
        - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
        - attr(*, "schema_version")= chr "v0.0.0.9"
-       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json"
+       - attr(*, "schema_url")= chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.0.9/tasks-schema.json"
 
 ---
 
@@ -87,7 +87,7 @@
        - attr(*, "type")= chr "file"
        - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
        - attr(*, "schema_version")= chr "v1.0.0"
-       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/admin-schema.json"
+       - attr(*, "schema_url")= chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v1.0.0/admin-schema.json"
 
 # Data column handled correctly when required property missing
 
@@ -105,7 +105,7 @@
        - attr(*, "type")= chr "file"
        - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
        - attr(*, "schema_version")= chr "v2.0.0"
-       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
+       - attr(*, "schema_url")= chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 ---
 
@@ -123,7 +123,7 @@
        - attr(*, "type")= chr "file"
        - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
        - attr(*, "schema_version")= chr "v2.0.0"
-       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
+       - attr(*, "schema_url")= chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 ---
 
@@ -141,7 +141,7 @@
        - attr(*, "type")= chr "file"
        - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
        - attr(*, "schema_version")= chr "v2.0.0"
-       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
+       - attr(*, "schema_url")= chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 ---
 
@@ -159,7 +159,7 @@
        - attr(*, "type")= chr "file"
        - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
        - attr(*, "schema_version")= chr "v2.0.0"
-       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
+       - attr(*, "schema_url")= chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 # Report handles additional property errors successfully
 
@@ -177,7 +177,7 @@
        - attr(*, "type")= chr "file"
        - attr(*, "loc_cols")= chr [1:2] "instancePath" "schemaPath"
        - attr(*, "schema_version")= chr "v2.0.0"
-       - attr(*, "schema_url")= 'glue' chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
+       - attr(*, "schema_url")= chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.0/tasks-schema.json"
 
 # Report works corectly on validate_hub_config output
 
@@ -192,7 +192,7 @@
        $ message     : chr [1:5] "❌ must have required property 'target_metadata'" "❌ must be array,null" "❌ must match exactly one schema in oneOf" "❌ must match exactly one schema in oneOf" ...
        $ schema      : chr [1:5] "task_ids, output_type, target_metadata" "array, null" "**1** \n **required-description:** When mean is required, property set to single element 'NA' array \n **requir"| __truncated__ "**1** \n **relative_to-description:** Name of task id variable in relation to which submission start and end da"| __truncated__ ...
        $ data        : chr [1:5] "target_metadata" "wk inc flu hosp" "required: NA, optional: NA" "start: -6, end: 1" ...
-       - attr(*, "path")= 'fs_path' chr "testdata/error_hub/hub-config"
+       - attr(*, "path")= chr "testdata/error_hub/hub-config"
        - attr(*, "type")= chr "directory"
        - attr(*, "loc_cols")= chr [1:3] "fileName" "instancePath" "schemaPath"
        - attr(*, "schema_version")= chr "v2.0.0"

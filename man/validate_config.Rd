@@ -79,6 +79,8 @@ validate_config(config_path = config_path, config = "tasks")
 \code{\link[=view_config_val_errors]{view_config_val_errors()}}
 
 Other functions supporting config file validation: 
+\code{\link{render_config_val_errors_html}()},
+\code{\link{tabulate_config_val_errors}()},
 \code{\link{validate_hub_config}()},
 \code{\link{view_config_val_errors}()}
 }
