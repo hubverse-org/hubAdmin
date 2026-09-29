@@ -51,12 +51,15 @@ view_config_val_errors <- function(x) {
 #' - `schema`: the schema requirement that was violated.
 #' - `data`: the value in the config file that failed validation.
 #'
+#' A cell with nothing to show holds an empty string, not `NA`.
+#'
 #' The `instancePath`, `schemaPath` and `schema` columns contain markdown.
 #' Each path is laid out as a tree, one element per line, with property names
 #' in bold and array indices converted from 0-based to 1-based.
 #'
-#' The following attributes are attached, so that a caller can reproduce the
-#' title and subtitle of the [view_config_val_errors()] report:
+#' The following attributes, all plain strings, are attached so that a caller
+#' can reproduce the title and subtitle of the [view_config_val_errors()]
+#' report:
 #' - `path`: the path to the config file or `hub-config` directory validated.
 #' - `type`: `"file"` for [validate_config()] output, `"directory"` for
 #'   [validate_hub_config()] output.
@@ -110,7 +113,7 @@ summarise_errors <- function(x) {
         clean_error_df()
     ) |>
       purrr::list_rbind()
-    attr(error_df, "path") <- attr(x, "config_dir")
+    attr(error_df, "path") <- as.character(attr(x, "config_dir"))
     attr(error_df, "type") <- "directory"
     attr(error_df, "loc_cols") <- c(
       "fileName",
@@ -121,15 +124,15 @@ summarise_errors <- function(x) {
     # Process single config file error_tbl
     error_df <- attr(x, "errors") |>
       clean_error_df()
-    attr(error_df, "path") <- attr(x, "config_path")
+    attr(error_df, "path") <- as.character(attr(x, "config_path"))
     attr(error_df, "type") <- "file"
     attr(error_df, "loc_cols") <- c(
       "instancePath",
       "schemaPath"
     )
   }
-  attr(error_df, "schema_version") <- attr(x, "schema_version")
-  attr(error_df, "schema_url") <- attr(x, "schema_url")
+  attr(error_df, "schema_version") <- as.character(attr(x, "schema_version"))
+  attr(error_df, "schema_url") <- as.character(attr(x, "schema_url"))
 
   error_df
 }

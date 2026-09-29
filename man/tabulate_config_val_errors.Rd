@@ -23,12 +23,15 @@ were detected. It has the following columns:
 \item \code{data}: the value in the config file that failed validation.
 }
 
+A cell with nothing to show holds an empty string, not \code{NA}.
+
 The \code{instancePath}, \code{schemaPath} and \code{schema} columns contain markdown.
 Each path is laid out as a tree, one element per line, with property names
 in bold and array indices converted from 0-based to 1-based.
 
-The following attributes are attached, so that a caller can reproduce the
-title and subtitle of the \code{\link[=view_config_val_errors]{view_config_val_errors()}} report:
+The following attributes, all plain strings, are attached so that a caller
+can reproduce the title and subtitle of the \code{\link[=view_config_val_errors]{view_config_val_errors()}}
+report:
 \itemize{
 \item \code{path}: the path to the config file or \code{hub-config} directory validated.
 \item \code{type}: \code{"file"} for \code{\link[=validate_config]{validate_config()}} output, \code{"directory"} for

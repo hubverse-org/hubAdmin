@@ -22,7 +22,8 @@ variable.}
 \item{diff}{path to a file (defaults to \code{stdout()}) that will contain a user
 facing message with a time stamp that shows if the hub was correctly
 configured along with the errors table rendered by
-\code{\link[=render_config_val_errors_html]{render_config_val_errors_html()}} (if any).}
+\code{\link[=render_config_val_errors_html]{render_config_val_errors_html()}} (if any). The table is capped to fit a
+pull request comment and a note gives the number of errors left out.}
 
 \item{...}{
   Arguments passed on to \code{\link[=validate_hub_config]{validate_hub_config}}

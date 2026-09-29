@@ -103,3 +103,16 @@ test_that("ci_validate_hub creates message of failure", {
   expect_match(diff2[1], "Invalid Configuration")
   expect_match(tail(diff2, 1), "LATER")
 })
+
+test_that("a capped table is followed by where to find the rest", {
+  report <- invalid_config_report(structure("<table></table>", omitted = 2L))
+  expect_equal(
+    report[which(report == "<table></table>") + 1L],
+    paste(
+      "Run `hubAdmin::validate_hub_config()` on the hub and pass the result",
+      "to `hubAdmin::view_config_val_errors()` to see every error."
+    )
+  )
+  report <- invalid_config_report(structure("<table></table>", omitted = 0L))
+  expect_no_match(report, "hubAdmin::validate_hub_config")
+})

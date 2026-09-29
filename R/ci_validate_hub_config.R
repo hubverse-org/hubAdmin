@@ -10,7 +10,8 @@
 #' @param diff path to a file (defaults to `stdout()`) that will contain a user
 #'   facing message with a time stamp that shows if the hub was correctly
 #'   configured along with the errors table rendered by
-#'   [render_config_val_errors_html()] (if any).
+#'   [render_config_val_errors_html()] (if any). The table is capped to fit a
+#'   pull request comment and a note gives the number of errors left out.
 #' @inheritDotParams validate_hub_config
 #' @inherit validate_hub_config return
 #'
@@ -112,7 +113,7 @@ ci_validate_hub_config <- function(
   ...
 ) {
   v <- validate_hub_config(hub_path = hub_path, ...)
-  tbl <- render_config_val_errors_html(v)
+  tbl <- render_config_val_errors_html(v, max_bytes = comment_max_bytes)
   if (is.null(tbl)) {
     cat("result=true", "\n", file = gh_output, sep = "", append = TRUE)
     writeLines(":white_check_mark: Hub correctly configured!\n", diff)
@@ -124,6 +125,11 @@ ci_validate_hub_config <- function(
   v
 }
 
+# GitHub rejects a pull request comment over 65,536 characters, so a byte cap
+# below that is always safe. The cap leaves room for the text written around
+# the table.
+comment_max_bytes <- 60000L
+
 invalid_config_report <- function(tbl) {
   c(
     "## :x: Invalid Configuration",
@@ -134,6 +140,12 @@ invalid_config_report <- function(tbl) {
     ),
     "",
     tbl,
+    if (attr(tbl, "omitted") > 0L) {
+      paste(
+        "Run `hubAdmin::validate_hub_config()` on the hub and pass the result",
+        "to `hubAdmin::view_config_val_errors()` to see every error."
+      )
+    },
     "",
     paste(
       "For more information, please consult the",

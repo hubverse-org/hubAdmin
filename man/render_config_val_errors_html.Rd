@@ -4,15 +4,21 @@
 \alias{render_config_val_errors_html}
 \title{Render validation errors as an HTML report for GitHub}
 \usage{
-render_config_val_errors_html(x)
+render_config_val_errors_html(x, max_bytes = Inf)
 }
 \arguments{
 \item{x}{output of \code{\link[=validate_config]{validate_config()}} or \code{\link[=validate_hub_config]{validate_hub_config()}}.}
+
+\item{max_bytes}{maximum size of the returned HTML in bytes. Rows are
+dropped from the end of the table until the report fits, and a note below
+the table gives the number dropped. GitHub rejects a pull request comment
+over 65,536 characters.}
 }
 \value{
 A single string of HTML, or \code{NULL} if no errors were detected. The
 report consists of a paragraph naming the validated path and the schema
-version, followed by a table with one row per error.
+version, followed by a table with one row per error. The attribute
+\code{omitted} holds the number of error rows dropped to fit \code{max_bytes}.
 }
 \description{
 Render the validation errors recorded in the output of \code{\link[=validate_config]{validate_config()}}

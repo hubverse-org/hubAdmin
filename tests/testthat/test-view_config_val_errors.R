@@ -207,12 +207,34 @@ test_that("tabulate_config_val_errors returns the frame view_config_val_errors r
     attr(validation, "schema_version")
   )
   expect_equal(attr(error_df, "schema_url"), attr(validation, "schema_url"))
+  # Attributes are plain strings whatever class the validator gave them
+  expect_identical(class(attr(error_df, "schema_url")), "character")
   # Display transformations are applied to the frame, not by the renderer
   expect_true(all(startsWith(error_df$message, "❌")))
   expect_true(all(grepl("└", error_df$schemaPath, fixed = TRUE)))
 
   tbl <- view_config_val_errors(validation)
   expect_identical(tbl$`_data`, error_df)
+})
+
+test_that("only the gt renderer escapes `$` in a pattern error", {
+  skip_if_offline()
+  validation <- suppressWarnings(
+    validate_config(
+      config_path = testthat::test_path(
+        "testdata",
+        "v5.0.0-tasks-fail-round-id-pattern.json"
+      )
+    )
+  )
+  error_df <- tabulate_config_val_errors(validation)
+  expect_match(error_df$schema, "$", fixed = TRUE)
+  expect_no_match(error_df$schema, "&#36;", fixed = TRUE)
+  expect_match(
+    view_config_val_errors(validation)$`_data`$schema,
+    "&#36;",
+    fixed = TRUE
+  )
 })
 
 test_that("tabulate_config_val_errors works on validate_hub_config output", {
@@ -234,7 +256,10 @@ test_that("tabulate_config_val_errors works on validate_hub_config output", {
       "data"
     )
   )
-  expect_equal(attr(error_df, "path"), attr(validation, "config_dir"))
+  expect_equal(
+    attr(error_df, "path"),
+    as.character(attr(validation, "config_dir"))
+  )
   expect_equal(attr(error_df, "type"), "directory")
   expect_equal(
     attr(error_df, "loc_cols"),

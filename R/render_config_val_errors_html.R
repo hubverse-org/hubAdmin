@@ -7,10 +7,15 @@
 #' [view_config_val_errors()].
 #'
 #' @param x output of [validate_config()] or [validate_hub_config()].
+#' @param max_bytes maximum size of the returned HTML in bytes. Rows are
+#'   dropped from the end of the table until the report fits, and a note below
+#'   the table gives the number dropped. GitHub rejects a pull request comment
+#'   over 65,536 characters.
 #'
 #' @return A single string of HTML, or `NULL` if no errors were detected. The
 #' report consists of a paragraph naming the validated path and the schema
-#' version, followed by a table with one row per error.
+#' version, followed by a table with one row per error. The attribute
+#' `omitted` holds the number of error rows dropped to fit `max_bytes`.
 #' @export
 #' @seealso [tabulate_config_val_errors()], [view_config_val_errors()]
 #' @family functions supporting config file validation
@@ -23,23 +28,45 @@
 #'   render_config_val_errors_html() |>
 #'   cat()
 #' }
-render_config_val_errors_html <- function(x) {
+render_config_val_errors_html <- function(x, max_bytes = Inf) {
+  checkmate::assert_number(max_bytes, lower = 1)
   error_df <- tabulate_config_val_errors(x)
   if (is.null(error_df)) {
     return(NULL)
   }
-  paste(
+
+  opening <- c(
+    html_subtitle(error_df),
+    "<table>",
+    html_thead(error_df),
+    "<tbody>"
+  )
+  closing <- c("</tbody>", "</table>")
+  rows <- html_rows(error_df)
+  # Room is reserved for a note giving the full row count, so that the note
+  # fits whatever number it ends up carrying.
+  keep <- fit_rows(
+    rows,
+    c(opening, closing, "", omission_note(length(rows))),
+    max_bytes
+  )
+  omitted <- sum(!keep)
+
+  out <- paste(
     c(
-      html_subtitle(error_df),
-      "<table>",
-      html_thead(error_df),
-      "<tbody>",
-      html_rows(error_df),
-      "</tbody>",
-      "</table>"
+      opening,
+      rows[keep],
+      closing,
+      if (omitted > 0L) c("", omission_note(omitted))
     ),
     collapse = "\n"
   )
+  attr(out, "omitted") <- omitted
+  out
+}
+
+omission_note <- function(n) {
+  cli::pluralize("*{n} further error{?s} omitted to fit the size limit.*")
 }
 
 html_subtitle <- function(error_df) {
@@ -58,10 +85,10 @@ html_thead <- function(error_df) {
   spanners <- sprintf(
     "<th colspan=\"%d\">%s</th>",
     lengths(groups),
-    names(groups)
+    html_escape(names(groups))
   ) |>
     sub(pattern = " colspan=\"1\"", replacement = "", fixed = TRUE)
-  labels <- sprintf("<th>%s</th>", names(error_df))
+  labels <- sprintf("<th>%s</th>", html_escape(names(error_df)))
   c(
     "<thead>",
     paste0("<tr>", paste(spanners, collapse = ""), "</tr>"),
@@ -78,7 +105,7 @@ html_rows <- function(error_df) {
   # See the note on markdown_cols: only the schema cell of a oneOf error holds
   # markdown. Converting a plain schema cell would alter it, for example by
   # reading the underscores of a regular expression as emphasis.
-  is_oneof <- error_df[["keyword"]] == "oneOf"
+  is_oneof <- error_df[["keyword"]] %in% "oneOf"
   cells[["schema"]][is_oneof] <- html_cell(
     error_df[["schema"]][is_oneof],
     markdown = TRUE
@@ -114,5 +141,13 @@ html_cell <- function(x, markdown = FALSE) {
 html_escape <- function(x) {
   x <- gsub("&", "&amp;", x, fixed = TRUE)
   x <- gsub("<", "&lt;", x, fixed = TRUE)
-  gsub(">", "&gt;", x, fixed = TRUE)
+  x <- gsub(">", "&gt;", x, fixed = TRUE)
+  gsub("\"", "&quot;", x, fixed = TRUE)
+}
+
+# Which rows fit in `max_bytes` alongside the fixed markup around them. The
+# report is the parts joined by newlines, so each part costs its size plus one.
+fit_rows <- function(rows, fixed, max_bytes) {
+  overhead <- nchar(paste(fixed, collapse = "\n"), type = "bytes")
+  cumsum(nchar(rows, type = "bytes") + 1L) <= max_bytes - overhead
 }

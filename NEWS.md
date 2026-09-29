@@ -1,8 +1,8 @@
 # hubAdmin (development version)
 
 * Added `tabulate_config_val_errors()`, which returns the validation errors shown by `view_config_val_errors()` as a data frame (#170).
-* Added `render_config_val_errors_html()`, which renders those errors as a much simpler HTML table than `view_config_val_errors()`, designed for posting to a pull request from CI. It uses only the markup GitHub displays in a pull request comment or job summary (#170).
-* `ci_validate_hub_config()` now writes the errors table rendered by `render_config_val_errors_html()` to `diff`, instead of the raw `gt` output of `view_config_val_errors()`, which was several times larger than a pull request comment allows (#170).
+* Added `render_config_val_errors_html()`, which renders those errors as a much simpler HTML table than `view_config_val_errors()`, designed for posting to a pull request from CI. It uses only the markup GitHub displays in a pull request comment or job summary, and can be capped to a size in bytes, keeping the earliest errors and noting how many were left out (#170).
+* `ci_validate_hub_config()` now writes the errors table rendered by `render_config_val_errors_html()` to `diff`, instead of the raw `gt` output of `view_config_val_errors()`, which was several times larger than a pull request comment allows. The table is capped to fit a pull request comment (#170).
 
 # hubAdmin 1.9.0
 

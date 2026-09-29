@@ -8,6 +8,7 @@ test_that("render_config_val_errors_html renders a single config's errors", {
 
   expect_type(html, "character")
   expect_length(html, 1L)
+  expect_equal(attr(html, "omitted"), 0L)
   # only the markup GitHub renders
   expect_no_match(html, "style=")
   expect_no_match(html, "<td><p>", fixed = TRUE)
@@ -36,6 +37,42 @@ test_that("render_config_val_errors_html returns NULL when validation passed", {
   expect_null(render_config_val_errors_html(validation))
 })
 
+test_that("render_config_val_errors_html caps the report to a size in bytes", {
+  skip_if_offline()
+  validation <- suppressWarnings(
+    validate_hub_config(testthat::test_path("testdata", "error_hub"))
+  )
+  full <- render_config_val_errors_html(validation)
+  n_rows <- nrow(tabulate_config_val_errors(validation))
+  size <- nchar(full, type = "bytes")
+
+  # A cap the whole report fits in, with room for the note it reserves,
+  # changes nothing
+  expect_identical(render_config_val_errors_html(validation, size + 100L), full)
+
+  # Rows are dropped from the end until the report fits, and a note says how
+  # many
+  cut <- render_config_val_errors_html(validation, max_bytes = size - 1L)
+  omitted <- attr(cut, "omitted")
+  expect_lte(nchar(cut, type = "bytes"), size - 1L)
+  expect_lt(omitted, n_rows)
+  expect_match(
+    cut,
+    sprintf("</table>\n\n\\*%d further errors? omitted", omitted)
+  )
+  expect_true(startsWith(full, sub("</tbody>\n</table>.*$", "", cut)))
+
+  # A cap nothing fits in still yields a closed table and the full count
+  none <- render_config_val_errors_html(validation, max_bytes = 10L)
+  expect_equal(attr(none, "omitted"), n_rows)
+  expect_match(none, "<tbody>\n</tbody>\n</table>\n\n")
+
+  expect_error(
+    render_config_val_errors_html(validation, max_bytes = 0),
+    "max_bytes"
+  )
+})
+
 test_that("html_rows converts schema cells as markdown only for oneOf errors", {
   error_df <- tibble::tibble(
     instancePath = c("**rounds**", "**rounds**"),
@@ -56,8 +93,8 @@ test_that("html_rows converts schema cells as markdown only for oneOf errors", {
 
 test_that("html_cell escapes HTML and converts markdown", {
   expect_equal(
-    html_cell("a <b>raw</b> & tag"),
-    "a &lt;b&gt;raw&lt;/b&gt; &amp; tag"
+    html_cell("a <b>raw</b> & \"tag\""),
+    "a &lt;b&gt;raw&lt;/b&gt; &amp; &quot;tag&quot;"
   )
   # A blank line inside the table would end the HTML block on GitHub
   expect_equal(html_cell("a\n\nb"), "a<br><br>b")
