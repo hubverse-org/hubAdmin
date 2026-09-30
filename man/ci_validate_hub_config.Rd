@@ -53,7 +53,11 @@ You can print a more concise and easier to view version of an errors table with
 \code{\link[=view_config_val_errors]{view_config_val_errors()}}.
 }
 \description{
-A continuous integration helper
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#superseded}{\figure{lifecycle-superseded.svg}{options: alt='[Superseded]'}}}{\strong{[Superseded]}}
+
+A continuous integration helper, superseded by the hubverse
+\href{https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config}{\code{validate-config} action},
+which no longer calls it.
 }
 \details{
 This function is to be used within a continuous integration context, in a

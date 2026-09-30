@@ -22,7 +22,7 @@ Note that any \code{"items"} elements indicate that the property is an array of 
 and will be expanded with element index when applied to config objects.
 }
 \examples{
-\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (curl::has_internet()) withAutoprint(\{ # examplesIf}
 schema <- download_tasks_schema("v3.0.1")
 get_array_schema_paths(schema)
 \dontshow{\}) # examplesIf}

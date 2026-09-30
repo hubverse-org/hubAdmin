@@ -44,7 +44,7 @@ TRUE invisibly.
 Write a \strong{tasks} \verb{<config>} class object to a \code{tasks.json} JSON file.
 }
 \examples{
-\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (curl::has_internet()) withAutoprint(\{ # examplesIf}
 # Create rounds object
 rounds <- create_rounds(
   create_round(

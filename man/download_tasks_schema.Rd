@@ -26,7 +26,7 @@ The requested version of the tasks hubverse schema in the specified format.
 Download hubverse tasks schema from the hubverse schema repository.
 }
 \examples{
-\dontshow{if (curl::has_internet()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (curl::has_internet()) withAutoprint(\{ # examplesIf}
 download_tasks_schema()
 download_tasks_schema(format = "json")
 download_tasks_schema(schema_version = "v2.0.1")
