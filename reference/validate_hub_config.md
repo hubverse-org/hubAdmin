@@ -65,6 +65,8 @@ and easier to view version of an errors table with
 [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/view_config_val_errors.md)
 
 Other functions supporting config file validation:
+[`render_config_val_errors_html()`](https://hubverse-org.github.io/hubAdmin/reference/render_config_val_errors_html.md),
+[`tabulate_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/tabulate_config_val_errors.md),
 [`validate_config()`](https://hubverse-org.github.io/hubAdmin/reference/validate_config.md),
 [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/view_config_val_errors.md)
 

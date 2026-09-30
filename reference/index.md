@@ -76,10 +76,16 @@
   : Get potential paths to properties in a config file that can be
   arrays from a hubverse schema
 
+- [`render_config_val_errors_html()`](https://hubverse-org.github.io/hubAdmin/reference/render_config_val_errors_html.md)
+  : Render validation errors as an HTML report for GitHub
+
 - [`schema_autobox()`](https://hubverse-org.github.io/hubAdmin/reference/schema_autobox.md)
   :
 
   Box elements of a `<config>` class object that can be arrays
+
+- [`tabulate_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/tabulate_config_val_errors.md)
+  : Tabulate validation errors as a data frame
 
 - [`validate_config()`](https://hubverse-org.github.io/hubAdmin/reference/validate_config.md)
   : Validate a hub config file against a hubverse schema

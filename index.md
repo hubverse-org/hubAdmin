@@ -20,6 +20,7 @@ You can install the [latest version of hubAdmin from the
 R-universe](https://hubverse-org.r-universe.dev/hubAdmin):
 
 ``` r
+
 install.packages("hubAdmin", repos = c("https://hubverse-org.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
@@ -30,6 +31,7 @@ you can install the development version of hubAdmin from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("hubverse-org/hubAdmin")
 ```

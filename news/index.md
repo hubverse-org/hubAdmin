@@ -1,5 +1,43 @@
 # Changelog
 
+## hubAdmin 1.10.0
+
+- [`validate_config()`](https://hubverse-org.github.io/hubAdmin/reference/validate_config.md)
+  now reports an error when two modeling tasks in a round are not
+  distinguishable, that is, when no task ID, output type or output type
+  ID separates them, so a row of model output could belong to either.
+  The error names the task IDs on which the two modeling tasks differ
+  but still have values in common, and the output types in common.
+  Derived task IDs do not count towards distinguishing modeling tasks,
+  as their values are determined by the task IDs they are derived from
+  ([\#157](https://github.com/hubverse-org/hubAdmin/issues/157)).
+- Added
+  [`tabulate_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/tabulate_config_val_errors.md),
+  which returns the validation errors shown by
+  [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/view_config_val_errors.md)
+  as a data frame
+  ([\#170](https://github.com/hubverse-org/hubAdmin/issues/170)).
+- Added
+  [`render_config_val_errors_html()`](https://hubverse-org.github.io/hubAdmin/reference/render_config_val_errors_html.md),
+  which renders those errors as a much simpler HTML table than
+  [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/view_config_val_errors.md),
+  designed for posting to a pull request from CI. It uses only the
+  markup GitHub displays in a pull request comment or job summary, and
+  can be capped to a size in bytes, keeping the earliest errors and
+  noting how many were left out
+  ([\#170](https://github.com/hubverse-org/hubAdmin/issues/170)).
+- [`ci_validate_hub_config()`](https://hubverse-org.github.io/hubAdmin/reference/ci_validate_hub_config.md)
+  now writes the errors table rendered by
+  [`render_config_val_errors_html()`](https://hubverse-org.github.io/hubAdmin/reference/render_config_val_errors_html.md)
+  to `diff`, instead of the raw `gt` output of
+  [`view_config_val_errors()`](https://hubverse-org.github.io/hubAdmin/reference/view_config_val_errors.md),
+  which was several times larger than a pull request comment allows. The
+  table is capped to fit a pull request comment
+  ([\#170](https://github.com/hubverse-org/hubAdmin/issues/170)).
+- [`ci_validate_hub_config()`](https://hubverse-org.github.io/hubAdmin/reference/ci_validate_hub_config.md)
+  is superseded by the hubverse validate-config action, which no longer
+  calls it.
+
 ## hubAdmin 1.9.0
 
 - Fixed bug that caused unhelpful validation errors when using custom
