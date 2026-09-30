@@ -20,7 +20,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/hubverse-org/hubAdmin/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/hubverse-org/hubAdmin/blob/v1.10.0/DESCRIPTION)
 
 Krystalli A (2026). *hubAdmin: Utilities for Administering Hubverse
 Hubs*. R package version 1.10.0,
