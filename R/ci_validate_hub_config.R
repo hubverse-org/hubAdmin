@@ -1,6 +1,12 @@
 #' Validate Hub config files against hubverse schema
 #'
-#' A continuous integration helper
+#' @description
+#' `r lifecycle::badge("superseded")`
+#'
+#' A continuous integration helper, superseded by the hubverse
+#' [`validate-config`
+#' action](https://github.com/hubverse-org/hubverse-actions/tree/main/validate-config),
+#' which no longer calls it.
 #'
 #' @param hub_path path to the hub. Defaults to the value of the `HUB_PATH`
 #'   environment variable.
