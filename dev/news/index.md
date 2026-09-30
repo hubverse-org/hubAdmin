@@ -2,6 +2,8 @@
 
 ## hubAdmin (development version)
 
+## hubAdmin 1.10.0
+
 - [`validate_config()`](https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.md)
   now reports an error when two modeling tasks in a round are not
   distinguishable, that is, when no task ID, output type or output type
@@ -34,6 +36,9 @@
   which was several times larger than a pull request comment allows. The
   table is capped to fit a pull request comment
   ([\#170](https://github.com/hubverse-org/hubAdmin/issues/170)).
+- [`ci_validate_hub_config()`](https://hubverse-org.github.io/hubAdmin/dev/reference/ci_validate_hub_config.md)
+  is superseded by the hubverse validate-config action, which no longer
+  calls it.
 
 ## hubAdmin 1.9.0
 
