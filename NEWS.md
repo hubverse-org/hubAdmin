@@ -1,5 +1,7 @@
 # hubAdmin (development version)
 
+* `validate_config()` and `create_round()` now report an error when a round has `round_id_from_variable` set to `true` and a sample output type's `compound_taskid_set` does not include the `round_id` variable. In `validate_config()` this includes an empty `compound_taskid_set` (`[]`). Hub configs that passed validation before can therefore now fail. Omitting `compound_taskid_set` remains valid (#159).
+
 # hubAdmin 1.10.0
 
 * `validate_config()` now reports an error when two modeling tasks in a round are not distinguishable, that is, when no task ID, output type or output type ID separates them, so a row of model output could belong to either. The error names the task IDs on which the two modeling tasks differ but still have values in common, and the output types in common. Derived task IDs do not count towards distinguishing modeling tasks, as their values are determined by the task IDs they are derived from (#157).

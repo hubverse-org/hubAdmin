@@ -543,6 +543,48 @@ validate_mt_sample_compound_taskids <- function(
   NULL
 }
 
+# Validate that compound_taskid_set includes the round_id variable when
+# round_id_from_variable = TRUE.
+# Returns NULL if not applicable or check passes and error df row if check fails.
+validate_mt_sample_compound_taskids_round_id_var <- function(
+  model_task_grp,
+  model_task_i,
+  round_i,
+  schema,
+  round_id_from_variable,
+  round_id_var
+) {
+  if (
+    !round_id_from_variable ||
+      !compound_taskids_missing_round_id_var(model_task_grp, round_id_var)
+  ) {
+    return(NULL)
+  }
+  comp_tids <- purrr::pluck(
+    model_task_grp,
+    "output_type",
+    "sample",
+    "output_type_id_params",
+    "compound_taskid_set"
+  )
+
+  data.frame(
+    instancePath = glue::glue(
+      get_error_path(schema, "compound_taskid_set", "instance")
+    ),
+    schemaPath = get_error_path(schema, "compound_taskid_set", "schema"),
+    keyword = "compound_taskid_set round_id",
+    message = glue::glue(
+      "compound_taskid_set must include round_id variable '{round_id_var}'."
+    ),
+    schema = "",
+    data = paste(
+      "compound_taskid_set values:",
+      if (length(comp_tids) == 0L) "[]" else toString(comp_tids)
+    )
+  )
+}
+
 validate_mt_property_unique_vals <- function(
   model_task_grp,
   model_task_i,
