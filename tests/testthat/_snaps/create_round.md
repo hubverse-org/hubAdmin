@@ -442,6 +442,15 @@
       x In `model_tasks[[1]]$round_id_var$optional`: "invalid-round-id-opt1" and "invalid-round-id-opt2"
       x In `model_tasks[[2]]$round_id_var$required`: "invalid-round-id-req1" and "invalid-round-id-req2"
 
+# compound_taskid_set must include round_id when round_id_from_var = TRUE
+
+    Code
+      round_with_set(c("location", "horizon"))
+    Condition
+      Error in `create_round()`:
+      ! `compound_taskid_set` must include the `round_id` variable when `round_id_from_variable` is TRUE.
+      x `round_id` variable "origin_date" missing from `compound_taskid_set` in `model_tasks` `model_task` object 1.
+
 # validating round_id pattern when round_id_from_var = FALSE works
 
     Code
