@@ -81,7 +81,9 @@ test_that("compound_taskid_set must include the round_id variable", {
   tmp <- withr::local_tempfile(fileext = ".json")
   validate_with_set <- function(comp_tids, round_id_from_variable = TRUE) {
     config$rounds[[1]]$round_id_from_variable <- round_id_from_variable
-    config$rounds[[1]]$model_tasks[[1]]$output_type$sample$output_type_id_params$compound_taskid_set <- comp_tids
+    mt <- config$rounds[[1]]$model_tasks[[1]]
+    mt$output_type$sample$output_type_id_params$compound_taskid_set <- comp_tids
+    config$rounds[[1]]$model_tasks[[1]] <- mt
     jsonlite::write_json(config, tmp, auto_unbox = TRUE, null = "null")
     suppressMessages(validate_config(
       config_path = tmp,
