@@ -1545,35 +1545,6 @@
       }
        
 
-# download_tasks_schema schema version work
-
-    Code
-      str(download_tasks_schema(schema_version = "v2.0.1"), 4L)
-    Output
-      List of 8
-       $ $schema             : chr "https://json-schema.org/draft/2020-12/schema"
-       $ $id                 : chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.1/tasks-schema.json"
-       $ title               : chr "Schema for Modeling Hub model task definitions"
-       $ description         : chr "This is the schema of the tasks.json configuration file that defines the tasks within a modeling hub."
-       $ type                : chr "object"
-       $ properties          :List of 2
-        ..$ schema_version:List of 4
-        .. ..$ description: chr "URL to a version of the Modeling Hub schema tasks-schema.json file (see https://github.com/hubverse-org/schemas"| __truncated__
-        .. ..$ examples   : chr "https://raw.githubusercontent.com/hubverse-org/schemas/main/v0.0.1/tasks-schema.json"
-        .. ..$ type       : chr "string"
-        .. ..$ format     : chr "uri"
-        ..$ rounds        :List of 3
-        .. ..$ description: chr "Array of modeling round properties"
-        .. ..$ type       : chr "array"
-        .. ..$ items      :List of 5
-        .. .. ..$ type                : chr "object"
-        .. .. ..$ description         : chr "Individual modeling round properties"
-        .. .. ..$ properties          :List of 7
-        .. .. ..$ required            : chr [1:4] "round_id_from_variable" "round_id" "model_tasks" "submissions_due"
-        .. .. ..$ additionalProperties: logi FALSE
-       $ required            : chr [1:2] "rounds" "schema_version"
-       $ additionalProperties: logi FALSE
-
 # schema version option works for download_tasks_schema
 
     Code

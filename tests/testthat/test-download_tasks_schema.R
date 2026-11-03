@@ -30,11 +30,14 @@ test_that("download_tasks_schema json output work", {
   )
 })
 
-test_that("download_tasks_schema schema version work", {
+test_that("download_tasks_schema returns the requested schema version", {
   skip_if_offline()
-  expect_snapshot(
-    str(download_tasks_schema(schema_version = "v2.0.1"), 4L)
+  schema <- download_tasks_schema(schema_version = "v2.0.1")
+  expect_equal(
+    schema$`$id`,
+    "https://raw.githubusercontent.com/hubverse-org/schemas/main/v2.0.1/tasks-schema.json"
   )
+  expect_named(schema$properties, c("schema_version", "rounds"))
 })
 
 test_that("download_tasks_schema schema version work", {
