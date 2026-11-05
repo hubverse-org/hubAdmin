@@ -59,6 +59,18 @@ test_that("Config for samples fail correctly", {
   expect_snapshot(out)
   expect_snapshot(attr(out, "errors"))
   expect_false(out)
+  errors <- attr(out, "errors")
+  expect_equal(
+    errors$instancePath,
+    "/rounds/0/model_tasks/0/output_type/sample/output_type_id_params"
+  )
+  expect_equal(
+    errors$schemaPath,
+    paste0(
+      "#/properties/rounds/items/properties/model_tasks/items/properties/",
+      "output_type/properties/sample/properties/output_type_id_params"
+    )
+  )
 
   config_path <- testthat::test_path(
     "testdata",
@@ -71,6 +83,22 @@ test_that("Config for samples fail correctly", {
   expect_snapshot(out)
   expect_snapshot(attr(out, "errors"))
   expect_false(out)
+  errors <- attr(out, "errors")
+  expect_equal(
+    errors$instancePath,
+    paste0(
+      "/rounds/0/model_tasks/0/output_type/sample/output_type_id_params/",
+      "compound_taskid_set"
+    )
+  )
+  expect_equal(
+    errors$schemaPath,
+    paste0(
+      "#/properties/rounds/items/properties/model_tasks/items/properties/",
+      "output_type/properties/sample/properties/output_type_id_params/",
+      "properties/compound_taskid_set"
+    )
+  )
 })
 
 
