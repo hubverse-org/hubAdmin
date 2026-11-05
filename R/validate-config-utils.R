@@ -570,9 +570,17 @@ validate_mt_sample_compound_taskids_round_id_var <- function(
 
   data.frame(
     instancePath = glue::glue(
-      get_error_path(schema, "compound_taskid_set", "instance")
+      get_error_path(
+        schema,
+        "output_type_id_params/properties/compound_taskid_set",
+        "instance"
+      )
     ),
-    schemaPath = get_error_path(schema, "compound_taskid_set", "schema"),
+    schemaPath = get_error_path(
+      schema,
+      "output_type_id_params/properties/compound_taskid_set",
+      "schema"
+    ),
     keyword = "compound_taskid_set round_id",
     message = glue::glue(
       "compound_taskid_set must include round_id variable '{round_id_var}'."
