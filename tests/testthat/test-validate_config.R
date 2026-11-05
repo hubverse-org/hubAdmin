@@ -73,6 +73,39 @@ test_that("Config for samples fail correctly", {
   expect_false(out)
 })
 
+test_that("compound_taskid_set must include the round_id variable", {
+  skip_if_offline()
+  config <- jsonlite::read_json(
+    testthat::test_path("testdata", "tasks-samples-pass.json")
+  )
+  tmp <- withr::local_tempfile(fileext = ".json")
+  validate_with_set <- function(comp_tids, round_id_from_variable = TRUE) {
+    config$rounds[[1]]$round_id_from_variable <- round_id_from_variable
+    mt <- config$rounds[[1]]$model_tasks[[1]]
+    mt$output_type$sample$output_type_id_params$compound_taskid_set <- comp_tids
+    config$rounds[[1]]$model_tasks[[1]] <- mt
+    jsonlite::write_json(config, tmp, auto_unbox = TRUE, null = "null")
+    suppressMessages(validate_config(
+      config_path = tmp,
+      schema_version = "v3.0.1"
+    ))
+  }
+
+  out <- validate_with_set(list("target", "horizon"))
+  expect_false(out)
+  expect_snapshot(attr(out, "errors"))
+
+  out <- validate_with_set(list())
+  expect_false(out)
+  expect_snapshot(attr(out, "errors"))
+
+  expect_true(validate_with_set(list("forecast_date", "target")))
+  expect_true(validate_with_set(NULL))
+  expect_true(
+    validate_with_set(list("target", "horizon"), round_id_from_variable = FALSE)
+  )
+})
+
 
 test_that("Config errors detected successfully", {
   skip_if_offline()
