@@ -24,10 +24,10 @@
     Code
       attr(out, "errors")
     Output
-                                                                     instancePath
-      1 /rounds/0/model_tasks/0/task_ids/output_type/sample/output_type_id_params
-                                                                                                                   schemaPath
-      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/output_type_id_params
+                                                            instancePath
+      1 /rounds/0/model_tasks/0/output_type/sample/output_type_id_params
+                                                                                                                              schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/properties/output_type_id_params
                     keyword
       1 Sample number range
                                                                     message schema
@@ -53,10 +53,10 @@
     Code
       attr(out, "errors")
     Output
-                                                                                         instancePath
-      1 /rounds/0/model_tasks/0/task_ids/output_type/sample/output_type_id_params/compound_taskid_set
-                                                                                                                                       schemaPath
-      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/output_type_id_params/compound_taskid_set
+                                                                                instancePath
+      1 /rounds/0/model_tasks/0/output_type/sample/output_type_id_params/compound_taskid_set
+                                                                                                                                                             schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/properties/output_type_id_params/properties/compound_taskid_set
                            keyword
       1 compound_taskid_set values
                                                                  message schema
