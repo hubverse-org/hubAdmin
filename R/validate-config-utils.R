@@ -454,18 +454,14 @@ validate_mt_sample_range <- function(
       instancePath = glue::glue(
         get_error_path(
           schema,
-          "output_type/sample/output_type_id_params",
+          "sample/properties/output_type_id_params",
           "instance"
         )
       ),
-      schemaPath = paste(
-        get_error_path(
-          schema,
-          "sample",
-          "schema"
-        ),
-        "output_type_id_params",
-        sep = "/"
+      schemaPath = get_error_path(
+        schema,
+        "sample/properties/output_type_id_params",
+        "schema"
       ),
       keyword = "Sample number range",
       message = glue::glue(
@@ -512,19 +508,14 @@ validate_mt_sample_compound_taskids <- function(
       instancePath = glue::glue(
         get_error_path(
           schema,
-          "output_type/sample/output_type_id_params/compound_taskid_set",
+          "output_type_id_params/properties/compound_taskid_set",
           "instance"
         )
       ),
-      schemaPath = paste(
-        get_error_path(
-          schema,
-          "sample",
-          "schema"
-        ),
-        "output_type_id_params",
-        "compound_taskid_set",
-        sep = "/"
+      schemaPath = get_error_path(
+        schema,
+        "output_type_id_params/properties/compound_taskid_set",
+        "schema"
       ),
       keyword = "compound_taskid_set values",
       message = glue::glue(

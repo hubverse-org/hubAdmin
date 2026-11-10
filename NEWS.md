@@ -1,5 +1,7 @@
 # hubAdmin (development version)
 
+* Fixed the instance and schema paths reported for invalid sample output type settings (`min_samples_per_task` greater than `max_samples_per_task`, or `compound_taskid_set` values that are not task IDs). The paths now point to the `output_type_id_params` and `compound_taskid_set` properties in the config and schema (#181).
+
 # hubAdmin 1.10.0
 
 * `validate_config()` now reports an error when two modeling tasks in a round are not distinguishable, that is, when no task ID, output type or output type ID separates them, so a row of model output could belong to either. The error names the task IDs on which the two modeling tasks differ but still have values in common, and the output types in common. Derived task IDs do not count towards distinguishing modeling tasks, as their values are determined by the task IDs they are derived from (#157).
