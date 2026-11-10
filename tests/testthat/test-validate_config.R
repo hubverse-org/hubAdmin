@@ -142,6 +142,124 @@ test_that("compound_taskid_set must include the round_id variable", {
   )
 })
 
+test_that("a modeling task without the round ID task ID gets only the missing task ID error", {
+  skip_if_offline()
+  config <- jsonlite::read_json(
+    testthat::test_path("testdata", "tasks-samples-pass.json")
+  )
+  # The first model task's sample compound_taskid_set includes forecast_date,
+  # so it is removed from the set wherever it is removed from task_ids.
+  drop_round_id_var <- function(mt) {
+    mt$task_ids$forecast_date <- NULL
+    comp_tids <- mt$output_type$sample$output_type_id_params$compound_taskid_set
+    if (!is.null(comp_tids)) {
+      mt$output_type$sample$output_type_id_params$compound_taskid_set <-
+        setdiff(comp_tids, "forecast_date")
+    }
+    mt
+  }
+  tmp <- withr::local_tempfile(fileext = ".json")
+  validate_model_tasks <- function(model_tasks) {
+    config$rounds[[1]]$model_tasks <- model_tasks
+    jsonlite::write_json(config, tmp, auto_unbox = TRUE, null = "null")
+    suppressMessages(validate_config(
+      config_path = tmp,
+      schema_version = "v3.0.1"
+    ))
+  }
+  present_errors <- function(out) {
+    errors <- attr(out, "errors")
+    errors[grepl("MUST be a task ID of every", errors$message), ]
+  }
+  schema_path <- paste0(
+    "#/properties/rounds/items/properties/model_tasks/items/",
+    "properties/task_ids"
+  )
+  mts <- config$rounds[[1]]$model_tasks
+
+  # All model tasks lack the round_id variable
+  out <- validate_model_tasks(purrr::map(mts, drop_round_id_var))
+  expect_false(out)
+  expect_snapshot(attr(out, "errors"))
+  errors <- present_errors(out)
+  expect_equal(
+    errors$instancePath,
+    c("/rounds/0/model_tasks/0/task_ids", "/rounds/0/model_tasks/1/task_ids")
+  )
+  expect_equal(errors$schemaPath, rep(schema_path, 2L))
+  expect_equal(nrow(attr(out, "errors")), 2L)
+
+  # Single model task round that lacks the round_id variable
+  out <- validate_model_tasks(list(drop_round_id_var(mts[[1]])))
+  expect_false(out)
+  expect_snapshot(attr(out, "errors"))
+  errors <- present_errors(out)
+  expect_equal(errors$instancePath, "/rounds/0/model_tasks/0/task_ids")
+  expect_equal(errors$schemaPath, schema_path)
+  expect_equal(nrow(attr(out, "errors")), 1L)
+
+  # Only the first model task lacks the round_id variable
+  out <- validate_model_tasks(list(drop_round_id_var(mts[[1]]), mts[[2]]))
+  expect_false(out)
+  expect_snapshot(attr(out, "errors"))
+  errors <- present_errors(out)
+  expect_equal(errors$instancePath, "/rounds/0/model_tasks/0/task_ids")
+  expect_equal(errors$schemaPath, schema_path)
+  expect_equal(nrow(attr(out, "errors")), 1L)
+})
+
+test_that("round ID consistency is checked against the most common value, among modeling tasks that have the task ID", {
+  skip_if_offline()
+  schema <- download_tasks_schema("v3.0.1", format = "json")
+  dates <- function(...) list(required = NULL, optional = c(...))
+  round_with <- function(...) {
+    list(
+      round_id_from_variable = TRUE,
+      round_id = "origin_date",
+      model_tasks = purrr::map(
+        list(...),
+        \(x) list(task_ids = list(origin_date = x, target = dates("t")))
+      )
+    )
+  }
+  schema_path <- paste0(
+    "#/properties/rounds/items/properties/model_tasks/items/",
+    "properties/task_ids/properties/origin_date"
+  )
+
+  # The first model task differs from the other two
+  out <- validate_round_ids_consistent(
+    round_with(dates("2023-01-02"), dates("2023-01-09"), dates("2023-01-09")),
+    round_i = 1L,
+    schema = schema
+  )
+  expect_equal(out$instancePath, "/rounds/0/model_tasks/0/task_ids/origin_date")
+  expect_equal(out$schemaPath, schema_path)
+  expect_match(
+    out$data,
+    "compared to /rounds/0/model_tasks/1/task_ids/origin_date$"
+  )
+
+  # On a tie, the earliest model task is the reference
+  out <- validate_round_ids_consistent(
+    round_with(dates("2023-01-02"), dates("2023-01-09")),
+    round_i = 1L,
+    schema = schema
+  )
+  expect_equal(out$instancePath, "/rounds/0/model_tasks/1/task_ids/origin_date")
+  expect_match(
+    out$data,
+    "compared to /rounds/0/model_tasks/0/task_ids/origin_date$"
+  )
+
+  # Model tasks that lack the round_id variable are not compared
+  round <- round_with(dates("2023-01-02"), dates("2023-01-02"), NULL)
+  round$model_tasks[[3]]$task_ids$origin_date <- NULL
+  expect_null(
+    validate_round_ids_consistent(round, round_i = 1L, schema = schema)
+  )
+})
+
 
 test_that("Config errors detected successfully", {
   skip_if_offline()
