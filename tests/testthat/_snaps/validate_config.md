@@ -101,6 +101,59 @@
                                   data
       1 compound_taskid_set values: []
 
+# a modeling task without the round ID task ID gets only the missing task ID error
+
+    Code
+      attr(out, "errors")
+    Output
+                            instancePath
+      1 /rounds/0/model_tasks/0/task_ids
+      2 /rounds/0/model_tasks/1/task_ids
+                                                                        schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/task_ids
+      2 #/properties/rounds/items/properties/model_tasks/items/properties/task_ids
+             keyword
+      1 round_id var
+      2 round_id var
+                                                                                                           message
+      1 round_id var 'forecast_date' MUST be a task ID of every modeling task when round_id_from_variable is true.
+      2 round_id var 'forecast_date' MUST be a task ID of every modeling task when round_id_from_variable is true.
+        schema                                      data
+      1        task_ids names: target, horizon, location
+      2        task_ids names: target, horizon, location
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
+                            instancePath
+      1 /rounds/0/model_tasks/0/task_ids
+                                                                        schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/task_ids
+             keyword
+      1 round_id var
+                                                                                                           message
+      1 round_id var 'forecast_date' MUST be a task ID of every modeling task when round_id_from_variable is true.
+        schema                                      data
+      1        task_ids names: target, horizon, location
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
+                            instancePath
+      1 /rounds/0/model_tasks/0/task_ids
+                                                                        schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/task_ids
+             keyword
+      1 round_id var
+                                                                                                           message
+      1 round_id var 'forecast_date' MUST be a task ID of every modeling task when round_id_from_variable is true.
+        schema                                      data
+      1        task_ids names: target, horizon, location
+
 # Config errors detected successfully
 
     Code
@@ -822,9 +875,9 @@
         schema
       1       
       2       
-                                                                                                                data
-      1 Component "optional": Lengths (23, 22) differ (string compare on first 22) compared to first model task item
-      2                                    Component "optional": 1 string mismatch compared to first model task item
+                                                                                                                                         data
+      1 Component "optional": Lengths (23, 22) differ (string compare on first 22) compared to /rounds/0/model_tasks/0/task_ids/forecast_date
+      2                                    Component "optional": 1 string mismatch compared to /rounds/0/model_tasks/0/task_ids/forecast_date
 
 ---
 
@@ -858,9 +911,9 @@
         schema
       1       
       2       
-                                                                                                                data
-      1 Component "optional": Lengths (23, 22) differ (string compare on first 22) compared to first model task item
-      2                                    Component "optional": 1 string mismatch compared to first model task item
+                                                                                                                                         data
+      1 Component "optional": Lengths (23, 22) differ (string compare on first 22) compared to /rounds/0/model_tasks/0/task_ids/forecast_date
+      2                                    Component "optional": 1 string mismatch compared to /rounds/0/model_tasks/0/task_ids/forecast_date
 
 # Duplicate round ID values across rounds error successfully
 
