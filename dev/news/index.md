@@ -2,6 +2,13 @@
 
 ## hubAdmin (development version)
 
+- Fixed the instance and schema paths reported for invalid sample output
+  type settings (`min_samples_per_task` greater than
+  `max_samples_per_task`, or `compound_taskid_set` values that are not
+  task IDs). The paths now point to the `output_type_id_params` and
+  `compound_taskid_set` properties in the config and schema
+  ([\#181](https://github.com/hubverse-org/hubAdmin/issues/181)).
+
 ## hubAdmin 1.10.0
 
 - [`validate_config()`](https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.md)
