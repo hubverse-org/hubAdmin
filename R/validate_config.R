@@ -392,6 +392,19 @@ val_round <- function(round, round_i, schema, derived_task_ids) {
     purrr::imap(
       model_task_grps,
       \(.x, .y) {
+        validate_mt_sample_compound_taskids_round_id_var(
+          model_task_grp = .x,
+          model_task_i = .y,
+          round_i = round_i,
+          schema = schema,
+          round_id_from_variable = round_id_from_variable,
+          round_id_var = round_id_var
+        )
+      }
+    ),
+    purrr::imap(
+      model_task_grps,
+      \(.x, .y) {
         validate_mt_round_id_pattern(
           model_task_grp = .x,
           model_task_i = .y,

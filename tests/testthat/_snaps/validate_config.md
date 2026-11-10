@@ -42,7 +42,7 @@
     Output
       [1] FALSE
     Message
-      ! 1 schema errors: testdata/tasks-samples-error-task-ids.json
+      ! 2 schema errors: testdata/tasks-samples-error-task-ids.json
         (<file://testdata/tasks-samples-error-task-ids.json>) (via tasks-schema
         v3.0.1
         (<https://raw.githubusercontent.com/hubverse-org/schemas/main/v3.0.1/tasks-schema.json>))
@@ -55,14 +55,51 @@
     Output
                                                                                 instancePath
       1 /rounds/0/model_tasks/0/output_type/sample/output_type_id_params/compound_taskid_set
+      2 /rounds/0/model_tasks/0/output_type/sample/output_type_id_params/compound_taskid_set
                                                                                                                                                              schemaPath
       1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/properties/output_type_id_params/properties/compound_taskid_set
-                           keyword
-      1 compound_taskid_set values
-                                                                 message schema
-      1 compound_taskid_set value(s) 'origin_date' not valid task id(s).       
+      2 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/properties/output_type_id_params/properties/compound_taskid_set
+                             keyword
+      1   compound_taskid_set values
+      2 compound_taskid_set round_id
+                                                                    message schema
+      1    compound_taskid_set value(s) 'origin_date' not valid task id(s).       
+      2 compound_taskid_set must include round_id variable 'forecast_date'.       
                                                                                                                          data
       1 compound_taskid_set values: origin_date, location, horizon;\ntask id values: forecast_date, target, horizon, location
+      2                                                            compound_taskid_set values: origin_date, location, horizon
+
+# compound_taskid_set must include the round_id variable
+
+    Code
+      attr(out, "errors")
+    Output
+                                                                                instancePath
+      1 /rounds/0/model_tasks/0/output_type/sample/output_type_id_params/compound_taskid_set
+                                                                                                                                                             schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/properties/output_type_id_params/properties/compound_taskid_set
+                             keyword
+      1 compound_taskid_set round_id
+                                                                    message schema
+      1 compound_taskid_set must include round_id variable 'forecast_date'.       
+                                               data
+      1 compound_taskid_set values: target, horizon
+
+---
+
+    Code
+      attr(out, "errors")
+    Output
+                                                                                instancePath
+      1 /rounds/0/model_tasks/0/output_type/sample/output_type_id_params/compound_taskid_set
+                                                                                                                                                             schemaPath
+      1 #/properties/rounds/items/properties/model_tasks/items/properties/output_type/properties/sample/properties/output_type_id_params/properties/compound_taskid_set
+                             keyword
+      1 compound_taskid_set round_id
+                                                                    message schema
+      1 compound_taskid_set must include round_id variable 'forecast_date'.       
+                                  data
+      1 compound_taskid_set values: []
 
 # Config errors detected successfully
 
