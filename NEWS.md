@@ -2,6 +2,8 @@
 
 * Fixed the instance and schema paths reported for invalid sample output type settings (`min_samples_per_task` greater than `max_samples_per_task`, or `compound_taskid_set` values that are not task IDs). The paths now point to the `output_type_id_params` and `compound_taskid_set` properties in the config and schema (#181).
 * `validate_config()` and `create_round()` now report an error when a round has `round_id_from_variable` set to `true` and a sample output type's `compound_taskid_set` does not include the `round_id` variable. In `validate_config()` this includes an empty `compound_taskid_set` (`[]`). Hub configs that passed validation before can therefore now fail. Omitting `compound_taskid_set` remains valid (#159).
+* `validate_config()` now reports an error for each modeling task whose task IDs do not include the `round_id` variable, when the round has `round_id_from_variable` set to `true`. Such configs previously passed validation when every modeling task in the round lacked the variable, or when the round had a single modeling task (#173).
+* When the `round_id` variable's values differ across the modeling tasks of a round, `validate_config()` now reports the error against the modeling tasks whose values differ from the most common values, rather than against every modeling task that differs from the first. A modeling task that lacks the `round_id` variable no longer also produces this error (#173).
 
 # hubAdmin 1.10.0
 

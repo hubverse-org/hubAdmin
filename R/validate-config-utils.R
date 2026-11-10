@@ -534,9 +534,46 @@ validate_mt_sample_compound_taskids <- function(
   NULL
 }
 
+# Validate that the round_id variable is a task ID of the model task when
+# round_id_from_variable = TRUE.
+# Returns NULL if not applicable or the check passes, and an error df row
+# if it fails.
+validate_mt_round_id_var_present <- function(
+  model_task_grp,
+  model_task_i,
+  round_i,
+  schema,
+  round_id_from_variable,
+  round_id_var
+) {
+  task_id_names <- get_grp_task_ids(model_task_grp)
+  if (!round_id_from_variable || round_id_var %in% task_id_names) {
+    return(NULL)
+  }
+  task_ids_path <- "model_tasks/items/properties/task_ids"
+
+  data.frame(
+    instancePath = glue::glue(
+      get_error_path(schema, task_ids_path, "instance")
+    ),
+    schemaPath = get_error_path(schema, task_ids_path, "schema"),
+    keyword = "round_id var",
+    message = glue::glue(
+      "round_id var '{round_id_var}' MUST be a task ID of every",
+      " modeling task when round_id_from_variable is true."
+    ),
+    schema = "",
+    data = paste("task_ids names:", toString(task_id_names))
+  )
+}
+
 # Validate that compound_taskid_set includes the round_id variable when
 # round_id_from_variable = TRUE.
 # Returns NULL if not applicable or check passes and error df row if check fails.
+# Note that this check skips a model task that does not have the round_id
+# variable as a task ID. Its compound_taskid_set cannot include the variable,
+# because validate_mt_sample_compound_taskids() rejects values that are not
+# task IDs. validate_mt_round_id_var_present() reports that model task.
 validate_mt_sample_compound_taskids_round_id_var <- function(
   model_task_grp,
   model_task_i,
@@ -547,6 +584,7 @@ validate_mt_sample_compound_taskids_round_id_var <- function(
 ) {
   if (
     !round_id_from_variable ||
+      !round_id_var %in% get_grp_task_ids(model_task_grp) ||
       !compound_taskids_missing_round_id_var(model_task_grp, round_id_var)
   ) {
     return(NULL)
@@ -705,24 +743,38 @@ validate_mt_round_id_pattern <- function(
 ## ROUND LEVEL VALIDATIONS ----
 # Check that round id variables are consistent across modeling tasks
 validate_round_ids_consistent <- function(round, round_i, schema) {
-  n_mt <- length(round[["model_tasks"]])
-
-  if (!round[["round_id_from_variable"]] || n_mt == 1L) {
+  if (!round[["round_id_from_variable"]]) {
     return(NULL)
   }
 
   round_id_var <- round[["round_id"]]
 
+  # Model tasks that lack the round_id variable are left out here, because
+  # validate_mt_round_id_var_present() reports them.
   mt <- purrr::map(
     round[["model_tasks"]],
     ~ purrr::pluck(.x, "task_ids", round_id_var)
+  ) |>
+    purrr::set_names(seq_along(round[["model_tasks"]])) |>
+    purrr::compact()
+
+  if (length(mt) < 2L) {
+    return(NULL)
+  }
+
+  # The reference is the most common value. On a tie, it is the value of the
+  # earliest model task.
+  n_equal <- purrr::map_int(
+    mt,
+    \(x) sum(purrr::map_lgl(mt, \(y) isTRUE(all.equal(x, y))))
   )
+  ref_i <- which.max(n_equal)
 
   checks <- purrr::map(
-    .x = purrr::set_names(seq_along(mt)[-1]),
-    ~ {
-      check <- all.equal(mt[[1]], mt[[.x]])
-      if (is.logical(check) && check) NULL else check
+    mt[-ref_i],
+    \(x) {
+      check <- all.equal(mt[[ref_i]], x)
+      if (isTRUE(check)) NULL else check
     }
   ) |>
     purrr::compact()
@@ -730,12 +782,17 @@ validate_round_ids_consistent <- function(round, round_i, schema) {
   if (length(checks) == 0L) {
     return(NULL)
   }
+  instance_path <- get_error_path(schema, round_id_var, "instance")
+  ref_path <- glue::glue_data(
+    list(model_task_i = as.integer(names(mt)[ref_i])),
+    instance_path
+  )
   purrr::imap(
     checks,
     ~ tibble::tibble(
       instancePath = glue::glue_data(
         list(model_task_i = as.integer(.y)),
-        get_error_path(schema, round_id_var, "instance")
+        instance_path
       ),
       schemaPath = get_error_path(schema, round_id_var, "schema"),
       keyword = "round_id var",
@@ -744,7 +801,7 @@ validate_round_ids_consistent <- function(round, round_i, schema) {
         " consistent across modeling task items"
       ),
       schema = "",
-      data = glue::glue("{.x} compared to first model task item")
+      data = glue::glue("{.x} compared to {ref_path}")
     )
   ) |>
     purrr::list_rbind() |>
