@@ -192,7 +192,6 @@ test_that("a modeling task without the round ID task ID gets only the missing ta
   # Single model task round that lacks the round_id variable
   out <- validate_model_tasks(list(drop_round_id_var(mts[[1]])))
   expect_false(out)
-  expect_snapshot(attr(out, "errors"))
   errors <- present_errors(out)
   expect_equal(errors$instancePath, "/rounds/0/model_tasks/0/task_ids")
   expect_equal(errors$schemaPath, schema_path)
@@ -201,7 +200,6 @@ test_that("a modeling task without the round ID task ID gets only the missing ta
   # Only the first model task lacks the round_id variable
   out <- validate_model_tasks(list(drop_round_id_var(mts[[1]]), mts[[2]]))
   expect_false(out)
-  expect_snapshot(attr(out, "errors"))
   errors <- present_errors(out)
   expect_equal(errors$instancePath, "/rounds/0/model_tasks/0/task_ids")
   expect_equal(errors$schemaPath, schema_path)

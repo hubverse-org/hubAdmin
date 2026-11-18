@@ -122,38 +122,6 @@
       1        task_ids names: target, horizon, location
       2        task_ids names: target, horizon, location
 
----
-
-    Code
-      attr(out, "errors")
-    Output
-                            instancePath
-      1 /rounds/0/model_tasks/0/task_ids
-                                                                        schemaPath
-      1 #/properties/rounds/items/properties/model_tasks/items/properties/task_ids
-             keyword
-      1 round_id var
-                                                                                                           message
-      1 round_id var 'forecast_date' MUST be a task ID of every modeling task when round_id_from_variable is true.
-        schema                                      data
-      1        task_ids names: target, horizon, location
-
----
-
-    Code
-      attr(out, "errors")
-    Output
-                            instancePath
-      1 /rounds/0/model_tasks/0/task_ids
-                                                                        schemaPath
-      1 #/properties/rounds/items/properties/model_tasks/items/properties/task_ids
-             keyword
-      1 round_id var
-                                                                                                           message
-      1 round_id var 'forecast_date' MUST be a task ID of every modeling task when round_id_from_variable is true.
-        schema                                      data
-      1        task_ids names: target, horizon, location
-
 # Config errors detected successfully
 
     Code

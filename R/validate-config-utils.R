@@ -538,6 +538,8 @@ validate_mt_sample_compound_taskids <- function(
 # round_id_from_variable = TRUE.
 # Returns NULL if not applicable or the check passes, and an error df row
 # if it fails.
+# Note that glue::glue() fills model_task_i and round_i into the instance
+# path returned by get_error_path().
 validate_mt_round_id_var_present <- function(
   model_task_grp,
   model_task_i,
@@ -570,10 +572,10 @@ validate_mt_round_id_var_present <- function(
 # Validate that compound_taskid_set includes the round_id variable when
 # round_id_from_variable = TRUE.
 # Returns NULL if not applicable or check passes and error df row if check fails.
-# Note that this check skips a model task that does not have the round_id
-# variable as a task ID. Its compound_taskid_set cannot include the variable,
-# because validate_mt_sample_compound_taskids() rejects values that are not
-# task IDs. validate_mt_round_id_var_present() reports that model task.
+# Skips a model task that does not have the round_id variable as a task ID,
+# which validate_mt_round_id_var_present() reports. Its compound_taskid_set
+# cannot include the variable, because validate_mt_sample_compound_taskids()
+# rejects values that are not task IDs.
 # Note that glue::glue() fills model_task_i and round_i into the instance
 # path returned by get_error_path().
 validate_mt_sample_compound_taskids_round_id_var <- function(
@@ -764,8 +766,10 @@ validate_round_ids_consistent <- function(round, round_i, schema) {
     return(NULL)
   }
 
-  # The reference is the most common value. On a tie, it is the value of the
-  # earliest model task.
+  # The reference is the round_id variable's values shared by the most model
+  # tasks in the round. Each model task whose values differ from the reference
+  # gets an error. On a tie, the reference is the earliest of the tied model
+  # tasks.
   n_equal <- purrr::map_int(
     mt,
     \(x) sum(purrr::map_lgl(mt, \(y) isTRUE(all.equal(x, y))))
