@@ -537,6 +537,8 @@ validate_mt_sample_compound_taskids <- function(
 # Validate that compound_taskid_set includes the round_id variable when
 # round_id_from_variable = TRUE.
 # Returns NULL if not applicable or check passes and error df row if check fails.
+# Note that glue::glue() fills model_task_i and round_i into the instance
+# path returned by get_error_path().
 validate_mt_sample_compound_taskids_round_id_var <- function(
   model_task_grp,
   model_task_i,
