@@ -172,8 +172,10 @@ Must be equal to or greater than <code>min_samples_per_task</code>.</p></dd>
 
 
 <dt id="arg-compound-taskid-set">compound_taskid_set<a class="anchor" aria-label="anchor" href="#arg-compound-taskid-set"></a></dt>
-<dd><p>Character vector. Optional. The set of compound
-task IDs that the sample each output type can be associated with.</p></dd>
+<dd><p>Character vector. Optional. The set of task IDs
+that define the compound modeling task each sample is associated with.
+When the round's <code>round_id_from_variable</code> is <code>TRUE</code>, it must include the
+<code>round_id</code> variable.</p></dd>
 
 </dl></div>
     <div class="section level2">

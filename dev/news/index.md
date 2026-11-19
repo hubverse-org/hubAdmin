@@ -8,6 +8,35 @@
   task IDs). The paths now point to the `output_type_id_params` and
   `compound_taskid_set` properties in the config and schema
   ([\#181](https://github.com/hubverse-org/hubAdmin/issues/181)).
+- Breaking change:
+  [`validate_config()`](https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.md)
+  and
+  [`create_round()`](https://hubverse-org.github.io/hubAdmin/dev/reference/create_round.md)
+  now report an error when a round has `round_id_from_variable` set to
+  `true` and a sample output type’s `compound_taskid_set` does not
+  include the `round_id` variable. In
+  [`validate_config()`](https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.md)
+  this includes an empty `compound_taskid_set` (`[]`). Hub configs that
+  passed validation before can therefore now fail. Omitting
+  `compound_taskid_set` remains valid
+  ([\#159](https://github.com/hubverse-org/hubAdmin/issues/159)).
+- Breaking change:
+  [`validate_config()`](https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.md)
+  now reports an error for each modeling task whose task IDs do not
+  include the `round_id` variable, when the round has
+  `round_id_from_variable` set to `true`. Such configs previously passed
+  validation when every modeling task in the round lacked the variable,
+  or when the round had a single modeling task
+  ([\#173](https://github.com/hubverse-org/hubAdmin/issues/173)).
+- When the modeling tasks of a round list different `required` or
+  `optional` values for the `round_id` variable,
+  [`validate_config()`](https://hubverse-org.github.io/hubAdmin/dev/reference/validate_config.md)
+  now reports the error against the modeling tasks whose values differ
+  from those most modeling tasks list, rather than against every
+  modeling task whose values differ from the first modeling task’s. A
+  modeling task that lacks the `round_id` variable no longer also
+  produces this error
+  ([\#173](https://github.com/hubverse-org/hubAdmin/issues/173)).
 
 ## hubAdmin 1.10.0
 

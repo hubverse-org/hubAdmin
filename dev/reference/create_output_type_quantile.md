@@ -121,8 +121,10 @@ create_output_type_sample(
 
 - compound_taskid_set:
 
-  Character vector. Optional. The set of compound task IDs that the
-  sample each output type can be associated with.
+  Character vector. Optional. The set of task IDs that define the
+  compound modeling task each sample is associated with. When the
+  round's `round_id_from_variable` is `TRUE`, it must include the
+  `round_id` variable.
 
 ## Value
 
