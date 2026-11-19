@@ -89,8 +89,10 @@ Must be equal to or less than \code{max_samples_per_task}.}
 \item{max_samples_per_task}{Integer. The maximum number of samples per task.
 Must be equal to or greater than \code{min_samples_per_task}.}
 
-\item{compound_taskid_set}{Character vector. Optional. The set of compound
-task IDs that the sample each output type can be associated with.}
+\item{compound_taskid_set}{Character vector. Optional. The set of task IDs
+that define the compound modeling task each sample is associated with.
+When the round's \code{round_id_from_variable} is \code{TRUE}, it must include the
+\code{round_id} variable.}
 }
 \value{
 a named list of class \code{output_type_item} representing a \code{quantile},

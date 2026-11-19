@@ -162,6 +162,7 @@ create_round <- function(
   if (round_id_from_variable) {
     check_round_id_variable(model_tasks, round_id)
     check_round_id_pattern_vals(model_tasks, round_id)
+    check_compound_taskids_round_id_var(model_tasks, round_id_var = round_id)
   } else {
     check_round_id_pattern(round_id)
   }
@@ -208,6 +209,30 @@ check_round_id_variable <- function(
               to a valid  variable in provided {cli::qty(sum(invalid_round_id))}
               {.arg model_tasks} {.arg model_task} object{?s}
               {.val {which(invalid_round_id)}}."
+      ),
+      call = call
+    )
+  }
+}
+
+check_compound_taskids_round_id_var <- function(
+  model_tasks,
+  round_id_var,
+  call = rlang::caller_env()
+) {
+  missing_round_id_var <- purrr::map_lgl(
+    model_tasks$model_tasks,
+    \(.x) compound_taskids_missing_round_id_var(.x, round_id_var)
+  )
+
+  if (any(missing_round_id_var)) {
+    cli::cli_abort(
+      c(
+        "!" = "{.arg compound_taskid_set} must include the {.arg round_id}
+              variable when {.arg round_id_from_variable} is {.val {TRUE}}.",
+        "x" = "{.arg round_id} variable {.val {round_id_var}} missing from
+              {.arg compound_taskid_set} in {.arg model_tasks}
+              {.arg model_task} object{?s} {.val {which(missing_round_id_var)}}."
       ),
       call = call
     )

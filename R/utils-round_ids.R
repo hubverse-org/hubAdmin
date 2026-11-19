@@ -25,3 +25,19 @@ invalid_round_id_var_patterns <- function(round_id_var_vals) {
     }
   )
 }
+
+# Check whether a model task's sample compound_taskid_set leaves out the
+# round_id variable. A model output file covers a single round, so samples
+# cannot be joint across the round_id variable.
+# Note that an absent compound_taskid_set defaults to all task IDs and so
+# always includes it. `[]` is read as `list()`, not `NULL`, so it is checked.
+compound_taskids_missing_round_id_var <- function(model_task, round_id_var) {
+  comp_tids <- purrr::pluck(
+    model_task,
+    "output_type",
+    "sample",
+    "output_type_id_params",
+    "compound_taskid_set"
+  )
+  !is.null(comp_tids) && !round_id_var %in% comp_tids
+}

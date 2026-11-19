@@ -392,8 +392,10 @@ create_output_type_pmf <- function(
 #' Must be equal to or less than `max_samples_per_task`.
 #' @param max_samples_per_task Integer. The maximum number of samples per task.
 #' Must be equal to or greater than `min_samples_per_task`.
-#' @param compound_taskid_set Character vector. Optional. The set of compound
-#' task IDs that the sample each output type can be associated with.
+#' @param compound_taskid_set Character vector. Optional. The set of task IDs
+#' that define the compound modeling task each sample is associated with.
+#' When the round's `round_id_from_variable` is `TRUE`, it must include the
+#' `round_id` variable.
 #'
 #' @describeIn create_output_type_quantile Create a list representation of a `sample`
 #' output type.
